@@ -1,0 +1,10 @@
+{
+  "scripts": {
+    "build": "npx @tailwindcss/cli -i ./mcperception.css -o ../dist/mcperception.css",
+    "watch": "npx @tailwindcss/cli -i ./mcperception.css -o ../dist/mcperception.css --watch"
+  },
+  "dependencies": {
+    "@tailwindcss/cli": "^4.1.17",
+    "tailwindcss": "^4.1.17"
+  }
+}
