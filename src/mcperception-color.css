@@ -1,0 +1,150 @@
+/* minimalcode-perception theme for tailwindcss v4.1 */
+@theme {
+    /* Grays */
+    --color-mc-dark-gray-50: #b8b8b8;
+    --color-mc-dark-gray-100: #7f7f7f;
+    --color-mc-dark-gray-200: #646464;
+    --color-mc-dark-gray-300: #515151; /*1*/
+    --color-mc-dark-gray-400: #424242;
+    --color-mc-dark-gray-500: #373737;
+    --color-mc-dark-gray-600: #2c2c2c; /*2*/
+    --color-mc-dark-gray-700: #222222;
+    --color-mc-dark-gray-800: #171717; /*3*/
+    --color-mc-dark-gray-900: #090909;
+    --color-mc-light-gray-50: #fafafa;
+    --color-mc-light-gray-100: #eeeeee; /*3*/
+    --color-mc-light-gray-200: #e1e1e1;
+    --color-mc-light-gray-300: #d2d2d2; /*2*/
+    --color-mc-light-gray-400: #c3c3c3;
+    --color-mc-light-gray-500: #b3b3b3;
+    --color-mc-light-gray-600: #a0a0a0; /*1*/
+    --color-mc-light-gray-700: #898989;
+    --color-mc-light-gray-800: #6c6c6c;
+    --color-mc-light-gray-900: #3f3f3f;
+    /* Reds */
+    --color-mc-dark-red-50: #ff9c9c;
+    --color-mc-dark-red-100: #ff0000;
+    --color-mc-dark-red-200: #ca0000;
+    --color-mc-dark-red-300: #a70000; /*1*/
+    --color-mc-dark-red-400: #8b0000;
+    --color-mc-dark-red-500: #740000;
+    --color-mc-dark-red-600: #600000; /*2*/
+    --color-mc-dark-red-700: #460000;
+    --color-mc-dark-red-800: #380000; /*3*/
+    --color-mc-dark-red-900: #1c0000;
+    --color-mc-light-red-50: #fff8f8;
+    --color-mc-light-red-100: #ffe9e9; /*3*/
+    --color-mc-light-red-200: #ffd8d8;
+    --color-mc-light-red-300: #ffc5c5; /*2*/
+    --color-mc-light-red-400: #ffafaf;
+    --color-mc-light-red-500: #ff9696;
+    --color-mc-light-red-600: #ff7474;
+    --color-mc-light-red-700: #ff3e3e;
+    --color-mc-light-red-800: #da0000;
+    --color-mc-light-red-900: #850000;
+    /* Greens */
+    --color-mc-dark-green-50: #00d500;
+    --color-mc-dark-green-100: #009400;
+    --color-mc-dark-green-200: #007400;
+    --color-mc-dark-green-300: #005f00; /*1*/
+    --color-mc-dark-green-400: #004f00;
+    --color-mc-dark-green-500: #004000;
+    --color-mc-dark-green-600: #003500; /*2*/
+    --color-mc-dark-green-700: #002900;
+    --color-mc-dark-green-800: #001d00; /*3*/
+    --color-mc-dark-green-900: #000c00;
+    --color-mc-light-green-50: #ebffeb;
+    --color-mc-light-green-100: #b7ffb7; /*3*/
+    --color-mc-light-green-200: #62ff62;
+    --color-mc-light-green-300: #00f400; /*2*/
+    --color-mc-light-green-400: #00e400;
+    --color-mc-light-green-500: #00d000;
+    --color-mc-light-green-600: #00ba00; /*1*/
+    --color-mc-light-green-700: #009f00;
+    --color-mc-light-green-800: #007f00;
+    --color-mc-light-green-900: #004b00;
+    /* Blues */
+    --color-mc-dark-blue-50: #b0b0ff;
+    --color-mc-dark-blue-100: #6d6dff;
+    --color-mc-dark-blue-200: #4444ff;
+    --color-mc-dark-blue-300: #1919ff;
+    --color-mc-dark-blue-400: #0000e3; /*1*/
+    --color-mc-dark-blue-500: #0000bf;
+    --color-mc-dark-blue-600: #00009f; /*2*/
+    --color-mc-dark-blue-700: #000081;
+    --color-mc-dark-blue-800: #000060; /*3*/
+    --color-mc-dark-blue-900: #000035;
+    --color-mc-light-blue-50: #f8f8ff;
+    --color-mc-light-blue-100: #ececff; /*3*/
+    --color-mc-light-blue-200: #dedeff;
+    --color-mc-light-blue-300: #ceceff; /*2*/
+    --color-mc-light-blue-400: #bebeff;
+    --color-mc-light-blue-500: #ababff;
+    --color-mc-light-blue-600: #9494ff; /*1*/
+    --color-mc-light-blue-700: #7979ff;
+    --color-mc-light-blue-800: #5252ff;
+    --color-mc-light-blue-900: #0000d9;
+    /* Yellows / Olives */
+    --color-mc-dark-yellow-50: #bdbd00;
+    --color-mc-dark-yellow-100: #838300;
+    --color-mc-dark-yellow-200: #676700;
+    --color-mc-dark-yellow-300: #545400; /*1*/
+    --color-mc-dark-yellow-400: #444400;
+    --color-mc-dark-yellow-500: #383800;
+    --color-mc-dark-yellow-600: #2e2e00; /*2*/
+    --color-mc-dark-yellow-700: #242400;
+    --color-mc-dark-yellow-800: #181800; /*3*/
+    --color-mc-dark-yellow-900: #090900;
+    --color-mc-light-yellow-50: #ffff97;
+    --color-mc-light-yellow-100: #f6f600; /*3*/
+    --color-mc-light-yellow-200: #e8e800;
+    --color-mc-light-yellow-300: #d9d900; /*2*/
+    --color-mc-light-yellow-400: #caca00;
+    --color-mc-light-yellow-500: #b9b900;
+    --color-mc-light-yellow-600: #a6a600; /*3*/
+    --color-mc-light-yellow-700: #8d8d00;
+    --color-mc-light-yellow-800: #6f6f00;
+    --color-mc-light-yellow-900: #424200;
+    /* Purples / Magentas */
+    --color-mc-dark-purple-50: #ff8dff;
+    --color-mc-dark-purple-100: #e000e0;
+    --color-mc-dark-purple-200: #b100b1;
+    --color-mc-dark-purple-300: #910091; /*1*/
+    --color-mc-dark-purple-400: #7a007a;
+    --color-mc-dark-purple-500: #660066;
+    --color-mc-dark-purple-600: #530053; /*2*/
+    --color-mc-dark-purple-700: #420042;
+    --color-mc-dark-purple-800: #300030; /*3*/
+    --color-mc-dark-purple-900: #170017;
+    --color-mc-light-purple-50: #fff7ff;
+    --color-mc-light-purple-100: #ffe5ff; /*3*/
+    --color-mc-light-purple-200: #ffd2ff;
+    --color-mc-light-purple-300: #ffbeff; /*2*/
+    --color-mc-light-purple-400: #ffa4ff;
+    --color-mc-light-purple-500: #ff84ff;
+    --color-mc-light-purple-600: #ff55ff; /*1*/
+    --color-mc-light-purple-700: #f100f1;
+    --color-mc-light-purple-800: #c000c0;
+    --color-mc-light-purple-900: #740074;
+    /* Teals / Cyans */
+    --color-mc-dark-cyan-50: #00cccc;
+    --color-mc-dark-cyan-100: #008e8e;
+    --color-mc-dark-cyan-200: #006f6f;
+    --color-mc-dark-cyan-300: #005a5a; /*1*/
+    --color-mc-dark-cyan-400: #004b4b;
+    --color-mc-dark-cyan-500: #003d3d;
+    --color-mc-dark-cyan-600: #003131; /*2*/
+    --color-mc-dark-cyan-700: #002727;
+    --color-mc-dark-cyan-800: #001b1b; /*3*/
+    --color-mc-dark-cyan-900: #000b0b;
+    --color-mc-light-cyan-50: #e3ffff;
+    --color-mc-light-cyan-100: #96ffff; /*3*/
+    --color-mc-light-cyan-200: #00f9f9;
+    --color-mc-light-cyan-300: #00ebeb; /*2*/
+    --color-mc-light-cyan-400: #00dada;
+    --color-mc-light-cyan-500: #00c8c8;
+    --color-mc-light-cyan-600: #00b2b2; /*3*/
+    --color-mc-light-cyan-700: #009999;
+    --color-mc-light-cyan-800: #007979;
+    --color-mc-light-cyan-900: #004848;
+}
