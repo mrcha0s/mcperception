@@ -1,0 +1,96 @@
+﻿<!doctype html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="../dist/mcperception.css" rel="stylesheet">
+</head>
+<body class="bg-mc-dark-gray-900">
+
+    <div class="bg-black font-mono text-sm font-semibold flex h-6 border border-mc-dark-gray-700">
+        <!-- BID SIDE (green, RIGHT → LEFT) -->
+        <div class="relative flex w-44 overflow-hidden items-center">
+            <!-- big green bar -->
+            <div class="absolute inset-y-0 right-0 bg-mc-dark-green-700 pointer-events-none"
+                 style="width: 100%;"></div>
+
+            <!-- mini multicolor bar (right -> left) -->
+            <div class="absolute left-0 right-0 bottom-0 h-1 flex flex-row-reverse z-10 pointer-events-none">
+                <div class="h-full bg-lime-400" style="width: 30%;"></div>
+                <div class="h-full bg-emerald-500" style="width: 20%;"></div>
+                <div class="h-full bg-cyan-500" style="width: 10%;"></div>
+                <div class="h-full bg-sky-500" style="width: 5%;"></div>
+            </div>
+
+            <!-- bid text -->
+            <div class="relative z-20 flex text-mc-light-green-700 w-full">
+                <div class="w-32 text-left">123.00</div>
+                <div>0.00130</div>
+            </div>
+        </div>
+
+        <!-- MID PRICE -->
+        <div class="text-white w-24 text-right flex items-center justify-end pr-2">
+            96,448.25
+        </div>
+
+        <!-- ASK SIDE (red, LEFT → RIGHT) -->
+        <div class="relative flex w-44 overflow-hidden justify-end items-center">
+            <!-- big red bar -->
+            <div class="absolute inset-y-0 left-0 bg-mc-dark-red-700 pointer-events-none"
+                 style="width: 50%;"></div>
+
+            <!-- mini multicolor bar (left -> right) -->
+            <div class="absolute left-0 right-0 bottom-0 h-1 flex z-10 pointer-events-none">
+                <div class="h-full bg-orange-400" style="width: 15%;"></div>
+                <div class="h-full bg-red-500" style="width: 20%;"></div>
+                <div class="h-full bg-pink-500" style="width: 10%;"></div>
+                <div class="h-full bg-fuchsia-500" style="width: 5%;"></div>
+            </div>
+
+            <!-- ask text -->
+            <div class="relative z-20 flex text-mc-light-red-700 w-full justify-end">
+                <div class="text-right">0.00130</div>
+                <div class="text-right w-32">123.00</div>
+            </div>
+        </div>
+    </div>
+
+
+
+    <div class="grid grid-cols-2 gap-2 w-132">
+        <div class="" id="asks-body">
+            <div class="bg-black font-mono text-sm font-semibold flex h-6 border border-mc-dark-gray-700 text-mc-light-green-500 tracking-wide relative w-64">
+                <div class="absolute inset-y-0 right-0 bg-mc-dark-green-700 pointer-events-none"
+                     style="width: 100%;"></div>
+                <div class="z-10 w-16">123</div>
+                <div class="z-10 w-16">123</div>
+                <div class="z-10 w-32 text-right">123</div>
+            </div>
+            <div class="bg-black font-mono text-sm font-semibold flex h-6 border border-mc-dark-gray-700 text-mc-light-green-500 tracking-wide relative w-64">
+                <div class="absolute inset-y-0 right-0 bg-mc-dark-green-700 pointer-events-none"
+                     style="width: 20%;"></div>
+                <div class="z-10 w-16">123</div>
+                <div class="z-10 w-16">123</div>
+                <div class="z-10 w-32 text-right">123</div>
+            </div>
+        </div>
+        <div class="" id="bids-body">
+            <div class="bg-black font-mono text-sm font-semibold flex h-6 border border-mc-dark-gray-700 text-mc-light-red-600 tracking-wide relative w-64">
+                <div class="absolute inset-y-0 right-0 bg-mc-dark-red-700 pointer-events-none"
+                     style="width: 100%;"></div>
+                <div class="z-10 w-16">123</div>
+                <div class="z-10 w-16">123</div>
+                <div class="z-10 w-32 text-right">123</div>
+            </div>
+            <div class="bg-black font-mono text-sm font-semibold flex h-6 border border-mc-dark-gray-700 text-mc-light-red-600 tracking-wide relative w-64">
+                <div class="absolute inset-y-0 right-0 bg-mc-dark-red-700 pointer-events-none"
+                     style="width: 20%;"></div>
+                <div class="z-10 w-16">123</div>
+                <div class="z-10 w-16">123</div>
+                <div class="z-10 w-32 text-right">123</div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
