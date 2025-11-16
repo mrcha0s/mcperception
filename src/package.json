@@ -1,10 +1,18 @@
 {
   "scripts": {
-    "build": "npx @tailwindcss/cli -i ./mcperception.css -o ../dist/mcperception.css",
-    "watch": "npx @tailwindcss/cli -i ./mcperception.css -o ../dist/mcperception.css --watch"
+    "tw:build": "npx @tailwindcss/cli -i ./mcperception.css -o ./dist/mcperception.raw.css",
+    "tw:build:watch": "npx @tailwindcss/cli -i ./mcperception.css -o ./dist/mcperception.raw.css --watch",
+    "css:inline-fonts": "npx postcss ./dist/mcperception.raw.css -o ./dist/mcperception.css",
+    "build": "npm run tw:build && npm run css:inline-fonts",
+    "watch": "npm run tw:build:watch"
   },
   "dependencies": {
     "@tailwindcss/cli": "^4.1.17",
     "tailwindcss": "^4.1.17"
+  },
+  "devDependencies": {
+    "postcss": "^8.5.6",
+    "postcss-cli": "^11.0.1",
+    "postcss-url": "^10.1.3"
   }
 }
