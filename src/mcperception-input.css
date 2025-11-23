@@ -1,0 +1,195 @@
+@layer components {
+    .mc-button {
+        @apply font-condensed border cursor-pointer tracking-wider inline-flex items-center justify-center font-semibold rounded transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-offset-1;
+    }
+
+    .mc-button-xs {
+        @apply text-xs px-1 py-0.5;
+    }
+
+    .mc-button-sm {
+        @apply text-sm px-1.5 py-1;
+    }
+
+    .mc-button-md {
+        @apply text-base px-2.5 py-1.5;
+    }
+
+    .mc-button-lg {
+        @apply text-lg px-3.5 py-2;
+    }
+
+    .mc-button-xl {
+        @apply text-xl px-4 py-2.5;
+    }
+    /* GRAY */
+    .mc-button-dark-gray {
+        @apply bg-mc-dark-gray-600 text-white hover:bg-mc-dark-gray-500 border-mc-dark-gray-500;
+    }
+
+    .mc-button-light-gray {
+        @apply bg-mc-light-gray-300 text-black hover:bg-mc-light-gray-400 border-mc-light-gray-400;
+    }
+
+    /* RED */
+    .mc-button-dark-red {
+        @apply bg-mc-dark-red-300 text-white hover:bg-mc-dark-red-200 border-mc-dark-red-200;
+    }
+
+    .mc-button-light-red {
+        @apply bg-mc-light-red-300 text-black hover:bg-mc-light-red-400 border-mc-light-red-400;
+    }
+
+    /* GREEN */
+    .mc-button-dark-green {
+        @apply bg-mc-dark-green-300 text-white hover:bg-mc-dark-green-200 border-mc-dark-green-200;
+    }
+
+    .mc-button-light-green {
+        @apply bg-mc-light-green-300 text-black hover:bg-mc-light-green-400 border-mc-light-green-400;
+    }
+
+    /* BLUE */
+    .mc-button-dark-blue {
+        @apply bg-mc-dark-blue-400 text-white hover:bg-mc-dark-blue-300 border-mc-dark-blue-300;
+    }
+
+    .mc-button-light-blue {
+        @apply bg-mc-light-blue-300 text-black hover:bg-mc-light-blue-400 border-mc-light-blue-400;
+    }
+
+    /* YELLOW */
+    .mc-button-dark-yellow {
+        @apply bg-mc-dark-yellow-300 text-white hover:bg-mc-dark-yellow-200 border-mc-dark-yellow-200;
+    }
+
+    .mc-button-light-yellow {
+        @apply bg-mc-light-yellow-300 text-black hover:bg-mc-light-yellow-400 border-mc-light-yellow-400;
+    }
+
+    /* PURPLE */
+    .mc-button-dark-purple {
+        @apply bg-mc-dark-purple-300 text-white hover:bg-mc-dark-purple-200 border-mc-dark-purple-200;
+    }
+
+    .mc-button-light-purple {
+        @apply bg-mc-light-purple-300 text-black hover:bg-mc-light-purple-400 border-mc-light-purple-400;
+    }
+
+
+    /* CYAN */
+    .mc-button-dark-cyan {
+        @apply bg-mc-dark-cyan-300 text-white hover:bg-mc-dark-cyan-200 border-mc-dark-cyan-200;
+    }
+
+    .mc-button-light-cyan {
+        @apply bg-mc-light-cyan-300 text-black hover:bg-mc-light-cyan-400 border-mc-light-cyan-400;
+    }
+}
+@layer components {
+    /* ======================================
+       BASE INPUT
+    ======================================= */
+    .mc-input {
+        @apply font-semibold font-condensed tracking-wider rounded border inline-flex items-center px-3 py-2 bg-transparent text-base focus:outline-none focus:ring-1 focus:ring-offset-1;
+    }
+
+    /* ======================================
+       SIZE VARIANTS
+       (mirror button scale, but valid classes only)
+    ======================================= */
+    .mc-input-xs {
+        @apply text-xs px-1 py-1;
+    }
+
+    .mc-input-sm {
+        @apply text-sm px-1.5 py-1.5;
+    }
+
+    .mc-input-md {
+        @apply text-base px-2 py-2;
+    }
+
+    .mc-input-lg {
+        @apply text-lg px-3 py-3;
+    }
+
+    .mc-input-xl {
+        @apply text-xl px-3.5 py-3.5;
+    }
+
+    /* Disabled helper */
+    .mc-input:disabled,
+    .mc-input[aria-disabled="true"] {
+        @apply opacity-60 cursor-not-allowed;
+    }
+
+    /* ======================================
+       COLOR VARIANTS
+       Dark:   inside dark, border lighter, text white
+       Light:  inside lightest, border darker, text black
+    ======================================= */
+
+    /* ---------- GRAY ---------- */
+    .mc-input-dark-gray {
+        @apply bg-mc-dark-gray-600 text-white border-mc-dark-gray-500 placeholder-mc-dark-gray-200 focus:ring-mc-dark-gray-400;
+    }
+
+    .mc-input-light-gray {
+        @apply bg-mc-light-gray-300 text-black border-mc-light-gray-400 placeholder-mc-light-gray-600 focus:ring-mc-light-gray-500;
+    }
+
+    /* ---------- RED ---------- */
+    .mc-input-dark-red {
+        @apply bg-mc-dark-red-300 text-white border-mc-dark-red-200 placeholder-mc-dark-red-50 focus:ring-mc-dark-red-200;
+    }
+
+    .mc-input-light-red {
+        @apply bg-mc-light-red-300 text-black border-mc-light-red-400 placeholder-mc-light-red-700 focus:ring-mc-light-red-400;
+    }
+
+    /* ---------- GREEN ---------- */
+    .mc-input-dark-green {
+        @apply bg-mc-dark-green-300 text-white border-mc-dark-green-200 placeholder-mc-dark-green-50 focus:ring-mc-dark-green-200;
+    }
+
+    .mc-input-light-green {
+        @apply bg-mc-light-green-300 text-black border-mc-light-green-400 placeholder-mc-light-green-700 focus:ring-mc-light-green-400;
+    }
+
+    /* ---------- BLUE ---------- */
+    .mc-input-dark-blue {
+        @apply bg-mc-dark-blue-400 text-white border-mc-dark-blue-300 placeholder-mc-dark-blue-50 focus:ring-mc-dark-blue-300;
+    }
+
+    .mc-input-light-blue {
+        @apply bg-mc-light-blue-300 text-black border-mc-light-blue-400 placeholder-mc-light-blue-700 focus:ring-mc-light-blue-400;
+    }
+
+    /* ---------- YELLOW ---------- */
+    .mc-input-dark-yellow {
+        @apply bg-mc-dark-yellow-300 text-white border-mc-dark-yellow-200 placeholder-mc-dark-yellow-50 focus:ring-mc-dark-yellow-200;
+    }
+
+    .mc-input-light-yellow {
+        @apply bg-mc-light-yellow-300 text-black border-mc-light-yellow-400 placeholder-mc-light-yellow-700 focus:ring-mc-light-yellow-400;
+    }
+
+    /* ---------- PURPLE ---------- */
+    .mc-input-dark-purple {
+        @apply bg-mc-dark-purple-300 text-white border-mc-dark-purple-200 placeholder-mc-dark-purple-50 focus:ring-mc-dark-purple-200;
+    }
+
+    .mc-input-light-purple {
+        @apply bg-mc-light-purple-300 text-black border-mc-light-purple-400 placeholder-mc-light-purple-700 focus:ring-mc-light-purple-400;
+    }
+
+    /* ---------- CYAN ---------- */
+    .mc-input-dark-cyan {
+        @apply bg-mc-dark-cyan-300 text-white border-mc-dark-cyan-200 placeholder-mc-dark-cyan-50 focus:ring-mc-dark-cyan-200;
+    }
+
+    .mc-input-light-cyan {
+        @apply bg-mc-light-cyan-300 text-black border-mc-light-cyan-400 placeholder-mc-light-cyan-700 focus:ring-mc-light-cyan-400;
+    }
+}

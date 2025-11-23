@@ -1,0 +1,146 @@
+@layer components {
+    /* ======================================
+       BASE PANEL
+    ======================================= */
+    .mc-panel {
+        @apply rounded-sm p-1;
+    }
+
+    .mc-panel-title {
+        @apply text-2xl md:text-3xl font-semibold;
+    }
+
+    .mc-panel-subtitle {
+        @apply text-sm opacity-80;
+    }
+
+    /* ========= DARK GRAY ========= */
+    /* bg 600, lighter 500, darker 700 */
+    .mc-panel-dark-gray-bevel {
+        @apply bg-mc-dark-gray-800 text-white border border-t-mc-dark-gray-900 border-l-mc-dark-gray-900 border-b-mc-dark-gray-700 border-r-mc-dark-gray-700;
+    }
+
+    .mc-panel-dark-gray-emboss {
+        @apply  bg-mc-dark-gray-800 text-white border border-t-mc-dark-gray-700 border-l-mc-dark-gray-700 border-b-mc-dark-gray-900 border-r-mc-dark-gray-900;
+    }
+
+    /* ========= DARK RED ========= */
+    /* bg 300, lighter 200, darker 400 */
+    .mc-panel-dark-red-bevel {
+        @apply  bg-mc-dark-red-300 text-white border border-t-mc-dark-red-400 border-l-mc-dark-red-400 border-b-mc-dark-red-200 border-r-mc-dark-red-200;
+    }
+
+    .mc-panel-dark-red-emboss {
+        @apply  bg-mc-dark-red-300 text-white border border-t-mc-dark-red-200 border-l-mc-dark-red-200 border-b-mc-dark-red-400 border-r-mc-dark-red-400;
+    }
+
+    /* ========= DARK GREEN ========= */
+    .mc-panel-dark-green-bevel {
+        @apply  bg-mc-dark-green-300 text-white border border-t-mc-dark-green-400 border-l-mc-dark-green-400 border-b-mc-dark-green-200 border-r-mc-dark-green-200;
+    }
+
+    .mc-panel-dark-green-emboss {
+        @apply  bg-mc-dark-green-300 text-white border border-t-mc-dark-green-200 border-l-mc-dark-green-200 border-b-mc-dark-green-400 border-r-mc-dark-green-400;
+    }
+
+    /* ========= DARK BLUE ========= */
+    /* bg 400, lighter 300, darker 500 */
+    .mc-panel-dark-blue-bevel {
+        @apply  bg-mc-dark-blue-400 text-white border border-t-mc-dark-blue-500 border-l-mc-dark-blue-500 border-b-mc-dark-blue-300 border-r-mc-dark-blue-300;
+    }
+
+    .mc-panel-dark-blue-emboss {
+        @apply  bg-mc-dark-blue-400 text-white border border-t-mc-dark-blue-300 border-l-mc-dark-blue-300 border-b-mc-dark-blue-500 border-r-mc-dark-blue-500;
+    }
+
+    /* ========= DARK YELLOW ========= */
+    .mc-panel-dark-yellow-bevel {
+        @apply  bg-mc-dark-yellow-300 text-white border border-t-mc-dark-yellow-400 border-l-mc-dark-yellow-400 border-b-mc-dark-yellow-200 border-r-mc-dark-yellow-200;
+    }
+
+    .mc-panel-dark-yellow-emboss {
+        @apply  bg-mc-dark-yellow-300 text-white border border-t-mc-dark-yellow-200 border-l-mc-dark-yellow-200 border-b-mc-dark-yellow-400 border-r-mc-dark-yellow-400;
+    }
+
+    /* ========= DARK PURPLE ========= */
+    .mc-panel-dark-purple-bevel {
+        @apply bg-mc-dark-purple-300 text-white border border-t-mc-dark-purple-400 border-l-mc-dark-purple-400 border-b-mc-dark-purple-200 border-r-mc-dark-purple-200;
+    }
+
+    .mc-panel-dark-purple-emboss {
+        @apply  bg-mc-dark-purple-300 text-white border border-t-mc-dark-purple-200 border-l-mc-dark-purple-200 border-b-mc-dark-purple-400 border-r-mc-dark-purple-400;
+    }
+
+    /* ========= DARK CYAN ========= */
+    .mc-panel-dark-cyan-bevel {
+        @apply bg-mc-dark-cyan-300 text-white border border-t-mc-dark-cyan-400 border-l-mc-dark-cyan-400 border-b-mc-dark-cyan-200 border-r-mc-dark-cyan-200;
+    }
+
+    .mc-panel-dark-cyan-emboss {
+        @apply bg-mc-dark-cyan-300 text-white border border-t-mc-dark-cyan-200 border-l-mc-dark-cyan-200 border-b-mc-dark-cyan-400 border-r-mc-dark-cyan-400;
+    }
+
+    /* ========= LIGHT GRAY ========= */
+    /* bg 300, lighter 200, darker 400 */
+    .mc-panel-light-gray-bevel {
+        @apply  bg-mc-light-gray-300 text-black border border-t-mc-light-gray-400 border-l-mc-light-gray-400 border-b-mc-light-gray-200 border-r-mc-light-gray-200;
+    }
+
+    .mc-panel-light-gray-emboss {
+        @apply  bg-mc-light-gray-300 text-black border border-t-mc-light-gray-200 border-l-mc-light-gray-200 border-b-mc-light-gray-400 border-r-mc-light-gray-400;
+    }
+
+    /* ========= LIGHT RED ========= */
+    .mc-panel-light-red-bevel {
+        @apply  bg-mc-light-red-300 text-black border border-t-mc-light-red-400 border-l-mc-light-red-400 border-b-mc-light-red-200 border-r-mc-light-red-200;
+    }
+
+    .mc-panel-light-red-emboss {
+        @apply  bg-mc-light-red-300 text-black border border-t-mc-light-red-200 border-l-mc-light-red-200 border-b-mc-light-red-400 border-r-mc-light-red-400;
+    }
+
+    /* ========= LIGHT GREEN ========= */
+    .mc-panel-light-green-bevel {
+        @apply  bg-mc-light-green-300 text-black border border-t-mc-light-green-400 border-l-mc-light-green-400 border-b-mc-light-green-200 border-r-mc-light-green-200;
+    }
+
+    .mc-panel-light-green-emboss {
+        @apply  bg-mc-light-green-300 text-black border border-t-mc-light-green-200 border-l-mc-light-green-200 border-b-mc-light-green-400 border-r-mc-light-green-400;
+    }
+
+    /* ========= LIGHT BLUE ========= */
+    .mc-panel-light-blue-bevel {
+        @apply  bg-mc-light-blue-300 text-black border border-t-mc-light-blue-400 border-l-mc-light-blue-400 border-b-mc-light-blue-200 border-r-mc-light-blue-200;
+    }
+
+    .mc-panel-light-blue-emboss {
+        @apply  bg-mc-light-blue-300 text-black border border-t-mc-light-blue-200 border-l-mc-light-blue-200 border-b-mc-light-blue-400 border-r-mc-light-blue-400;
+    }
+
+    /* ========= LIGHT YELLOW ========= */
+    .mc-panel-light-yellow-bevel {
+        @apply  bg-mc-light-yellow-300 text-black border border-t-mc-light-yellow-400 border-l-mc-light-yellow-400 border-b-mc-light-yellow-200 border-r-mc-light-yellow-200;
+    }
+
+    .mc-panel-light-yellow-emboss {
+        @apply bg-mc-light-yellow-300 text-black border border-t-mc-light-yellow-200 border-l-mc-light-yellow-200 border-b-mc-light-yellow-400 border-r-mc-light-yellow-400;
+    }
+
+    /* ========= LIGHT PURPLE ========= */
+    .mc-panel-light-purple-bevel {
+        @apply bg-mc-light-purple-300 text-black border border-t-mc-light-purple-400 border-l-mc-light-purple-400 border-b-mc-light-purple-200 border-r-mc-light-purple-200;
+    }
+
+    .mc-panel-light-purple-emboss {
+        @apply  bg-mc-light-purple-300 text-black border border-t-mc-light-purple-200 border-l-mc-light-purple-200 border-b-mc-light-purple-400 border-r-mc-light-purple-400;
+    }
+
+    /* ========= LIGHT CYAN ========= */
+    .mc-panel-light-cyan-bevel {
+        @apply  bg-mc-light-cyan-300 text-black border border-t-mc-light-cyan-400 border-l-mc-light-cyan-400 border-b-mc-light-cyan-200 border-r-mc-light-cyan-200;
+    }
+
+    .mc-panel-light-cyan-emboss {
+        @apply bg-mc-light-cyan-300 text-black border border-t-mc-light-cyan-200 border-l-mc-light-cyan-200 border-b-mc-light-cyan-400 border-r-mc-light-cyan-400;
+    }
+}

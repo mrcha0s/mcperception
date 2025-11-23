@@ -1,5 +1,8 @@
 @import "tailwindcss";
 @import "./mcperception-color.css";
 @import "./mcperception-font.css";
+@import "./mcperception-input.css";
+@import "./mcperception-panel.css";
+
 @source "./demo/**/*.{html,js}";
 @source "./**/*.html";
