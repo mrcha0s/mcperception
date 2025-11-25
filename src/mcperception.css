@@ -1,3 +1,18 @@
+@theme {
+    --text-xs: 0.65rem;
+    --text-sm: 0.75rem;
+    --text-base: 1rem; /* was 8rem, which is huge */
+    --text-lg: 1.25rem;
+    --text-xl: 1.5rem;
+    --text-2xl: 1.75rem;
+    --text-3xl: 2rem;
+    --text-4xl: 2.25rem;
+    --text-5xl: 2.5rem;
+    --text-6xl: 2.75rem;
+    --text-7xl: 3em;
+    --text-8xl: 4rem;
+    --text-9xl: 5rem;
+}
 @import "tailwindcss";
 @import "./mcperception-color.css";
 @import "./mcperception-font.css";
