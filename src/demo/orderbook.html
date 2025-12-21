@@ -1,110 +1,211 @@
-﻿<!doctype html>
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="../dist/mcperception.css" rel="stylesheet">
+    <title>MC Perception Orderbook</title>
+    <link rel="stylesheet" href="../dist/mcperception.css">
 </head>
-<body class="bg-mc-dark-gray-900">
-    <div class="p-9">
-        <!--Exchange Color Legend:
-    Binance : bg-mc-light-yellow-200
-    OKX : bg-mc-light-cyan-400
-    Bybit : bg-mc-light-blue-900
-    Gateio : bg-mc-light-purple-600
-    Kraken : bg-mc-light-blue-600-->
-        <!-- price level row -->
-        <div id="price-level-0" class="bg-black font-mono text-sm font-semibold flex h-6 border border-mc-dark-gray-700">
-            <!-- BID SIDE (green, RIGHT → LEFT) -->
-            <div class="relative flex w-44 overflow-hidden items-center">
-                <!-- big green bar -->
-                <div class="absolute inset-y-0 right-0 bg-mc-dark-green-700 pointer-events-none"
-                     style="width: 100%;"></div>
+<body class="bg-mc-dark-gray-900 min-h-screen text-white p-6">
 
-                <!-- mini multicolor bar (right -> left) show which exchange has percentage of share in total quantity -->
-                <div class="absolute left-0 right-0 bottom-0 h-1 flex flex-row-reverse z-10 pointer-events-none">
-                    <div class="h-full bg-mc-light-yellow-200" style="width: 30%;"></div>
-                    <div class="h-full bg-mc-light-cyan-400" style="width: 20%;"></div>
-                    <div class="h-full bg-mc-light-blue-900" style="width: 10%;"></div>
-                    <div class="h-full bg-mc-light-purple-600" style="width: 5%;"></div>
+    <div class="max-w-md mx-auto">
+
+        <!-- Orderbook Container -->
+        <div class="bg-mc-dark-gray-900">
+
+            <!-- Header -->
+            <div class="flex text-xs font-semibold tracking-widest uppercase text-mc-dark-gray-100 border-b border-mc-dark-gray-700 py-1.5 px-2">
+                <div class="w-24">Price</div>
+                <div class="w-28 text-center">Quantity</div>
+                <div class="w-28 text-right">Total</div>
+            </div>
+
+            <!-- Asks (Sell orders) - Red, sorted high to low -->
+            <div class="bg-black">
+                <div class="relative flex items-center py-0.5 px-2 text-sm font-mono font-semibold tracking-wide">
+                    <div class="absolute inset-y-0 right-0 bg-mc-dark-red-800" style="width: 100%; opacity: 0.35;"></div>
+                    <div class="relative w-24 text-mc-light-red-400">88,234.4</div>
+                    <div class="relative w-28 text-center text-white">0.00005100</div>
+                    <div class="relative w-28 text-right text-white">3.90505086</div>
                 </div>
-
-                <!-- bid quantity and total text -->
-                <div class="relative z-20 flex text-mc-light-green-700 w-full">
-                    <div class="w-32 text-left">123.00</div>
-                    <div>0.00130</div>
+                <div class="relative flex items-center py-0.5 px-2 text-sm font-mono font-semibold tracking-wide">
+                    <div class="absolute inset-y-0 right-0 bg-mc-dark-red-800" style="width: 98%; opacity: 0.35;"></div>
+                    <div class="relative w-24 text-mc-light-red-400">88,233.6</div>
+                    <div class="relative w-28 text-center text-white">0.00171000</div>
+                    <div class="relative w-28 text-right text-white">3.90499986</div>
+                </div>
+                <div class="relative flex items-center py-0.5 px-2 text-sm font-mono font-semibold tracking-wide">
+                    <div class="absolute inset-y-0 right-0 bg-mc-dark-red-800" style="width: 97%; opacity: 0.35;"></div>
+                    <div class="relative w-24 text-mc-light-red-400">88,231.9</div>
+                    <div class="relative w-28 text-center text-white">1.70006640</div>
+                    <div class="relative w-28 text-right text-white">3.90328986</div>
+                </div>
+                <div class="relative flex items-center py-0.5 px-2 text-sm font-mono font-semibold tracking-wide">
+                    <div class="absolute inset-y-0 right-0 bg-mc-dark-red-800" style="width: 56%; opacity: 0.35;"></div>
+                    <div class="relative w-24 text-mc-light-red-400">88,231.8</div>
+                    <div class="relative w-28 text-center text-white">0.10228000</div>
+                    <div class="relative w-28 text-right text-white">2.20322346</div>
+                </div>
+                <div class="relative flex items-center py-0.5 px-2 text-sm font-mono font-semibold tracking-wide">
+                    <div class="absolute inset-y-0 right-0 bg-mc-dark-red-800" style="width: 54%; opacity: 0.35;"></div>
+                    <div class="relative w-24 text-mc-light-red-400">88,231.7</div>
+                    <div class="relative w-28 text-center text-white">0.03400992</div>
+                    <div class="relative w-28 text-right text-white">2.10094346</div>
+                </div>
+                <div class="relative flex items-center py-0.5 px-2 text-sm font-mono font-semibold tracking-wide">
+                    <div class="absolute inset-y-0 right-0 bg-mc-dark-red-800" style="width: 53%; opacity: 0.35;"></div>
+                    <div class="relative w-24 text-mc-light-red-400">88,231.6</div>
+                    <div class="relative w-28 text-center text-white">0.04979000</div>
+                    <div class="relative w-28 text-right text-white">2.06693354</div>
+                </div>
+                <div class="relative flex items-center py-0.5 px-2 text-sm font-mono font-semibold tracking-wide">
+                    <div class="absolute inset-y-0 right-0 bg-mc-dark-red-800" style="width: 52%; opacity: 0.35;"></div>
+                    <div class="relative w-24 text-mc-light-red-400">88,230.8</div>
+                    <div class="relative w-28 text-center text-white">0.00005100</div>
+                    <div class="relative w-28 text-right text-white">2.01714354</div>
+                </div>
+                <div class="relative flex items-center py-0.5 px-2 text-sm font-mono font-semibold tracking-wide">
+                    <div class="absolute inset-y-0 right-0 bg-mc-dark-red-800" style="width: 51%; opacity: 0.35;"></div>
+                    <div class="relative w-24 text-mc-light-red-400">88,230.7</div>
+                    <div class="relative w-28 text-center text-white">0.03631745</div>
+                    <div class="relative w-28 text-right text-white">2.01709254</div>
+                </div>
+                <div class="relative flex items-center py-0.5 px-2 text-sm font-mono font-semibold tracking-wide">
+                    <div class="absolute inset-y-0 right-0 bg-mc-dark-red-800" style="width: 50%; opacity: 0.35;"></div>
+                    <div class="relative w-24 text-mc-light-red-400">88,229.3</div>
+                    <div class="relative w-28 text-center text-white">1.70011735</div>
+                    <div class="relative w-28 text-right text-white">1.98077509</div>
+                </div>
+                <div class="relative flex items-center py-0.5 px-2 text-sm font-mono font-semibold tracking-wide">
+                    <div class="absolute inset-y-0 right-0 bg-mc-dark-red-800" style="width: 7%; opacity: 0.35;"></div>
+                    <div class="relative w-24 text-mc-light-red-400">88,228.8</div>
+                    <div class="relative w-28 text-center text-white">0.02426000</div>
+                    <div class="relative w-28 text-right text-white">0.28065774</div>
+                </div>
+                <div class="relative flex items-center py-0.5 px-2 text-sm font-mono font-semibold tracking-wide">
+                    <div class="absolute inset-y-0 right-0 bg-mc-dark-red-800" style="width: 6%; opacity: 0.35;"></div>
+                    <div class="relative w-24 text-mc-light-red-400">88,227.9</div>
+                    <div class="relative w-28 text-center text-white">0.09407000</div>
+                    <div class="relative w-28 text-right text-white">0.25639774</div>
+                </div>
+                <div class="relative flex items-center py-0.5 px-2 text-sm font-mono font-semibold tracking-wide">
+                    <div class="absolute inset-y-0 right-0 bg-mc-dark-red-800" style="width: 4%; opacity: 0.35;"></div>
+                    <div class="relative w-24 text-mc-light-red-400">88,227.3</div>
+                    <div class="relative w-28 text-center text-white">0.00005100</div>
+                    <div class="relative w-28 text-right text-white">0.16232774</div>
+                </div>
+                <div class="relative flex items-center py-0.5 px-2 text-sm font-mono font-semibold tracking-wide">
+                    <div class="absolute inset-y-0 right-0 bg-mc-dark-red-800" style="width: 4%; opacity: 0.35;"></div>
+                    <div class="relative w-24 text-mc-light-red-400">88,226.9</div>
+                    <div class="relative w-28 text-center text-white">0.02281000</div>
+                    <div class="relative w-28 text-right text-white">0.16227674</div>
+                </div>
+                <div class="relative flex items-center py-0.5 px-2 text-sm font-mono font-semibold tracking-wide">
+                    <div class="absolute inset-y-0 right-0 bg-mc-dark-red-800" style="width: 3%; opacity: 0.35;"></div>
+                    <div class="relative w-24 text-mc-light-red-400">88,223.9</div>
+                    <div class="relative w-28 text-center text-white">0.13946674</div>
+                    <div class="relative w-28 text-right text-white">0.13946674</div>
                 </div>
             </div>
 
-            <!-- MID PRICE -->
-            <div class="text-white w-24 text-right flex items-center justify-end pr-2">
-                96,448.25
+            <!-- Spread -->
+            <div class="bg-mc-dark-gray-800 py-1 px-2 text-center text-sm font-semibold tracking-wide">
+                <span class="text-mc-dark-gray-100">Spread:</span>
+                <span class="text-mc-light-cyan-300 font-mono ml-1">0.1</span>
+                <span class="text-mc-dark-gray-100 font-mono">(0.0001%)</span>
             </div>
 
-            <!-- ASK SIDE (red, LEFT → RIGHT) -->
-            <div class="relative flex w-44 overflow-hidden justify-end items-center">
-                <!-- big red bar -->
-                <div class="absolute inset-y-0 left-0 bg-mc-dark-red-700 pointer-events-none"
-                     style="width: 50%;"></div>
-
-                <!-- mini multicolor bar (left -> right) show which exchange has percentage of share in total quantity-->
-                <div class="absolute left-0 right-0 bottom-0 h-1 flex z-10 pointer-events-none">
-                    <div class="h-full bg-mc-light-yellow-200" style="width: 15%;"></div>
-                    <div class="h-full bg-mc-light-cyan-400" style="width: 20%;"></div>
-                    <div class="h-full bg-mc-light-blue-900" style="width: 10%;"></div>
-                    <div class="h-full bg-mc-light-purple-600" style="width: 5%;"></div>
+            <!-- Bids (Buy orders) - Green, sorted high to low -->
+            <div class="bg-black">
+                <div class="relative flex items-center py-0.5 px-2 text-sm font-mono font-semibold tracking-wide">
+                    <div class="absolute inset-y-0 right-0 bg-mc-dark-green-800" style="width: 13%; opacity: 0.35;"></div>
+                    <div class="relative w-24 text-mc-light-green-500">88,223.8</div>
+                    <div class="relative w-28 text-center text-white">0.35319907</div>
+                    <div class="relative w-28 text-right text-white">0.35319907</div>
                 </div>
-
-                <!-- ask quantity and total text -->
-                <div class="relative z-20 flex text-mc-light-red-700 w-full justify-end">
-                    <div class="text-right">0.00130</div>
-                    <div class="text-right w-32">123.00</div>
+                <div class="relative flex items-center py-0.5 px-2 text-sm font-mono font-semibold tracking-wide">
+                    <div class="absolute inset-y-0 right-0 bg-mc-dark-green-800" style="width: 16%; opacity: 0.35;"></div>
+                    <div class="relative w-24 text-mc-light-green-500">88,223.6</div>
+                    <div class="relative w-28 text-center text-white">0.06097833</div>
+                    <div class="relative w-28 text-right text-white">0.41417740</div>
+                </div>
+                <div class="relative flex items-center py-0.5 px-2 text-sm font-mono font-semibold tracking-wide">
+                    <div class="absolute inset-y-0 right-0 bg-mc-dark-green-800" style="width: 21%; opacity: 0.35;"></div>
+                    <div class="relative w-24 text-mc-light-green-500">88,220.9</div>
+                    <div class="relative w-28 text-center text-white">0.13597688</div>
+                    <div class="relative w-28 text-right text-white">0.55015428</div>
+                </div>
+                <div class="relative flex items-center py-0.5 px-2 text-sm font-mono font-semibold tracking-wide">
+                    <div class="absolute inset-y-0 right-0 bg-mc-dark-green-800" style="width: 23%; opacity: 0.35;"></div>
+                    <div class="relative w-24 text-mc-light-green-500">88,220.8</div>
+                    <div class="relative w-28 text-center text-white">0.05666735</div>
+                    <div class="relative w-28 text-right text-white">0.60682163</div>
+                </div>
+                <div class="relative flex items-center py-0.5 px-2 text-sm font-mono font-semibold tracking-wide">
+                    <div class="absolute inset-y-0 right-0 bg-mc-dark-green-800" style="width: 23%; opacity: 0.35;"></div>
+                    <div class="relative w-24 text-mc-light-green-500">88,220.4</div>
+                    <div class="relative w-28 text-center text-white">0.00005100</div>
+                    <div class="relative w-28 text-right text-white">0.60687263</div>
+                </div>
+                <div class="relative flex items-center py-0.5 px-2 text-sm font-mono font-semibold tracking-wide">
+                    <div class="absolute inset-y-0 right-0 bg-mc-dark-green-800" style="width: 88%; opacity: 0.35;"></div>
+                    <div class="relative w-24 text-mc-light-green-500">88,217.0</div>
+                    <div class="relative w-28 text-center text-white">1.70035178</div>
+                    <div class="relative w-28 text-right text-white">2.30722441</div>
+                </div>
+                <div class="relative flex items-center py-0.5 px-2 text-sm font-mono font-semibold tracking-wide">
+                    <div class="absolute inset-y-0 right-0 bg-mc-dark-green-800" style="width: 88%; opacity: 0.35;"></div>
+                    <div class="relative w-24 text-mc-light-green-500">88,216.8</div>
+                    <div class="relative w-28 text-center text-white">0.00005100</div>
+                    <div class="relative w-28 text-right text-white">2.30727541</div>
+                </div>
+                <div class="relative flex items-center py-0.5 px-2 text-sm font-mono font-semibold tracking-wide">
+                    <div class="absolute inset-y-0 right-0 bg-mc-dark-green-800" style="width: 89%; opacity: 0.35;"></div>
+                    <div class="relative w-24 text-mc-light-green-500">88,216.3</div>
+                    <div class="relative w-28 text-center text-white">0.00905000</div>
+                    <div class="relative w-28 text-right text-white">2.31632541</div>
+                </div>
+                <div class="relative flex items-center py-0.5 px-2 text-sm font-mono font-semibold tracking-wide">
+                    <div class="absolute inset-y-0 right-0 bg-mc-dark-green-800" style="width: 89%; opacity: 0.35;"></div>
+                    <div class="relative w-24 text-mc-light-green-500">88,215.5</div>
+                    <div class="relative w-28 text-center text-white">0.00149000</div>
+                    <div class="relative w-28 text-right text-white">2.31781541</div>
+                </div>
+                <div class="relative flex items-center py-0.5 px-2 text-sm font-mono font-semibold tracking-wide">
+                    <div class="absolute inset-y-0 right-0 bg-mc-dark-green-800" style="width: 89%; opacity: 0.35;"></div>
+                    <div class="relative w-24 text-mc-light-green-500">88,215.0</div>
+                    <div class="relative w-28 text-center text-white">0.01274000</div>
+                    <div class="relative w-28 text-right text-white">2.33055541</div>
+                </div>
+                <div class="relative flex items-center py-0.5 px-2 text-sm font-mono font-semibold tracking-wide">
+                    <div class="absolute inset-y-0 right-0 bg-mc-dark-green-800" style="width: 93%; opacity: 0.35;"></div>
+                    <div class="relative w-24 text-mc-light-green-500">88,214.9</div>
+                    <div class="relative w-28 text-center text-white">0.10120000</div>
+                    <div class="relative w-28 text-right text-white">2.43175541</div>
+                </div>
+                <div class="relative flex items-center py-0.5 px-2 text-sm font-mono font-semibold tracking-wide">
+                    <div class="absolute inset-y-0 right-0 bg-mc-dark-green-800" style="width: 93%; opacity: 0.35;"></div>
+                    <div class="relative w-24 text-mc-light-green-500">88,214.1</div>
+                    <div class="relative w-28 text-center text-white">0.00047000</div>
+                    <div class="relative w-28 text-right text-white">2.43222541</div>
+                </div>
+                <div class="relative flex items-center py-0.5 px-2 text-sm font-mono font-semibold tracking-wide">
+                    <div class="absolute inset-y-0 right-0 bg-mc-dark-green-800" style="width: 94%; opacity: 0.35;"></div>
+                    <div class="relative w-24 text-mc-light-green-500">88,213.5</div>
+                    <div class="relative w-28 text-center text-white">0.03400992</div>
+                    <div class="relative w-28 text-right text-white">2.46623533</div>
+                </div>
+                <div class="relative flex items-center py-0.5 px-2 text-sm font-mono font-semibold tracking-wide">
+                    <div class="absolute inset-y-0 right-0 bg-mc-dark-green-800" style="width: 100%; opacity: 0.35;"></div>
+                    <div class="relative w-24 text-mc-light-green-500">88,213.3</div>
+                    <div class="relative w-28 text-center text-white">0.15235407</div>
+                    <div class="relative w-28 text-right text-white">2.61858940</div>
                 </div>
             </div>
+
         </div>
-        <!-- price level row -->
 
     </div>
 
-
-
-    <div class="grid grid-cols-2 gap-2 w-132">
-        <div class="" id="asks-body">
-            <div class="bg-black font-mono text-sm font-semibold flex h-6 border border-mc-dark-gray-700 text-mc-light-green-500 tracking-wide relative w-64">
-                <div class="absolute inset-y-0 right-0 bg-mc-dark-green-700 pointer-events-none"
-                     style="width: 100%;"></div>
-                <div class="z-10 w-16">123</div>
-                <div class="z-10 w-16">123</div>
-                <div class="z-10 w-32 text-right">123</div>
-            </div>
-            <div class="bg-black font-mono text-sm font-semibold flex h-6 border border-mc-dark-gray-700 text-mc-light-green-500 tracking-wide relative w-64">
-                <div class="absolute inset-y-0 right-0 bg-mc-dark-green-700 pointer-events-none"
-                     style="width: 20%;"></div>
-                <div class="z-10 w-16">123</div>
-                <div class="z-10 w-16">123</div>
-                <div class="z-10 w-32 text-right">123</div>
-            </div>
-        </div>
-        <div class="" id="bids-body">
-            <div class="bg-black font-mono text-sm font-semibold flex h-6 border border-mc-dark-gray-700 text-mc-light-red-600 tracking-wide relative w-64">
-                <div class="absolute inset-y-0 right-0 bg-mc-dark-red-700 pointer-events-none"
-                     style="width: 100%;"></div>
-                <div class="z-10 w-16">123</div>
-                <div class="z-10 w-16">123</div>
-                <div class="z-10 w-32 text-right">123</div>
-            </div>
-            <div class="bg-black font-mono text-sm font-semibold flex h-6 border border-mc-dark-gray-700 text-mc-light-red-600 tracking-wide relative w-64">
-                <div class="absolute inset-y-0 right-0 bg-mc-dark-red-700 pointer-events-none"
-                     style="width: 20%;"></div>
-                <div class="z-10 w-16">123</div>
-                <div class="z-10 w-16">123</div>
-                <div class="z-10 w-32 text-right">123</div>
-            </div>
-        </div>
-    </div>
-
-
-
-    <p class="text-base text-white">base</p>
 </body>
 </html>

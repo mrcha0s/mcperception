@@ -18,6 +18,7 @@
 @import "./mcperception-font.css";
 @import "./mcperception-input.css";
 @import "./mcperception-panel.css";
+@import "./mcperception-components.css";
 
 @source "./demo/**/*.{html,js}";
 @source "./**/*.html";

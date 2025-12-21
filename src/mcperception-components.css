@@ -1,0 +1,277 @@
+@layer components {
+    /* ======================================
+       LABEL
+       Uppercase, small, muted style for form labels
+    ======================================= */
+    .mc-label {
+        @apply text-mc-dark-gray-50 text-xs font-semibold tracking-wider uppercase mb-1.5 block;
+    }
+
+    /* ======================================
+       SELECT
+       Matching input style with dropdown arrow
+    ======================================= */
+    .mc-select {
+        @apply bg-black border border-mc-dark-gray-700 text-white
+               font-semibold font-condensed tracking-wider
+               py-2 pl-3 pr-8 rounded outline-none cursor-pointer appearance-none
+               transition-colors duration-150
+               focus:border-mc-dark-gray-500;
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23b8b8b8' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+        background-repeat: no-repeat;
+        background-position: right 12px center;
+    }
+
+    .mc-select-sm {
+        @apply text-xs py-1.5 pl-3 pr-8;
+    }
+
+    .mc-select-md {
+        @apply text-sm py-2 pl-3 pr-8;
+    }
+
+    .mc-select-lg {
+        @apply text-base py-2.5 pl-4 pr-10;
+    }
+
+    /* ======================================
+       CHECKBOX
+       Styled checkbox with check mark
+    ======================================= */
+    .mc-checkbox {
+        @apply w-4 h-4 bg-black border border-mc-dark-gray-700 rounded-sm
+               cursor-pointer appearance-none relative
+               transition-colors duration-150;
+    }
+
+    .mc-checkbox:checked {
+        @apply bg-mc-dark-blue-600 border-mc-dark-blue-400;
+    }
+
+    .mc-checkbox:checked::after {
+        content: '';
+        @apply absolute;
+        left: 4px;
+        top: 1px;
+        width: 5px;
+        height: 9px;
+        border: solid white;
+        border-width: 0 2px 2px 0;
+        transform: rotate(45deg);
+    }
+
+    .mc-checkbox:focus {
+        @apply ring-1 ring-mc-dark-gray-400 ring-offset-1;
+    }
+
+    /* ======================================
+       BADGE
+       Small status indicators
+    ======================================= */
+    .mc-badge {
+        @apply inline-block px-2 py-0.5 rounded-sm text-xs font-semibold tracking-wider uppercase;
+    }
+
+    .mc-badge-success {
+        @apply bg-mc-dark-green-700 text-mc-light-green-400 border border-mc-dark-green-500;
+    }
+
+    .mc-badge-danger {
+        @apply bg-mc-dark-red-800 text-mc-light-red-400 border border-mc-dark-red-600;
+    }
+
+    .mc-badge-warning {
+        @apply bg-mc-dark-yellow-700 text-mc-light-yellow-100 border border-mc-dark-yellow-500;
+    }
+
+    .mc-badge-info {
+        @apply bg-mc-dark-blue-700 text-mc-light-blue-400 border border-mc-dark-blue-500;
+    }
+
+    /* ======================================
+       ALERT
+       Notification banners
+    ======================================= */
+    .mc-alert {
+        @apply p-3 rounded text-sm flex items-center gap-3;
+    }
+
+    .mc-alert-success {
+        @apply bg-mc-dark-green-800 border border-mc-dark-green-500 text-mc-light-green-400;
+    }
+
+    .mc-alert-danger {
+        @apply bg-mc-dark-red-800 border border-mc-dark-red-600 text-mc-light-red-400;
+    }
+
+    .mc-alert-warning {
+        @apply bg-mc-dark-yellow-800 border border-mc-dark-yellow-500 text-mc-light-yellow-100;
+    }
+
+    .mc-alert-info {
+        @apply bg-mc-dark-blue-800 border border-mc-dark-blue-600 text-mc-light-blue-400;
+    }
+
+    /* ======================================
+       TABS
+       Navigation tabs
+    ======================================= */
+    .mc-tabs {
+        @apply flex border-b border-mc-dark-gray-700;
+    }
+
+    .mc-tab {
+        @apply py-2.5 px-4 text-mc-dark-gray-100 text-xs font-semibold tracking-wider cursor-pointer
+               border-b-2 border-transparent -mb-px transition-colors duration-150;
+    }
+
+    .mc-tab:hover {
+        @apply text-mc-dark-gray-50;
+    }
+
+    .mc-tab.active {
+        @apply text-white border-b-mc-dark-blue-400;
+    }
+
+    /* ======================================
+       TABLE
+       Data tables for trading interfaces
+    ======================================= */
+    .mc-table {
+        @apply w-full border-collapse;
+    }
+
+    .mc-table th {
+        @apply bg-mc-dark-gray-800 text-mc-dark-gray-50 text-xs font-semibold tracking-wider uppercase
+               text-left py-2.5 px-3 border-b border-mc-dark-gray-700;
+    }
+
+    .mc-table td {
+        @apply py-2.5 px-3 border-b border-mc-dark-gray-800 font-mono text-sm;
+    }
+
+    .mc-table tr:hover td {
+        @apply bg-mc-dark-gray-800;
+    }
+
+    /* ======================================
+       PROGRESS BAR
+       For metrics and loading states
+    ======================================= */
+    .mc-progress {
+        @apply h-1 bg-mc-dark-gray-700 rounded-sm overflow-hidden;
+    }
+
+    .mc-progress-bar {
+        @apply h-full transition-all duration-300;
+    }
+
+    .mc-progress-bar-success {
+        @apply bg-mc-light-green-500;
+    }
+
+    .mc-progress-bar-danger {
+        @apply bg-mc-light-red-400;
+    }
+
+    .mc-progress-bar-warning {
+        @apply bg-mc-light-yellow-100;
+    }
+
+    .mc-progress-bar-info {
+        @apply bg-mc-light-blue-500;
+    }
+
+    /* ======================================
+       DIVIDER
+       Horizontal separator
+    ======================================= */
+    .mc-divider {
+        @apply h-px bg-mc-dark-gray-700 my-4;
+    }
+
+    /* ======================================
+       TEXT UTILITIES
+       Semantic text colors
+    ======================================= */
+    .mc-text-positive {
+        @apply text-mc-light-green-500;
+    }
+
+    .mc-text-negative {
+        @apply text-mc-light-red-400;
+    }
+
+    .mc-text-muted {
+        @apply text-mc-dark-gray-100;
+    }
+
+    .mc-text-label {
+        @apply text-mc-dark-gray-50;
+    }
+
+    /* ======================================
+       CARD / INFO BOX
+       For displaying grouped information
+    ======================================= */
+    .mc-card {
+        @apply bg-black border border-mc-dark-gray-700 rounded p-3;
+    }
+
+    /* ======================================
+       BUTTON GROUP
+       For grouped button sets
+    ======================================= */
+    .mc-button-group {
+        @apply inline-flex;
+    }
+
+    .mc-button-group .mc-button:not(:first-child):not(:last-child) {
+        @apply rounded-none border-r-0;
+    }
+
+    .mc-button-group .mc-button:first-child {
+        @apply rounded-r-none border-r-0;
+    }
+
+    .mc-button-group .mc-button:last-child {
+        @apply rounded-l-none;
+    }
+
+    /* ======================================
+       TOOLTIP (basic)
+    ======================================= */
+    .mc-tooltip {
+        @apply relative inline-block;
+    }
+
+    .mc-tooltip-content {
+        @apply absolute z-10 px-2 py-1 text-xs font-semibold text-white
+               bg-mc-dark-gray-700 rounded border border-mc-dark-gray-600
+               whitespace-nowrap opacity-0 invisible transition-opacity duration-150;
+        bottom: 100%;
+        left: 50%;
+        transform: translateX(-50%);
+        margin-bottom: 4px;
+    }
+
+    .mc-tooltip:hover .mc-tooltip-content {
+        @apply opacity-100 visible;
+    }
+
+    /* ======================================
+       SKELETON LOADER
+       For loading states
+    ======================================= */
+    .mc-skeleton {
+        @apply bg-mc-dark-gray-700 rounded animate-pulse;
+    }
+
+    .mc-skeleton-text {
+        @apply h-4 bg-mc-dark-gray-700 rounded animate-pulse;
+    }
+
+    .mc-skeleton-circle {
+        @apply rounded-full bg-mc-dark-gray-700 animate-pulse;
+    }
+}

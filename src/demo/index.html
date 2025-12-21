@@ -1,0 +1,587 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MC Perception - Component Library Documentation</title>
+    <link rel="stylesheet" href="../dist/mcperception.css">
+</head>
+<body class="bg-mc-dark-gray-900 min-h-screen text-white">
+
+    <div class="max-w-6xl mx-auto p-6">
+
+        <!-- Header -->
+        <header class="mb-12">
+            <h1 class="text-4xl font-bold mb-2">MC Perception</h1>
+            <p class="text-mc-dark-gray-100 text-lg">Dark theme component library for trading dashboards and data-dense interfaces</p>
+            <div class="mc-divider"></div>
+            <div class="flex gap-4 text-sm">
+                <a href="components.html" class="text-mc-light-blue-400 hover:text-mc-light-blue-300">Components Demo</a>
+                <a href="orderbook.html" class="text-mc-light-blue-400 hover:text-mc-light-blue-300">Orderbook Demo</a>
+                <a href="panel.html" class="text-mc-light-blue-400 hover:text-mc-light-blue-300">Panel Demo</a>
+                <a href="color.html" class="text-mc-light-blue-400 hover:text-mc-light-blue-300">Color Palette</a>
+            </div>
+        </header>
+
+        <!-- Color Tokens -->
+        <section class="mb-12">
+            <h2 class="text-2xl font-bold mb-4">Color Tokens</h2>
+            <p class="text-mc-dark-gray-100 mb-6">Strict dark mode color palette. All components use these tokens.</p>
+
+            <div class="mc-panel p-4 mb-4">
+                <h3 class="text-sm font-semibold tracking-wider uppercase text-mc-dark-gray-50 mb-4">Core Colors</h3>
+                <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 text-xs font-mono">
+                    <div>
+                        <div class="w-full h-12 bg-mc-dark-gray-900 border border-mc-dark-gray-700 rounded mb-2"></div>
+                        <div class="text-mc-dark-gray-50">Background</div>
+                        <div class="text-mc-dark-gray-100">#090909</div>
+                        <div class="text-mc-dark-gray-200">bg-mc-dark-gray-900</div>
+                    </div>
+                    <div>
+                        <div class="w-full h-12 bg-mc-dark-gray-800 border border-mc-dark-gray-700 rounded mb-2"></div>
+                        <div class="text-mc-dark-gray-50">Panel</div>
+                        <div class="text-mc-dark-gray-100">#171717</div>
+                        <div class="text-mc-dark-gray-200">bg-mc-dark-gray-800</div>
+                    </div>
+                    <div>
+                        <div class="w-full h-12 bg-mc-dark-gray-700 border border-mc-dark-gray-600 rounded mb-2"></div>
+                        <div class="text-mc-dark-gray-50">Border</div>
+                        <div class="text-mc-dark-gray-100">#222222</div>
+                        <div class="text-mc-dark-gray-200">border-mc-dark-gray-700</div>
+                    </div>
+                    <div>
+                        <div class="w-full h-12 bg-black border border-mc-dark-gray-700 rounded mb-2"></div>
+                        <div class="text-mc-dark-gray-50">Input BG</div>
+                        <div class="text-mc-dark-gray-100">#000000</div>
+                        <div class="text-mc-dark-gray-200">bg-black</div>
+                    </div>
+                    <div>
+                        <div class="w-full h-12 bg-mc-dark-gray-600 border border-mc-dark-gray-500 rounded mb-2"></div>
+                        <div class="text-mc-dark-gray-50">Button BG</div>
+                        <div class="text-mc-dark-gray-100">#2c2c2c</div>
+                        <div class="text-mc-dark-gray-200">bg-mc-dark-gray-600</div>
+                    </div>
+                    <div>
+                        <div class="w-full h-12 bg-mc-dark-gray-500 border border-mc-dark-gray-400 rounded mb-2"></div>
+                        <div class="text-mc-dark-gray-50">Button Border</div>
+                        <div class="text-mc-dark-gray-100">#373737</div>
+                        <div class="text-mc-dark-gray-200">border-mc-dark-gray-500</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mc-panel p-4">
+                <h3 class="text-sm font-semibold tracking-wider uppercase text-mc-dark-gray-50 mb-4">Semantic Colors</h3>
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-4 text-xs font-mono">
+                    <div>
+                        <div class="w-full h-12 bg-mc-light-green-500 rounded mb-2"></div>
+                        <div class="text-mc-dark-gray-50">Positive</div>
+                        <div class="text-mc-dark-gray-200">text-mc-light-green-500</div>
+                    </div>
+                    <div>
+                        <div class="w-full h-12 bg-mc-light-red-400 rounded mb-2"></div>
+                        <div class="text-mc-dark-gray-50">Negative</div>
+                        <div class="text-mc-dark-gray-200">text-mc-light-red-400</div>
+                    </div>
+                    <div>
+                        <div class="w-full h-12 bg-mc-dark-gray-100 rounded mb-2"></div>
+                        <div class="text-mc-dark-gray-50">Muted</div>
+                        <div class="text-mc-dark-gray-200">text-mc-dark-gray-100</div>
+                    </div>
+                    <div>
+                        <div class="w-full h-12 bg-mc-dark-gray-50 rounded mb-2"></div>
+                        <div class="text-mc-dark-gray-50">Label</div>
+                        <div class="text-mc-dark-gray-200">text-mc-dark-gray-50</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Typography -->
+        <section class="mb-12">
+            <h2 class="text-2xl font-bold mb-4">Typography</h2>
+            <p class="text-mc-dark-gray-100 mb-6">Font families and text utilities.</p>
+
+            <div class="mc-panel p-4 mb-4">
+                <h3 class="text-sm font-semibold tracking-wider uppercase text-mc-dark-gray-50 mb-4">Font Families</h3>
+                <div class="space-y-4">
+                    <div>
+                        <span class="font-sans text-lg">Roboto (font-sans)</span>
+                        <span class="text-mc-dark-gray-100 text-sm ml-4">Default sans-serif</span>
+                    </div>
+                    <div>
+                        <span class="font-condensed text-lg">Roboto Condensed (font-condensed)</span>
+                        <span class="text-mc-dark-gray-100 text-sm ml-4">Buttons, inputs</span>
+                    </div>
+                    <div>
+                        <span class="font-mono text-lg">Roboto Mono (font-mono)</span>
+                        <span class="text-mc-dark-gray-100 text-sm ml-4">Numbers, code</span>
+                    </div>
+                    <div>
+                        <span class="font-slab text-lg">Roboto Slab (font-slab)</span>
+                        <span class="text-mc-dark-gray-100 text-sm ml-4">Headlines</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mc-panel p-4">
+                <h3 class="text-sm font-semibold tracking-wider uppercase text-mc-dark-gray-50 mb-4">Text Utilities</h3>
+                <div class="space-y-2 text-sm">
+                    <div><span class="mc-text-positive">mc-text-positive</span> - Green text for gains/success</div>
+                    <div><span class="mc-text-negative">mc-text-negative</span> - Red text for losses/errors</div>
+                    <div><span class="mc-text-muted">mc-text-muted</span> - Gray text for secondary info</div>
+                    <div><span class="mc-text-label">mc-text-label</span> - Light gray for labels</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Buttons -->
+        <section class="mb-12">
+            <h2 class="text-2xl font-bold mb-4">Buttons</h2>
+            <p class="text-mc-dark-gray-100 mb-6">Base class: <code class="bg-black px-2 py-0.5 rounded text-mc-light-blue-300">mc-button</code></p>
+
+            <div class="mc-panel p-4 mb-4">
+                <h3 class="text-sm font-semibold tracking-wider uppercase text-mc-dark-gray-50 mb-4">Sizes</h3>
+                <div class="flex flex-wrap items-end gap-3 mb-4">
+                    <button class="mc-button mc-button-xs mc-button-dark-gray">xs</button>
+                    <button class="mc-button mc-button-sm mc-button-dark-gray">sm</button>
+                    <button class="mc-button mc-button-md mc-button-dark-gray">md</button>
+                    <button class="mc-button mc-button-lg mc-button-dark-gray">lg</button>
+                    <button class="mc-button mc-button-xl mc-button-dark-gray">xl</button>
+                </div>
+                <div class="text-xs text-mc-dark-gray-100 font-mono">
+                    mc-button-xs | mc-button-sm | mc-button-md | mc-button-lg | mc-button-xl
+                </div>
+            </div>
+
+            <div class="mc-panel p-4 mb-4">
+                <h3 class="text-sm font-semibold tracking-wider uppercase text-mc-dark-gray-50 mb-4">Semantic Variants</h3>
+                <div class="flex flex-wrap gap-3 mb-4">
+                    <button class="mc-button mc-button-sm mc-button-dark-gray">Default</button>
+                    <button class="mc-button mc-button-sm mc-button-primary">Primary</button>
+                    <button class="mc-button mc-button-sm mc-button-success">Success</button>
+                    <button class="mc-button mc-button-sm mc-button-danger">Danger</button>
+                    <button class="mc-button mc-button-sm mc-button-warning">Warning</button>
+                </div>
+                <div class="text-xs text-mc-dark-gray-100 font-mono">
+                    mc-button-dark-gray | mc-button-primary | mc-button-success | mc-button-danger | mc-button-warning
+                </div>
+            </div>
+
+            <div class="mc-panel p-4">
+                <h3 class="text-sm font-semibold tracking-wider uppercase text-mc-dark-gray-50 mb-4">Color Variants</h3>
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-3 mb-4">
+                    <button class="mc-button mc-button-sm mc-button-dark-gray">Dark Gray</button>
+                    <button class="mc-button mc-button-sm mc-button-dark-red">Dark Red</button>
+                    <button class="mc-button mc-button-sm mc-button-dark-green">Dark Green</button>
+                    <button class="mc-button mc-button-sm mc-button-dark-blue">Dark Blue</button>
+                    <button class="mc-button mc-button-sm mc-button-dark-yellow">Dark Yellow</button>
+                    <button class="mc-button mc-button-sm mc-button-dark-purple">Dark Purple</button>
+                    <button class="mc-button mc-button-sm mc-button-dark-cyan">Dark Cyan</button>
+                    <button class="mc-button mc-button-sm mc-button-light-gray">Light Gray</button>
+                </div>
+                <div class="text-xs text-mc-dark-gray-100 font-mono">
+                    mc-button-dark-[gray|red|green|blue|yellow|purple|cyan] | mc-button-light-[color]
+                </div>
+            </div>
+        </section>
+
+        <!-- Inputs -->
+        <section class="mb-12">
+            <h2 class="text-2xl font-bold mb-4">Inputs</h2>
+            <p class="text-mc-dark-gray-100 mb-6">Base class: <code class="bg-black px-2 py-0.5 rounded text-mc-light-blue-300">mc-input</code></p>
+
+            <div class="mc-panel p-4 mb-4">
+                <h3 class="text-sm font-semibold tracking-wider uppercase text-mc-dark-gray-50 mb-4">Sizes</h3>
+                <div class="space-y-3 mb-4">
+                    <input class="mc-input mc-input-xs mc-input-dark-gray" placeholder="xs input">
+                    <input class="mc-input mc-input-sm mc-input-dark-gray" placeholder="sm input">
+                    <input class="mc-input mc-input-md mc-input-dark-gray" placeholder="md input">
+                    <input class="mc-input mc-input-lg mc-input-dark-gray" placeholder="lg input">
+                </div>
+                <div class="text-xs text-mc-dark-gray-100 font-mono">
+                    mc-input-xs | mc-input-sm | mc-input-md | mc-input-lg | mc-input-xl
+                </div>
+            </div>
+
+            <div class="mc-panel p-4 mb-4">
+                <h3 class="text-sm font-semibold tracking-wider uppercase text-mc-dark-gray-50 mb-4">Mono Variant (for numbers)</h3>
+                <div class="mb-4">
+                    <input class="mc-input mc-input-md mc-input-dark-gray mc-input-mono w-64" value="1,234,567.89">
+                </div>
+                <div class="text-xs text-mc-dark-gray-100 font-mono">
+                    mc-input-mono - Uses Roboto Mono font for numeric inputs
+                </div>
+            </div>
+
+            <div class="mc-panel p-4">
+                <h3 class="text-sm font-semibold tracking-wider uppercase text-mc-dark-gray-50 mb-4">Select & Checkbox</h3>
+                <div class="flex flex-wrap gap-6 items-start mb-4">
+                    <div>
+                        <label class="mc-label">Select</label>
+                        <select class="mc-select">
+                            <option>Option 1</option>
+                            <option>Option 2</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="mc-label">Checkbox</label>
+                        <div class="flex items-center gap-2 mt-2">
+                            <input type="checkbox" class="mc-checkbox" id="demo-check" checked>
+                            <label for="demo-check" class="text-sm">Enabled</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="text-xs text-mc-dark-gray-100 font-mono">
+                    mc-select | mc-checkbox | mc-label
+                </div>
+            </div>
+        </section>
+
+        <!-- Panels -->
+        <section class="mb-12">
+            <h2 class="text-2xl font-bold mb-4">Panels</h2>
+            <p class="text-mc-dark-gray-100 mb-6">Base class: <code class="bg-black px-2 py-0.5 rounded text-mc-light-blue-300">mc-panel</code></p>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                <div class="mc-panel">
+                    <div class="mc-panel-header">
+                        <span class="mc-panel-title">Panel Title</span>
+                        <span class="mc-badge mc-badge-success">Status</span>
+                    </div>
+                    <div class="mc-panel-body">
+                        <p class="mc-panel-subtitle mb-2">Subtitle or description</p>
+                        <p class="text-sm">Panel body content goes here.</p>
+                    </div>
+                </div>
+                <div class="mc-panel mc-panel-dark-gray">
+                    <div class="p-4">
+                        <h3 class="mc-panel-title mb-2">Simple Panel</h3>
+                        <p class="text-sm text-mc-dark-gray-100">Without header/body structure</p>
+                    </div>
+                </div>
+            </div>
+            <div class="text-xs text-mc-dark-gray-100 font-mono mb-4">
+                mc-panel | mc-panel-header | mc-panel-body | mc-panel-title | mc-panel-subtitle
+            </div>
+
+            <div class="mc-panel p-4">
+                <h3 class="text-sm font-semibold tracking-wider uppercase text-mc-dark-gray-50 mb-4">Panel Color Variants</h3>
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
+                    <div class="mc-panel mc-panel-dark-gray p-3 text-center text-xs">dark-gray</div>
+                    <div class="mc-panel mc-panel-dark-red p-3 text-center text-xs">dark-red</div>
+                    <div class="mc-panel mc-panel-dark-green p-3 text-center text-xs">dark-green</div>
+                    <div class="mc-panel mc-panel-dark-blue p-3 text-center text-xs">dark-blue</div>
+                </div>
+                <div class="text-xs text-mc-dark-gray-100 font-mono mt-4">
+                    mc-panel-dark-[gray|red|green|blue|yellow|purple|cyan] | Also available: bevel/emboss variants
+                </div>
+            </div>
+        </section>
+
+        <!-- Badges -->
+        <section class="mb-12">
+            <h2 class="text-2xl font-bold mb-4">Badges</h2>
+            <p class="text-mc-dark-gray-100 mb-6">Base class: <code class="bg-black px-2 py-0.5 rounded text-mc-light-blue-300">mc-badge</code></p>
+
+            <div class="mc-panel p-4">
+                <div class="flex flex-wrap gap-3 mb-4">
+                    <span class="mc-badge mc-badge-success">Success</span>
+                    <span class="mc-badge mc-badge-danger">Danger</span>
+                    <span class="mc-badge mc-badge-warning">Warning</span>
+                    <span class="mc-badge mc-badge-info">Info</span>
+                </div>
+                <div class="text-xs text-mc-dark-gray-100 font-mono">
+                    mc-badge-success | mc-badge-danger | mc-badge-warning | mc-badge-info
+                </div>
+            </div>
+        </section>
+
+        <!-- Alerts -->
+        <section class="mb-12">
+            <h2 class="text-2xl font-bold mb-4">Alerts</h2>
+            <p class="text-mc-dark-gray-100 mb-6">Base class: <code class="bg-black px-2 py-0.5 rounded text-mc-light-blue-300">mc-alert</code></p>
+
+            <div class="mc-panel p-4">
+                <div class="space-y-3 mb-4">
+                    <div class="mc-alert mc-alert-success">
+                        <span>&#10003;</span>
+                        <span>Success alert message</span>
+                    </div>
+                    <div class="mc-alert mc-alert-danger">
+                        <span>&#10005;</span>
+                        <span>Danger alert message</span>
+                    </div>
+                    <div class="mc-alert mc-alert-warning">
+                        <span>&#9888;</span>
+                        <span>Warning alert message</span>
+                    </div>
+                    <div class="mc-alert mc-alert-info">
+                        <span>&#8505;</span>
+                        <span>Info alert message</span>
+                    </div>
+                </div>
+                <div class="text-xs text-mc-dark-gray-100 font-mono">
+                    mc-alert-success | mc-alert-danger | mc-alert-warning | mc-alert-info
+                </div>
+            </div>
+        </section>
+
+        <!-- Tabs -->
+        <section class="mb-12">
+            <h2 class="text-2xl font-bold mb-4">Tabs</h2>
+            <p class="text-mc-dark-gray-100 mb-6">Navigation tabs for content sections.</p>
+
+            <div class="mc-panel">
+                <div class="mc-tabs">
+                    <div class="mc-tab active">Active Tab</div>
+                    <div class="mc-tab">Tab 2</div>
+                    <div class="mc-tab">Tab 3</div>
+                    <div class="mc-tab">Tab 4</div>
+                </div>
+                <div class="p-4">
+                    <p class="text-sm text-mc-dark-gray-100">Tab content area</p>
+                </div>
+            </div>
+            <div class="text-xs text-mc-dark-gray-100 font-mono mt-4">
+                mc-tabs | mc-tab | mc-tab.active
+            </div>
+        </section>
+
+        <!-- Table -->
+        <section class="mb-12">
+            <h2 class="text-2xl font-bold mb-4">Table</h2>
+            <p class="text-mc-dark-gray-100 mb-6">Data tables for trading interfaces.</p>
+
+            <div class="mc-panel">
+                <table class="mc-table">
+                    <thead>
+                        <tr>
+                            <th>Symbol</th>
+                            <th>Price</th>
+                            <th>Change</th>
+                            <th>Volume</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="text-white font-semibold">BTC/USD</td>
+                            <td>43,250.00</td>
+                            <td class="mc-text-positive">+2.45%</td>
+                            <td>$2.4B</td>
+                        </tr>
+                        <tr>
+                            <td class="text-white font-semibold">ETH/USD</td>
+                            <td>2,315.75</td>
+                            <td class="mc-text-negative">-1.23%</td>
+                            <td>$890M</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="text-xs text-mc-dark-gray-100 font-mono mt-4">
+                mc-table - Applies styles to th, td, and tr:hover
+            </div>
+        </section>
+
+        <!-- Progress -->
+        <section class="mb-12">
+            <h2 class="text-2xl font-bold mb-4">Progress Bar</h2>
+            <p class="text-mc-dark-gray-100 mb-6">For metrics and loading states.</p>
+
+            <div class="mc-panel p-4">
+                <div class="space-y-4 mb-4">
+                    <div>
+                        <div class="flex justify-between text-xs mb-1">
+                            <span class="mc-text-muted">Success (45%)</span>
+                        </div>
+                        <div class="mc-progress">
+                            <div class="mc-progress-bar mc-progress-bar-success" style="width: 45%;"></div>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="flex justify-between text-xs mb-1">
+                            <span class="mc-text-muted">Danger (87%)</span>
+                        </div>
+                        <div class="mc-progress">
+                            <div class="mc-progress-bar mc-progress-bar-danger" style="width: 87%;"></div>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="flex justify-between text-xs mb-1">
+                            <span class="mc-text-muted">Warning (60%)</span>
+                        </div>
+                        <div class="mc-progress">
+                            <div class="mc-progress-bar mc-progress-bar-warning" style="width: 60%;"></div>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="flex justify-between text-xs mb-1">
+                            <span class="mc-text-muted">Info (30%)</span>
+                        </div>
+                        <div class="mc-progress">
+                            <div class="mc-progress-bar mc-progress-bar-info" style="width: 30%;"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="text-xs text-mc-dark-gray-100 font-mono">
+                    mc-progress | mc-progress-bar | mc-progress-bar-[success|danger|warning|info]
+                </div>
+            </div>
+        </section>
+
+        <!-- Utilities -->
+        <section class="mb-12">
+            <h2 class="text-2xl font-bold mb-4">Utilities</h2>
+            <p class="text-mc-dark-gray-100 mb-6">Helper classes for common patterns.</p>
+
+            <div class="mc-panel p-4 mb-4">
+                <h3 class="text-sm font-semibold tracking-wider uppercase text-mc-dark-gray-50 mb-4">Divider</h3>
+                <p class="text-sm mb-2">Content above</p>
+                <div class="mc-divider"></div>
+                <p class="text-sm mt-2">Content below</p>
+                <div class="text-xs text-mc-dark-gray-100 font-mono mt-4">
+                    mc-divider - Horizontal separator line
+                </div>
+            </div>
+
+            <div class="mc-panel p-4 mb-4">
+                <h3 class="text-sm font-semibold tracking-wider uppercase text-mc-dark-gray-50 mb-4">Card</h3>
+                <div class="mc-card mb-4">
+                    <div class="flex justify-between text-sm">
+                        <span class="mc-text-muted">Label</span>
+                        <span class="font-mono">Value</span>
+                    </div>
+                </div>
+                <div class="text-xs text-mc-dark-gray-100 font-mono">
+                    mc-card - Black background info box
+                </div>
+            </div>
+
+            <div class="mc-panel p-4">
+                <h3 class="text-sm font-semibold tracking-wider uppercase text-mc-dark-gray-50 mb-4">Button Group</h3>
+                <div class="mc-button-group mb-4">
+                    <button class="mc-button mc-button-sm mc-button-dark-gray">1D</button>
+                    <button class="mc-button mc-button-sm mc-button-primary">1W</button>
+                    <button class="mc-button mc-button-sm mc-button-dark-gray">1M</button>
+                    <button class="mc-button mc-button-sm mc-button-dark-gray">1Y</button>
+                </div>
+                <div class="text-xs text-mc-dark-gray-100 font-mono">
+                    mc-button-group - Wraps buttons with connected borders
+                </div>
+            </div>
+        </section>
+
+        <!-- Class Reference -->
+        <section class="mb-12">
+            <h2 class="text-2xl font-bold mb-4">Quick Reference</h2>
+
+            <div class="mc-panel">
+                <table class="mc-table">
+                    <thead>
+                        <tr>
+                            <th>Component</th>
+                            <th>Base Class</th>
+                            <th>Variants</th>
+                        </tr>
+                    </thead>
+                    <tbody class="text-xs">
+                        <tr>
+                            <td class="text-white">Button</td>
+                            <td>mc-button</td>
+                            <td>mc-button-[xs|sm|md|lg|xl] mc-button-[color]</td>
+                        </tr>
+                        <tr>
+                            <td class="text-white">Input</td>
+                            <td>mc-input</td>
+                            <td>mc-input-[xs|sm|md|lg|xl] mc-input-[color] mc-input-mono</td>
+                        </tr>
+                        <tr>
+                            <td class="text-white">Select</td>
+                            <td>mc-select</td>
+                            <td>mc-select-[sm|md|lg]</td>
+                        </tr>
+                        <tr>
+                            <td class="text-white">Checkbox</td>
+                            <td>mc-checkbox</td>
+                            <td>-</td>
+                        </tr>
+                        <tr>
+                            <td class="text-white">Label</td>
+                            <td>mc-label</td>
+                            <td>-</td>
+                        </tr>
+                        <tr>
+                            <td class="text-white">Panel</td>
+                            <td>mc-panel</td>
+                            <td>mc-panel-[color] mc-panel-[color]-[bevel|emboss]</td>
+                        </tr>
+                        <tr>
+                            <td class="text-white">Badge</td>
+                            <td>mc-badge</td>
+                            <td>mc-badge-[success|danger|warning|info]</td>
+                        </tr>
+                        <tr>
+                            <td class="text-white">Alert</td>
+                            <td>mc-alert</td>
+                            <td>mc-alert-[success|danger|warning|info]</td>
+                        </tr>
+                        <tr>
+                            <td class="text-white">Tabs</td>
+                            <td>mc-tabs</td>
+                            <td>mc-tab mc-tab.active</td>
+                        </tr>
+                        <tr>
+                            <td class="text-white">Table</td>
+                            <td>mc-table</td>
+                            <td>-</td>
+                        </tr>
+                        <tr>
+                            <td class="text-white">Progress</td>
+                            <td>mc-progress</td>
+                            <td>mc-progress-bar mc-progress-bar-[success|danger|warning|info]</td>
+                        </tr>
+                        <tr>
+                            <td class="text-white">Divider</td>
+                            <td>mc-divider</td>
+                            <td>-</td>
+                        </tr>
+                        <tr>
+                            <td class="text-white">Card</td>
+                            <td>mc-card</td>
+                            <td>-</td>
+                        </tr>
+                        <tr>
+                            <td class="text-white">Button Group</td>
+                            <td>mc-button-group</td>
+                            <td>-</td>
+                        </tr>
+                        <tr>
+                            <td class="text-white">Text</td>
+                            <td>-</td>
+                            <td>mc-text-positive mc-text-negative mc-text-muted mc-text-label</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="border-t border-mc-dark-gray-700 pt-6 text-center">
+            <p class="mc-text-muted text-sm">MC Perception Design System - Apache License 2.0</p>
+        </footer>
+
+    </div>
+
+    <script>
+        // Tab interaction
+        document.querySelectorAll('.mc-tab').forEach(tab => {
+            tab.addEventListener('click', function() {
+                this.parentElement.querySelectorAll('.mc-tab').forEach(t => t.classList.remove('active'));
+                this.classList.add('active');
+            });
+        });
+    </script>
+
+</body>
+</html>
