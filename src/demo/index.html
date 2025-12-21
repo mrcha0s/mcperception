@@ -17,6 +17,7 @@
             <div class="mc-divider"></div>
             <div class="flex gap-4 text-sm">
                 <a href="components.html" class="text-mc-light-blue-400 hover:text-mc-light-blue-300">Components Demo</a>
+                <a href="trading-card.html" class="text-mc-light-blue-400 hover:text-mc-light-blue-300">Trading Cards</a>
                 <a href="orderbook.html" class="text-mc-light-blue-400 hover:text-mc-light-blue-300">Orderbook Demo</a>
                 <a href="panel.html" class="text-mc-light-blue-400 hover:text-mc-light-blue-300">Panel Demo</a>
                 <a href="color.html" class="text-mc-light-blue-400 hover:text-mc-light-blue-300">Color Palette</a>
@@ -231,9 +232,86 @@
                             <label for="demo-check" class="text-sm">Enabled</label>
                         </div>
                     </div>
+                    <div>
+                        <label class="mc-label">Radio</label>
+                        <div class="flex items-center gap-4 mt-2">
+                            <div class="flex items-center gap-2">
+                                <input type="radio" name="demo-radio" class="mc-radio" id="radio1" checked>
+                                <label for="radio1" class="text-sm">Option 1</label>
+                            </div>
+                            <div class="flex items-center gap-2">
+                                <input type="radio" name="demo-radio" class="mc-radio" id="radio2">
+                                <label for="radio2" class="text-sm">Option 2</label>
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 <div class="text-xs text-mc-dark-gray-100 font-mono">
-                    mc-select | mc-checkbox | mc-label
+                    mc-select | mc-checkbox | mc-radio | mc-label
+                </div>
+            </div>
+
+            <div class="mc-panel p-4">
+                <h3 class="text-sm font-semibold tracking-wider uppercase text-mc-dark-gray-50 mb-4">Switch / Toggle</h3>
+                <div class="flex flex-wrap gap-6 items-center mb-4">
+                    <div class="flex items-center gap-2">
+                        <input type="checkbox" class="mc-switch" id="switch1">
+                        <label for="switch1" class="text-sm">Default</label>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <input type="checkbox" class="mc-switch mc-switch-success" id="switch2" checked>
+                        <label for="switch2" class="text-sm">Success</label>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <input type="checkbox" class="mc-switch mc-switch-danger" id="switch3" checked>
+                        <label for="switch3" class="text-sm">Danger</label>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <input type="checkbox" class="mc-switch mc-switch-warning" id="switch4" checked>
+                        <label for="switch4" class="text-sm">Warning</label>
+                    </div>
+                </div>
+                <div class="text-xs text-mc-dark-gray-100 font-mono">
+                    mc-switch | mc-switch-success | mc-switch-danger | mc-switch-warning
+                </div>
+            </div>
+
+            <div class="mc-panel p-4">
+                <h3 class="text-sm font-semibold tracking-wider uppercase text-mc-dark-gray-50 mb-4">Textarea</h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                    <div>
+                        <label class="mc-label">Default</label>
+                        <textarea class="mc-textarea w-full" rows="3" placeholder="Enter text..."></textarea>
+                    </div>
+                    <div>
+                        <label class="mc-label">Monospace</label>
+                        <textarea class="mc-textarea mc-textarea-mono w-full" rows="3">const data = { key: "value" };</textarea>
+                    </div>
+                </div>
+                <div class="text-xs text-mc-dark-gray-100 font-mono">
+                    mc-textarea | mc-textarea-mono
+                </div>
+            </div>
+
+            <div class="mc-panel p-4">
+                <h3 class="text-sm font-semibold tracking-wider uppercase text-mc-dark-gray-50 mb-4">Input Group</h3>
+                <div class="flex flex-wrap gap-4 mb-4">
+                    <div class="mc-input-group">
+                        <span class="mc-input-addon">$</span>
+                        <input class="mc-input mc-input-md mc-input-dark-gray mc-input-mono" value="100.00">
+                    </div>
+                    <div class="mc-input-group">
+                        <input class="mc-input mc-input-md mc-input-dark-gray" placeholder="Search...">
+                        <span class="mc-input-addon">&#128269;</span>
+                    </div>
+                    <div class="mc-input-group">
+                        <span class="mc-input-addon">https://</span>
+                        <input class="mc-input mc-input-md mc-input-dark-gray" placeholder="example.com">
+                        <span class="mc-input-addon">/path</span>
+                    </div>
+                </div>
+                <div class="text-xs text-mc-dark-gray-100 font-mono">
+                    mc-input-group | mc-input-addon
                 </div>
             </div>
         </section>
@@ -293,6 +371,222 @@
                 </div>
                 <div class="text-xs text-mc-dark-gray-100 font-mono">
                     mc-badge-success | mc-badge-danger | mc-badge-warning | mc-badge-info
+                </div>
+            </div>
+        </section>
+
+        <!-- Breadcrumb -->
+        <section class="mb-12">
+            <h2 class="text-2xl font-bold mb-4">Breadcrumb</h2>
+            <p class="text-mc-dark-gray-100 mb-6">Navigation path indicator.</p>
+
+            <div class="mc-panel p-4">
+                <nav class="mc-breadcrumb mb-4">
+                    <a class="mc-breadcrumb-item" href="#">Home</a>
+                    <span class="mc-breadcrumb-separator">/</span>
+                    <a class="mc-breadcrumb-item" href="#">Products</a>
+                    <span class="mc-breadcrumb-separator">/</span>
+                    <a class="mc-breadcrumb-item" href="#">Category</a>
+                    <span class="mc-breadcrumb-separator">/</span>
+                    <span class="mc-breadcrumb-item active">Details</span>
+                </nav>
+                <div class="text-xs text-mc-dark-gray-100 font-mono">
+                    mc-breadcrumb | mc-breadcrumb-item | mc-breadcrumb-separator | .active
+                </div>
+            </div>
+        </section>
+
+        <!-- Pagination -->
+        <section class="mb-12">
+            <h2 class="text-2xl font-bold mb-4">Pagination</h2>
+            <p class="text-mc-dark-gray-100 mb-6">Page navigation controls.</p>
+
+            <div class="mc-panel p-4">
+                <div class="mc-pagination mb-4">
+                    <div class="mc-page disabled">&lt;</div>
+                    <div class="mc-page active">1</div>
+                    <div class="mc-page">2</div>
+                    <div class="mc-page">3</div>
+                    <div class="mc-page">...</div>
+                    <div class="mc-page">10</div>
+                    <div class="mc-page">&gt;</div>
+                </div>
+                <div class="text-xs text-mc-dark-gray-100 font-mono">
+                    mc-pagination | mc-page | mc-page.active | mc-page.disabled
+                </div>
+            </div>
+        </section>
+
+        <!-- Spinner -->
+        <section class="mb-12">
+            <h2 class="text-2xl font-bold mb-4">Spinner</h2>
+            <p class="text-mc-dark-gray-100 mb-6">Loading indicators.</p>
+
+            <div class="mc-panel p-4">
+                <div class="flex flex-wrap items-center gap-6 mb-4">
+                    <div class="flex items-center gap-2">
+                        <div class="mc-spinner mc-spinner-sm"></div>
+                        <span class="text-sm">Small</span>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <div class="mc-spinner"></div>
+                        <span class="text-sm">Default</span>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <div class="mc-spinner mc-spinner-lg"></div>
+                        <span class="text-sm">Large</span>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <div class="mc-spinner mc-spinner-xl"></div>
+                        <span class="text-sm">XL</span>
+                    </div>
+                </div>
+                <div class="flex flex-wrap items-center gap-6 mb-4">
+                    <div class="flex items-center gap-2">
+                        <div class="mc-spinner mc-spinner-success"></div>
+                        <span class="text-sm">Success</span>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <div class="mc-spinner mc-spinner-danger"></div>
+                        <span class="text-sm">Danger</span>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <div class="mc-spinner mc-spinner-warning"></div>
+                        <span class="text-sm">Warning</span>
+                    </div>
+                </div>
+                <div class="text-xs text-mc-dark-gray-100 font-mono">
+                    mc-spinner | mc-spinner-[sm|lg|xl] | mc-spinner-[success|danger|warning]
+                </div>
+            </div>
+        </section>
+
+        <!-- List Group -->
+        <section class="mb-12">
+            <h2 class="text-2xl font-bold mb-4">List Group</h2>
+            <p class="text-mc-dark-gray-100 mb-6">Grouped list items.</p>
+
+            <div class="mc-panel p-4">
+                <div class="mc-list-group mb-4" style="max-width: 300px;">
+                    <div class="mc-list-item">First item</div>
+                    <div class="mc-list-item active">Active item</div>
+                    <div class="mc-list-item">Third item</div>
+                    <div class="mc-list-item disabled">Disabled item</div>
+                    <div class="mc-list-item">Last item</div>
+                </div>
+                <div class="text-xs text-mc-dark-gray-100 font-mono">
+                    mc-list-group | mc-list-item | .active | .disabled
+                </div>
+            </div>
+        </section>
+
+        <!-- Avatar -->
+        <section class="mb-12">
+            <h2 class="text-2xl font-bold mb-4">Avatar</h2>
+            <p class="text-mc-dark-gray-100 mb-6">User profile avatars with initials.</p>
+
+            <div class="mc-panel p-4">
+                <div class="flex flex-wrap items-center gap-4 mb-4">
+                    <div class="mc-avatar mc-avatar-sm">SM</div>
+                    <div class="mc-avatar">JD</div>
+                    <div class="mc-avatar mc-avatar-lg">LG</div>
+                    <div class="mc-avatar mc-avatar-xl">XL</div>
+                </div>
+                <div class="text-xs text-mc-dark-gray-100 font-mono">
+                    mc-avatar | mc-avatar-[sm|lg|xl]
+                </div>
+            </div>
+        </section>
+
+        <!-- Code & Kbd -->
+        <section class="mb-12">
+            <h2 class="text-2xl font-bold mb-4">Code & Keyboard</h2>
+            <p class="text-mc-dark-gray-100 mb-6">Code blocks and keyboard shortcuts.</p>
+
+            <div class="mc-panel p-4 mb-4">
+                <h3 class="text-sm font-semibold tracking-wider uppercase text-mc-dark-gray-50 mb-4">Inline Code</h3>
+                <p class="text-sm mb-4">
+                    Run <code class="mc-code-inline">npm install</code> to install dependencies, then <code class="mc-code-inline">npm start</code> to run.
+                </p>
+                <div class="text-xs text-mc-dark-gray-100 font-mono">
+                    mc-code-inline
+                </div>
+            </div>
+
+            <div class="mc-panel p-4 mb-4">
+                <h3 class="text-sm font-semibold tracking-wider uppercase text-mc-dark-gray-50 mb-4">Code Block</h3>
+<pre class="mc-code mb-4">const config = {
+  theme: 'dark',
+  colors: ['#090909', '#171717'],
+  enabled: true
+};</pre>
+                <div class="text-xs text-mc-dark-gray-100 font-mono">
+                    mc-code (on pre element)
+                </div>
+            </div>
+
+            <div class="mc-panel p-4">
+                <h3 class="text-sm font-semibold tracking-wider uppercase text-mc-dark-gray-50 mb-4">Keyboard Shortcuts</h3>
+                <p class="text-sm mb-4">
+                    Press <kbd class="mc-kbd">Ctrl</kbd> + <kbd class="mc-kbd">C</kbd> to copy, <kbd class="mc-kbd">Ctrl</kbd> + <kbd class="mc-kbd">V</kbd> to paste.
+                </p>
+                <div class="text-xs text-mc-dark-gray-100 font-mono">
+                    mc-kbd
+                </div>
+            </div>
+        </section>
+
+        <!-- Close Button -->
+        <section class="mb-12">
+            <h2 class="text-2xl font-bold mb-4">Close Button</h2>
+            <p class="text-mc-dark-gray-100 mb-6">Dismissible element close buttons.</p>
+
+            <div class="mc-panel p-4">
+                <div class="flex flex-wrap items-center gap-6 mb-4">
+                    <div class="flex items-center gap-2">
+                        <span class="mc-close mc-close-sm"></span>
+                        <span class="text-sm">Small</span>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <span class="mc-close"></span>
+                        <span class="text-sm">Default</span>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <span class="mc-close mc-close-lg"></span>
+                        <span class="text-sm">Large</span>
+                    </div>
+                </div>
+                <div class="mc-alert mc-alert-info mb-4">
+                    <span>&#8505;</span>
+                    <span class="flex-1">Dismissible alert example</span>
+                    <span class="mc-close mc-close-sm"></span>
+                </div>
+                <div class="text-xs text-mc-dark-gray-100 font-mono">
+                    mc-close | mc-close-[sm|lg]
+                </div>
+            </div>
+        </section>
+
+        <!-- Form Validation -->
+        <section class="mb-12">
+            <h2 class="text-2xl font-bold mb-4">Form Validation</h2>
+            <p class="text-mc-dark-gray-100 mb-6">Input validation states.</p>
+
+            <div class="mc-panel p-4">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-4">
+                    <div>
+                        <label class="mc-label">Error State</label>
+                        <input class="mc-input mc-input-md mc-input-dark-gray mc-input-error w-full" value="invalid@email">
+                        <p class="mc-error-text">Please enter a valid email address</p>
+                    </div>
+                    <div>
+                        <label class="mc-label">Success State</label>
+                        <input class="mc-input mc-input-md mc-input-dark-gray mc-input-success w-full" value="valid@email.com">
+                        <p class="mc-success-text">Email address looks good!</p>
+                    </div>
+                </div>
+                <div class="text-xs text-mc-dark-gray-100 font-mono">
+                    mc-input-error | mc-input-success | mc-error-text | mc-success-text
                 </div>
             </div>
         </section>
@@ -507,6 +801,26 @@
                             <td>-</td>
                         </tr>
                         <tr>
+                            <td class="text-white">Radio</td>
+                            <td>mc-radio</td>
+                            <td>-</td>
+                        </tr>
+                        <tr>
+                            <td class="text-white">Switch</td>
+                            <td>mc-switch</td>
+                            <td>mc-switch-[success|danger|warning]</td>
+                        </tr>
+                        <tr>
+                            <td class="text-white">Textarea</td>
+                            <td>mc-textarea</td>
+                            <td>mc-textarea-mono</td>
+                        </tr>
+                        <tr>
+                            <td class="text-white">Input Group</td>
+                            <td>mc-input-group</td>
+                            <td>mc-input-addon</td>
+                        </tr>
+                        <tr>
                             <td class="text-white">Label</td>
                             <td>mc-label</td>
                             <td>-</td>
@@ -560,6 +874,51 @@
                             <td class="text-white">Text</td>
                             <td>-</td>
                             <td>mc-text-positive mc-text-negative mc-text-muted mc-text-label</td>
+                        </tr>
+                        <tr>
+                            <td class="text-white">Breadcrumb</td>
+                            <td>mc-breadcrumb</td>
+                            <td>mc-breadcrumb-item mc-breadcrumb-separator</td>
+                        </tr>
+                        <tr>
+                            <td class="text-white">Pagination</td>
+                            <td>mc-pagination</td>
+                            <td>mc-page mc-page.active mc-page.disabled</td>
+                        </tr>
+                        <tr>
+                            <td class="text-white">Spinner</td>
+                            <td>mc-spinner</td>
+                            <td>mc-spinner-[sm|lg|xl] mc-spinner-[success|danger|warning]</td>
+                        </tr>
+                        <tr>
+                            <td class="text-white">List Group</td>
+                            <td>mc-list-group</td>
+                            <td>mc-list-item mc-list-item.active mc-list-item.disabled</td>
+                        </tr>
+                        <tr>
+                            <td class="text-white">Avatar</td>
+                            <td>mc-avatar</td>
+                            <td>mc-avatar-[sm|lg|xl]</td>
+                        </tr>
+                        <tr>
+                            <td class="text-white">Code</td>
+                            <td>mc-code</td>
+                            <td>mc-code-inline</td>
+                        </tr>
+                        <tr>
+                            <td class="text-white">Keyboard</td>
+                            <td>mc-kbd</td>
+                            <td>-</td>
+                        </tr>
+                        <tr>
+                            <td class="text-white">Close</td>
+                            <td>mc-close</td>
+                            <td>mc-close-[sm|lg]</td>
+                        </tr>
+                        <tr>
+                            <td class="text-white">Validation</td>
+                            <td>-</td>
+                            <td>mc-input-error mc-input-success mc-error-text mc-success-text</td>
                         </tr>
                     </tbody>
                 </table>

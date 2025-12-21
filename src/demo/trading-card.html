@@ -1,0 +1,640 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MC Perception - Trading Card</title>
+    <link rel="stylesheet" href="../dist/mcperception.css">
+    <style>
+        /* ========================================
+           FULL TRADING CARD (Multi-Section)
+        ======================================== */
+        .full-trade-card {
+            @apply bg-mc-dark-gray-800 border border-mc-dark-gray-700 rounded-lg overflow-hidden;
+            width: 380px;
+        }
+
+        /* Section 1: Header with pair and last price */
+        .ftc-header {
+            @apply flex items-center justify-between p-4 border-b border-mc-dark-gray-700;
+        }
+
+        .ftc-pair {
+            @apply flex items-center gap-3;
+        }
+
+        .ftc-pair-icon {
+            @apply w-10 h-10 rounded-full flex items-center justify-center text-lg font-bold;
+        }
+
+        .ftc-pair-name {
+            @apply text-lg font-semibold;
+        }
+
+        .ftc-pair-quote {
+            @apply text-mc-dark-gray-100;
+        }
+
+        .ftc-last-price {
+            @apply text-right;
+        }
+
+        .ftc-last-value {
+            @apply text-xl font-mono font-bold text-white;
+        }
+
+        .ftc-last-change {
+            @apply text-sm font-mono;
+        }
+
+        /* Section 2: Chart (optional) */
+        .ftc-chart {
+            @apply bg-black border-b border-mc-dark-gray-700 p-3;
+        }
+
+        .ftc-chart-container {
+            @apply h-24 relative;
+        }
+
+        .ftc-chart-toggle {
+            @apply flex items-center justify-between mb-2;
+        }
+
+        .chart-line {
+            stroke: var(--color-mc-light-blue-400);
+            stroke-width: 2;
+            fill: none;
+        }
+
+        .chart-line-positive {
+            stroke: var(--color-mc-light-green-500);
+        }
+
+        .chart-line-negative {
+            stroke: var(--color-mc-light-red-400);
+        }
+
+        /* Section 3: Price Display */
+        .ftc-prices {
+            @apply flex items-stretch p-4 gap-0;
+        }
+
+        .ftc-price-box {
+            @apply flex-1 bg-black rounded-lg p-3 text-center;
+        }
+
+        .ftc-price-box-sell {
+            @apply rounded-r-none border-r border-mc-dark-gray-700;
+        }
+
+        .ftc-price-box-buy {
+            @apply rounded-l-none;
+        }
+
+        .ftc-price-prefix {
+            @apply text-xs text-mc-dark-gray-100 font-mono;
+        }
+
+        .ftc-price-main {
+            @apply text-3xl font-bold font-mono text-white leading-none;
+        }
+
+        .ftc-price-decimal {
+            @apply text-lg font-mono text-mc-dark-gray-100;
+        }
+
+        .ftc-price-label {
+            @apply text-xs font-semibold mt-1;
+        }
+
+        /* Section 4: Trade Actions */
+        .ftc-actions {
+            @apply px-4 pb-4;
+        }
+
+        .ftc-quantity-row {
+            @apply flex items-center gap-2 mb-3;
+        }
+
+        .ftc-quantity-input {
+            @apply flex-1;
+        }
+
+        .ftc-currency-toggle {
+            @apply flex bg-mc-dark-gray-700 rounded overflow-hidden;
+        }
+
+        .ftc-currency-btn {
+            @apply px-3 py-1.5 text-xs font-semibold cursor-pointer transition-colors;
+        }
+
+        .ftc-currency-btn.active {
+            @apply bg-mc-dark-blue-600 text-white;
+        }
+
+        .ftc-currency-btn:not(.active) {
+            @apply text-mc-dark-gray-100 hover:text-white;
+        }
+
+        .ftc-buttons {
+            @apply flex gap-2;
+        }
+
+        .ftc-btn-sell {
+            @apply flex-1 py-3 rounded font-semibold text-sm tracking-wider
+                   bg-mc-dark-red-600 text-white border border-mc-dark-red-500
+                   hover:bg-mc-dark-red-500 transition-colors cursor-pointer;
+        }
+
+        .ftc-btn-buy {
+            @apply flex-1 py-3 rounded font-semibold text-sm tracking-wider
+                   bg-mc-dark-green-500 text-white border border-mc-dark-green-400
+                   hover:bg-mc-dark-green-400 transition-colors cursor-pointer;
+        }
+
+        /* Section 5: Orderbook */
+        .ftc-orderbook {
+            @apply border-t border-mc-dark-gray-700;
+        }
+
+        .ftc-orderbook-header {
+            @apply flex items-center justify-between px-4 py-2 bg-mc-dark-gray-700/50;
+        }
+
+        .ftc-orderbook-title {
+            @apply text-xs font-semibold uppercase tracking-wider text-mc-dark-gray-50;
+        }
+
+        .ftc-orderbook-cols {
+            @apply flex text-xs text-mc-dark-gray-100 px-4 py-1.5 border-b border-mc-dark-gray-700;
+        }
+
+        .ftc-ob-col {
+            @apply flex-1;
+        }
+
+        .ftc-ob-row {
+            @apply flex text-xs font-mono py-1 px-4 relative;
+        }
+
+        .ftc-ob-row-ask {
+            @apply bg-mc-dark-red-900/20;
+        }
+
+        .ftc-ob-row-bid {
+            @apply bg-mc-dark-green-900/20;
+        }
+
+        .ftc-ob-bar {
+            @apply absolute inset-y-0 right-0 opacity-30;
+        }
+
+        .ftc-ob-bar-ask {
+            @apply bg-mc-dark-red-600;
+        }
+
+        .ftc-ob-bar-bid {
+            @apply bg-mc-dark-green-600;
+        }
+
+        .ftc-ob-price {
+            @apply flex-1 relative z-10;
+        }
+
+        .ftc-ob-size {
+            @apply flex-1 text-right relative z-10 text-white;
+        }
+
+        .ftc-ob-total {
+            @apply flex-1 text-right relative z-10 text-mc-dark-gray-100;
+        }
+
+        .ftc-spread-row {
+            @apply flex items-center justify-center py-2 bg-mc-dark-gray-700/30 text-xs;
+        }
+
+        /* Section 6: Depth Chart */
+        .ftc-depth {
+            @apply border-t border-mc-dark-gray-700 p-4;
+        }
+
+        .ftc-depth-header {
+            @apply flex items-center justify-between mb-2;
+        }
+
+        .ftc-depth-title {
+            @apply text-xs font-semibold uppercase tracking-wider text-mc-dark-gray-50;
+        }
+
+        .ftc-depth-chart {
+            @apply h-20 bg-black rounded relative overflow-hidden;
+        }
+
+        .ftc-depth-area-bids {
+            fill: var(--color-mc-dark-green-600);
+            fill-opacity: 0.4;
+        }
+
+        .ftc-depth-area-asks {
+            fill: var(--color-mc-dark-red-600);
+            fill-opacity: 0.4;
+        }
+
+        .ftc-depth-line-bids {
+            stroke: var(--color-mc-light-green-500);
+            stroke-width: 2;
+            fill: none;
+        }
+
+        .ftc-depth-line-asks {
+            stroke: var(--color-mc-light-red-400);
+            stroke-width: 2;
+            fill: none;
+        }
+
+        .ftc-depth-mid {
+            @apply absolute top-0 bottom-0 left-1/2 border-l border-dashed border-mc-dark-gray-500;
+        }
+
+        .ftc-depth-labels {
+            @apply flex justify-between text-xs text-mc-dark-gray-100 mt-1 font-mono;
+        }
+    </style>
+</head>
+<body class="bg-mc-dark-gray-900 min-h-screen text-white p-6">
+
+    <div class="max-w-7xl mx-auto">
+
+        <!-- Header -->
+        <div class="mb-8">
+            <h1 class="text-3xl font-bold mb-2">Trading Card</h1>
+            <p class="mc-text-muted text-sm">Full-featured trading card for cryptocurrency dashboards</p>
+            <div class="flex gap-4 text-sm mt-4">
+                <a href="index.html" class="text-mc-light-blue-400 hover:text-mc-light-blue-300">Documentation</a>
+                <a href="components.html" class="text-mc-light-blue-400 hover:text-mc-light-blue-300">Components</a>
+                <a href="orderbook.html" class="text-mc-light-blue-400 hover:text-mc-light-blue-300">Orderbook</a>
+            </div>
+        </div>
+
+        <!-- Full Trading Card -->
+        <h2 class="text-xl font-bold mb-4">Full Trading Card</h2>
+        <p class="text-mc-dark-gray-100 text-sm mb-6">Complete trading card with all sections: pair info, chart, prices, actions, orderbook, and depth chart.</p>
+
+        <div class="flex flex-wrap gap-6 mb-12">
+
+            <!-- BTC/USDT Full Trading Card -->
+            <div class="full-trade-card">
+
+                <!-- Section 1: Header - Pair and Last Price -->
+                <div class="ftc-header">
+                    <div class="ftc-pair">
+                        <div class="ftc-pair-icon bg-mc-dark-yellow-500 text-black">&#8383;</div>
+                        <div>
+                            <div class="ftc-pair-name">BTC <span class="ftc-pair-quote">/USDT</span></div>
+                            <div class="text-xs text-mc-dark-gray-100">Binance Spot</div>
+                        </div>
+                    </div>
+                    <div class="ftc-last-price">
+                        <div class="ftc-last-value">88,165.26</div>
+                        <div class="ftc-last-change mc-text-positive">+2.34%</div>
+                    </div>
+                </div>
+
+                <!-- Section 2: Line Chart (Optional - can be toggled) -->
+                <div class="ftc-chart">
+                    <div class="ftc-chart-toggle">
+                        <div class="mc-button-group">
+                            <button class="mc-button mc-button-xs mc-button-dark-gray">1H</button>
+                            <button class="mc-button mc-button-xs mc-button-primary">1D</button>
+                            <button class="mc-button mc-button-xs mc-button-dark-gray">1W</button>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <input type="checkbox" class="mc-switch mc-switch-success" id="chart-toggle-1" checked>
+                            <label for="chart-toggle-1" class="text-xs text-mc-dark-gray-100">Chart</label>
+                        </div>
+                    </div>
+                    <div class="ftc-chart-container">
+                        <svg width="100%" height="100%" viewBox="0 0 350 80" preserveAspectRatio="none">
+                            <polyline class="chart-line chart-line-positive" points="0,60 30,55 60,58 90,45 120,48 150,35 180,40 210,30 240,25 270,28 300,20 330,15 350,18"/>
+                        </svg>
+                    </div>
+                </div>
+
+                <!-- Section 3: Buy/Sell Price Display -->
+                <div class="ftc-prices">
+                    <div class="ftc-price-box ftc-price-box-sell">
+                        <div class="ftc-price-prefix">88,1</div>
+                        <div class="flex items-baseline justify-center">
+                            <span class="ftc-price-main">60</span>
+                            <span class="ftc-price-decimal">.86</span>
+                        </div>
+                        <div class="ftc-price-label mc-text-negative">SELL &#9660;</div>
+                    </div>
+                    <div class="ftc-price-box ftc-price-box-buy">
+                        <div class="ftc-price-prefix">88,1</div>
+                        <div class="flex items-baseline justify-center">
+                            <span class="ftc-price-main">65</span>
+                            <span class="ftc-price-decimal">.26</span>
+                        </div>
+                        <div class="ftc-price-label mc-text-positive">BUY &#9650;</div>
+                    </div>
+                </div>
+
+                <!-- Section 4: Trade Actions - Quantity, Currency Toggle, Buttons -->
+                <div class="ftc-actions">
+                    <div class="ftc-quantity-row">
+                        <div class="ftc-quantity-input">
+                            <div class="mc-input-group w-full">
+                                <span class="mc-input-addon">Qty</span>
+                                <input class="mc-input mc-input-sm mc-input-dark-gray mc-input-mono flex-1" value="0.001" style="min-width: 0;">
+                            </div>
+                        </div>
+                        <div class="ftc-currency-toggle">
+                            <span class="ftc-currency-btn active">BTC</span>
+                            <span class="ftc-currency-btn">USDT</span>
+                        </div>
+                    </div>
+                    <div class="ftc-buttons">
+                        <button class="ftc-btn-sell">SELL</button>
+                        <button class="ftc-btn-buy">BUY</button>
+                    </div>
+                </div>
+
+                <!-- Section 5: Orderbook -->
+                <div class="ftc-orderbook">
+                    <div class="ftc-orderbook-header">
+                        <span class="ftc-orderbook-title">Order Book</span>
+                        <span class="text-xs text-mc-dark-gray-100 font-mono">Spread: 4.40</span>
+                    </div>
+                    <div class="ftc-orderbook-cols">
+                        <span class="ftc-ob-col">Price</span>
+                        <span class="ftc-ob-col text-right">Size</span>
+                        <span class="ftc-ob-col text-right">Total</span>
+                    </div>
+                    <!-- Asks (sells) -->
+                    <div class="ftc-ob-row ftc-ob-row-ask">
+                        <div class="ftc-ob-bar ftc-ob-bar-ask" style="width: 85%;"></div>
+                        <span class="ftc-ob-price text-mc-light-red-400">88,168.50</span>
+                        <span class="ftc-ob-size">0.452</span>
+                        <span class="ftc-ob-total">1.892</span>
+                    </div>
+                    <div class="ftc-ob-row ftc-ob-row-ask">
+                        <div class="ftc-ob-bar ftc-ob-bar-ask" style="width: 65%;"></div>
+                        <span class="ftc-ob-price text-mc-light-red-400">88,167.20</span>
+                        <span class="ftc-ob-size">0.318</span>
+                        <span class="ftc-ob-total">1.440</span>
+                    </div>
+                    <div class="ftc-ob-row ftc-ob-row-ask">
+                        <div class="ftc-ob-bar ftc-ob-bar-ask" style="width: 45%;"></div>
+                        <span class="ftc-ob-price text-mc-light-red-400">88,166.00</span>
+                        <span class="ftc-ob-size">0.225</span>
+                        <span class="ftc-ob-total">1.122</span>
+                    </div>
+                    <div class="ftc-ob-row ftc-ob-row-ask">
+                        <div class="ftc-ob-bar ftc-ob-bar-ask" style="width: 30%;"></div>
+                        <span class="ftc-ob-price text-mc-light-red-400">88,165.26</span>
+                        <span class="ftc-ob-size">0.142</span>
+                        <span class="ftc-ob-total">0.897</span>
+                    </div>
+                    <!-- Spread -->
+                    <div class="ftc-spread-row">
+                        <span class="text-mc-dark-gray-100">Spread:</span>
+                        <span class="text-mc-light-cyan-300 font-mono ml-2">4.40</span>
+                        <span class="text-mc-dark-gray-100 font-mono ml-1">(0.005%)</span>
+                    </div>
+                    <!-- Bids (buys) -->
+                    <div class="ftc-ob-row ftc-ob-row-bid">
+                        <div class="ftc-ob-bar ftc-ob-bar-bid" style="width: 35%;"></div>
+                        <span class="ftc-ob-price text-mc-light-green-500">88,160.86</span>
+                        <span class="ftc-ob-size">0.178</span>
+                        <span class="ftc-ob-total">0.178</span>
+                    </div>
+                    <div class="ftc-ob-row ftc-ob-row-bid">
+                        <div class="ftc-ob-bar ftc-ob-bar-bid" style="width: 55%;"></div>
+                        <span class="ftc-ob-price text-mc-light-green-500">88,159.50</span>
+                        <span class="ftc-ob-size">0.285</span>
+                        <span class="ftc-ob-total">0.463</span>
+                    </div>
+                    <div class="ftc-ob-row ftc-ob-row-bid">
+                        <div class="ftc-ob-bar ftc-ob-bar-bid" style="width: 70%;"></div>
+                        <span class="ftc-ob-price text-mc-light-green-500">88,158.30</span>
+                        <span class="ftc-ob-size">0.392</span>
+                        <span class="ftc-ob-total">0.855</span>
+                    </div>
+                    <div class="ftc-ob-row ftc-ob-row-bid">
+                        <div class="ftc-ob-bar ftc-ob-bar-bid" style="width: 90%;"></div>
+                        <span class="ftc-ob-price text-mc-light-green-500">88,157.00</span>
+                        <span class="ftc-ob-size">0.512</span>
+                        <span class="ftc-ob-total">1.367</span>
+                    </div>
+                </div>
+
+                <!-- Section 6: Depth Chart -->
+                <div class="ftc-depth">
+                    <div class="ftc-depth-header">
+                        <span class="ftc-depth-title">Depth Chart</span>
+                        <span class="text-xs text-mc-dark-gray-100">&#177;2%</span>
+                    </div>
+                    <div class="ftc-depth-chart">
+                        <div class="ftc-depth-mid"></div>
+                        <svg width="100%" height="100%" viewBox="0 0 200 80" preserveAspectRatio="none">
+                            <!-- Bids area (left side) -->
+                            <polygon class="ftc-depth-area-bids" points="0,75 20,72 40,65 60,55 80,40 100,20 100,80 0,80"/>
+                            <polyline class="ftc-depth-line-bids" points="0,75 20,72 40,65 60,55 80,40 100,20"/>
+                            <!-- Asks area (right side) -->
+                            <polygon class="ftc-depth-area-asks" points="100,20 120,38 140,52 160,62 180,70 200,75 200,80 100,80"/>
+                            <polyline class="ftc-depth-line-asks" points="100,20 120,38 140,52 160,62 180,70 200,75"/>
+                        </svg>
+                    </div>
+                    <div class="ftc-depth-labels">
+                        <span>86,482</span>
+                        <span class="text-white">88,163</span>
+                        <span>89,846</span>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- ETH/USDT Full Trading Card (Chart Disabled) -->
+            <div class="full-trade-card">
+
+                <!-- Section 1: Header -->
+                <div class="ftc-header">
+                    <div class="ftc-pair">
+                        <div class="ftc-pair-icon bg-mc-dark-blue-400 text-white">&#9830;</div>
+                        <div>
+                            <div class="ftc-pair-name">ETH <span class="ftc-pair-quote">/USDT</span></div>
+                            <div class="text-xs text-mc-dark-gray-100">Binance Spot</div>
+                        </div>
+                    </div>
+                    <div class="ftc-last-price">
+                        <div class="ftc-last-value">2,972.58</div>
+                        <div class="ftc-last-change mc-text-negative">-1.28%</div>
+                    </div>
+                </div>
+
+                <!-- Section 2: Chart Toggle (Disabled state - hidden) -->
+
+                <!-- Section 3: Buy/Sell Price Display -->
+                <div class="ftc-prices">
+                    <div class="ftc-price-box ftc-price-box-sell">
+                        <div class="ftc-price-prefix">2,972.</div>
+                        <div class="flex items-baseline justify-center">
+                            <span class="ftc-price-main">28</span>
+                        </div>
+                        <div class="ftc-price-label mc-text-negative">SELL &#9660;</div>
+                    </div>
+                    <div class="ftc-price-box ftc-price-box-buy">
+                        <div class="ftc-price-prefix">2,972.</div>
+                        <div class="flex items-baseline justify-center">
+                            <span class="ftc-price-main">58</span>
+                        </div>
+                        <div class="ftc-price-label mc-text-positive">BUY &#9650;</div>
+                    </div>
+                </div>
+
+                <!-- Section 4: Trade Actions -->
+                <div class="ftc-actions">
+                    <div class="ftc-quantity-row">
+                        <div class="ftc-quantity-input">
+                            <div class="mc-input-group w-full">
+                                <span class="mc-input-addon">Qty</span>
+                                <input class="mc-input mc-input-sm mc-input-dark-gray mc-input-mono flex-1" value="0.5" style="min-width: 0;">
+                            </div>
+                        </div>
+                        <div class="ftc-currency-toggle">
+                            <span class="ftc-currency-btn">ETH</span>
+                            <span class="ftc-currency-btn active">USDT</span>
+                        </div>
+                    </div>
+                    <div class="ftc-buttons">
+                        <button class="ftc-btn-sell">SELL</button>
+                        <button class="ftc-btn-buy">BUY</button>
+                    </div>
+                </div>
+
+                <!-- Section 5: Orderbook -->
+                <div class="ftc-orderbook">
+                    <div class="ftc-orderbook-header">
+                        <span class="ftc-orderbook-title">Order Book</span>
+                        <span class="text-xs text-mc-dark-gray-100 font-mono">Spread: 0.30</span>
+                    </div>
+                    <div class="ftc-orderbook-cols">
+                        <span class="ftc-ob-col">Price</span>
+                        <span class="ftc-ob-col text-right">Size</span>
+                        <span class="ftc-ob-col text-right">Total</span>
+                    </div>
+                    <!-- Asks -->
+                    <div class="ftc-ob-row ftc-ob-row-ask">
+                        <div class="ftc-ob-bar ftc-ob-bar-ask" style="width: 75%;"></div>
+                        <span class="ftc-ob-price text-mc-light-red-400">2,974.50</span>
+                        <span class="ftc-ob-size">12.45</span>
+                        <span class="ftc-ob-total">45.82</span>
+                    </div>
+                    <div class="ftc-ob-row ftc-ob-row-ask">
+                        <div class="ftc-ob-bar ftc-ob-bar-ask" style="width: 55%;"></div>
+                        <span class="ftc-ob-price text-mc-light-red-400">2,973.80</span>
+                        <span class="ftc-ob-size">8.92</span>
+                        <span class="ftc-ob-total">33.37</span>
+                    </div>
+                    <div class="ftc-ob-row ftc-ob-row-ask">
+                        <div class="ftc-ob-bar ftc-ob-bar-ask" style="width: 35%;"></div>
+                        <span class="ftc-ob-price text-mc-light-red-400">2,972.58</span>
+                        <span class="ftc-ob-size">5.20</span>
+                        <span class="ftc-ob-total">24.45</span>
+                    </div>
+                    <!-- Spread -->
+                    <div class="ftc-spread-row">
+                        <span class="text-mc-dark-gray-100">Spread:</span>
+                        <span class="text-mc-light-cyan-300 font-mono ml-2">0.30</span>
+                        <span class="text-mc-dark-gray-100 font-mono ml-1">(0.01%)</span>
+                    </div>
+                    <!-- Bids -->
+                    <div class="ftc-ob-row ftc-ob-row-bid">
+                        <div class="ftc-ob-bar ftc-ob-bar-bid" style="width: 40%;"></div>
+                        <span class="ftc-ob-price text-mc-light-green-500">2,972.28</span>
+                        <span class="ftc-ob-size">6.15</span>
+                        <span class="ftc-ob-total">6.15</span>
+                    </div>
+                    <div class="ftc-ob-row ftc-ob-row-bid">
+                        <div class="ftc-ob-bar ftc-ob-bar-bid" style="width: 60%;"></div>
+                        <span class="ftc-ob-price text-mc-light-green-500">2,971.50</span>
+                        <span class="ftc-ob-size">9.80</span>
+                        <span class="ftc-ob-total">15.95</span>
+                    </div>
+                    <div class="ftc-ob-row ftc-ob-row-bid">
+                        <div class="ftc-ob-bar ftc-ob-bar-bid" style="width: 80%;"></div>
+                        <span class="ftc-ob-price text-mc-light-green-500">2,970.80</span>
+                        <span class="ftc-ob-size">14.25</span>
+                        <span class="ftc-ob-total">30.20</span>
+                    </div>
+                </div>
+
+                <!-- Section 6: Depth Chart -->
+                <div class="ftc-depth">
+                    <div class="ftc-depth-header">
+                        <span class="ftc-depth-title">Depth Chart</span>
+                        <span class="text-xs text-mc-dark-gray-100">&#177;2%</span>
+                    </div>
+                    <div class="ftc-depth-chart">
+                        <div class="ftc-depth-mid"></div>
+                        <svg width="100%" height="100%" viewBox="0 0 200 80" preserveAspectRatio="none">
+                            <polygon class="ftc-depth-area-bids" points="0,70 25,65 50,55 75,42 100,25 100,80 0,80"/>
+                            <polyline class="ftc-depth-line-bids" points="0,70 25,65 50,55 75,42 100,25"/>
+                            <polygon class="ftc-depth-area-asks" points="100,25 125,45 150,58 175,68 200,72 200,80 100,80"/>
+                            <polyline class="ftc-depth-line-asks" points="100,25 125,45 150,58 175,68 200,72"/>
+                        </svg>
+                    </div>
+                    <div class="ftc-depth-labels">
+                        <span>2,913</span>
+                        <span class="text-white">2,972</span>
+                        <span>3,032</span>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- CSS Classes Reference -->
+        <h2 class="text-xl font-bold mb-4">CSS Classes Reference</h2>
+        <div class="mc-panel p-4">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                    <h3 class="text-sm font-semibold tracking-wider uppercase text-mc-dark-gray-50 mb-3">Structure</h3>
+                    <div class="text-xs font-mono space-y-1 text-mc-dark-gray-100">
+                        <div><span class="text-mc-light-cyan-300">.full-trade-card</span> - Main container</div>
+                        <div><span class="text-mc-light-cyan-300">.ftc-header</span> - Pair & last price</div>
+                        <div><span class="text-mc-light-cyan-300">.ftc-chart</span> - Line chart section</div>
+                        <div><span class="text-mc-light-cyan-300">.ftc-prices</span> - Sell/Buy prices</div>
+                        <div><span class="text-mc-light-cyan-300">.ftc-actions</span> - Trade actions</div>
+                        <div><span class="text-mc-light-cyan-300">.ftc-orderbook</span> - Order book</div>
+                        <div><span class="text-mc-light-cyan-300">.ftc-depth</span> - Depth chart</div>
+                    </div>
+                </div>
+                <div>
+                    <h3 class="text-sm font-semibold tracking-wider uppercase text-mc-dark-gray-50 mb-3">Components</h3>
+                    <div class="text-xs font-mono space-y-1 text-mc-dark-gray-100">
+                        <div><span class="text-mc-light-cyan-300">.ftc-price-box</span> - Price container</div>
+                        <div><span class="text-mc-light-cyan-300">.ftc-price-main</span> - Large price number</div>
+                        <div><span class="text-mc-light-cyan-300">.ftc-price-decimal</span> - Decimal portion</div>
+                        <div><span class="text-mc-light-cyan-300">.ftc-btn-buy/sell</span> - Action buttons</div>
+                        <div><span class="text-mc-light-cyan-300">.ftc-currency-toggle</span> - BTC/USDT toggle</div>
+                        <div><span class="text-mc-light-cyan-300">.ftc-ob-row</span> - Orderbook row</div>
+                        <div><span class="text-mc-light-cyan-300">.ftc-depth-chart</span> - Depth SVG container</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="mt-8 pt-4 border-t border-mc-dark-gray-700 text-center">
+            <p class="mc-text-muted text-xs">
+                MC Perception Design System - Apache License 2.0
+            </p>
+        </div>
+
+    </div>
+
+</body>
+</html>

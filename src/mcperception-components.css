@@ -274,4 +274,386 @@
     .mc-skeleton-circle {
         @apply rounded-full bg-mc-dark-gray-700 animate-pulse;
     }
+
+    /* ======================================
+       RADIO BUTTON
+       Styled radio inputs matching checkbox style
+    ======================================= */
+    .mc-radio {
+        @apply w-4 h-4 bg-black border border-mc-dark-gray-700 rounded-full
+               cursor-pointer appearance-none relative
+               transition-colors duration-150;
+    }
+
+    .mc-radio:checked {
+        @apply bg-mc-dark-blue-600 border-mc-dark-blue-400;
+    }
+
+    .mc-radio:checked::after {
+        content: '';
+        @apply absolute rounded-full bg-white;
+        left: 4px;
+        top: 4px;
+        width: 6px;
+        height: 6px;
+    }
+
+    .mc-radio:focus {
+        @apply ring-1 ring-mc-dark-gray-400 ring-offset-1;
+    }
+
+    /* ======================================
+       SWITCH / TOGGLE
+       On/off toggle control (CSS only)
+    ======================================= */
+    .mc-switch {
+        @apply w-10 h-5 bg-mc-dark-gray-600 rounded-full cursor-pointer
+               appearance-none relative transition-colors duration-200;
+    }
+
+    .mc-switch::after {
+        content: '';
+        @apply absolute bg-white rounded-full transition-transform duration-200;
+        left: 2px;
+        top: 2px;
+        width: 16px;
+        height: 16px;
+    }
+
+    .mc-switch:checked {
+        @apply bg-mc-dark-blue-600;
+    }
+
+    .mc-switch:checked::after {
+        transform: translateX(20px);
+    }
+
+    .mc-switch:focus {
+        @apply ring-1 ring-mc-dark-gray-400 ring-offset-1;
+    }
+
+    /* Switch color variants */
+    .mc-switch-success:checked {
+        @apply bg-mc-dark-green-500;
+    }
+
+    .mc-switch-danger:checked {
+        @apply bg-mc-dark-red-600;
+    }
+
+    .mc-switch-warning:checked {
+        @apply bg-mc-dark-yellow-500;
+    }
+
+    /* ======================================
+       TEXTAREA
+       Multi-line text input
+    ======================================= */
+    .mc-textarea {
+        @apply bg-black border border-mc-dark-gray-700 text-white
+               font-semibold font-condensed tracking-wider
+               p-3 rounded outline-none resize-y min-h-24
+               transition-colors duration-150
+               placeholder-mc-dark-gray-200
+               focus:border-mc-dark-gray-500 focus:ring-1 focus:ring-mc-dark-gray-400;
+    }
+
+    .mc-textarea-mono {
+        @apply font-mono;
+    }
+
+    /* ======================================
+       INPUT GROUP
+       Input with prefix/suffix addons
+    ======================================= */
+    .mc-input-group {
+        @apply inline-flex;
+    }
+
+    .mc-input-group .mc-input {
+        @apply rounded-none;
+    }
+
+    .mc-input-group .mc-input:first-child {
+        @apply rounded-l;
+    }
+
+    .mc-input-group .mc-input:last-child {
+        @apply rounded-r;
+    }
+
+    .mc-input-addon {
+        @apply bg-mc-dark-gray-700 border border-mc-dark-gray-600 text-mc-dark-gray-50
+               px-3 flex items-center text-sm font-semibold tracking-wider;
+    }
+
+    .mc-input-addon:first-child {
+        @apply rounded-l border-r-0;
+    }
+
+    .mc-input-addon:last-child {
+        @apply rounded-r border-l-0;
+    }
+
+    /* ======================================
+       BREADCRUMB
+       Navigation path
+    ======================================= */
+    .mc-breadcrumb {
+        @apply flex items-center gap-2 text-sm;
+    }
+
+    .mc-breadcrumb-item {
+        @apply text-mc-dark-gray-100 hover:text-white transition-colors duration-150;
+    }
+
+    .mc-breadcrumb-item.active {
+        @apply text-white cursor-default;
+    }
+
+    .mc-breadcrumb-separator {
+        @apply text-mc-dark-gray-300;
+    }
+
+    /* ======================================
+       PAGINATION
+       Page navigation
+    ======================================= */
+    .mc-pagination {
+        @apply inline-flex;
+    }
+
+    .mc-page {
+        @apply w-8 h-8 flex items-center justify-center
+               bg-mc-dark-gray-700 border border-mc-dark-gray-600 text-mc-dark-gray-50
+               text-xs font-semibold cursor-pointer
+               transition-colors duration-150
+               hover:bg-mc-dark-gray-600 hover:text-white;
+    }
+
+    .mc-page:first-child {
+        @apply rounded-l;
+    }
+
+    .mc-page:last-child {
+        @apply rounded-r;
+    }
+
+    .mc-page:not(:last-child) {
+        @apply border-r-0;
+    }
+
+    .mc-page.active {
+        @apply bg-mc-dark-blue-600 border-mc-dark-blue-400 text-white;
+    }
+
+    .mc-page.disabled {
+        @apply opacity-50 cursor-not-allowed hover:bg-mc-dark-gray-700 hover:text-mc-dark-gray-50;
+    }
+
+    /* ======================================
+       SPINNER
+       Loading indicator (CSS animation)
+    ======================================= */
+    .mc-spinner {
+        @apply w-5 h-5 border-2 border-mc-dark-gray-600 border-t-mc-light-blue-400
+               rounded-full animate-spin;
+    }
+
+    .mc-spinner-sm {
+        @apply w-4 h-4;
+    }
+
+    .mc-spinner-lg {
+        @apply w-8 h-8 border-3;
+    }
+
+    .mc-spinner-xl {
+        @apply w-12 h-12 border-4;
+    }
+
+    /* Spinner color variants */
+    .mc-spinner-success {
+        @apply border-t-mc-light-green-500;
+    }
+
+    .mc-spinner-danger {
+        @apply border-t-mc-light-red-400;
+    }
+
+    .mc-spinner-warning {
+        @apply border-t-mc-light-yellow-100;
+    }
+
+    /* ======================================
+       LIST GROUP
+       Styled list items
+    ======================================= */
+    .mc-list-group {
+        @apply border border-mc-dark-gray-700 rounded overflow-hidden;
+    }
+
+    .mc-list-item {
+        @apply bg-mc-dark-gray-800 px-4 py-3 text-sm border-b border-mc-dark-gray-700
+               transition-colors duration-150;
+    }
+
+    .mc-list-item:last-child {
+        @apply border-b-0;
+    }
+
+    .mc-list-item:hover {
+        @apply bg-mc-dark-gray-700;
+    }
+
+    .mc-list-item.active {
+        @apply bg-mc-dark-blue-700 border-mc-dark-blue-600;
+    }
+
+    .mc-list-item.disabled {
+        @apply opacity-50 cursor-not-allowed hover:bg-mc-dark-gray-800;
+    }
+
+    /* ======================================
+       CLOSE BUTTON
+       Dismiss/close button
+    ======================================= */
+    .mc-close {
+        @apply w-6 h-6 flex items-center justify-center
+               text-mc-dark-gray-100 hover:text-white
+               cursor-pointer transition-colors duration-150;
+    }
+
+    .mc-close::before {
+        content: '\00d7';
+        @apply text-xl leading-none;
+    }
+
+    .mc-close-sm {
+        @apply w-4 h-4;
+    }
+
+    .mc-close-sm::before {
+        @apply text-base;
+    }
+
+    .mc-close-lg {
+        @apply w-8 h-8;
+    }
+
+    .mc-close-lg::before {
+        @apply text-2xl;
+    }
+
+    /* ======================================
+       AVATAR
+       User profile image placeholder
+    ======================================= */
+    .mc-avatar {
+        @apply w-10 h-10 rounded-full bg-mc-dark-gray-600 border border-mc-dark-gray-500
+               flex items-center justify-center text-sm font-semibold text-white
+               overflow-hidden;
+    }
+
+    .mc-avatar-sm {
+        @apply w-8 h-8 text-xs;
+    }
+
+    .mc-avatar-lg {
+        @apply w-14 h-14 text-lg;
+    }
+
+    .mc-avatar-xl {
+        @apply w-20 h-20 text-xl;
+    }
+
+    .mc-avatar img {
+        @apply w-full h-full object-cover;
+    }
+
+    /* ======================================
+       KBD (Keyboard Key)
+       Keyboard key styling
+    ======================================= */
+    .mc-kbd {
+        @apply inline-block px-2 py-0.5 bg-mc-dark-gray-700 border border-mc-dark-gray-600
+               rounded text-xs font-mono text-mc-dark-gray-50
+               shadow-sm;
+        box-shadow: inset 0 -2px 0 var(--color-mc-dark-gray-800);
+    }
+
+    /* ======================================
+       CODE BLOCK
+       Styled code snippets
+    ======================================= */
+    .mc-code {
+        @apply bg-black border border-mc-dark-gray-700 rounded p-4
+               font-mono text-sm text-mc-light-green-400 overflow-x-auto;
+    }
+
+    .mc-code-inline {
+        @apply bg-mc-dark-gray-700 px-1.5 py-0.5 rounded text-sm font-mono text-mc-light-cyan-300;
+    }
+
+    /* ======================================
+       BLOCKQUOTE
+       Styled quotes
+    ======================================= */
+    .mc-blockquote {
+        @apply border-l-4 border-mc-dark-gray-600 pl-4 py-2
+               text-mc-dark-gray-100 italic;
+    }
+
+    /* ======================================
+       HORIZONTAL RULE
+       Styled <hr>
+    ======================================= */
+    .mc-hr {
+        @apply h-px bg-mc-dark-gray-700 border-0 my-6;
+    }
+
+    .mc-hr-thick {
+        @apply h-0.5;
+    }
+
+    /* ======================================
+       BADGE PILL
+       Rounded badge variant
+    ======================================= */
+    .mc-badge-pill {
+        @apply rounded-full px-3;
+    }
+
+    /* ======================================
+       TABLE VARIANTS
+       Striped and compact tables
+    ======================================= */
+    .mc-table-striped tbody tr:nth-child(odd) td {
+        @apply bg-mc-dark-gray-800;
+    }
+
+    .mc-table-compact th,
+    .mc-table-compact td {
+        @apply py-1.5 px-2 text-xs;
+    }
+
+    /* ======================================
+       FORM VALIDATION STATES
+       Error/success input states
+    ======================================= */
+    .mc-input-error {
+        @apply border-mc-dark-red-500 focus:border-mc-dark-red-400 focus:ring-mc-dark-red-400;
+    }
+
+    .mc-input-success {
+        @apply border-mc-dark-green-500 focus:border-mc-dark-green-400 focus:ring-mc-dark-green-400;
+    }
+
+    .mc-error-text {
+        @apply text-mc-light-red-400 text-xs mt-1;
+    }
+
+    .mc-success-text {
+        @apply text-mc-light-green-400 text-xs mt-1;
+    }
 }

@@ -114,7 +114,7 @@ Available color families: `gray`, `red`, `green`, `blue`, `yellow`, `purple`, `c
 
 **Modifiers:** `mc-input-mono` (monospace for numbers)
 
-### Select & Checkbox
+### Select, Checkbox & Radio
 
 ```html
 <select class="mc-select">
@@ -122,6 +122,32 @@ Available color families: `gray`, `red`, `green`, `blue`, `yellow`, `purple`, `c
 </select>
 
 <input type="checkbox" class="mc-checkbox">
+<input type="radio" name="group" class="mc-radio">
+```
+
+### Switch / Toggle
+
+```html
+<input type="checkbox" class="mc-switch">
+<input type="checkbox" class="mc-switch mc-switch-success">
+<input type="checkbox" class="mc-switch mc-switch-danger">
+```
+
+### Textarea
+
+```html
+<textarea class="mc-textarea" placeholder="Enter text..."></textarea>
+<textarea class="mc-textarea mc-textarea-mono"></textarea>
+```
+
+### Input Group
+
+```html
+<div class="mc-input-group">
+  <span class="mc-input-addon">$</span>
+  <input class="mc-input mc-input-md mc-input-dark-gray" value="100.00">
+  <span class="mc-input-addon">USD</span>
+</div>
 ```
 
 ### Panels
@@ -223,6 +249,88 @@ Available color families: `gray`, `red`, `green`, `blue`, `yellow`, `purple`, `c
 <span class="mc-text-label">LABEL</span>
 ```
 
+### Breadcrumb
+
+```html
+<nav class="mc-breadcrumb">
+  <a class="mc-breadcrumb-item" href="#">Home</a>
+  <span class="mc-breadcrumb-separator">/</span>
+  <a class="mc-breadcrumb-item" href="#">Products</a>
+  <span class="mc-breadcrumb-separator">/</span>
+  <span class="mc-breadcrumb-item active">Details</span>
+</nav>
+```
+
+### Pagination
+
+```html
+<div class="mc-pagination">
+  <div class="mc-page disabled">&lt;</div>
+  <div class="mc-page active">1</div>
+  <div class="mc-page">2</div>
+  <div class="mc-page">3</div>
+  <div class="mc-page">&gt;</div>
+</div>
+```
+
+### Spinner
+
+```html
+<div class="mc-spinner"></div>
+<div class="mc-spinner mc-spinner-sm"></div>
+<div class="mc-spinner mc-spinner-lg mc-spinner-success"></div>
+```
+
+**Sizes:** `mc-spinner-sm` | `mc-spinner-lg` | `mc-spinner-xl`
+
+**Colors:** `mc-spinner-success` | `mc-spinner-danger` | `mc-spinner-warning`
+
+### List Group
+
+```html
+<div class="mc-list-group">
+  <div class="mc-list-item">Item 1</div>
+  <div class="mc-list-item active">Item 2 (active)</div>
+  <div class="mc-list-item">Item 3</div>
+</div>
+```
+
+### Avatar
+
+```html
+<div class="mc-avatar">JD</div>
+<div class="mc-avatar mc-avatar-sm">A</div>
+<div class="mc-avatar mc-avatar-lg"><img src="photo.jpg"></div>
+```
+
+**Sizes:** `mc-avatar-sm` | `mc-avatar-lg` | `mc-avatar-xl`
+
+### Code & Keyboard
+
+```html
+<code class="mc-code-inline">npm install</code>
+<pre class="mc-code">const x = 42;</pre>
+<kbd class="mc-kbd">Ctrl</kbd> + <kbd class="mc-kbd">C</kbd>
+```
+
+### Close Button
+
+```html
+<span class="mc-close"></span>
+<span class="mc-close mc-close-sm"></span>
+<span class="mc-close mc-close-lg"></span>
+```
+
+### Form Validation
+
+```html
+<input class="mc-input mc-input-md mc-input-dark-gray mc-input-error">
+<p class="mc-error-text">This field is required</p>
+
+<input class="mc-input mc-input-md mc-input-dark-gray mc-input-success">
+<p class="mc-success-text">Looks good!</p>
+```
+
 ---
 
 ## Typography
@@ -240,6 +348,7 @@ Available color families: `gray`, `red`, `green`, `blue`, `yellow`, `purple`, `c
 
 - [Component Library Documentation](src/demo/index.html)
 - [Component Showcase](src/demo/components.html)
+- [Crypto Trading Cards](src/demo/trading-card.html)
 - [Orderbook Demo](src/demo/orderbook.html)
 - [Panel Variants](src/demo/panel.html)
 - [Color Palette](src/demo/color.html)
