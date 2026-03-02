@@ -1,0 +1,755 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MC Perception - Text Fields &amp; Forms Style Guide</title>
+    <link rel="stylesheet" href="../dist/mcperception.css">
+    <style>
+        .guide-section { margin-bottom: 3rem; }
+        .guide-row { display: flex; flex-wrap: wrap; align-items: flex-start; gap: 0.75rem; margin-bottom: 1rem; }
+        .guide-card { background: #171717; border: 1px solid #222222; border-radius: 4px; padding: 1.5rem; margin-bottom: 1rem; }
+        .guide-note { font-size: 0.75rem; color: #7f7f7f; line-height: 1.6; margin-top: 0.5rem; }
+        .guide-do { border-left: 3px solid #1a6b1a; padding-left: 1rem; margin-bottom: 0.75rem; }
+        .guide-dont { border-left: 3px solid #8b0000; padding-left: 1rem; margin-bottom: 0.75rem; }
+        .guide-do-label { color: #4caf50; font-size: 0.65rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 0.25rem; }
+        .guide-dont-label { color: #ff5252; font-size: 0.65rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 0.25rem; }
+        .anatomy-label { font-size: 0.6rem; color: #b8b8b8; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; }
+        .code-block { background: #0d0d0d; border: 1px solid #222222; border-radius: 4px; padding: 1rem; font-family: 'Roboto Mono', monospace; font-size: 0.7rem; color: #b8b8b8; overflow-x: auto; margin-top: 0.5rem; white-space: pre; }
+        .code-class { color: #4fc3f7; }
+        .code-tag { color: #ff8a80; }
+        .code-attr { color: #c5e1a5; }
+        table.guide-table { width: 100%; border-collapse: collapse; font-size: 0.75rem; }
+        table.guide-table th { text-align: left; padding: 0.5rem; border-bottom: 1px solid #373737; color: #b8b8b8; font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.1em; }
+        table.guide-table td { padding: 0.5rem; border-bottom: 1px solid #222222; color: #7f7f7f; }
+        table.guide-table td:first-child { color: #b8b8b8; font-weight: 600; }
+        .svg-icon { width: 1em; height: 1em; fill: currentColor; vertical-align: middle; }
+    </style>
+</head>
+<body class="bg-p-neutral-900 min-h-screen text-white">
+
+    <div class="max-w-6xl mx-auto p-6">
+
+        <!-- Header -->
+        <header class="mb-12">
+            <h1 class="text-4xl font-bold mb-2">Text Fields &amp; Forms</h1>
+            <p class="text-p-neutral-400 text-lg">Style guide for inputs, validation, form layout, and field patterns</p>
+            <p class="text-p-neutral-500 text-sm mt-2">Based on <em>Text Fields &amp; Forms Design &mdash; UI Components Series</em> by Taras Bakusevych</p>
+            <div class="mc-divider"></div>
+            <div class="flex gap-4 text-sm flex-wrap">
+                <a href="index.html" class="text-p-blue-200 hover:text-p-blue-200">Documentation</a>
+                <a href="button.html" class="text-p-blue-200 hover:text-p-blue-200">Buttons</a>
+                <a href="selection.html" class="text-p-blue-200 hover:text-p-blue-200">Selection Controls</a>
+                <a href="components.html" class="text-p-blue-200 hover:text-p-blue-200">Components</a>
+            </div>
+        </header>
+
+        <!-- ============================================
+             1. INPUT ANATOMY
+        ============================================= -->
+        <section class="guide-section">
+            <h2 class="text-2xl font-bold mb-2">1. Input Anatomy</h2>
+            <p class="text-p-neutral-400 text-sm mb-6">Every text field is built from these components. Not all are required &mdash; use only what adds clarity.</p>
+
+            <div class="guide-card">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <!-- Full anatomy example -->
+                    <div>
+                        <div class="anatomy-label mb-3">Complete Input Anatomy</div>
+                        <div class="mc-form-group">
+                            <label class="mc-label mc-required">Amount</label>
+                            <div class="mc-input-icon-wrapper">
+                                <span class="mc-input-icon-left text-sm">$</span>
+                                <input type="text" class="mc-input mc-input-md mc-input-dark-gray mc-input-has-icon-left mc-input-has-icon-right w-full" placeholder="0.00" value="1,250.00" />
+                                <span class="mc-input-icon-right mc-input-icon-action text-sm" title="Clear">&times;</span>
+                            </div>
+                            <div class="mc-help-text">Enter the amount in USD</div>
+                        </div>
+                    </div>
+
+                    <!-- Anatomy table -->
+                    <div>
+                        <table class="guide-table">
+                            <thead><tr><th>Element</th><th>Description</th></tr></thead>
+                            <tbody>
+                                <tr><td>Label</td><td>Identifies the field. Use <code class="text-p-teal-200">mc-label</code></td></tr>
+                                <tr><td>Required *</td><td>Asterisk indicator. Use <code class="text-p-teal-200">mc-required</code></td></tr>
+                                <tr><td>Container</td><td>The input border. Use <code class="text-p-teal-200">mc-input</code></td></tr>
+                                <tr><td>Placeholder</td><td>Hint text. Never use as label substitute</td></tr>
+                                <tr><td>Leading Icon</td><td>Describes content type. Use <code class="text-p-teal-200">mc-input-icon-left</code></td></tr>
+                                <tr><td>Trailing Icon</td><td>Action (clear, toggle). Use <code class="text-p-teal-200">mc-input-icon-right</code></td></tr>
+                                <tr><td>Helper Text</td><td>Guidance below field. Use <code class="text-p-teal-200">mc-help-text</code></td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============================================
+             2. INPUT TYPES
+        ============================================= -->
+        <section class="guide-section">
+            <h2 class="text-2xl font-bold mb-2">2. Input Types</h2>
+            <p class="text-p-neutral-400 text-sm mb-6">Use the correct input type to trigger appropriate keyboards on mobile and enable browser validation.</p>
+
+            <div class="guide-card">
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <!-- Text -->
+                    <div class="mc-form-group">
+                        <label class="mc-label">Text Input</label>
+                        <input type="text" class="mc-input mc-input-sm mc-input-dark-gray w-full" placeholder="Enter symbol..." />
+                        <div class="mc-help-text">type="text" &mdash; General purpose</div>
+                    </div>
+
+                    <!-- Number -->
+                    <div class="mc-form-group">
+                        <label class="mc-label">Number Input</label>
+                        <input type="number" class="mc-input mc-input-sm mc-input-dark-gray mc-input-mono w-full" placeholder="0.00" step="0.01" />
+                        <div class="mc-help-text">type="number" &mdash; Numeric keyboard on mobile</div>
+                    </div>
+
+                    <!-- Password -->
+                    <div class="mc-form-group">
+                        <label class="mc-label">Password</label>
+                        <div class="mc-input-icon-wrapper">
+                            <input type="password" id="pw-demo" class="mc-input mc-input-sm mc-input-dark-gray mc-input-has-icon-right w-full" value="mypassword123" />
+                            <span class="mc-input-icon-right mc-input-icon-action text-xs cursor-pointer" onclick="togglePassword()" id="pw-toggle" title="Show password">SHOW</span>
+                        </div>
+                        <div class="mc-help-text">Toggle visibility instead of "retype password"</div>
+                    </div>
+
+                    <!-- Email -->
+                    <div class="mc-form-group">
+                        <label class="mc-label">Email</label>
+                        <div class="mc-input-icon-wrapper">
+                            <svg class="mc-input-icon-left svg-icon" viewBox="0 0 16 16"><path d="M2 4l6 4 6-4M2 4v8h12V4" stroke="currentColor" stroke-width="1.5" fill="none"/></svg>
+                            <input type="email" class="mc-input mc-input-sm mc-input-dark-gray mc-input-has-icon-left w-full" placeholder="user@exchange.com" />
+                        </div>
+                        <div class="mc-help-text">type="email" &mdash; Email keyboard on mobile</div>
+                    </div>
+
+                    <!-- Search -->
+                    <div class="mc-form-group">
+                        <label class="mc-label">Search</label>
+                        <div class="mc-input-icon-wrapper">
+                            <svg class="mc-input-icon-left svg-icon" viewBox="0 0 16 16"><circle cx="6.5" cy="6.5" r="4.5" stroke="currentColor" stroke-width="1.5" fill="none"/><path d="M10 10l4 4" stroke="currentColor" stroke-width="1.5"/></svg>
+                            <input type="search" class="mc-input mc-input-sm mc-input-dark-gray mc-input-has-icon-left w-full" placeholder="Search markets..." />
+                        </div>
+                        <div class="mc-help-text">type="search" &mdash; With leading search icon</div>
+                    </div>
+
+                    <!-- Textarea -->
+                    <div class="mc-form-group">
+                        <label class="mc-label">Textarea</label>
+                        <textarea class="mc-textarea w-full" rows="3" placeholder="Enter notes..."></textarea>
+                        <div class="flex justify-between">
+                            <div class="mc-help-text">Multi-line text input</div>
+                            <div class="mc-char-count">0 / 500</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============================================
+             3. INPUT STATES
+        ============================================= -->
+        <section class="guide-section">
+            <h2 class="text-2xl font-bold mb-2">3. Input States</h2>
+            <p class="text-p-neutral-400 text-sm mb-6">Every input must provide clear visual feedback for its current state. Use both color and border thickness changes &mdash; never rely on color alone.</p>
+
+            <div class="guide-card">
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <!-- Default -->
+                    <div class="mc-form-group">
+                        <div class="anatomy-label mb-2">Default (Empty)</div>
+                        <input type="text" class="mc-input mc-input-sm mc-input-dark-gray w-full" placeholder="Enter value..." />
+                        <div class="mc-help-text">Idle state. Ready for input.</div>
+                    </div>
+
+                    <!-- Filled -->
+                    <div class="mc-form-group">
+                        <div class="anatomy-label mb-2">Filled (Has Value)</div>
+                        <input type="text" class="mc-input mc-input-sm mc-input-dark-gray w-full" value="BTC/USDT" />
+                        <div class="mc-help-text">User has entered data.</div>
+                    </div>
+
+                    <!-- Focused -->
+                    <div class="mc-form-group">
+                        <div class="anatomy-label mb-2">Focused</div>
+                        <input type="text" class="mc-input mc-input-sm mc-input-dark-gray w-full" value="0.5" style="border-color: var(--color-p-neutral-300); box-shadow: 0 0 0 1px var(--color-p-neutral-600);" />
+                        <div class="mc-help-text">Field is selected. Border brightens + ring.</div>
+                    </div>
+
+                    <!-- Disabled -->
+                    <div class="mc-form-group">
+                        <div class="anatomy-label mb-2">Disabled</div>
+                        <input type="text" class="mc-input mc-input-sm mc-input-dark-gray w-full" value="Locked" disabled />
+                        <div class="mc-help-text">Non-editable. Reduced opacity.</div>
+                    </div>
+
+                    <!-- Read-only -->
+                    <div class="mc-form-group">
+                        <div class="anatomy-label mb-2">Read-Only</div>
+                        <input type="text" class="mc-input mc-input-sm mc-input-dark-gray w-full" value="0x1a2b3c...9f8e" readonly />
+                        <div class="mc-help-text">Displays value. Can select/copy but not edit.</div>
+                    </div>
+
+                    <!-- Error -->
+                    <div class="mc-form-group">
+                        <div class="anatomy-label mb-2">Error / Invalid</div>
+                        <input type="text" class="mc-input mc-input-sm mc-input-dark-gray mc-input-error w-full" value="-50" />
+                        <div class="mc-error-text">Amount must be a positive number</div>
+                    </div>
+
+                    <!-- Success -->
+                    <div class="mc-form-group">
+                        <div class="anatomy-label mb-2">Success / Valid</div>
+                        <input type="text" class="mc-input mc-input-sm mc-input-dark-gray mc-input-success w-full" value="trader_alpha" />
+                        <div class="mc-success-text">Username is available</div>
+                    </div>
+
+                    <!-- Warning -->
+                    <div class="mc-form-group">
+                        <div class="anatomy-label mb-2">Warning</div>
+                        <input type="text" class="mc-input mc-input-sm mc-input-dark-gray mc-input-warning w-full" value="99" />
+                        <div class="mc-warning-text">High leverage increases liquidation risk</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="guide-card">
+                <div class="code-block"><span class="code-tag">&lt;!-- Error state --&gt;</span>
+<span class="code-tag">&lt;div</span> <span class="code-attr">class=</span>"<span class="code-class">mc-form-group</span>"<span class="code-tag">&gt;</span>
+  <span class="code-tag">&lt;label</span> <span class="code-attr">class=</span>"<span class="code-class">mc-label mc-required</span>"<span class="code-tag">&gt;</span>Amount<span class="code-tag">&lt;/label&gt;</span>
+  <span class="code-tag">&lt;input</span> <span class="code-attr">class=</span>"<span class="code-class">mc-input mc-input-sm mc-input-dark-gray mc-input-error</span>" <span class="code-attr">value=</span>"-50"<span class="code-tag"> /&gt;</span>
+  <span class="code-tag">&lt;div</span> <span class="code-attr">class=</span>"<span class="code-class">mc-error-text</span>"<span class="code-tag">&gt;</span>Amount must be positive<span class="code-tag">&lt;/div&gt;</span>
+<span class="code-tag">&lt;/div&gt;</span>
+
+<span class="code-tag">&lt;!-- Success state --&gt;</span>
+<span class="code-tag">&lt;input</span> <span class="code-attr">class=</span>"<span class="code-class">mc-input mc-input-sm mc-input-dark-gray mc-input-success</span>"<span class="code-tag"> /&gt;</span>
+<span class="code-tag">&lt;div</span> <span class="code-attr">class=</span>"<span class="code-class">mc-success-text</span>"<span class="code-tag">&gt;</span>Available<span class="code-tag">&lt;/div&gt;</span>
+
+<span class="code-tag">&lt;!-- Warning state --&gt;</span>
+<span class="code-tag">&lt;input</span> <span class="code-attr">class=</span>"<span class="code-class">mc-input mc-input-sm mc-input-dark-gray mc-input-warning</span>"<span class="code-tag"> /&gt;</span>
+<span class="code-tag">&lt;div</span> <span class="code-attr">class=</span>"<span class="code-class">mc-warning-text</span>"<span class="code-tag">&gt;</span>Proceed with caution<span class="code-tag">&lt;/div&gt;</span></div>
+            </div>
+        </section>
+
+        <!-- ============================================
+             4. INPUT SIZES
+        ============================================= -->
+        <section class="guide-section">
+            <h2 class="text-2xl font-bold mb-2">4. Input Sizes</h2>
+            <div class="guide-card">
+                <div class="space-y-3">
+                    <div class="flex items-center gap-4">
+                        <span class="anatomy-label w-8">XS</span>
+                        <input type="text" class="mc-input mc-input-xs mc-input-dark-gray flex-1" placeholder="Extra Small (text-xs, px-2 py-1)" />
+                    </div>
+                    <div class="flex items-center gap-4">
+                        <span class="anatomy-label w-8">SM</span>
+                        <input type="text" class="mc-input mc-input-sm mc-input-dark-gray flex-1" placeholder="Small (text-xs, px-3 py-1.5)" />
+                    </div>
+                    <div class="flex items-center gap-4">
+                        <span class="anatomy-label w-8">MD</span>
+                        <input type="text" class="mc-input mc-input-md mc-input-dark-gray flex-1" placeholder="Medium - Default (text-sm, px-3 py-2)" />
+                    </div>
+                    <div class="flex items-center gap-4">
+                        <span class="anatomy-label w-8">LG</span>
+                        <input type="text" class="mc-input mc-input-lg mc-input-dark-gray flex-1" placeholder="Large (text-base, px-4 py-2.5)" />
+                    </div>
+                    <div class="flex items-center gap-4">
+                        <span class="anatomy-label w-8">XL</span>
+                        <input type="text" class="mc-input mc-input-xl mc-input-dark-gray flex-1" placeholder="Extra Large (text-lg, px-4 py-3)" />
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============================================
+             5. INPUT WITH ICONS
+        ============================================= -->
+        <section class="guide-section">
+            <h2 class="text-2xl font-bold mb-2">5. Input with Icons</h2>
+            <p class="text-p-neutral-400 text-sm mb-6">Icons describe the input type or provide quick actions. Use a single leading icon for context and trailing icons for actions.</p>
+
+            <div class="guide-card">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <!-- Leading Icon -->
+                    <div class="mc-form-group">
+                        <label class="mc-label">Leading Icon (Search)</label>
+                        <div class="mc-input-icon-wrapper">
+                            <svg class="mc-input-icon-left svg-icon" viewBox="0 0 16 16"><circle cx="6.5" cy="6.5" r="4.5" stroke="currentColor" stroke-width="1.5" fill="none"/><path d="M10 10l4 4" stroke="currentColor" stroke-width="1.5"/></svg>
+                            <input type="text" class="mc-input mc-input-sm mc-input-dark-gray mc-input-has-icon-left w-full" placeholder="Search..." />
+                        </div>
+                    </div>
+
+                    <!-- Trailing Action -->
+                    <div class="mc-form-group">
+                        <label class="mc-label">Trailing Action (Clear)</label>
+                        <div class="mc-input-icon-wrapper">
+                            <input type="text" class="mc-input mc-input-sm mc-input-dark-gray mc-input-has-icon-right w-full" value="BTC/USDT" />
+                            <span class="mc-input-icon-right mc-input-icon-action text-sm" title="Clear">&times;</span>
+                        </div>
+                    </div>
+
+                    <!-- Both Icons -->
+                    <div class="mc-form-group">
+                        <label class="mc-label">Both Icons</label>
+                        <div class="mc-input-icon-wrapper">
+                            <svg class="mc-input-icon-left svg-icon" viewBox="0 0 16 16"><path d="M2 4l6 4 6-4M2 4v8h12V4" stroke="currentColor" stroke-width="1.5" fill="none"/></svg>
+                            <input type="email" class="mc-input mc-input-sm mc-input-dark-gray mc-input-has-icon-left mc-input-has-icon-right w-full" value="trader@example.com" />
+                            <svg class="mc-input-icon-right svg-icon" style="color: var(--color-p-green-200)" viewBox="0 0 16 16"><path d="M2 8l4 5L14 3" stroke="currentColor" stroke-width="2" fill="none"/></svg>
+                        </div>
+                    </div>
+
+                    <!-- Prefix/Suffix Addon -->
+                    <div class="mc-form-group">
+                        <label class="mc-label">Input Group (Prefix/Suffix)</label>
+                        <div class="mc-input-group w-full">
+                            <span class="mc-input-addon">$</span>
+                            <input type="text" class="mc-input mc-input-sm mc-input-dark-gray flex-1" placeholder="0.00" />
+                            <span class="mc-input-addon">USD</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="code-block"><span class="code-tag">&lt;!-- Input with leading icon --&gt;</span>
+<span class="code-tag">&lt;div</span> <span class="code-attr">class=</span>"<span class="code-class">mc-input-icon-wrapper</span>"<span class="code-tag">&gt;</span>
+  <span class="code-tag">&lt;svg</span> <span class="code-attr">class=</span>"<span class="code-class">mc-input-icon-left svg-icon</span>"<span class="code-tag">&gt;</span>...<span class="code-tag">&lt;/svg&gt;</span>
+  <span class="code-tag">&lt;input</span> <span class="code-attr">class=</span>"<span class="code-class">mc-input mc-input-sm mc-input-dark-gray mc-input-has-icon-left</span>"<span class="code-tag"> /&gt;</span>
+<span class="code-tag">&lt;/div&gt;</span>
+
+<span class="code-tag">&lt;!-- Input group with prefix/suffix --&gt;</span>
+<span class="code-tag">&lt;div</span> <span class="code-attr">class=</span>"<span class="code-class">mc-input-group</span>"<span class="code-tag">&gt;</span>
+  <span class="code-tag">&lt;span</span> <span class="code-attr">class=</span>"<span class="code-class">mc-input-addon</span>"<span class="code-tag">&gt;</span>$<span class="code-tag">&lt;/span&gt;</span>
+  <span class="code-tag">&lt;input</span> <span class="code-attr">class=</span>"<span class="code-class">mc-input mc-input-sm mc-input-dark-gray</span>"<span class="code-tag"> /&gt;</span>
+  <span class="code-tag">&lt;span</span> <span class="code-attr">class=</span>"<span class="code-class">mc-input-addon</span>"<span class="code-tag">&gt;</span>USD<span class="code-tag">&lt;/span&gt;</span>
+<span class="code-tag">&lt;/div&gt;</span></div>
+            </div>
+        </section>
+
+        <!-- ============================================
+             6. FORM LAYOUT
+        ============================================= -->
+        <section class="guide-section">
+            <h2 class="text-2xl font-bold mb-2">6. Form Layout</h2>
+            <p class="text-p-neutral-400 text-sm mb-6">Single-column forms have 20-60% higher completion rates. Use top-aligned labels for fastest completion. Use <code class="text-p-teal-200">mc-form-group</code> for consistent spacing.</p>
+
+            <div class="guide-card">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <!-- Single Column Form -->
+                    <div>
+                        <div class="anatomy-label mb-3">Single Column (Recommended)</div>
+                        <div class="mc-panel p-4">
+                            <div class="mc-form-group">
+                                <label class="mc-label mc-required">Trading Pair</label>
+                                <input type="text" class="mc-input mc-input-sm mc-input-dark-gray w-full" value="BTC/USDT" />
+                            </div>
+                            <div class="mc-form-group">
+                                <label class="mc-label mc-required">Amount</label>
+                                <div class="mc-input-group w-full">
+                                    <input type="number" class="mc-input mc-input-sm mc-input-dark-gray mc-input-mono flex-1" placeholder="0.00" />
+                                    <span class="mc-input-addon">BTC</span>
+                                </div>
+                                <div class="mc-help-text">Min: 0.0001 BTC</div>
+                            </div>
+                            <div class="mc-form-group">
+                                <label class="mc-label">Price (Limit)</label>
+                                <div class="mc-input-group w-full">
+                                    <span class="mc-input-addon">$</span>
+                                    <input type="number" class="mc-input mc-input-sm mc-input-dark-gray mc-input-mono flex-1" placeholder="0.00" />
+                                </div>
+                            </div>
+                            <div class="mc-form-group">
+                                <label class="mc-label">Notes</label>
+                                <textarea class="mc-textarea w-full" rows="2" placeholder="Optional trade notes..."></textarea>
+                            </div>
+                            <div class="flex gap-2">
+                                <button class="mc-button mc-button-sm mc-button-filled flex-1" data-hue="green">Buy / Long</button>
+                                <button class="mc-button mc-button-sm mc-button-filled flex-1" data-hue="red">Sell / Short</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Fieldset Grouping -->
+                    <div>
+                        <div class="anatomy-label mb-3">Fieldset Grouping</div>
+                        <div class="mc-panel p-4">
+                            <fieldset class="mc-fieldset">
+                                <legend class="mc-legend">Account Info</legend>
+                                <div class="mc-form-group">
+                                    <label class="mc-label mc-required">Username</label>
+                                    <input type="text" class="mc-input mc-input-sm mc-input-dark-gray w-full" placeholder="trader_name" />
+                                </div>
+                                <div class="mc-form-group">
+                                    <label class="mc-label mc-required">Email</label>
+                                    <input type="email" class="mc-input mc-input-sm mc-input-dark-gray w-full" placeholder="you@exchange.com" />
+                                </div>
+                            </fieldset>
+                            <fieldset class="mc-fieldset">
+                                <legend class="mc-legend">Security</legend>
+                                <div class="mc-form-group">
+                                    <label class="mc-label mc-required">Password</label>
+                                    <input type="password" class="mc-input mc-input-sm mc-input-dark-gray w-full" placeholder="Min 8 characters" />
+                                    <div class="mc-help-text">Must include uppercase, number, and symbol</div>
+                                </div>
+                            </fieldset>
+                            <button class="mc-button mc-button-sm mc-button-filled w-full" data-hue="blue">Create Account</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============================================
+             7. VALIDATION PATTERNS
+        ============================================= -->
+        <section class="guide-section">
+            <h2 class="text-2xl font-bold mb-2">7. Validation Patterns</h2>
+            <p class="text-p-neutral-400 text-sm mb-6">Validate after the user leaves a field (blur), not while they are still typing. Remove errors immediately when corrected. Error messages must be specific and constructive.</p>
+
+            <div class="guide-card">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <!-- Error Example -->
+                    <div>
+                        <div class="anatomy-label mb-3">Validation Error</div>
+                        <div class="mc-form-group">
+                            <label class="mc-label mc-required">Leverage</label>
+                            <div class="mc-input-group w-full">
+                                <input type="number" class="mc-input mc-input-sm mc-input-dark-gray mc-input-error mc-input-mono flex-1" value="150" />
+                                <span class="mc-input-addon">&times;</span>
+                            </div>
+                            <div class="mc-error-text">Maximum leverage is 125x for this pair</div>
+                        </div>
+                    </div>
+
+                    <!-- Success Example -->
+                    <div>
+                        <div class="anatomy-label mb-3">Validation Success</div>
+                        <div class="mc-form-group">
+                            <label class="mc-label mc-required">API Key</label>
+                            <input type="text" class="mc-input mc-input-sm mc-input-dark-gray mc-input-success w-full" value="sk_live_7f8a9b2c..." />
+                            <div class="mc-success-text">API key is valid and connected</div>
+                        </div>
+                    </div>
+
+                    <!-- Warning Example -->
+                    <div>
+                        <div class="anatomy-label mb-3">Validation Warning</div>
+                        <div class="mc-form-group">
+                            <label class="mc-label">Slippage Tolerance</label>
+                            <div class="mc-input-group w-full">
+                                <input type="number" class="mc-input mc-input-sm mc-input-dark-gray mc-input-warning mc-input-mono flex-1" value="5" />
+                                <span class="mc-input-addon">%</span>
+                            </div>
+                            <div class="mc-warning-text">High slippage may result in unfavorable fills</div>
+                        </div>
+                    </div>
+
+                    <!-- Required Empty -->
+                    <div>
+                        <div class="anatomy-label mb-3">Required Field Empty</div>
+                        <div class="mc-form-group">
+                            <label class="mc-label mc-required">Wallet Address</label>
+                            <input type="text" class="mc-input mc-input-sm mc-input-dark-gray mc-input-error w-full" placeholder="0x..." />
+                            <div class="mc-error-text">Wallet address is required</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============================================
+             8. ACCESSIBILITY
+        ============================================= -->
+        <section class="guide-section">
+            <h2 class="text-2xl font-bold mb-2">8. Accessibility</h2>
+            <div class="guide-card">
+                <table class="guide-table">
+                    <thead><tr><th>Requirement</th><th>Guideline</th><th>Implementation</th></tr></thead>
+                    <tbody>
+                        <tr>
+                            <td>Label Association</td>
+                            <td><code class="text-p-teal-200">&lt;label for="id"&gt;</code> must match <code class="text-p-teal-200">&lt;input id="id"&gt;</code></td>
+                            <td>Screen readers announce the label when field is focused</td>
+                        </tr>
+                        <tr>
+                            <td>Error Messages</td>
+                            <td>Use <code class="text-p-teal-200">aria-describedby</code> linking to error text</td>
+                            <td>Adds <code class="text-p-teal-200">aria-invalid="true"</code> on error</td>
+                        </tr>
+                        <tr>
+                            <td>Required Fields</td>
+                            <td>Use <code class="text-p-teal-200">aria-required="true"</code> or <code class="text-p-teal-200">required</code> attribute</td>
+                            <td>Visual asterisk via mc-required + ARIA attribute</td>
+                        </tr>
+                        <tr>
+                            <td>Color Contrast</td>
+                            <td>Text: 4.5:1 ratio (WCAG AA)</td>
+                            <td>White on black inputs ensures high contrast</td>
+                        </tr>
+                        <tr>
+                            <td>Focus Indicator</td>
+                            <td>Visible ring on keyboard focus</td>
+                            <td>Built-in: ring-1 + border color change</td>
+                        </tr>
+                        <tr>
+                            <td>Placeholder</td>
+                            <td>Never use as label substitute</td>
+                            <td>Always pair with mc-label above the input</td>
+                        </tr>
+                        <tr>
+                            <td>Error Announcement</td>
+                            <td>Use <code class="text-p-teal-200">aria-live="polite"</code> on error container</td>
+                            <td>Announces errors to screen readers dynamically</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- ============================================
+             9. DO'S AND DON'TS
+        ============================================= -->
+        <section class="guide-section">
+            <h2 class="text-2xl font-bold mb-2">9. Do&rsquo;s and Don&rsquo;ts</h2>
+            <div class="guide-card">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <h3 class="text-sm font-semibold tracking-wider uppercase text-p-green-200 mb-4">Do</h3>
+                        <div class="guide-do">
+                            <div class="guide-do-label">Do</div>
+                            <p class="text-sm text-p-neutral-300">Always use a visible label above the input</p>
+                        </div>
+                        <div class="guide-do">
+                            <div class="guide-do-label">Do</div>
+                            <p class="text-sm text-p-neutral-300">Use single-column layout for forms</p>
+                        </div>
+                        <div class="guide-do">
+                            <div class="guide-do-label">Do</div>
+                            <p class="text-sm text-p-neutral-300">Show errors after the user leaves the field, not while typing</p>
+                        </div>
+                        <div class="guide-do">
+                            <div class="guide-do-label">Do</div>
+                            <p class="text-sm text-p-neutral-300">Provide specific, actionable error messages</p>
+                        </div>
+                        <div class="guide-do">
+                            <div class="guide-do-label">Do</div>
+                            <p class="text-sm text-p-neutral-300">Mark optional fields as &ldquo;optional&rdquo; rather than marking required with *</p>
+                        </div>
+                        <div class="guide-do">
+                            <div class="guide-do-label">Do</div>
+                            <p class="text-sm text-p-neutral-300">Use outlined inputs &mdash; they have the best affordance</p>
+                        </div>
+                    </div>
+                    <div>
+                        <h3 class="text-sm font-semibold tracking-wider uppercase text-p-red-200 mb-4">Don&rsquo;t</h3>
+                        <div class="guide-dont">
+                            <div class="guide-dont-label">Don't</div>
+                            <p class="text-sm text-p-neutral-300">Don&rsquo;t use placeholder text as the field label</p>
+                        </div>
+                        <div class="guide-dont">
+                            <div class="guide-dont-label">Don't</div>
+                            <p class="text-sm text-p-neutral-300">Don&rsquo;t validate while the user is still typing initial input</p>
+                        </div>
+                        <div class="guide-dont">
+                            <div class="guide-dont-label">Don't</div>
+                            <p class="text-sm text-p-neutral-300">Don&rsquo;t use vague errors like &ldquo;Invalid input&rdquo;</p>
+                        </div>
+                        <div class="guide-dont">
+                            <div class="guide-dont-label">Don't</div>
+                            <p class="text-sm text-p-neutral-300">Don&rsquo;t rely on color alone to indicate state changes</p>
+                        </div>
+                        <div class="guide-dont">
+                            <div class="guide-dont-label">Don't</div>
+                            <p class="text-sm text-p-neutral-300">Don&rsquo;t add &ldquo;Retype password&rdquo; &mdash; use show/hide toggle instead</p>
+                        </div>
+                        <div class="guide-dont">
+                            <div class="guide-dont-label">Don't</div>
+                            <p class="text-sm text-p-neutral-300">Don&rsquo;t use underline-only inputs &mdash; poor discoverability</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============================================
+             10. REAL-WORLD EXAMPLES
+        ============================================= -->
+        <section class="guide-section">
+            <h2 class="text-2xl font-bold mb-2">10. Real-World Examples</h2>
+            <div class="guide-card">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <!-- Limit Order Form -->
+                    <div>
+                        <div class="anatomy-label mb-3">Limit Order Form</div>
+                        <div class="mc-panel p-4">
+                            <div class="flex items-center justify-between mb-4">
+                                <span class="text-sm font-semibold">BTC/USDT</span>
+                                <span class="mc-badge mc-badge-filled" data-hue="blue">Limit</span>
+                            </div>
+                            <div class="mc-form-group">
+                                <label class="mc-label mc-required">Price</label>
+                                <div class="mc-input-group w-full">
+                                    <span class="mc-input-addon">$</span>
+                                    <input type="number" class="mc-input mc-input-sm mc-input-dark-gray mc-input-mono flex-1" value="67,450.00" />
+                                </div>
+                            </div>
+                            <div class="mc-form-group">
+                                <label class="mc-label mc-required">Amount</label>
+                                <div class="mc-input-group w-full">
+                                    <input type="number" class="mc-input mc-input-sm mc-input-dark-gray mc-input-mono flex-1" value="0.5" />
+                                    <span class="mc-input-addon">BTC</span>
+                                </div>
+                                <div class="mc-help-text">Total: $33,725.00</div>
+                            </div>
+                            <div class="mc-form-group">
+                                <label class="mc-label">Take Profit</label>
+                                <div class="mc-input-group w-full">
+                                    <span class="mc-input-addon">$</span>
+                                    <input type="number" class="mc-input mc-input-sm mc-input-dark-gray mc-input-mono flex-1" placeholder="Optional" />
+                                </div>
+                            </div>
+                            <div class="mc-form-group">
+                                <label class="mc-label">Stop Loss</label>
+                                <div class="mc-input-group w-full">
+                                    <span class="mc-input-addon">$</span>
+                                    <input type="number" class="mc-input mc-input-sm mc-input-dark-gray mc-input-mono flex-1" placeholder="Optional" />
+                                </div>
+                            </div>
+                            <div class="grid grid-cols-2 gap-2">
+                                <button class="mc-button mc-button-sm mc-button-filled w-full" data-hue="green">Buy</button>
+                                <button class="mc-button mc-button-sm mc-button-filled w-full" data-hue="red">Sell</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- API Settings Form -->
+                    <div>
+                        <div class="anatomy-label mb-3">API Settings Form</div>
+                        <div class="mc-panel p-4">
+                            <div class="text-sm font-semibold mb-4">Exchange Connection</div>
+                            <div class="mc-form-group">
+                                <label class="mc-label mc-required">API Key</label>
+                                <div class="mc-input-icon-wrapper">
+                                    <svg class="mc-input-icon-left svg-icon" viewBox="0 0 16 16"><path d="M8 1a4 4 0 014 4c0 1.5-.8 2.8-2 3.5V15H6V8.5A4 4 0 018 1z" stroke="currentColor" stroke-width="1.5" fill="none"/></svg>
+                                    <input type="text" class="mc-input mc-input-sm mc-input-dark-gray mc-input-has-icon-left mc-input-success w-full" value="sk_live_7f8a9b2c4d5e6f..." />
+                                </div>
+                                <div class="mc-success-text">Key verified and connected</div>
+                            </div>
+                            <div class="mc-form-group">
+                                <label class="mc-label mc-required">API Secret</label>
+                                <div class="mc-input-icon-wrapper">
+                                    <input type="password" class="mc-input mc-input-sm mc-input-dark-gray mc-input-has-icon-right w-full" value="secretvalue123456" />
+                                    <span class="mc-input-icon-right mc-input-icon-action text-xs">SHOW</span>
+                                </div>
+                            </div>
+                            <div class="mc-form-group">
+                                <label class="mc-label">Webhook URL</label>
+                                <div class="mc-input-group w-full">
+                                    <span class="mc-input-addon">https://</span>
+                                    <input type="text" class="mc-input mc-input-sm mc-input-dark-gray flex-1" placeholder="your-domain.com/webhook" />
+                                </div>
+                                <div class="mc-help-text">Optional. We&rsquo;ll POST trade events here.</div>
+                            </div>
+                            <div class="mc-form-group">
+                                <label class="mc-label">Rate Limit</label>
+                                <div class="mc-input-group w-full">
+                                    <input type="number" class="mc-input mc-input-sm mc-input-dark-gray mc-input-mono flex-1" value="10" readonly />
+                                    <span class="mc-input-addon">req/s</span>
+                                </div>
+                                <div class="mc-help-text">Read-only. Determined by exchange tier.</div>
+                            </div>
+                            <div class="flex gap-2">
+                                <button class="mc-button mc-button-sm mc-button-filled" data-hue="blue">Save Settings</button>
+                                <button class="mc-button mc-button-sm mc-button-outline" data-hue="neutral">Test Connection</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============================================
+             11. CLASS REFERENCE
+        ============================================= -->
+        <section class="guide-section">
+            <h2 class="text-2xl font-bold mb-2">11. Class Reference</h2>
+            <div class="guide-card">
+                <table class="guide-table">
+                    <thead><tr><th>Category</th><th>Class</th><th>Description</th></tr></thead>
+                    <tbody>
+                        <tr><td colspan="3" class="text-p-neutral-300 font-semibold pt-4">Base Input</td></tr>
+                        <tr><td></td><td><code class="text-p-teal-200">mc-input</code></td><td>Required base class for all inputs</td></tr>
+                        <tr><td></td><td><code class="text-p-teal-200">mc-input-{xs|sm|md|lg|xl}</code></td><td>Size variants</td></tr>
+                        <tr><td></td><td><code class="text-p-teal-200">mc-input-dark-{gray|red|green|blue|yellow|purple|cyan}</code></td><td>Color variants</td></tr>
+                        <tr><td></td><td><code class="text-p-teal-200">mc-input-mono</code></td><td>Monospace font for numeric inputs</td></tr>
+
+                        <tr><td colspan="3" class="text-p-neutral-300 font-semibold pt-4">Input States</td></tr>
+                        <tr><td></td><td><code class="text-p-teal-200">disabled</code></td><td>HTML attribute: opacity 60%, not editable</td></tr>
+                        <tr><td></td><td><code class="text-p-teal-200">readonly</code></td><td>HTML attribute: visible but not editable</td></tr>
+                        <tr><td></td><td><code class="text-p-teal-200">mc-input-error</code></td><td>Red border for invalid state</td></tr>
+                        <tr><td></td><td><code class="text-p-teal-200">mc-input-success</code></td><td>Green border for valid state</td></tr>
+                        <tr><td></td><td><code class="text-p-teal-200">mc-input-warning</code></td><td>Yellow border for warning state</td></tr>
+
+                        <tr><td colspan="3" class="text-p-neutral-300 font-semibold pt-4">Icons</td></tr>
+                        <tr><td></td><td><code class="text-p-teal-200">mc-input-icon-wrapper</code></td><td>Container for input with icons</td></tr>
+                        <tr><td></td><td><code class="text-p-teal-200">mc-input-icon-left</code></td><td>Leading icon positioning</td></tr>
+                        <tr><td></td><td><code class="text-p-teal-200">mc-input-icon-right</code></td><td>Trailing icon positioning</td></tr>
+                        <tr><td></td><td><code class="text-p-teal-200">mc-input-icon-action</code></td><td>Makes trailing icon clickable</td></tr>
+                        <tr><td></td><td><code class="text-p-teal-200">mc-input-has-icon-left</code></td><td>Extra left padding for input</td></tr>
+                        <tr><td></td><td><code class="text-p-teal-200">mc-input-has-icon-right</code></td><td>Extra right padding for input</td></tr>
+
+                        <tr><td colspan="3" class="text-p-neutral-300 font-semibold pt-4">Input Groups</td></tr>
+                        <tr><td></td><td><code class="text-p-teal-200">mc-input-group</code></td><td>Wrapper for input + addon</td></tr>
+                        <tr><td></td><td><code class="text-p-teal-200">mc-input-addon</code></td><td>Prefix/suffix addon</td></tr>
+
+                        <tr><td colspan="3" class="text-p-neutral-300 font-semibold pt-4">Form Layout</td></tr>
+                        <tr><td></td><td><code class="text-p-teal-200">mc-form-group</code></td><td>Wraps label + input + help text (mb-4)</td></tr>
+                        <tr><td></td><td><code class="text-p-teal-200">mc-label</code></td><td>Field label (uppercase, small, muted)</td></tr>
+                        <tr><td></td><td><code class="text-p-teal-200">mc-required</code></td><td>Adds red asterisk after label</td></tr>
+                        <tr><td></td><td><code class="text-p-teal-200">mc-help-text</code></td><td>Helper text below input</td></tr>
+                        <tr><td></td><td><code class="text-p-teal-200">mc-char-count</code></td><td>Character counter (right-aligned)</td></tr>
+                        <tr><td></td><td><code class="text-p-teal-200">mc-fieldset</code></td><td>Grouped field container with border</td></tr>
+                        <tr><td></td><td><code class="text-p-teal-200">mc-legend</code></td><td>Fieldset legend/title</td></tr>
+
+                        <tr><td colspan="3" class="text-p-neutral-300 font-semibold pt-4">Validation Text</td></tr>
+                        <tr><td></td><td><code class="text-p-teal-200">mc-error-text</code></td><td>Red error message text</td></tr>
+                        <tr><td></td><td><code class="text-p-teal-200">mc-success-text</code></td><td>Green success message text</td></tr>
+                        <tr><td></td><td><code class="text-p-teal-200">mc-warning-text</code></td><td>Yellow warning message text</td></tr>
+
+                        <tr><td colspan="3" class="text-p-neutral-300 font-semibold pt-4">Textarea</td></tr>
+                        <tr><td></td><td><code class="text-p-teal-200">mc-textarea</code></td><td>Multi-line text input</td></tr>
+                        <tr><td></td><td><code class="text-p-teal-200">mc-textarea-mono</code></td><td>Monospace font variant</td></tr>
+
+                        <tr><td colspan="3" class="text-p-neutral-300 font-semibold pt-4">Select</td></tr>
+                        <tr><td></td><td><code class="text-p-teal-200">mc-select</code></td><td>Dropdown select</td></tr>
+                        <tr><td></td><td><code class="text-p-teal-200">mc-select-{sm|md|lg}</code></td><td>Size variants</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="mt-16 pt-6 border-t border-p-neutral-800 text-p-neutral-500 text-xs">
+            <p>MC Perception Text Fields &amp; Forms Guide &mdash; Based on <em>Text Fields &amp; Forms Design &mdash; UI Components Series</em> by Taras Bakusevych</p>
+        </footer>
+    </div>
+
+    <script>
+        function togglePassword() {
+            const pw = document.getElementById('pw-demo');
+            const toggle = document.getElementById('pw-toggle');
+            if (pw.type === 'password') {
+                pw.type = 'text';
+                toggle.textContent = 'HIDE';
+            } else {
+                pw.type = 'password';
+                toggle.textContent = 'SHOW';
+            }
+        }
+    </script>
+</body>
+</html>

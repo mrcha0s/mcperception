@@ -1,0 +1,662 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MC Perception - Selection Controls Style Guide</title>
+    <link rel="stylesheet" href="../dist/mcperception.css">
+    <style>
+        .guide-section { margin-bottom: 3rem; }
+        .guide-row { display: flex; flex-wrap: wrap; align-items: center; gap: 0.75rem; margin-bottom: 1rem; }
+        .guide-card { background: #171717; border: 1px solid #222222; border-radius: 4px; padding: 1.5rem; margin-bottom: 1rem; }
+        .guide-note { font-size: 0.75rem; color: #7f7f7f; line-height: 1.6; margin-top: 0.5rem; }
+        .guide-do { border-left: 3px solid #1a6b1a; padding-left: 1rem; margin-bottom: 0.75rem; }
+        .guide-dont { border-left: 3px solid #8b0000; padding-left: 1rem; margin-bottom: 0.75rem; }
+        .guide-do-label { color: #4caf50; font-size: 0.65rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 0.25rem; }
+        .guide-dont-label { color: #ff5252; font-size: 0.65rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 0.25rem; }
+        .anatomy-label { font-size: 0.6rem; color: #b8b8b8; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; }
+        .code-block { background: #0d0d0d; border: 1px solid #222222; border-radius: 4px; padding: 1rem; font-family: 'Roboto Mono', monospace; font-size: 0.7rem; color: #b8b8b8; overflow-x: auto; margin-top: 0.5rem; white-space: pre; }
+        .code-class { color: #4fc3f7; }
+        .code-tag { color: #ff8a80; }
+        .code-attr { color: #c5e1a5; }
+        table.guide-table { width: 100%; border-collapse: collapse; font-size: 0.75rem; }
+        table.guide-table th { text-align: left; padding: 0.5rem; border-bottom: 1px solid #373737; color: #b8b8b8; font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.1em; }
+        table.guide-table td { padding: 0.5rem; border-bottom: 1px solid #222222; color: #7f7f7f; }
+        table.guide-table td:first-child { color: #b8b8b8; font-weight: 600; }
+    </style>
+</head>
+<body class="bg-p-neutral-900 min-h-screen text-white">
+
+    <div class="max-w-6xl mx-auto p-6">
+
+        <!-- Header -->
+        <header class="mb-12">
+            <h1 class="text-4xl font-bold mb-2">Selection Controls</h1>
+            <p class="text-p-neutral-400 text-lg">Style guide for checkboxes, radio buttons, switches, and chips</p>
+            <p class="text-p-neutral-500 text-sm mt-2">Based on <em>Selection Controls &mdash; UI Component Series</em> by Taras Bakusevych</p>
+            <div class="mc-divider"></div>
+            <div class="flex gap-4 text-sm flex-wrap">
+                <a href="index.html" class="text-p-blue-200 hover:text-p-blue-200">Documentation</a>
+                <a href="button.html" class="text-p-blue-200 hover:text-p-blue-200">Buttons</a>
+                <a href="forms.html" class="text-p-blue-200 hover:text-p-blue-200">Forms</a>
+                <a href="components.html" class="text-p-blue-200 hover:text-p-blue-200">Components</a>
+            </div>
+        </header>
+
+        <!-- ============================================
+             1. WHEN TO USE WHICH
+        ============================================= -->
+        <section class="guide-section">
+            <h2 class="text-2xl font-bold mb-2">1. When to Use Which Control</h2>
+            <p class="text-p-neutral-400 text-sm mb-6">Each selection control serves a specific purpose. Using the wrong control creates confusion and delays.</p>
+
+            <div class="guide-card">
+                <table class="guide-table">
+                    <thead>
+                        <tr>
+                            <th>Control</th>
+                            <th>Selection</th>
+                            <th>Effect</th>
+                            <th>Options</th>
+                            <th>Best For</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Checkbox</td>
+                            <td>Multiple (0, 1, or many)</td>
+                            <td>Requires form submit</td>
+                            <td>Independent options</td>
+                            <td>Filters, preferences, multi-select lists</td>
+                        </tr>
+                        <tr>
+                            <td>Radio Button</td>
+                            <td>Single only (1 of N)</td>
+                            <td>Requires form submit</td>
+                            <td>2-5 mutually exclusive</td>
+                            <td>Order type, account type, payment method</td>
+                        </tr>
+                        <tr>
+                            <td>Switch / Toggle</td>
+                            <td>Binary on/off</td>
+                            <td>Immediate (no submit)</td>
+                            <td>Always 2 states</td>
+                            <td>Settings, feature toggles, dark mode</td>
+                        </tr>
+                        <tr>
+                            <td>Choice Chips</td>
+                            <td>Single or multiple</td>
+                            <td>Varies</td>
+                            <td>Compact labels</td>
+                            <td>Filters, tags, timeframes, categories</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- ============================================
+             2. CHECKBOXES
+        ============================================= -->
+        <section class="guide-section">
+            <h2 class="text-2xl font-bold mb-2">2. Checkboxes</h2>
+            <p class="text-p-neutral-400 text-sm mb-6">Used when there are independent options and users may select any number of choices, including none.</p>
+
+            <!-- States -->
+            <div class="guide-card">
+                <h3 class="text-sm font-semibold tracking-wider uppercase text-p-neutral-300 mb-4">States</h3>
+                <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6 mb-4">
+                    <div class="text-center">
+                        <div class="anatomy-label mb-3">Unchecked</div>
+                        <label class="mc-control justify-center"><input type="checkbox" class="mc-checkbox" /><span class="mc-control-label">Option</span></label>
+                    </div>
+                    <div class="text-center">
+                        <div class="anatomy-label mb-3">Checked</div>
+                        <label class="mc-control justify-center"><input type="checkbox" class="mc-checkbox" checked /><span class="mc-control-label">Option</span></label>
+                    </div>
+                    <div class="text-center">
+                        <div class="anatomy-label mb-3">Indeterminate</div>
+                        <label class="mc-control justify-center"><input type="checkbox" class="mc-checkbox" id="indeterminate-demo" /><span class="mc-control-label">Parent</span></label>
+                    </div>
+                    <div class="text-center">
+                        <div class="anatomy-label mb-3">Focus</div>
+                        <label class="mc-control justify-center"><input type="checkbox" class="mc-checkbox" style="box-shadow: 0 0 0 1px #090909, 0 0 0 3px #424242;" /><span class="mc-control-label">Option</span></label>
+                    </div>
+                    <div class="text-center">
+                        <div class="anatomy-label mb-3">Disabled</div>
+                        <label class="mc-control justify-center"><input type="checkbox" class="mc-checkbox" disabled /><span class="mc-control-label" style="opacity:0.4">Option</span></label>
+                    </div>
+                    <div class="text-center">
+                        <div class="anatomy-label mb-3">Disabled Checked</div>
+                        <label class="mc-control justify-center"><input type="checkbox" class="mc-checkbox" checked disabled /><span class="mc-control-label" style="opacity:0.4">Option</span></label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sizes -->
+            <div class="guide-card">
+                <h3 class="text-sm font-semibold tracking-wider uppercase text-p-neutral-300 mb-4">Sizes</h3>
+                <div class="guide-row">
+                    <label class="mc-control"><input type="checkbox" class="mc-checkbox mc-checkbox-sm" checked /><span class="mc-control-label">Small (14px)</span></label>
+                    <label class="mc-control"><input type="checkbox" class="mc-checkbox" checked /><span class="mc-control-label">Default (16px)</span></label>
+                    <label class="mc-control"><input type="checkbox" class="mc-checkbox mc-checkbox-lg" checked /><span class="mc-control-label">Large (20px)</span></label>
+                </div>
+            </div>
+
+            <!-- Colors -->
+            <div class="guide-card">
+                <h3 class="text-sm font-semibold tracking-wider uppercase text-p-neutral-300 mb-4">Color Variants</h3>
+                <div class="guide-row">
+                    <label class="mc-control"><input type="checkbox" class="mc-checkbox" checked /><span class="mc-control-label">Default (Blue)</span></label>
+                    <label class="mc-control"><input type="checkbox" class="mc-checkbox mc-checkbox-success" checked /><span class="mc-control-label">Success</span></label>
+                    <label class="mc-control"><input type="checkbox" class="mc-checkbox mc-checkbox-danger" checked /><span class="mc-control-label">Danger</span></label>
+                    <label class="mc-control"><input type="checkbox" class="mc-checkbox mc-checkbox-warning" checked /><span class="mc-control-label">Warning</span></label>
+                </div>
+            </div>
+
+            <!-- Groups -->
+            <div class="guide-card">
+                <h3 class="text-sm font-semibold tracking-wider uppercase text-p-neutral-300 mb-4">Grouping Patterns</h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <div class="anatomy-label mb-3">Vertical Group (Recommended)</div>
+                        <div class="mc-control-group">
+                            <div class="mc-control-group-label">Data Sources</div>
+                            <label class="mc-control"><input type="checkbox" class="mc-checkbox" checked /><span class="mc-control-label">Binance</span></label>
+                            <label class="mc-control"><input type="checkbox" class="mc-checkbox" checked /><span class="mc-control-label">Coinbase</span></label>
+                            <label class="mc-control"><input type="checkbox" class="mc-checkbox" /><span class="mc-control-label">Kraken</span></label>
+                            <label class="mc-control"><input type="checkbox" class="mc-checkbox" /><span class="mc-control-label">Bybit</span></label>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="anatomy-label mb-3">Horizontal Group (2-3 Options Max)</div>
+                        <div class="mc-control-group-label">Visibility</div>
+                        <div class="mc-control-group-inline">
+                            <label class="mc-control"><input type="checkbox" class="mc-checkbox" checked /><span class="mc-control-label">Volume</span></label>
+                            <label class="mc-control"><input type="checkbox" class="mc-checkbox" checked /><span class="mc-control-label">VWAP</span></label>
+                            <label class="mc-control"><input type="checkbox" class="mc-checkbox" /><span class="mc-control-label">RSI</span></label>
+                        </div>
+                    </div>
+                </div>
+                <div class="code-block"><span class="code-tag">&lt;div</span> <span class="code-attr">class=</span>"<span class="code-class">mc-control-group</span>"<span class="code-tag">&gt;</span>
+  <span class="code-tag">&lt;div</span> <span class="code-attr">class=</span>"<span class="code-class">mc-control-group-label</span>"<span class="code-tag">&gt;</span>Data Sources<span class="code-tag">&lt;/div&gt;</span>
+  <span class="code-tag">&lt;label</span> <span class="code-attr">class=</span>"<span class="code-class">mc-control</span>"<span class="code-tag">&gt;</span>
+    <span class="code-tag">&lt;input</span> <span class="code-attr">type=</span>"checkbox" <span class="code-attr">class=</span>"<span class="code-class">mc-checkbox</span>"<span class="code-tag"> /&gt;</span>
+    <span class="code-tag">&lt;span</span> <span class="code-attr">class=</span>"<span class="code-class">mc-control-label</span>"<span class="code-tag">&gt;</span>Binance<span class="code-tag">&lt;/span&gt;</span>
+  <span class="code-tag">&lt;/label&gt;</span>
+<span class="code-tag">&lt;/div&gt;</span></div>
+            </div>
+        </section>
+
+        <!-- ============================================
+             3. RADIO BUTTONS
+        ============================================= -->
+        <section class="guide-section">
+            <h2 class="text-2xl font-bold mb-2">3. Radio Buttons</h2>
+            <p class="text-p-neutral-400 text-sm mb-6">Used when there are mutually exclusive options and users must select exactly one. One option should always be pre-selected.</p>
+
+            <!-- States -->
+            <div class="guide-card">
+                <h3 class="text-sm font-semibold tracking-wider uppercase text-p-neutral-300 mb-4">States</h3>
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-6 mb-4">
+                    <div class="text-center">
+                        <div class="anatomy-label mb-3">Unselected</div>
+                        <label class="mc-control justify-center"><input type="radio" name="radio-states" class="mc-radio" /><span class="mc-control-label">Option</span></label>
+                    </div>
+                    <div class="text-center">
+                        <div class="anatomy-label mb-3">Selected</div>
+                        <label class="mc-control justify-center"><input type="radio" name="radio-states2" class="mc-radio" checked /><span class="mc-control-label">Option</span></label>
+                    </div>
+                    <div class="text-center">
+                        <div class="anatomy-label mb-3">Disabled</div>
+                        <label class="mc-control justify-center"><input type="radio" class="mc-radio" disabled /><span class="mc-control-label" style="opacity:0.4">Option</span></label>
+                    </div>
+                    <div class="text-center">
+                        <div class="anatomy-label mb-3">Disabled Selected</div>
+                        <label class="mc-control justify-center"><input type="radio" class="mc-radio" checked disabled /><span class="mc-control-label" style="opacity:0.4">Option</span></label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sizes & Colors -->
+            <div class="guide-card">
+                <h3 class="text-sm font-semibold tracking-wider uppercase text-p-neutral-300 mb-4">Sizes &amp; Colors</h3>
+                <div class="guide-row mb-4">
+                    <label class="mc-control"><input type="radio" name="radio-sizes" class="mc-radio mc-radio-sm" checked /><span class="mc-control-label">Small</span></label>
+                    <label class="mc-control"><input type="radio" name="radio-sizes" class="mc-radio" /><span class="mc-control-label">Default</span></label>
+                    <label class="mc-control"><input type="radio" name="radio-sizes" class="mc-radio mc-radio-lg" /><span class="mc-control-label">Large</span></label>
+                </div>
+                <div class="guide-row">
+                    <label class="mc-control"><input type="radio" name="radio-colors" class="mc-radio" checked /><span class="mc-control-label">Default</span></label>
+                    <label class="mc-control"><input type="radio" name="radio-colors2" class="mc-radio mc-radio-success" checked /><span class="mc-control-label">Success</span></label>
+                    <label class="mc-control"><input type="radio" name="radio-colors3" class="mc-radio mc-radio-danger" checked /><span class="mc-control-label">Danger</span></label>
+                    <label class="mc-control"><input type="radio" name="radio-colors4" class="mc-radio mc-radio-warning" checked /><span class="mc-control-label">Warning</span></label>
+                </div>
+            </div>
+
+            <!-- Group Example -->
+            <div class="guide-card">
+                <h3 class="text-sm font-semibold tracking-wider uppercase text-p-neutral-300 mb-4">Radio Group</h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <div class="mc-control-group">
+                            <div class="mc-control-group-label">Order Type</div>
+                            <label class="mc-control"><input type="radio" name="order-type" class="mc-radio" checked /><span class="mc-control-label">Market Order</span></label>
+                            <label class="mc-control"><input type="radio" name="order-type" class="mc-radio" /><span class="mc-control-label">Limit Order</span></label>
+                            <label class="mc-control"><input type="radio" name="order-type" class="mc-radio" /><span class="mc-control-label">Stop Limit</span></label>
+                            <label class="mc-control"><input type="radio" name="order-type" class="mc-radio" /><span class="mc-control-label">Trailing Stop</span></label>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="mc-control-group-label">Timeframe</div>
+                        <div class="mc-control-group-inline">
+                            <label class="mc-control"><input type="radio" name="timeframe" class="mc-radio" checked /><span class="mc-control-label">1 Day</span></label>
+                            <label class="mc-control"><input type="radio" name="timeframe" class="mc-radio" /><span class="mc-control-label">1 Week</span></label>
+                            <label class="mc-control"><input type="radio" name="timeframe" class="mc-radio" /><span class="mc-control-label">1 Month</span></label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============================================
+             4. SWITCHES / TOGGLES
+        ============================================= -->
+        <section class="guide-section">
+            <h2 class="text-2xl font-bold mb-2">4. Switches / Toggles</h2>
+            <p class="text-p-neutral-400 text-sm mb-6">Used for binary on/off decisions that take effect <strong class="text-white">immediately</strong>. Like a physical light switch &mdash; no submit button needed.</p>
+
+            <!-- States -->
+            <div class="guide-card">
+                <h3 class="text-sm font-semibold tracking-wider uppercase text-p-neutral-300 mb-4">States</h3>
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-6 mb-4">
+                    <div class="text-center">
+                        <div class="anatomy-label mb-3">Off</div>
+                        <label class="mc-control justify-center"><input type="checkbox" class="mc-switch" /><span class="mc-control-label">Disabled</span></label>
+                    </div>
+                    <div class="text-center">
+                        <div class="anatomy-label mb-3">On</div>
+                        <label class="mc-control justify-center"><input type="checkbox" class="mc-switch" checked /><span class="mc-control-label">Enabled</span></label>
+                    </div>
+                    <div class="text-center">
+                        <div class="anatomy-label mb-3">Disabled Off</div>
+                        <label class="mc-control justify-center"><input type="checkbox" class="mc-switch" disabled /><span class="mc-control-label" style="opacity:0.4">Locked</span></label>
+                    </div>
+                    <div class="text-center">
+                        <div class="anatomy-label mb-3">Disabled On</div>
+                        <label class="mc-control justify-center"><input type="checkbox" class="mc-switch" checked disabled /><span class="mc-control-label" style="opacity:0.4">Locked</span></label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sizes -->
+            <div class="guide-card">
+                <h3 class="text-sm font-semibold tracking-wider uppercase text-p-neutral-300 mb-4">Sizes</h3>
+                <div class="guide-row mb-4">
+                    <label class="mc-control"><input type="checkbox" class="mc-switch mc-switch-sm" checked /><span class="mc-control-label">Small</span></label>
+                    <label class="mc-control"><input type="checkbox" class="mc-switch" checked /><span class="mc-control-label">Default</span></label>
+                    <label class="mc-control"><input type="checkbox" class="mc-switch mc-switch-lg" checked /><span class="mc-control-label">Large</span></label>
+                </div>
+            </div>
+
+            <!-- Colors -->
+            <div class="guide-card">
+                <h3 class="text-sm font-semibold tracking-wider uppercase text-p-neutral-300 mb-4">Color Variants</h3>
+                <div class="guide-row mb-4">
+                    <label class="mc-control"><input type="checkbox" class="mc-switch" checked /><span class="mc-control-label">Default (Blue)</span></label>
+                    <label class="mc-control"><input type="checkbox" class="mc-switch mc-switch-success" checked /><span class="mc-control-label">Success</span></label>
+                    <label class="mc-control"><input type="checkbox" class="mc-switch mc-switch-danger" checked /><span class="mc-control-label">Danger</span></label>
+                    <label class="mc-control"><input type="checkbox" class="mc-switch mc-switch-warning" checked /><span class="mc-control-label">Warning</span></label>
+                </div>
+            </div>
+
+            <!-- Settings Example -->
+            <div class="guide-card">
+                <h3 class="text-sm font-semibold tracking-wider uppercase text-p-neutral-300 mb-4">Settings Panel Example</h3>
+                <div class="mc-panel p-4" style="max-width:400px">
+                    <div class="text-sm font-semibold mb-4">Notifications</div>
+                    <div class="mc-control-group">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <div class="text-sm text-p-neutral-300">Price Alerts</div>
+                                <div class="text-xs text-p-neutral-500">Get notified when price targets are hit</div>
+                            </div>
+                            <input type="checkbox" class="mc-switch mc-switch-success" checked />
+                        </div>
+                        <div class="mc-divider"></div>
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <div class="text-sm text-p-neutral-300">Order Fills</div>
+                                <div class="text-xs text-p-neutral-500">Notify when orders are filled</div>
+                            </div>
+                            <input type="checkbox" class="mc-switch mc-switch-success" checked />
+                        </div>
+                        <div class="mc-divider"></div>
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <div class="text-sm text-p-neutral-300">Liquidation Warnings</div>
+                                <div class="text-xs text-p-neutral-500">Alert before position liquidation</div>
+                            </div>
+                            <input type="checkbox" class="mc-switch mc-switch-danger" checked />
+                        </div>
+                        <div class="mc-divider"></div>
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <div class="text-sm text-p-neutral-300">Marketing Emails</div>
+                                <div class="text-xs text-p-neutral-500">Receive promotional content</div>
+                            </div>
+                            <input type="checkbox" class="mc-switch" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============================================
+             5. CHOICE CHIPS
+        ============================================= -->
+        <section class="guide-section">
+            <h2 class="text-2xl font-bold mb-2">5. Choice Chips</h2>
+            <p class="text-p-neutral-400 text-sm mb-6">Compact alternative to radio buttons or checkboxes. Ideal for filters, tags, and short option lists on space-constrained UIs.</p>
+
+            <!-- Single Select -->
+            <div class="guide-card">
+                <h3 class="text-sm font-semibold tracking-wider uppercase text-p-neutral-300 mb-4">Single Select (Radio Alternative)</h3>
+                <div class="mc-chip-group mb-4">
+                    <button class="mc-chip active" onclick="chipSelect(this)">All</button>
+                    <button class="mc-chip" onclick="chipSelect(this)">Spot</button>
+                    <button class="mc-chip" onclick="chipSelect(this)">Futures</button>
+                    <button class="mc-chip" onclick="chipSelect(this)">Options</button>
+                    <button class="mc-chip" onclick="chipSelect(this)">DeFi</button>
+                </div>
+
+                <div class="anatomy-label mb-2 mt-4">Timeframe Chips</div>
+                <div class="mc-chip-group">
+                    <button class="mc-chip" onclick="chipSelect(this)">1H</button>
+                    <button class="mc-chip" onclick="chipSelect(this)">4H</button>
+                    <button class="mc-chip active" onclick="chipSelect(this)">1D</button>
+                    <button class="mc-chip" onclick="chipSelect(this)">1W</button>
+                    <button class="mc-chip" onclick="chipSelect(this)">1M</button>
+                </div>
+            </div>
+
+            <!-- Multi Select -->
+            <div class="guide-card">
+                <h3 class="text-sm font-semibold tracking-wider uppercase text-p-neutral-300 mb-4">Multi Select (Checkbox Alternative)</h3>
+                <div class="mc-chip-group">
+                    <button class="mc-chip active" onclick="chipToggle(this)">BTC</button>
+                    <button class="mc-chip active" onclick="chipToggle(this)">ETH</button>
+                    <button class="mc-chip" onclick="chipToggle(this)">SOL</button>
+                    <button class="mc-chip" onclick="chipToggle(this)">XRP</button>
+                    <button class="mc-chip" onclick="chipToggle(this)">ADA</button>
+                    <button class="mc-chip" onclick="chipToggle(this)">AVAX</button>
+                </div>
+            </div>
+
+            <!-- Color Variants -->
+            <div class="guide-card">
+                <h3 class="text-sm font-semibold tracking-wider uppercase text-p-neutral-300 mb-4">Color Variants</h3>
+                <div class="mc-chip-group mb-4">
+                    <button class="mc-chip active">Default (Blue)</button>
+                    <button class="mc-chip mc-chip-green active">Green</button>
+                    <button class="mc-chip mc-chip-red active">Red</button>
+                    <button class="mc-chip mc-chip-yellow active">Yellow</button>
+                    <button class="mc-chip mc-chip-purple active">Purple</button>
+                    <button class="mc-chip mc-chip-cyan active">Cyan</button>
+                </div>
+                <div class="guide-row">
+                    <button class="mc-chip" disabled>Disabled</button>
+                </div>
+            </div>
+
+            <div class="guide-card">
+                <div class="code-block"><span class="code-tag">&lt;!-- Single select --&gt;</span>
+<span class="code-tag">&lt;div</span> <span class="code-attr">class=</span>"<span class="code-class">mc-chip-group</span>"<span class="code-tag">&gt;</span>
+  <span class="code-tag">&lt;button</span> <span class="code-attr">class=</span>"<span class="code-class">mc-chip active</span>"<span class="code-tag">&gt;</span>All<span class="code-tag">&lt;/button&gt;</span>
+  <span class="code-tag">&lt;button</span> <span class="code-attr">class=</span>"<span class="code-class">mc-chip</span>"<span class="code-tag">&gt;</span>Spot<span class="code-tag">&lt;/button&gt;</span>
+  <span class="code-tag">&lt;button</span> <span class="code-attr">class=</span>"<span class="code-class">mc-chip</span>"<span class="code-tag">&gt;</span>Futures<span class="code-tag">&lt;/button&gt;</span>
+<span class="code-tag">&lt;/div&gt;</span>
+
+<span class="code-tag">&lt;!-- Color variant --&gt;</span>
+<span class="code-tag">&lt;button</span> <span class="code-attr">class=</span>"<span class="code-class">mc-chip mc-chip-green active</span>"<span class="code-tag">&gt;</span>Buy<span class="code-tag">&lt;/button&gt;</span></div>
+            </div>
+        </section>
+
+        <!-- ============================================
+             6. ACCESSIBILITY
+        ============================================= -->
+        <section class="guide-section">
+            <h2 class="text-2xl font-bold mb-2">6. Accessibility</h2>
+            <div class="guide-card">
+                <table class="guide-table">
+                    <thead>
+                        <tr>
+                            <th>Requirement</th>
+                            <th>Guideline</th>
+                            <th>Implementation</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Touch Target</td>
+                            <td>Min 48&times;48px clickable area</td>
+                            <td>mc-control wraps control + label, expanding the tap target</td>
+                        </tr>
+                        <tr>
+                            <td>Label Clickability</td>
+                            <td>Labels must toggle the control</td>
+                            <td>Use <code class="text-p-teal-200">&lt;label&gt;</code> wrapping both input and label text</td>
+                        </tr>
+                        <tr>
+                            <td>Keyboard Navigation</td>
+                            <td>Tab to focus, Space to toggle</td>
+                            <td>Native <code class="text-p-teal-200">&lt;input&gt;</code> elements provide this for free</td>
+                        </tr>
+                        <tr>
+                            <td>Radio Arrow Keys</td>
+                            <td>Arrow keys navigate within radio group</td>
+                            <td>Use same <code class="text-p-teal-200">name</code> attribute and <code class="text-p-teal-200">fieldset</code></td>
+                        </tr>
+                        <tr>
+                            <td>Focus Ring</td>
+                            <td>Visible focus indicator</td>
+                            <td>Built-in: <code class="text-p-teal-200">ring-1 ring-p-neutral-600</code></td>
+                        </tr>
+                        <tr>
+                            <td>Grouping</td>
+                            <td>Group related controls semantically</td>
+                            <td>Use <code class="text-p-teal-200">&lt;fieldset&gt;</code> + <code class="text-p-teal-200">&lt;legend&gt;</code> for screen readers</td>
+                        </tr>
+                        <tr>
+                            <td>Indeterminate</td>
+                            <td>Announce mixed state</td>
+                            <td>Set via JS: <code class="text-p-teal-200">el.indeterminate = true</code> + <code class="text-p-teal-200">aria-checked="mixed"</code></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- ============================================
+             7. DO'S AND DON'TS
+        ============================================= -->
+        <section class="guide-section">
+            <h2 class="text-2xl font-bold mb-2">7. Do&rsquo;s and Don&rsquo;ts</h2>
+            <div class="guide-card">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <h3 class="text-sm font-semibold tracking-wider uppercase text-p-green-200 mb-4">Do</h3>
+                        <div class="guide-do">
+                            <div class="guide-do-label">Do</div>
+                            <p class="text-sm text-p-neutral-300">Use checkboxes for independent, non-exclusive options</p>
+                        </div>
+                        <div class="guide-do">
+                            <div class="guide-do-label">Do</div>
+                            <p class="text-sm text-p-neutral-300">Always pre-select one radio button in a group</p>
+                        </div>
+                        <div class="guide-do">
+                            <div class="guide-do-label">Do</div>
+                            <p class="text-sm text-p-neutral-300">Use switches for settings that take immediate effect</p>
+                        </div>
+                        <div class="guide-do">
+                            <div class="guide-do-label">Do</div>
+                            <p class="text-sm text-p-neutral-300">Stack options vertically for better scanning</p>
+                        </div>
+                        <div class="guide-do">
+                            <div class="guide-do-label">Do</div>
+                            <p class="text-sm text-p-neutral-300">Make labels clickable to expand the touch target</p>
+                        </div>
+                    </div>
+                    <div>
+                        <h3 class="text-sm font-semibold tracking-wider uppercase text-p-red-200 mb-4">Don&rsquo;t</h3>
+                        <div class="guide-dont">
+                            <div class="guide-dont-label">Don't</div>
+                            <p class="text-sm text-p-neutral-300">Don&rsquo;t use circular checkboxes &mdash; they look like radio buttons</p>
+                        </div>
+                        <div class="guide-dont">
+                            <div class="guide-dont-label">Don't</div>
+                            <p class="text-sm text-p-neutral-300">Don&rsquo;t use a switch inside a form that has a Submit button</p>
+                        </div>
+                        <div class="guide-dont">
+                            <div class="guide-dont-label">Don't</div>
+                            <p class="text-sm text-p-neutral-300">Don&rsquo;t use radio buttons for more than 5 options &mdash; use a dropdown</p>
+                        </div>
+                        <div class="guide-dont">
+                            <div class="guide-dont-label">Don't</div>
+                            <p class="text-sm text-p-neutral-300">Don&rsquo;t leave all radio buttons unselected &mdash; one must be default</p>
+                        </div>
+                        <div class="guide-dont">
+                            <div class="guide-dont-label">Don't</div>
+                            <p class="text-sm text-p-neutral-300">Don&rsquo;t use negative wording like &ldquo;Don&rsquo;t send emails&rdquo;</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============================================
+             8. REAL-WORLD EXAMPLE
+        ============================================= -->
+        <section class="guide-section">
+            <h2 class="text-2xl font-bold mb-2">8. Real-World Example</h2>
+            <div class="guide-card">
+                <div class="anatomy-label mb-3">Trading Preferences Panel</div>
+                <div class="mc-panel p-4" style="max-width: 480px;">
+                    <div class="text-sm font-semibold mb-4">Order Preferences</div>
+
+                    <div class="mc-form-group">
+                        <div class="mc-control-group">
+                            <div class="mc-control-group-label">Default Order Type</div>
+                            <label class="mc-control"><input type="radio" name="pref-order" class="mc-radio" checked /><span class="mc-control-label">Market</span></label>
+                            <label class="mc-control"><input type="radio" name="pref-order" class="mc-radio" /><span class="mc-control-label">Limit</span></label>
+                            <label class="mc-control"><input type="radio" name="pref-order" class="mc-radio" /><span class="mc-control-label">Stop Limit</span></label>
+                        </div>
+                    </div>
+
+                    <div class="mc-form-group">
+                        <div class="mc-control-group-label">Quick Amounts</div>
+                        <div class="mc-chip-group">
+                            <button class="mc-chip active" onclick="chipSelect(this)">25%</button>
+                            <button class="mc-chip" onclick="chipSelect(this)">50%</button>
+                            <button class="mc-chip" onclick="chipSelect(this)">75%</button>
+                            <button class="mc-chip" onclick="chipSelect(this)">100%</button>
+                        </div>
+                    </div>
+
+                    <div class="mc-form-group">
+                        <div class="mc-control-group">
+                            <div class="mc-control-group-label">Confirmations</div>
+                            <label class="mc-control"><input type="checkbox" class="mc-checkbox" checked /><span class="mc-control-label">Confirm market orders</span></label>
+                            <label class="mc-control"><input type="checkbox" class="mc-checkbox" checked /><span class="mc-control-label">Confirm position close</span></label>
+                            <label class="mc-control"><input type="checkbox" class="mc-checkbox" /><span class="mc-control-label">Confirm leverage changes</span></label>
+                        </div>
+                    </div>
+
+                    <div class="mc-divider"></div>
+
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <div class="text-sm text-p-neutral-300">Sound Effects</div>
+                            <div class="text-xs text-p-neutral-500">Play sounds on order fills</div>
+                        </div>
+                        <input type="checkbox" class="mc-switch mc-switch-success" checked />
+                    </div>
+
+                    <div class="mt-4 flex gap-2">
+                        <button class="mc-button mc-button-sm mc-button-filled" data-hue="blue">Save Preferences</button>
+                        <button class="mc-button mc-button-sm mc-button-outline" data-hue="neutral">Reset Defaults</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============================================
+             9. CLASS REFERENCE
+        ============================================= -->
+        <section class="guide-section">
+            <h2 class="text-2xl font-bold mb-2">9. Class Reference</h2>
+            <div class="guide-card">
+                <table class="guide-table">
+                    <thead><tr><th>Category</th><th>Class</th><th>Description</th></tr></thead>
+                    <tbody>
+                        <tr><td colspan="3" class="text-p-neutral-300 font-semibold pt-4">Checkbox</td></tr>
+                        <tr><td></td><td><code class="text-p-teal-200">mc-checkbox</code></td><td>Base checkbox (16px)</td></tr>
+                        <tr><td></td><td><code class="text-p-teal-200">mc-checkbox-sm</code></td><td>Small checkbox (14px)</td></tr>
+                        <tr><td></td><td><code class="text-p-teal-200">mc-checkbox-lg</code></td><td>Large checkbox (20px)</td></tr>
+                        <tr><td></td><td><code class="text-p-teal-200">mc-checkbox-success</code></td><td>Green checked state</td></tr>
+                        <tr><td></td><td><code class="text-p-teal-200">mc-checkbox-danger</code></td><td>Red checked state</td></tr>
+                        <tr><td></td><td><code class="text-p-teal-200">mc-checkbox-warning</code></td><td>Yellow checked state</td></tr>
+
+                        <tr><td colspan="3" class="text-p-neutral-300 font-semibold pt-4">Radio Button</td></tr>
+                        <tr><td></td><td><code class="text-p-teal-200">mc-radio</code></td><td>Base radio button (16px)</td></tr>
+                        <tr><td></td><td><code class="text-p-teal-200">mc-radio-sm</code></td><td>Small radio (14px)</td></tr>
+                        <tr><td></td><td><code class="text-p-teal-200">mc-radio-lg</code></td><td>Large radio (20px)</td></tr>
+                        <tr><td></td><td><code class="text-p-teal-200">mc-radio-success / danger / warning</code></td><td>Color variants</td></tr>
+
+                        <tr><td colspan="3" class="text-p-neutral-300 font-semibold pt-4">Switch / Toggle</td></tr>
+                        <tr><td></td><td><code class="text-p-teal-200">mc-switch</code></td><td>Base switch (40&times;20px)</td></tr>
+                        <tr><td></td><td><code class="text-p-teal-200">mc-switch-sm</code></td><td>Small switch (32&times;16px)</td></tr>
+                        <tr><td></td><td><code class="text-p-teal-200">mc-switch-lg</code></td><td>Large switch (48&times;24px)</td></tr>
+                        <tr><td></td><td><code class="text-p-teal-200">mc-switch-success / danger / warning</code></td><td>Color variants</td></tr>
+
+                        <tr><td colspan="3" class="text-p-neutral-300 font-semibold pt-4">Chips</td></tr>
+                        <tr><td></td><td><code class="text-p-teal-200">mc-chip</code></td><td>Base chip (pill-shaped)</td></tr>
+                        <tr><td></td><td><code class="text-p-teal-200">mc-chip.active / .selected</code></td><td>Selected state</td></tr>
+                        <tr><td></td><td><code class="text-p-teal-200">mc-chip-green / red / yellow / purple / cyan</code></td><td>Color variants</td></tr>
+                        <tr><td></td><td><code class="text-p-teal-200">mc-chip-group</code></td><td>Chip container (flex wrap gap-2)</td></tr>
+
+                        <tr><td colspan="3" class="text-p-neutral-300 font-semibold pt-4">Control Wrappers</td></tr>
+                        <tr><td></td><td><code class="text-p-teal-200">mc-control</code></td><td>Pairs input + label inline</td></tr>
+                        <tr><td></td><td><code class="text-p-teal-200">mc-control-label</code></td><td>Label text styling</td></tr>
+                        <tr><td></td><td><code class="text-p-teal-200">mc-control-description</code></td><td>Helper text below label</td></tr>
+                        <tr><td></td><td><code class="text-p-teal-200">mc-control-group</code></td><td>Vertical group container</td></tr>
+                        <tr><td></td><td><code class="text-p-teal-200">mc-control-group-inline</code></td><td>Horizontal group container</td></tr>
+                        <tr><td></td><td><code class="text-p-teal-200">mc-control-group-label</code></td><td>Group heading label</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="mt-16 pt-6 border-t border-p-neutral-800 text-p-neutral-500 text-xs">
+            <p>MC Perception Selection Controls Guide &mdash; Based on <em>Selection Controls &mdash; UI Component Series</em> by Taras Bakusevych</p>
+        </footer>
+    </div>
+
+    <script>
+        // Set indeterminate state demo
+        document.getElementById('indeterminate-demo').indeterminate = true;
+
+        // Single-select chip
+        function chipSelect(el) {
+            el.parentElement.querySelectorAll('.mc-chip').forEach(c => c.classList.remove('active'));
+            el.classList.add('active');
+        }
+
+        // Multi-select chip toggle
+        function chipToggle(el) {
+            el.classList.toggle('active');
+        }
+    </script>
+</body>
+</html>

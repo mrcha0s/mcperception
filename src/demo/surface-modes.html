@@ -1,0 +1,546 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Surface Mode Explorer — MC Perception</title>
+    <link rel="stylesheet" href="../dist/mcperception.css">
+    <style>
+        .guide-card { background: #111; border: 1px solid #222; border-radius: 8px; padding: 1.25rem; }
+
+        .mode-panel { border: 1px solid #222; border-radius: 10px; overflow: hidden; margin-bottom: 12px; }
+        .mode-panel:hover { border-color: #333; }
+        .mode-header { display: flex; align-items: center; gap: 8px; padding: 10px 16px; background: #0f0f0f; cursor: pointer; user-select: none; }
+        .mode-header:hover { background: #141414; }
+        .mode-body { padding: 16px; }
+        .mode-chevron { transition: transform 0.15s; color: #555; font-size: 11px; margin-left: auto; }
+        .mode-chevron.open { transform: rotate(180deg); }
+
+        .preview-card { border-radius: 10px; padding: 18px; width: 240px; flex-shrink: 0; }
+
+        .pair-table { width: 100%; border-collapse: collapse; }
+        .pair-table th { text-align: left; padding: 4px 6px; font-weight: 700; font-size: 10px; color: #666; border-bottom: 2px solid #333; text-transform: uppercase; letter-spacing: 0.05em; }
+        .pair-table td { padding: 5px 6px; border-bottom: 1px solid #1a1a1a; font-size: 11px; }
+        .pair-table .role { font-weight: 600; color: #ccc; }
+        .pair-table .note { font-size: 8px; color: #666; margin-top: 1px; }
+        .pair-table .step { font-family: 'Roboto Mono', ui-monospace, monospace; font-size: 10px; color: #888; }
+        .pair-table .on-label { color: #555; }
+
+        .swatch { display: inline-block; border-radius: 3px; flex-shrink: 0; vertical-align: middle; }
+        .ratio-num { font-family: 'Roboto Mono', ui-monospace, monospace; font-weight: 700; font-size: 11px; }
+        .ratio-tag { font-size: 9px; font-weight: 700; padding: 1px 5px; border-radius: 3px; display: inline-block; }
+        .pass { color: #2E7D32; }
+        .fail { color: #C62828; }
+        .tag-pass { background: rgba(46,125,50,0.15); color: #2E7D32; }
+        .tag-fail { background: rgba(198,40,40,0.15); color: #C62828; }
+
+        .avoid-box { margin-top: 8px; padding: 8px 12px; background: rgba(255,0,0,0.04); border-radius: 6px; border: 1px solid rgba(255,60,60,0.12); }
+
+        .summary-table { width: 100%; border-collapse: collapse; }
+        .summary-table th { padding: 5px 6px; font-weight: 700; font-size: 9px; text-transform: uppercase; letter-spacing: 0.04em; }
+        .summary-table td { padding: 4px 5px; text-align: center; }
+        .summary-table tbody tr { border-bottom: 1px solid #1a1a1a; }
+        .summary-table thead tr:first-child th { border-bottom: 2px solid #333; }
+        .summary-table thead tr:last-child th { border-bottom: 1px solid #222; font-size: 7px; text-transform: none; letter-spacing: 0; }
+        .summary-table .bl { border-left: 1px solid #222; }
+        .summary-table .hue-name { text-align: left; font-weight: 700; font-size: 11px; }
+
+        .finding-box { padding: 10px 14px; border-radius: 8px; border: 1px solid; margin-top: 8px; font-size: 11px; line-height: 1.6; }
+
+        .strip-step { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+        .strip-step-label { font-size: 7px; font-weight: 800; }
+        .strip-step-hex { font-size: 5px; }
+    </style>
+</head>
+<body class="bg-p-black text-white min-h-screen font-sans">
+    <div class="max-w-7xl mx-auto px-6 py-12">
+
+        <!-- Header -->
+        <header class="mb-10">
+            <nav class="text-xs text-p-neutral-400 mb-6 flex gap-2 items-center">
+                <a href="index.html" class="hover:text-white transition-colors">Components</a>
+                <span class="text-p-neutral-600">/</span>
+                <span class="text-white font-semibold">Surface Mode Explorer</span>
+            </nav>
+            <h1 class="text-4xl font-bold tracking-tight mb-2">5 Surface Modes × 7 Hues</h1>
+            <p class="text-p-neutral-400 text-sm mb-1">WCAG AA Verified Color Pairings — computed from palette</p>
+            <p class="text-p-neutral-500 text-xs">
+                Text: <strong class="text-p-neutral-300">AA small ≥ 4.5:1</strong> ·
+                Large text: <strong class="text-p-neutral-300">AA large ≥ 3.0:1</strong> ·
+                Non-text UI: <strong class="text-p-neutral-300">≥ 3.0:1</strong>
+            </p>
+        </header>
+
+        <!-- Hue Tabs -->
+        <div id="hue-tabs" class="flex gap-2 flex-wrap mb-4"></div>
+
+        <!-- Palette Strip -->
+        <div id="palette-strip" class="flex rounded-lg overflow-hidden mb-4" style="height:36px;"></div>
+
+        <!-- Expand / Collapse -->
+        <div class="flex justify-end mb-3">
+            <button class="mc-button mc-button-ghost mc-button-xs" data-hue="neutral" onclick="toggleAll()" id="btn-toggle-all">Expand all</button>
+        </div>
+
+        <!-- Mode Sections -->
+        <div id="mode-sections"></div>
+
+        <!-- Cross-Hue Summary -->
+        <section class="mt-16 mb-10">
+            <h2 class="text-xl font-bold mb-1">Cross-Hue Summary Matrix</h2>
+            <p class="text-xs text-p-neutral-500 mb-4">Primary text + accent contrast ratios across every hue × mode</p>
+            <div id="summary-matrix" class="overflow-x-auto"></div>
+        </section>
+
+        <!-- Key Findings -->
+        <div id="findings"></div>
+
+        <!-- Footer -->
+        <footer class="border-t border-p-neutral-800 pt-8 mt-16 pb-12">
+            <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+                <div class="text-xs text-p-neutral-500">MC Perception Design System — Surface Mode Explorer</div>
+                <nav class="flex gap-4 text-xs">
+                    <a href="index.html" class="text-p-neutral-400 hover:text-white transition-colors">Overview</a>
+                    <a href="button.html" class="text-p-neutral-400 hover:text-white transition-colors">Buttons</a>
+                    <a href="badges.html" class="text-p-neutral-400 hover:text-white transition-colors">Badges</a>
+                    <a href="forms.html" class="text-p-neutral-400 hover:text-white transition-colors">Forms</a>
+                    <a href="color.html" class="text-p-neutral-400 hover:text-white transition-colors">Palette</a>
+                    <a href="components.html" class="text-p-neutral-400 hover:text-white transition-colors">Components</a>
+                </nav>
+            </div>
+        </footer>
+    </div>
+
+<script>
+/* ================================================================
+   WCAG AA helpers
+   ================================================================ */
+function hexToRgb(h) {
+    h = h.replace('#', '');
+    return [parseInt(h.substring(0,2),16), parseInt(h.substring(2,4),16), parseInt(h.substring(4,6),16)];
+}
+function lum(h) {
+    return hexToRgb(h).map(function(c) {
+        var s = c / 255;
+        return s <= 0.03928 ? s / 12.92 : Math.pow((s + 0.055) / 1.055, 2.4);
+    }).reduce(function(a, v, i) { return a + [0.2126, 0.7152, 0.0722][i] * v; }, 0);
+}
+function cr(a, b) {
+    var l1 = lum(a), l2 = lum(b);
+    return (Math.max(l1, l2) + 0.05) / (Math.min(l1, l2) + 0.05);
+}
+
+var W = '#FFFFFF', B = '#0A0A0A';
+
+/* ================================================================
+   Palettes — all 7 hues × 10 steps
+   ================================================================ */
+var PALETTES = {
+    Neutral: { 50:'#fafafa',100:'#e1e1e1',200:'#c3c3c3',300:'#a0a0a0',400:'#7f7f7f',500:'#6c6c6c',600:'#515151',700:'#373737',800:'#222222',900:'#090909' },
+    Red:     { 50:'#fffafa',100:'#ffd8d8',200:'#ffafaf',300:'#ff7474',400:'#ff0000',500:'#da0000',600:'#a70000',700:'#740000',800:'#4d0000',900:'#1c0000' },
+    Green:   { 50:'#ebffeb',100:'#62ff62',200:'#00e400',300:'#00ba00',400:'#009400',500:'#007f00',600:'#005f00',700:'#004000',800:'#002900',900:'#000c00' },
+    Blue:    { 50:'#f8f8ff',100:'#dedeff',200:'#bebeff',300:'#9494ff',400:'#6d6dff',500:'#5252ff',600:'#1919ff',700:'#0000bf',800:'#000081',900:'#000035' },
+    Yellow:  { 50:'#ffff97',100:'#e8e800',200:'#caca00',300:'#a6a600',400:'#838300',500:'#6f6f00',600:'#545400',700:'#383800',800:'#242400',900:'#090900' },
+    Magenta: { 50:'#fff7ff',100:'#ffd2ff',200:'#ffa4ff',300:'#ff55ff',400:'#e000e0',500:'#c000c0',600:'#910091',700:'#660066',800:'#420042',900:'#170017' },
+    Teal:    { 50:'#e3ffff',100:'#00f9f9',200:'#00dada',300:'#00b2b2',400:'#008e8e',500:'#007979',600:'#005a5a',700:'#003d3d',800:'#002727',900:'#000b0b' },
+};
+
+/* ================================================================
+   Build 5 mode assignments for any palette
+   ================================================================ */
+function buildModes(P) {
+    function passing(bg) {
+        var opts = [];
+        for (var s in P) opts.push({ step: +s, hex: P[s], ratio: cr(P[s], bg) });
+        opts.push({ step: 'W', hex: W, ratio: cr(W, bg) });
+        opts.push({ step: 'B', hex: B, ratio: cr(B, bg) });
+        return opts.filter(function(o) { return o.ratio >= 4.5; }).sort(function(a, b) { return b.ratio - a.ratio; });
+    }
+
+    function bestDivider(bg) {
+        var opts = [];
+        for (var s in P) opts.push({ step: +s, hex: P[s], ratio: cr(P[s], bg) });
+        opts.push({ step: 'W', hex: W, ratio: cr(W, bg) });
+        opts.push({ step: 'B', hex: B, ratio: cr(B, bg) });
+        return opts.filter(function(o) { return o.ratio >= 3.0; }).sort(function(a, b) { return Math.abs(a.ratio - 3.5) - Math.abs(b.ratio - 3.5); })[0];
+    }
+
+    function failingShades(bg) {
+        var fails = [];
+        for (var s in P) {
+            var r = cr(P[s], bg);
+            if (r < 4.5) fails.push({ step: +s, hex: P[s], ratio: r, lgOnly: r >= 3.0 });
+        }
+        return fails.sort(function(a, b) { return a.step - b.step; });
+    }
+
+    function makePairs(bg, bgLabel, isLightBg) {
+        var opts = passing(bg);
+        if (!opts.length) return null;
+
+        var primary = opts[0];
+        var secondary = opts.length > 1 ? opts[1] : opts[0];
+        var colored = opts.filter(function(o) { return typeof o.step === 'number'; });
+        var accent;
+        if (isLightBg) {
+            var dark = colored.filter(function(o) { return o.step >= 500; });
+            accent = dark.length ? dark[dark.length - 1] : (colored[0] || primary);
+        } else {
+            var light = colored.filter(function(o) { return o.step <= 400; });
+            accent = light.length ? light[light.length - 1] : (colored[colored.length - 1] || primary);
+        }
+
+        var btn;
+        if (isLightBg) {
+            var withWhite = colored.filter(function(o) { return cr(W, o.hex) >= 4.5 && o.step >= 400; });
+            btn = withWhite.length ? withWhite[withWhite.length - 1] : accent;
+        } else {
+            var withBlack = colored.filter(function(o) { return cr(B, o.hex) >= 4.5 && o.step <= 500; });
+            btn = withBlack.length ? withBlack[0] : accent;
+        }
+
+        var btnTextHex = cr(W, btn.hex) >= 4.5 ? W : B;
+        var divider = bestDivider(bg);
+
+        var pairs = [
+            { role: 'Primary Text', hex: primary.hex, step: primary.step, ratio: primary.ratio },
+            { role: 'Secondary Text', hex: secondary.hex, step: secondary.step, ratio: secondary.ratio },
+            { role: 'Accent / Link', hex: accent.hex, step: accent.step, ratio: accent.ratio },
+            { role: 'Btn Fill BG', hex: btn.hex, step: btn.step, ratio: btn.ratio, note: (btnTextHex === W ? 'White' : 'Black') + ' text inside' },
+            { role: 'Btn Fill Text', hex: btnTextHex, step: btnTextHex === W ? 'W' : 'B', ratio: cr(btnTextHex, btn.hex), onBg: btn.hex, onBgLabel: 'on ' + btn.step },
+            { role: 'Btn Outline', hex: accent.hex, step: accent.step, ratio: accent.ratio },
+            { role: 'Icons', hex: accent.hex, step: accent.step, ratio: accent.ratio },
+        ];
+        if (divider) pairs.push({ role: 'Divider', hex: divider.hex, step: divider.step, ratio: divider.ratio, uiComp: true });
+
+        return { bg: bg, bgLabel: bgLabel, pairs: pairs, avoid: failingShades(bg) };
+    }
+
+    return [
+        Object.assign({ id: 1, name: 'White Surface', tag: 'Light', desc: 'Default content pages' }, makePairs(W, 'White #FFFFFF', true)),
+        Object.assign({ id: 2, name: 'Black Surface', tag: 'Dark', desc: 'Dark mode' }, makePairs(B, 'Black ' + B, false)),
+        Object.assign({ id: 3, name: 'Light Hue Surface', tag: 'Light hue', desc: 'Alerts, banners, cards' }, makePairs(P[100], 'Step 100 (' + P[100] + ')', true)),
+        Object.assign({ id: 4, name: 'Dark Hue Surface', tag: 'Dark hue', desc: 'Headers, hero, nav' }, makePairs(P[800], 'Step 800 (' + P[800] + ')', false)),
+        Object.assign({ id: 5, name: 'Mid Hue Surface', tag: 'Accent', desc: 'CTAs, badges — use sparingly' }, makePairs(P[500], 'Step 500 (' + P[500] + ')', lum(P[500]) > 0.18)),
+    ];
+}
+
+/* ================================================================
+   State
+   ================================================================ */
+var currentHue = 'Red';
+var allExpanded = false;
+var openModes = {};
+var allData = {};
+
+// Pre-compute all data
+for (var name in PALETTES) allData[name] = buildModes(PALETTES[name]);
+
+/* ================================================================
+   Render helpers
+   ================================================================ */
+function sw(color, size) {
+    size = size || 14;
+    var border = lum(color) > 0.85 ? '1px solid #555' : '1px solid rgba(255,255,255,0.06)';
+    return '<span class="swatch" style="width:' + size + 'px;height:' + size + 'px;background:' + color + ';border:' + border + ';margin-right:4px"></span>';
+}
+
+function rb(ratio, isUI) {
+    var t = isUI ? 3.0 : 4.5;
+    var ok = ratio >= t;
+    var cls = ok ? 'pass' : 'fail';
+    var tagCls = ok ? 'tag-pass' : 'tag-fail';
+    var label;
+    if (isUI) label = ok ? 'UI ✓' : 'UI ✗';
+    else label = ok ? 'AA ✓' : (ratio >= 3.0 ? 'Lg' : '✗');
+    return '<span style="display:inline-flex;align-items:center;gap:3px">' +
+        '<span class="ratio-num ' + cls + '">' + ratio.toFixed(1) + ':1</span>' +
+        '<span class="ratio-tag ' + tagCls + '">' + label + '</span></span>';
+}
+
+/* ================================================================
+   Render — Hue Tabs
+   ================================================================ */
+function renderTabs() {
+    var html = '';
+    for (var name in PALETTES) {
+        var pal = PALETTES[name];
+        var hue = name.toLowerCase();
+        var isActive = name === currentHue;
+        var variant = isActive ? 'mc-button-filled' : 'mc-button-outline';
+        html += '<button class="mc-button mc-button-sm ' + variant + '" data-hue="' + hue + '" onclick="selectHue(\'' + name + '\')">' +
+            '<span class="swatch" style="width:10px;height:10px;border-radius:2px;background:' + pal[500] + ';margin-right:4px"></span>' +
+            name + '</button>';
+    }
+    document.getElementById('hue-tabs').innerHTML = html;
+}
+
+/* ================================================================
+   Render — Palette Strip
+   ================================================================ */
+function renderStrip() {
+    var P = PALETTES[currentHue];
+    var html = '';
+    var steps = [50,100,200,300,400,500,600,700,800,900];
+    for (var i = 0; i < steps.length; i++) {
+        var s = steps[i];
+        var c = P[s];
+        var isLight = lum(c) > 0.18;
+        var textColor = isLight ? '#000' : '#fff';
+        var subColor = isLight ? 'rgba(0,0,0,0.45)' : 'rgba(255,255,255,0.45)';
+        html += '<div class="strip-step" style="background:' + c + '">' +
+            '<span class="strip-step-label" style="color:' + textColor + '">' + s + '</span>' +
+            '<span class="strip-step-hex" style="color:' + subColor + '">' + c + '</span></div>';
+    }
+    document.getElementById('palette-strip').innerHTML = html;
+}
+
+/* ================================================================
+   Render — Preview Card
+   ================================================================ */
+function renderPreview(mode) {
+    if (!mode.pairs) return '';
+    var g = function(r) { return mode.pairs.find(function(p) { return p.role === r; }); };
+    var pr = g('Primary Text'), se = g('Secondary Text'), ac = g('Accent / Link');
+    var bf = g('Btn Fill BG'), bt = g('Btn Fill Text'), bo = g('Btn Outline'), ic = g('Icons'), dv = g('Divider');
+    var isLight = lum(mode.bg) > 0.3;
+    var border = isLight ? '1px solid #ddd' : '1px solid rgba(255,255,255,0.08)';
+    var shadow = 'box-shadow:0 2px 8px rgba(0,0,0,0.15)';
+    var modeLabel = isLight ? 'rgba(0,0,0,0.15)' : 'rgba(255,255,255,0.15)';
+
+    var html = '<div class="preview-card" style="background:' + mode.bg + ';border:' + border + ';' + shadow + '">';
+    html += '<div style="font-size:7px;font-weight:700;color:' + modeLabel + ';text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">Mode ' + mode.id + '</div>';
+    html += '<div style="font-size:20px;font-weight:800;color:' + (pr ? pr.hex : '#fff') + ';margin-bottom:3px">Heading</div>';
+    html += '<div style="font-size:11px;color:' + (se ? se.hex : '#aaa') + ';margin-bottom:3px;line-height:1.4">Body text shown here</div>';
+    html += '<div style="font-size:10px;font-weight:600;color:' + (ac ? ac.hex : '#66f') + ';text-decoration:underline;text-underline-offset:2px;margin-bottom:14px">Accent link</div>';
+
+    if (dv) html += '<div style="height:1px;background:' + dv.hex + ';margin-bottom:14px"></div>';
+
+    html += '<div style="display:flex;gap:6px;margin-bottom:12px">';
+    html += '<button style="background:' + (bf ? bf.hex : '#555') + ';color:' + (bt ? bt.hex : '#fff') + ';border:none;border-radius:5px;padding:5px 14px;font-size:10px;font-weight:700;cursor:pointer;font-family:inherit;letter-spacing:0.04em">Button</button>';
+    html += '<button style="background:transparent;color:' + (bo ? bo.hex : '#66f') + ';border:1.5px solid ' + (bo ? bo.hex : '#66f') + ';border-radius:5px;padding:5px 14px;font-size:10px;font-weight:700;cursor:pointer;font-family:inherit;letter-spacing:0.04em">Outline</button>';
+    html += '</div>';
+
+    /* Icons */
+    var iconColor = ic ? ic.hex : '#66f';
+    html += '<div style="display:flex;gap:8px">';
+    html += '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="' + iconColor + '" stroke-width="2.5" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>';
+    html += '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="' + iconColor + '" stroke-width="2.5" stroke-linecap="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>';
+    html += '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="' + iconColor + '" stroke-width="2.5" stroke-linecap="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>';
+    html += '</div></div>';
+    return html;
+}
+
+/* ================================================================
+   Render — Pairing Table
+   ================================================================ */
+function renderPairTable(mode) {
+    if (!mode.pairs) return '<div style="padding:10px;color:#C62828;font-size:11px">No valid pairings for this mode.</div>';
+
+    var html = '<table class="pair-table"><thead><tr>';
+    html += '<th>Role</th><th>Color</th><th>Step</th><th>Contrast</th>';
+    html += '</tr></thead><tbody>';
+
+    for (var i = 0; i < mode.pairs.length; i++) {
+        var p = mode.pairs[i];
+        html += '<tr>';
+        html += '<td class="role">' + p.role;
+        if (p.note) html += '<div class="note">' + p.note + '</div>';
+        html += '</td>';
+        html += '<td>' + sw(p.hex) + '</td>';
+        html += '<td class="step">' + p.step;
+        if (p.onBgLabel) html += ' <span class="on-label">' + p.onBgLabel + '</span>';
+        html += '</td>';
+        html += '<td>' + rb(p.ratio, p.uiComp) + '</td>';
+        html += '</tr>';
+    }
+
+    html += '</tbody></table>';
+
+    /* Avoid section */
+    if (mode.avoid && mode.avoid.length > 0) {
+        html += '<div class="avoid-box">';
+        html += '<div style="font-size:9px;font-weight:700;color:#C62828;margin-bottom:4px">⚠ DO NOT USE as small text on this surface</div>';
+        html += '<div style="display:flex;flex-wrap:wrap;gap:2px 10px">';
+        for (var j = 0; j < mode.avoid.length; j++) {
+            var a = mode.avoid[j];
+            html += '<span style="display:inline-flex;align-items:center;gap:3px;font-size:9px">';
+            html += sw(a.hex, 8);
+            html += '<span style="font-weight:600;color:#aaa">' + a.step + '</span>';
+            html += '<span style="font-family:monospace;font-size:8px;color:#C62828">' + a.ratio.toFixed(1) + '</span>';
+            if (a.lgOnly) html += '<span style="font-size:7px;color:#666">(lg)</span>';
+            html += '</span>';
+        }
+        html += '</div></div>';
+    }
+
+    return html;
+}
+
+/* ================================================================
+   Render — Mode Sections
+   ================================================================ */
+function renderModes() {
+    var modes = allData[currentHue];
+    var html = '';
+    var tags = { Light: 'bg-p-neutral-800 text-p-neutral-300', Dark: 'bg-p-neutral-700 text-p-neutral-200', 'Light hue': 'bg-p-neutral-800 text-p-neutral-300', 'Dark hue': 'bg-p-neutral-700 text-p-neutral-200', Accent: 'bg-p-neutral-700 text-p-neutral-200' };
+
+    for (var i = 0; i < modes.length; i++) {
+        var m = modes[i];
+        var isOpen = !!openModes[currentHue + '-' + m.id];
+        var borderLight = lum(m.bg) > 0.85 ? '1px solid #999' : '1px solid #555';
+
+        html += '<div class="mode-panel">';
+
+        /* Header */
+        html += '<div class="mode-header" onclick="toggleMode(' + m.id + ')">';
+        html += '<span style="width:20px;height:20px;border-radius:4px;background:' + m.bg + ';border:' + borderLight + ';flex-shrink:0"></span>';
+        html += '<span style="font-weight:700;font-size:12px;color:#e0e0e0">M' + m.id + ': ' + m.name + '</span>';
+        html += '<span class="mc-badge mc-badge-filled mc-badge-xs" data-hue="neutral" style="font-size:9px">' + m.tag + '</span>';
+        html += '<span style="font-size:10px;color:#666;margin-left:4px">' + m.desc + '</span>';
+        html += '<span style="font-family:monospace;font-size:9px;color:#555;margin-left:auto;margin-right:8px">BG: ' + m.bg + '</span>';
+        html += '<span class="mode-chevron ' + (isOpen ? 'open' : '') + '">▼</span>';
+        html += '</div>';
+
+        /* Body */
+        if (isOpen) {
+            html += '<div class="mode-body" style="display:block">';
+            html += '<div style="display:flex;gap:16px;flex-wrap:wrap">';
+            html += renderPreview(m);
+            html += '<div style="flex:1;min-width:280px">' + renderPairTable(m) + '</div>';
+            html += '</div></div>';
+        }
+
+        html += '</div>';
+    }
+
+    document.getElementById('mode-sections').innerHTML = html;
+}
+
+/* ================================================================
+   Render — Cross-Hue Summary Matrix
+   ================================================================ */
+function renderSummary() {
+    var modeNames = ['M1','M2','M3','M4','M5'];
+    var html = '<table class="summary-table"><thead>';
+
+    /* Header row 1 */
+    html += '<tr><th style="text-align:left">Hue</th>';
+    for (var i = 0; i < modeNames.length; i++) {
+        html += '<th colspan="2" class="bl" style="text-align:center">' + modeNames[i] + '</th>';
+    }
+    html += '</tr>';
+
+    /* Header row 2 */
+    html += '<tr><th></th>';
+    for (var i = 0; i < modeNames.length; i++) {
+        html += '<th class="bl">Text</th><th>Accent</th>';
+    }
+    html += '</tr></thead><tbody>';
+
+    /* Data rows */
+    for (var name in allData) {
+        var modes = allData[name];
+        html += '<tr>';
+        html += '<td class="hue-name" style="text-align:left">';
+        html += '<span style="display:inline-flex;align-items:center;gap:4px">' + sw(PALETTES[name][500], 10) + name + '</span></td>';
+
+        for (var i = 0; i < modes.length; i++) {
+            var mode = modes[i];
+            if (!mode.pairs) {
+                html += '<td class="bl" style="color:#555">—</td><td style="color:#555">—</td>';
+                continue;
+            }
+            var pr = mode.pairs.find(function(p) { return p.role === 'Primary Text'; });
+            var ac = mode.pairs.find(function(p) { return p.role === 'Accent / Link'; });
+
+            html += '<td class="bl">';
+            html += '<div style="display:flex;align-items:center;justify-content:center;gap:3px">' + sw(pr.hex, 8);
+            html += '<span class="ratio-num ' + (pr.ratio >= 4.5 ? 'pass' : 'fail') + '" style="font-size:8px">' + pr.ratio.toFixed(1) + '</span>';
+            html += '</div></td>';
+
+            html += '<td>';
+            html += '<div style="display:flex;align-items:center;justify-content:center;gap:3px">' + sw(ac.hex, 8);
+            html += '<span class="ratio-num ' + (ac.ratio >= 4.5 ? 'pass' : 'fail') + '" style="font-size:8px">' + ac.ratio.toFixed(1) + '</span>';
+            html += '</div></td>';
+        }
+        html += '</tr>';
+    }
+
+    html += '</tbody></table>';
+    document.getElementById('summary-matrix').innerHTML = html;
+}
+
+/* ================================================================
+   Render — Key Findings
+   ================================================================ */
+function renderFindings() {
+    var html = '<div class="guide-card">';
+    html += '<h3 style="font-size:14px;font-weight:800;color:#e0e0e0;margin:0 0 8px">Universal Pattern Across All Hues</h3>';
+    html += '<p style="font-size:11px;color:#999;margin:0 0 10px;line-height:1.6">Your palette is engineered with identical luminance curves per hue. Every hue follows the same pairing logic:</p>';
+
+    html += '<div style="display:grid;grid-template-columns:1fr 1fr;gap:6px 16px;font-size:11px;color:#aaa;line-height:1.5">';
+    html += '<div><strong class="text-white">M1 White BG:</strong> Steps 500–900 pass AA small. 500 for accent/links/buttons.</div>';
+    html += '<div><strong class="text-white">M2 Black BG:</strong> Steps 50–400 pass AA small. 400 for accent/links.</div>';
+    html += '<div><strong class="text-white">M3 Light (100) BG:</strong> Steps 600–900 + Black pass. 600 for accent.</div>';
+    html += '<div><strong class="text-white">M4 Dark (800) BG:</strong> Steps 50–300 + White pass. 300 for accent.</div>';
+    html += '</div>';
+
+    html += '<div class="finding-box" style="background:rgba(198,40,40,0.06);border-color:rgba(198,40,40,0.15)">';
+    html += '<strong style="color:#ff7474">M5 Mid (500) — Most Constrained:</strong> <span style="color:#aaa">500 is the darker mid-tone (~5.2:1 vs white), so light text (White/50) achieves strong contrast. Use this surface for CTAs, badges, hero banners.</span>';
+    html += '</div>';
+
+    html += '<div class="finding-box" style="background:rgba(255,200,0,0.04);border-color:rgba(255,200,0,0.12)">';
+    html += '<strong style="color:#e8e800">Dividers:</strong> <span style="color:#aaa">All modes achieve ≥3.0:1 for dividers (WCAG 1.4.11 non-text UI). This is correct behavior — dividers are decorative, not text.</span>';
+    html += '</div>';
+
+    html += '<div class="finding-box" style="background:rgba(0,180,0,0.06);border-color:rgba(0,180,0,0.12)">';
+    html += '<strong style="color:#00ba00">400↔500 Fix Applied:</strong> <span style="color:#aaa">Steps 400 and 500 were ordered so luminance decreases monotonically from 50→900. Step 400 (~4.0:1 vs white) is the mid-bright transition shade; Step 500 (~5.2:1 vs white) is the mid-dark shade that passes AA small on white.</span>';
+    html += '</div>';
+
+    html += '</div>';
+    document.getElementById('findings').innerHTML = html;
+}
+
+/* ================================================================
+   Event handlers
+   ================================================================ */
+function selectHue(name) {
+    currentHue = name;
+    render();
+}
+
+function toggleMode(id) {
+    var key = currentHue + '-' + id;
+    if (openModes[key]) delete openModes[key];
+    else openModes[key] = true;
+    renderModes();
+}
+
+function toggleAll() {
+    allExpanded = !allExpanded;
+    var modes = allData[currentHue];
+    if (allExpanded) {
+        for (var i = 0; i < modes.length; i++) openModes[currentHue + '-' + modes[i].id] = true;
+    } else {
+        for (var i = 0; i < modes.length; i++) delete openModes[currentHue + '-' + modes[i].id];
+    }
+    document.getElementById('btn-toggle-all').textContent = allExpanded ? 'Collapse all' : 'Expand all';
+    renderModes();
+}
+
+/* ================================================================
+   Main render
+   ================================================================ */
+function render() {
+    renderTabs();
+    renderStrip();
+    renderModes();
+    renderSummary();
+    renderFindings();
+}
+
+render();
+</script>
+</body>
+</html>

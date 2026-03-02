@@ -1,0 +1,623 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Badge Style Guide — MC Perception</title>
+    <link rel="stylesheet" href="../dist/mcperception.css">
+    <style>
+        .guide-section { margin-bottom: 4rem; }
+        .guide-card { background: #111111; border: 1px solid #222222; border-radius: 6px; padding: 1.5rem; }
+        .guide-label { min-width: 72px; font-size: 0.6rem; text-transform: uppercase; letter-spacing: 0.1em; color: #6c6c6c; font-weight: 700; }
+        .guide-row { display: flex; flex-wrap: wrap; align-items: center; gap: 0.5rem; }
+        .code-block {
+            background: #0a0a0a; border: 1px solid #222222; border-radius: 6px;
+            padding: 1rem 1.25rem; font-family: 'Roboto Mono', ui-monospace, monospace;
+            font-size: 0.7rem; line-height: 1.8; color: #a0a0a0; overflow-x: auto;
+            tab-size: 2;
+        }
+        .code-block .t { color: #ff7474; }     /* tag */
+        .code-block .a { color: #9494ff; }     /* attribute name */
+        .code-block .v { color: #00ba00; }     /* attribute value */
+        .code-block .c { color: #6d6dff; }     /* class name */
+        .code-block .cm { color: #515151; }    /* comment */
+        .code-block .tx { color: #c3c3c3; }    /* text content */
+        .surface-panel { border-radius: 8px; padding: 1.25rem 1.5rem; }
+        .section-number {
+            display: inline-flex; align-items: center; justify-content: center;
+            width: 28px; height: 28px; border-radius: 6px;
+            font-size: 0.75rem; font-weight: 800; margin-right: 0.5rem;
+        }
+        .grid-label {
+            font-size: 0.6rem; text-transform: uppercase; letter-spacing: 0.12em;
+            font-weight: 700; color: #515151; width: 64px; flex-shrink: 0;
+        }
+        .white-label { color: #7f7f7f; }
+    </style>
+</head>
+<body class="bg-p-black text-white min-h-screen font-sans">
+
+    <div class="max-w-7xl mx-auto px-6 py-12">
+
+        <!-- ====== HERO ====== -->
+        <header class="mb-16">
+            <nav class="text-xs text-p-neutral-400 mb-6 flex gap-2 items-center">
+                <a href="index.html" class="hover:text-white transition-colors">Components</a>
+                <span class="text-p-neutral-600">/</span>
+                <span class="text-white font-semibold">Badge</span>
+            </nav>
+
+            <div class="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-6 mb-8">
+                <div>
+                    <h1 class="text-5xl font-bold tracking-tight mb-3">Badge</h1>
+                    <p class="text-p-neutral-300 text-lg max-w-2xl">Surface-mode-aware inline labels, tags, and status indicators. 7 hues, 4 variants, 6 sizes, 5 surface modes.</p>
+                </div>
+                <div class="flex gap-2 flex-wrap">
+                    <span class="mc-badge mc-badge-filled mc-badge-pill" data-hue="blue">New API</span>
+                    <span class="mc-badge mc-badge-tonal mc-badge-pill" data-hue="green">WCAG AA</span>
+                    <span class="mc-badge mc-badge-outline mc-badge-pill" data-hue="magenta">7 Hues</span>
+                    <span class="mc-badge mc-badge-subtle mc-badge-pill" data-hue="teal">5 Modes</span>
+                </div>
+            </div>
+
+            <!-- Quick code example -->
+            <div class="guide-card">
+                <div class="flex items-center gap-2 mb-3">
+                    <span class="text-[10px] uppercase tracking-widest text-p-neutral-400 font-bold">Quick Start</span>
+                </div>
+                <div class="code-block">
+<span class="cm">&lt;!-- Basic usage --&gt;</span>
+<span class="t">&lt;span</span> <span class="a">class</span>=<span class="v">"mc-badge mc-badge-filled"</span> <span class="a">data-hue</span>=<span class="v">"green"</span><span class="t">&gt;</span><span class="tx">Active</span><span class="t">&lt;/span&gt;</span>
+
+<span class="cm">&lt;!-- With size + shape --&gt;</span>
+<span class="t">&lt;span</span> <span class="a">class</span>=<span class="v">"mc-badge mc-badge-outline mc-badge-lg mc-badge-pill"</span> <span class="a">data-hue</span>=<span class="v">"blue"</span><span class="t">&gt;</span><span class="tx">Beta</span><span class="t">&lt;/span&gt;</span>
+
+<span class="cm">&lt;!-- Surface mode adaptation (inherits from parent) --&gt;</span>
+<span class="t">&lt;div</span> <span class="a">data-hue</span>=<span class="v">"neutral"</span> <span class="a">data-mode</span>=<span class="v">"1"</span><span class="t">&gt;</span>  <span class="cm">&lt;!-- white surface --&gt;</span>
+  <span class="t">&lt;span</span> <span class="a">class</span>=<span class="v">"mc-badge mc-badge-outline"</span> <span class="a">data-hue</span>=<span class="v">"red"</span><span class="t">&gt;</span><span class="tx">Error</span><span class="t">&lt;/span&gt;</span>
+<span class="t">&lt;/div&gt;</span>
+                </div>
+            </div>
+        </header>
+
+        <!-- ====== 1. VARIANT SHOWCASE ====== -->
+        <section class="guide-section">
+            <h2 class="text-2xl font-bold mb-1 flex items-center">
+                <span class="section-number bg-p-blue-500 text-white">1</span>
+                Variants
+            </h2>
+            <p class="text-p-neutral-400 text-sm mb-6 ml-10">4 emphasis levels. All 7 hues shown per variant.</p>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+
+                <!-- Filled -->
+                <div class="guide-card">
+                    <div class="flex items-center justify-between mb-4">
+                        <div>
+                            <h3 class="text-sm font-bold text-white">Filled</h3>
+                            <p class="text-[10px] text-p-neutral-500 uppercase tracking-wider">High Emphasis</p>
+                        </div>
+                        <div class="text-[10px] text-p-neutral-600 font-mono">mc-badge-filled</div>
+                    </div>
+                    <div class="flex flex-wrap gap-2 mb-4">
+                        <span class="mc-badge mc-badge-filled" data-hue="neutral">Neutral</span>
+                        <span class="mc-badge mc-badge-filled" data-hue="red">Red</span>
+                        <span class="mc-badge mc-badge-filled" data-hue="green">Green</span>
+                        <span class="mc-badge mc-badge-filled" data-hue="blue">Blue</span>
+                        <span class="mc-badge mc-badge-filled" data-hue="yellow">Yellow</span>
+                        <span class="mc-badge mc-badge-filled" data-hue="magenta">Magenta</span>
+                        <span class="mc-badge mc-badge-filled" data-hue="teal">Teal</span>
+                    </div>
+                    <div class="code-block text-[10px]"><span class="t">&lt;span</span> <span class="a">class</span>=<span class="v">"mc-badge mc-badge-filled"</span> <span class="a">data-hue</span>=<span class="v">"green"</span><span class="t">&gt;</span><span class="tx">Green</span><span class="t">&lt;/span&gt;</span></div>
+                </div>
+
+                <!-- Tonal -->
+                <div class="guide-card">
+                    <div class="flex items-center justify-between mb-4">
+                        <div>
+                            <h3 class="text-sm font-bold text-white">Tonal</h3>
+                            <p class="text-[10px] text-p-neutral-500 uppercase tracking-wider">Medium-High Emphasis</p>
+                        </div>
+                        <div class="text-[10px] text-p-neutral-600 font-mono">mc-badge-tonal</div>
+                    </div>
+                    <div class="flex flex-wrap gap-2 mb-4">
+                        <span class="mc-badge mc-badge-tonal" data-hue="neutral">Neutral</span>
+                        <span class="mc-badge mc-badge-tonal" data-hue="red">Red</span>
+                        <span class="mc-badge mc-badge-tonal" data-hue="green">Green</span>
+                        <span class="mc-badge mc-badge-tonal" data-hue="blue">Blue</span>
+                        <span class="mc-badge mc-badge-tonal" data-hue="yellow">Yellow</span>
+                        <span class="mc-badge mc-badge-tonal" data-hue="magenta">Magenta</span>
+                        <span class="mc-badge mc-badge-tonal" data-hue="teal">Teal</span>
+                    </div>
+                    <div class="code-block text-[10px]"><span class="t">&lt;span</span> <span class="a">class</span>=<span class="v">"mc-badge mc-badge-tonal"</span> <span class="a">data-hue</span>=<span class="v">"red"</span><span class="t">&gt;</span><span class="tx">Red</span><span class="t">&lt;/span&gt;</span></div>
+                </div>
+
+                <!-- Outline -->
+                <div class="guide-card">
+                    <div class="flex items-center justify-between mb-4">
+                        <div>
+                            <h3 class="text-sm font-bold text-white">Outline</h3>
+                            <p class="text-[10px] text-p-neutral-500 uppercase tracking-wider">Medium Emphasis</p>
+                        </div>
+                        <div class="text-[10px] text-p-neutral-600 font-mono">mc-badge-outline</div>
+                    </div>
+                    <div class="flex flex-wrap gap-2 mb-4">
+                        <span class="mc-badge mc-badge-outline" data-hue="neutral">Neutral</span>
+                        <span class="mc-badge mc-badge-outline" data-hue="red">Red</span>
+                        <span class="mc-badge mc-badge-outline" data-hue="green">Green</span>
+                        <span class="mc-badge mc-badge-outline" data-hue="blue">Blue</span>
+                        <span class="mc-badge mc-badge-outline" data-hue="yellow">Yellow</span>
+                        <span class="mc-badge mc-badge-outline" data-hue="magenta">Magenta</span>
+                        <span class="mc-badge mc-badge-outline" data-hue="teal">Teal</span>
+                    </div>
+                    <div class="code-block text-[10px]"><span class="t">&lt;span</span> <span class="a">class</span>=<span class="v">"mc-badge mc-badge-outline"</span> <span class="a">data-hue</span>=<span class="v">"blue"</span><span class="t">&gt;</span><span class="tx">Blue</span><span class="t">&lt;/span&gt;</span></div>
+                </div>
+
+                <!-- Subtle -->
+                <div class="guide-card">
+                    <div class="flex items-center justify-between mb-4">
+                        <div>
+                            <h3 class="text-sm font-bold text-white">Subtle</h3>
+                            <p class="text-[10px] text-p-neutral-500 uppercase tracking-wider">Low Emphasis</p>
+                        </div>
+                        <div class="text-[10px] text-p-neutral-600 font-mono">mc-badge-subtle</div>
+                    </div>
+                    <div class="flex flex-wrap gap-2 mb-4">
+                        <span class="mc-badge mc-badge-subtle" data-hue="neutral">Neutral</span>
+                        <span class="mc-badge mc-badge-subtle" data-hue="red">Red</span>
+                        <span class="mc-badge mc-badge-subtle" data-hue="green">Green</span>
+                        <span class="mc-badge mc-badge-subtle" data-hue="blue">Blue</span>
+                        <span class="mc-badge mc-badge-subtle" data-hue="yellow">Yellow</span>
+                        <span class="mc-badge mc-badge-subtle" data-hue="magenta">Magenta</span>
+                        <span class="mc-badge mc-badge-subtle" data-hue="teal">Teal</span>
+                    </div>
+                    <div class="code-block text-[10px]"><span class="t">&lt;span</span> <span class="a">class</span>=<span class="v">"mc-badge mc-badge-subtle"</span> <span class="a">data-hue</span>=<span class="v">"yellow"</span><span class="t">&gt;</span><span class="tx">Yellow</span><span class="t">&lt;/span&gt;</span></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ====== 2. SIZE SCALE ====== -->
+        <section class="guide-section">
+            <h2 class="text-2xl font-bold mb-1 flex items-center">
+                <span class="section-number bg-p-green-500 text-white">2</span>
+                Size Scale
+            </h2>
+            <p class="text-p-neutral-400 text-sm mb-6 ml-10">6 sizes from xs (10px) to xxl (18px). Default is md (12px).</p>
+
+            <div class="guide-card mb-4">
+                <table class="w-full text-xs">
+                    <thead>
+                        <tr class="border-b border-p-neutral-800">
+                            <th class="text-left py-2 pr-4 text-[10px] text-p-neutral-400 uppercase tracking-widest font-bold">Size</th>
+                            <th class="text-left py-2 pr-4 text-[10px] text-p-neutral-400 uppercase tracking-widest font-bold">Class</th>
+                            <th class="text-left py-2 pr-4 text-[10px] text-p-neutral-400 uppercase tracking-widest font-bold">Font</th>
+                            <th class="text-left py-2 pr-4 text-[10px] text-p-neutral-400 uppercase tracking-widest font-bold">Padding</th>
+                            <th class="text-left py-2 text-[10px] text-p-neutral-400 uppercase tracking-widest font-bold">Preview</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="border-b border-p-neutral-800/50"><td class="py-2.5 pr-4 text-white font-semibold">XS</td><td class="py-2.5 pr-4 text-p-neutral-400 font-mono">mc-badge-xs</td><td class="py-2.5 pr-4 text-p-neutral-400">10px</td><td class="py-2.5 pr-4 text-p-neutral-400">1 &times; 6</td><td class="py-2.5"><span class="mc-badge mc-badge-filled mc-badge-xs" data-hue="blue">Extra Small</span></td></tr>
+                        <tr class="border-b border-p-neutral-800/50"><td class="py-2.5 pr-4 text-white font-semibold">SM</td><td class="py-2.5 pr-4 text-p-neutral-400 font-mono">mc-badge-sm</td><td class="py-2.5 pr-4 text-p-neutral-400">10px</td><td class="py-2.5 pr-4 text-p-neutral-400">2 &times; 6</td><td class="py-2.5"><span class="mc-badge mc-badge-filled mc-badge-sm" data-hue="blue">Small</span></td></tr>
+                        <tr class="border-b border-p-neutral-800/50"><td class="py-2.5 pr-4 text-white font-semibold">MD</td><td class="py-2.5 pr-4 text-p-neutral-300 font-mono italic">default</td><td class="py-2.5 pr-4 text-p-neutral-400">12px</td><td class="py-2.5 pr-4 text-p-neutral-400">2 &times; 8</td><td class="py-2.5"><span class="mc-badge mc-badge-filled" data-hue="blue">Medium</span></td></tr>
+                        <tr class="border-b border-p-neutral-800/50"><td class="py-2.5 pr-4 text-white font-semibold">LG</td><td class="py-2.5 pr-4 text-p-neutral-400 font-mono">mc-badge-lg</td><td class="py-2.5 pr-4 text-p-neutral-400">14px</td><td class="py-2.5 pr-4 text-p-neutral-400">4 &times; 10</td><td class="py-2.5"><span class="mc-badge mc-badge-filled mc-badge-lg" data-hue="blue">Large</span></td></tr>
+                        <tr class="border-b border-p-neutral-800/50"><td class="py-2.5 pr-4 text-white font-semibold">XL</td><td class="py-2.5 pr-4 text-p-neutral-400 font-mono">mc-badge-xl</td><td class="py-2.5 pr-4 text-p-neutral-400">16px</td><td class="py-2.5 pr-4 text-p-neutral-400">5 &times; 12</td><td class="py-2.5"><span class="mc-badge mc-badge-filled mc-badge-xl" data-hue="blue">Extra Large</span></td></tr>
+                        <tr><td class="py-2.5 pr-4 text-white font-semibold">XXL</td><td class="py-2.5 pr-4 text-p-neutral-400 font-mono">mc-badge-xxl</td><td class="py-2.5 pr-4 text-p-neutral-400">18px</td><td class="py-2.5 pr-4 text-p-neutral-400">6 &times; 14</td><td class="py-2.5"><span class="mc-badge mc-badge-filled mc-badge-xxl" data-hue="blue">XXL</span></td></tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- All variants at each size -->
+            <div class="guide-card">
+                <h3 class="text-xs font-bold uppercase tracking-widest text-p-neutral-400 mb-4">All Variants at Each Size</h3>
+                <div class="space-y-3">
+                    <div class="guide-row"><span class="guide-label">xs</span><span class="mc-badge mc-badge-filled mc-badge-xs" data-hue="red">Filled</span><span class="mc-badge mc-badge-tonal mc-badge-xs" data-hue="red">Tonal</span><span class="mc-badge mc-badge-outline mc-badge-xs" data-hue="red">Outline</span><span class="mc-badge mc-badge-subtle mc-badge-xs" data-hue="red">Subtle</span></div>
+                    <div class="guide-row"><span class="guide-label">sm</span><span class="mc-badge mc-badge-filled mc-badge-sm" data-hue="green">Filled</span><span class="mc-badge mc-badge-tonal mc-badge-sm" data-hue="green">Tonal</span><span class="mc-badge mc-badge-outline mc-badge-sm" data-hue="green">Outline</span><span class="mc-badge mc-badge-subtle mc-badge-sm" data-hue="green">Subtle</span></div>
+                    <div class="guide-row"><span class="guide-label">md</span><span class="mc-badge mc-badge-filled" data-hue="blue">Filled</span><span class="mc-badge mc-badge-tonal" data-hue="blue">Tonal</span><span class="mc-badge mc-badge-outline" data-hue="blue">Outline</span><span class="mc-badge mc-badge-subtle" data-hue="blue">Subtle</span></div>
+                    <div class="guide-row"><span class="guide-label">lg</span><span class="mc-badge mc-badge-filled mc-badge-lg" data-hue="yellow">Filled</span><span class="mc-badge mc-badge-tonal mc-badge-lg" data-hue="yellow">Tonal</span><span class="mc-badge mc-badge-outline mc-badge-lg" data-hue="yellow">Outline</span><span class="mc-badge mc-badge-subtle mc-badge-lg" data-hue="yellow">Subtle</span></div>
+                    <div class="guide-row"><span class="guide-label">xl</span><span class="mc-badge mc-badge-filled mc-badge-xl" data-hue="magenta">Filled</span><span class="mc-badge mc-badge-tonal mc-badge-xl" data-hue="magenta">Tonal</span><span class="mc-badge mc-badge-outline mc-badge-xl" data-hue="magenta">Outline</span><span class="mc-badge mc-badge-subtle mc-badge-xl" data-hue="magenta">Subtle</span></div>
+                    <div class="guide-row"><span class="guide-label">xxl</span><span class="mc-badge mc-badge-filled mc-badge-xxl" data-hue="teal">Filled</span><span class="mc-badge mc-badge-tonal mc-badge-xxl" data-hue="teal">Tonal</span><span class="mc-badge mc-badge-outline mc-badge-xxl" data-hue="teal">Outline</span><span class="mc-badge mc-badge-subtle mc-badge-xxl" data-hue="teal">Subtle</span></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ====== 3. FULL HUE x SIZE MATRIX ====== -->
+        <section class="guide-section">
+            <h2 class="text-2xl font-bold mb-1 flex items-center">
+                <span class="section-number bg-p-red-500 text-white">3</span>
+                Complete Hue &times; Size Matrix
+            </h2>
+            <p class="text-p-neutral-400 text-sm mb-6 ml-10">Every hue at every size. Dark and light backgrounds side by side.</p>
+
+            <!-- Filled Matrix -->
+            <h3 class="text-xs font-bold uppercase tracking-widest text-p-neutral-400 mb-3">Filled</h3>
+            <div class="grid grid-cols-1 xl:grid-cols-2 gap-4 mb-6">
+                <div class="surface-panel border border-p-neutral-800" data-hue="neutral" data-mode="2" style="background:#0A0A0A;">
+                    <p class="text-[9px] uppercase tracking-[0.15em] text-p-neutral-500 font-bold mb-3">Mode 2 &mdash; Black</p>
+                    <div class="space-y-2">
+                        <div class="guide-row"><span class="grid-label">Neutral</span><span class="mc-badge mc-badge-filled mc-badge-xs" data-hue="neutral">XS</span><span class="mc-badge mc-badge-filled mc-badge-sm" data-hue="neutral">SM</span><span class="mc-badge mc-badge-filled" data-hue="neutral">MD</span><span class="mc-badge mc-badge-filled mc-badge-lg" data-hue="neutral">LG</span><span class="mc-badge mc-badge-filled mc-badge-xl" data-hue="neutral">XL</span></div>
+                        <div class="guide-row"><span class="grid-label">Red</span><span class="mc-badge mc-badge-filled mc-badge-xs" data-hue="red">XS</span><span class="mc-badge mc-badge-filled mc-badge-sm" data-hue="red">SM</span><span class="mc-badge mc-badge-filled" data-hue="red">MD</span><span class="mc-badge mc-badge-filled mc-badge-lg" data-hue="red">LG</span><span class="mc-badge mc-badge-filled mc-badge-xl" data-hue="red">XL</span></div>
+                        <div class="guide-row"><span class="grid-label">Green</span><span class="mc-badge mc-badge-filled mc-badge-xs" data-hue="green">XS</span><span class="mc-badge mc-badge-filled mc-badge-sm" data-hue="green">SM</span><span class="mc-badge mc-badge-filled" data-hue="green">MD</span><span class="mc-badge mc-badge-filled mc-badge-lg" data-hue="green">LG</span><span class="mc-badge mc-badge-filled mc-badge-xl" data-hue="green">XL</span></div>
+                        <div class="guide-row"><span class="grid-label">Blue</span><span class="mc-badge mc-badge-filled mc-badge-xs" data-hue="blue">XS</span><span class="mc-badge mc-badge-filled mc-badge-sm" data-hue="blue">SM</span><span class="mc-badge mc-badge-filled" data-hue="blue">MD</span><span class="mc-badge mc-badge-filled mc-badge-lg" data-hue="blue">LG</span><span class="mc-badge mc-badge-filled mc-badge-xl" data-hue="blue">XL</span></div>
+                        <div class="guide-row"><span class="grid-label">Yellow</span><span class="mc-badge mc-badge-filled mc-badge-xs" data-hue="yellow">XS</span><span class="mc-badge mc-badge-filled mc-badge-sm" data-hue="yellow">SM</span><span class="mc-badge mc-badge-filled" data-hue="yellow">MD</span><span class="mc-badge mc-badge-filled mc-badge-lg" data-hue="yellow">LG</span><span class="mc-badge mc-badge-filled mc-badge-xl" data-hue="yellow">XL</span></div>
+                        <div class="guide-row"><span class="grid-label">Magenta</span><span class="mc-badge mc-badge-filled mc-badge-xs" data-hue="magenta">XS</span><span class="mc-badge mc-badge-filled mc-badge-sm" data-hue="magenta">SM</span><span class="mc-badge mc-badge-filled" data-hue="magenta">MD</span><span class="mc-badge mc-badge-filled mc-badge-lg" data-hue="magenta">LG</span><span class="mc-badge mc-badge-filled mc-badge-xl" data-hue="magenta">XL</span></div>
+                        <div class="guide-row"><span class="grid-label">Teal</span><span class="mc-badge mc-badge-filled mc-badge-xs" data-hue="teal">XS</span><span class="mc-badge mc-badge-filled mc-badge-sm" data-hue="teal">SM</span><span class="mc-badge mc-badge-filled" data-hue="teal">MD</span><span class="mc-badge mc-badge-filled mc-badge-lg" data-hue="teal">LG</span><span class="mc-badge mc-badge-filled mc-badge-xl" data-hue="teal">XL</span></div>
+                    </div>
+                </div>
+                <div class="surface-panel border border-p-neutral-200" data-hue="neutral" data-mode="1" style="background:#FFFFFF;">
+                    <p class="text-[9px] uppercase tracking-[0.15em] font-bold mb-3 white-label">Mode 1 &mdash; White</p>
+                    <div class="space-y-2">
+                        <div class="guide-row"><span class="grid-label white-label">Neutral</span><span class="mc-badge mc-badge-filled mc-badge-xs" data-hue="neutral">XS</span><span class="mc-badge mc-badge-filled mc-badge-sm" data-hue="neutral">SM</span><span class="mc-badge mc-badge-filled" data-hue="neutral">MD</span><span class="mc-badge mc-badge-filled mc-badge-lg" data-hue="neutral">LG</span><span class="mc-badge mc-badge-filled mc-badge-xl" data-hue="neutral">XL</span></div>
+                        <div class="guide-row"><span class="grid-label white-label">Red</span><span class="mc-badge mc-badge-filled mc-badge-xs" data-hue="red">XS</span><span class="mc-badge mc-badge-filled mc-badge-sm" data-hue="red">SM</span><span class="mc-badge mc-badge-filled" data-hue="red">MD</span><span class="mc-badge mc-badge-filled mc-badge-lg" data-hue="red">LG</span><span class="mc-badge mc-badge-filled mc-badge-xl" data-hue="red">XL</span></div>
+                        <div class="guide-row"><span class="grid-label white-label">Green</span><span class="mc-badge mc-badge-filled mc-badge-xs" data-hue="green">XS</span><span class="mc-badge mc-badge-filled mc-badge-sm" data-hue="green">SM</span><span class="mc-badge mc-badge-filled" data-hue="green">MD</span><span class="mc-badge mc-badge-filled mc-badge-lg" data-hue="green">LG</span><span class="mc-badge mc-badge-filled mc-badge-xl" data-hue="green">XL</span></div>
+                        <div class="guide-row"><span class="grid-label white-label">Blue</span><span class="mc-badge mc-badge-filled mc-badge-xs" data-hue="blue">XS</span><span class="mc-badge mc-badge-filled mc-badge-sm" data-hue="blue">SM</span><span class="mc-badge mc-badge-filled" data-hue="blue">MD</span><span class="mc-badge mc-badge-filled mc-badge-lg" data-hue="blue">LG</span><span class="mc-badge mc-badge-filled mc-badge-xl" data-hue="blue">XL</span></div>
+                        <div class="guide-row"><span class="grid-label white-label">Yellow</span><span class="mc-badge mc-badge-filled mc-badge-xs" data-hue="yellow">XS</span><span class="mc-badge mc-badge-filled mc-badge-sm" data-hue="yellow">SM</span><span class="mc-badge mc-badge-filled" data-hue="yellow">MD</span><span class="mc-badge mc-badge-filled mc-badge-lg" data-hue="yellow">LG</span><span class="mc-badge mc-badge-filled mc-badge-xl" data-hue="yellow">XL</span></div>
+                        <div class="guide-row"><span class="grid-label white-label">Magenta</span><span class="mc-badge mc-badge-filled mc-badge-xs" data-hue="magenta">XS</span><span class="mc-badge mc-badge-filled mc-badge-sm" data-hue="magenta">SM</span><span class="mc-badge mc-badge-filled" data-hue="magenta">MD</span><span class="mc-badge mc-badge-filled mc-badge-lg" data-hue="magenta">LG</span><span class="mc-badge mc-badge-filled mc-badge-xl" data-hue="magenta">XL</span></div>
+                        <div class="guide-row"><span class="grid-label white-label">Teal</span><span class="mc-badge mc-badge-filled mc-badge-xs" data-hue="teal">XS</span><span class="mc-badge mc-badge-filled mc-badge-sm" data-hue="teal">SM</span><span class="mc-badge mc-badge-filled" data-hue="teal">MD</span><span class="mc-badge mc-badge-filled mc-badge-lg" data-hue="teal">LG</span><span class="mc-badge mc-badge-filled mc-badge-xl" data-hue="teal">XL</span></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Outline Matrix -->
+            <h3 class="text-xs font-bold uppercase tracking-widest text-p-neutral-400 mb-3">Outline</h3>
+            <div class="grid grid-cols-1 xl:grid-cols-2 gap-4 mb-6">
+                <div class="surface-panel border border-p-neutral-800" data-hue="neutral" data-mode="2" style="background:#0A0A0A;">
+                    <p class="text-[9px] uppercase tracking-[0.15em] text-p-neutral-500 font-bold mb-3">Mode 2 &mdash; Black</p>
+                    <div class="space-y-2">
+                        <div class="guide-row"><span class="grid-label">Neutral</span><span class="mc-badge mc-badge-outline mc-badge-xs" data-hue="neutral">XS</span><span class="mc-badge mc-badge-outline mc-badge-sm" data-hue="neutral">SM</span><span class="mc-badge mc-badge-outline" data-hue="neutral">MD</span><span class="mc-badge mc-badge-outline mc-badge-lg" data-hue="neutral">LG</span><span class="mc-badge mc-badge-outline mc-badge-xl" data-hue="neutral">XL</span></div>
+                        <div class="guide-row"><span class="grid-label">Red</span><span class="mc-badge mc-badge-outline mc-badge-xs" data-hue="red">XS</span><span class="mc-badge mc-badge-outline mc-badge-sm" data-hue="red">SM</span><span class="mc-badge mc-badge-outline" data-hue="red">MD</span><span class="mc-badge mc-badge-outline mc-badge-lg" data-hue="red">LG</span><span class="mc-badge mc-badge-outline mc-badge-xl" data-hue="red">XL</span></div>
+                        <div class="guide-row"><span class="grid-label">Green</span><span class="mc-badge mc-badge-outline mc-badge-xs" data-hue="green">XS</span><span class="mc-badge mc-badge-outline mc-badge-sm" data-hue="green">SM</span><span class="mc-badge mc-badge-outline" data-hue="green">MD</span><span class="mc-badge mc-badge-outline mc-badge-lg" data-hue="green">LG</span><span class="mc-badge mc-badge-outline mc-badge-xl" data-hue="green">XL</span></div>
+                        <div class="guide-row"><span class="grid-label">Blue</span><span class="mc-badge mc-badge-outline mc-badge-xs" data-hue="blue">XS</span><span class="mc-badge mc-badge-outline mc-badge-sm" data-hue="blue">SM</span><span class="mc-badge mc-badge-outline" data-hue="blue">MD</span><span class="mc-badge mc-badge-outline mc-badge-lg" data-hue="blue">LG</span><span class="mc-badge mc-badge-outline mc-badge-xl" data-hue="blue">XL</span></div>
+                        <div class="guide-row"><span class="grid-label">Yellow</span><span class="mc-badge mc-badge-outline mc-badge-xs" data-hue="yellow">XS</span><span class="mc-badge mc-badge-outline mc-badge-sm" data-hue="yellow">SM</span><span class="mc-badge mc-badge-outline" data-hue="yellow">MD</span><span class="mc-badge mc-badge-outline mc-badge-lg" data-hue="yellow">LG</span><span class="mc-badge mc-badge-outline mc-badge-xl" data-hue="yellow">XL</span></div>
+                        <div class="guide-row"><span class="grid-label">Magenta</span><span class="mc-badge mc-badge-outline mc-badge-xs" data-hue="magenta">XS</span><span class="mc-badge mc-badge-outline mc-badge-sm" data-hue="magenta">SM</span><span class="mc-badge mc-badge-outline" data-hue="magenta">MD</span><span class="mc-badge mc-badge-outline mc-badge-lg" data-hue="magenta">LG</span><span class="mc-badge mc-badge-outline mc-badge-xl" data-hue="magenta">XL</span></div>
+                        <div class="guide-row"><span class="grid-label">Teal</span><span class="mc-badge mc-badge-outline mc-badge-xs" data-hue="teal">XS</span><span class="mc-badge mc-badge-outline mc-badge-sm" data-hue="teal">SM</span><span class="mc-badge mc-badge-outline" data-hue="teal">MD</span><span class="mc-badge mc-badge-outline mc-badge-lg" data-hue="teal">LG</span><span class="mc-badge mc-badge-outline mc-badge-xl" data-hue="teal">XL</span></div>
+                    </div>
+                </div>
+                <div class="surface-panel border border-p-neutral-200" data-hue="neutral" data-mode="1" style="background:#FFFFFF;">
+                    <p class="text-[9px] uppercase tracking-[0.15em] font-bold mb-3 white-label">Mode 1 &mdash; White</p>
+                    <div class="space-y-2">
+                        <div class="guide-row"><span class="grid-label white-label">Neutral</span><span class="mc-badge mc-badge-outline mc-badge-xs" data-hue="neutral">XS</span><span class="mc-badge mc-badge-outline mc-badge-sm" data-hue="neutral">SM</span><span class="mc-badge mc-badge-outline" data-hue="neutral">MD</span><span class="mc-badge mc-badge-outline mc-badge-lg" data-hue="neutral">LG</span><span class="mc-badge mc-badge-outline mc-badge-xl" data-hue="neutral">XL</span></div>
+                        <div class="guide-row"><span class="grid-label white-label">Red</span><span class="mc-badge mc-badge-outline mc-badge-xs" data-hue="red">XS</span><span class="mc-badge mc-badge-outline mc-badge-sm" data-hue="red">SM</span><span class="mc-badge mc-badge-outline" data-hue="red">MD</span><span class="mc-badge mc-badge-outline mc-badge-lg" data-hue="red">LG</span><span class="mc-badge mc-badge-outline mc-badge-xl" data-hue="red">XL</span></div>
+                        <div class="guide-row"><span class="grid-label white-label">Green</span><span class="mc-badge mc-badge-outline mc-badge-xs" data-hue="green">XS</span><span class="mc-badge mc-badge-outline mc-badge-sm" data-hue="green">SM</span><span class="mc-badge mc-badge-outline" data-hue="green">MD</span><span class="mc-badge mc-badge-outline mc-badge-lg" data-hue="green">LG</span><span class="mc-badge mc-badge-outline mc-badge-xl" data-hue="green">XL</span></div>
+                        <div class="guide-row"><span class="grid-label white-label">Blue</span><span class="mc-badge mc-badge-outline mc-badge-xs" data-hue="blue">XS</span><span class="mc-badge mc-badge-outline mc-badge-sm" data-hue="blue">SM</span><span class="mc-badge mc-badge-outline" data-hue="blue">MD</span><span class="mc-badge mc-badge-outline mc-badge-lg" data-hue="blue">LG</span><span class="mc-badge mc-badge-outline mc-badge-xl" data-hue="blue">XL</span></div>
+                        <div class="guide-row"><span class="grid-label white-label">Yellow</span><span class="mc-badge mc-badge-outline mc-badge-xs" data-hue="yellow">XS</span><span class="mc-badge mc-badge-outline mc-badge-sm" data-hue="yellow">SM</span><span class="mc-badge mc-badge-outline" data-hue="yellow">MD</span><span class="mc-badge mc-badge-outline mc-badge-lg" data-hue="yellow">LG</span><span class="mc-badge mc-badge-outline mc-badge-xl" data-hue="yellow">XL</span></div>
+                        <div class="guide-row"><span class="grid-label white-label">Magenta</span><span class="mc-badge mc-badge-outline mc-badge-xs" data-hue="magenta">XS</span><span class="mc-badge mc-badge-outline mc-badge-sm" data-hue="magenta">SM</span><span class="mc-badge mc-badge-outline" data-hue="magenta">MD</span><span class="mc-badge mc-badge-outline mc-badge-lg" data-hue="magenta">LG</span><span class="mc-badge mc-badge-outline mc-badge-xl" data-hue="magenta">XL</span></div>
+                        <div class="guide-row"><span class="grid-label white-label">Teal</span><span class="mc-badge mc-badge-outline mc-badge-xs" data-hue="teal">XS</span><span class="mc-badge mc-badge-outline mc-badge-sm" data-hue="teal">SM</span><span class="mc-badge mc-badge-outline" data-hue="teal">MD</span><span class="mc-badge mc-badge-outline mc-badge-lg" data-hue="teal">LG</span><span class="mc-badge mc-badge-outline mc-badge-xl" data-hue="teal">XL</span></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Subtle Matrix -->
+            <h3 class="text-xs font-bold uppercase tracking-widest text-p-neutral-400 mb-3">Subtle</h3>
+            <div class="grid grid-cols-1 xl:grid-cols-2 gap-4">
+                <div class="surface-panel border border-p-neutral-800" data-hue="neutral" data-mode="2" style="background:#0A0A0A;">
+                    <p class="text-[9px] uppercase tracking-[0.15em] text-p-neutral-500 font-bold mb-3">Mode 2 &mdash; Black</p>
+                    <div class="space-y-2">
+                        <div class="guide-row"><span class="grid-label">Neutral</span><span class="mc-badge mc-badge-subtle mc-badge-xs" data-hue="neutral">XS</span><span class="mc-badge mc-badge-subtle mc-badge-sm" data-hue="neutral">SM</span><span class="mc-badge mc-badge-subtle" data-hue="neutral">MD</span><span class="mc-badge mc-badge-subtle mc-badge-lg" data-hue="neutral">LG</span><span class="mc-badge mc-badge-subtle mc-badge-xl" data-hue="neutral">XL</span></div>
+                        <div class="guide-row"><span class="grid-label">Red</span><span class="mc-badge mc-badge-subtle mc-badge-xs" data-hue="red">XS</span><span class="mc-badge mc-badge-subtle mc-badge-sm" data-hue="red">SM</span><span class="mc-badge mc-badge-subtle" data-hue="red">MD</span><span class="mc-badge mc-badge-subtle mc-badge-lg" data-hue="red">LG</span><span class="mc-badge mc-badge-subtle mc-badge-xl" data-hue="red">XL</span></div>
+                        <div class="guide-row"><span class="grid-label">Green</span><span class="mc-badge mc-badge-subtle mc-badge-xs" data-hue="green">XS</span><span class="mc-badge mc-badge-subtle mc-badge-sm" data-hue="green">SM</span><span class="mc-badge mc-badge-subtle" data-hue="green">MD</span><span class="mc-badge mc-badge-subtle mc-badge-lg" data-hue="green">LG</span><span class="mc-badge mc-badge-subtle mc-badge-xl" data-hue="green">XL</span></div>
+                        <div class="guide-row"><span class="grid-label">Blue</span><span class="mc-badge mc-badge-subtle mc-badge-xs" data-hue="blue">XS</span><span class="mc-badge mc-badge-subtle mc-badge-sm" data-hue="blue">SM</span><span class="mc-badge mc-badge-subtle" data-hue="blue">MD</span><span class="mc-badge mc-badge-subtle mc-badge-lg" data-hue="blue">LG</span><span class="mc-badge mc-badge-subtle mc-badge-xl" data-hue="blue">XL</span></div>
+                        <div class="guide-row"><span class="grid-label">Yellow</span><span class="mc-badge mc-badge-subtle mc-badge-xs" data-hue="yellow">XS</span><span class="mc-badge mc-badge-subtle mc-badge-sm" data-hue="yellow">SM</span><span class="mc-badge mc-badge-subtle" data-hue="yellow">MD</span><span class="mc-badge mc-badge-subtle mc-badge-lg" data-hue="yellow">LG</span><span class="mc-badge mc-badge-subtle mc-badge-xl" data-hue="yellow">XL</span></div>
+                        <div class="guide-row"><span class="grid-label">Magenta</span><span class="mc-badge mc-badge-subtle mc-badge-xs" data-hue="magenta">XS</span><span class="mc-badge mc-badge-subtle mc-badge-sm" data-hue="magenta">SM</span><span class="mc-badge mc-badge-subtle" data-hue="magenta">MD</span><span class="mc-badge mc-badge-subtle mc-badge-lg" data-hue="magenta">LG</span><span class="mc-badge mc-badge-subtle mc-badge-xl" data-hue="magenta">XL</span></div>
+                        <div class="guide-row"><span class="grid-label">Teal</span><span class="mc-badge mc-badge-subtle mc-badge-xs" data-hue="teal">XS</span><span class="mc-badge mc-badge-subtle mc-badge-sm" data-hue="teal">SM</span><span class="mc-badge mc-badge-subtle" data-hue="teal">MD</span><span class="mc-badge mc-badge-subtle mc-badge-lg" data-hue="teal">LG</span><span class="mc-badge mc-badge-subtle mc-badge-xl" data-hue="teal">XL</span></div>
+                    </div>
+                </div>
+                <div class="surface-panel border border-p-neutral-200" data-hue="neutral" data-mode="1" style="background:#FFFFFF;">
+                    <p class="text-[9px] uppercase tracking-[0.15em] font-bold mb-3 white-label">Mode 1 &mdash; White</p>
+                    <div class="space-y-2">
+                        <div class="guide-row"><span class="grid-label white-label">Neutral</span><span class="mc-badge mc-badge-subtle mc-badge-xs" data-hue="neutral">XS</span><span class="mc-badge mc-badge-subtle mc-badge-sm" data-hue="neutral">SM</span><span class="mc-badge mc-badge-subtle" data-hue="neutral">MD</span><span class="mc-badge mc-badge-subtle mc-badge-lg" data-hue="neutral">LG</span><span class="mc-badge mc-badge-subtle mc-badge-xl" data-hue="neutral">XL</span></div>
+                        <div class="guide-row"><span class="grid-label white-label">Red</span><span class="mc-badge mc-badge-subtle mc-badge-xs" data-hue="red">XS</span><span class="mc-badge mc-badge-subtle mc-badge-sm" data-hue="red">SM</span><span class="mc-badge mc-badge-subtle" data-hue="red">MD</span><span class="mc-badge mc-badge-subtle mc-badge-lg" data-hue="red">LG</span><span class="mc-badge mc-badge-subtle mc-badge-xl" data-hue="red">XL</span></div>
+                        <div class="guide-row"><span class="grid-label white-label">Green</span><span class="mc-badge mc-badge-subtle mc-badge-xs" data-hue="green">XS</span><span class="mc-badge mc-badge-subtle mc-badge-sm" data-hue="green">SM</span><span class="mc-badge mc-badge-subtle" data-hue="green">MD</span><span class="mc-badge mc-badge-subtle mc-badge-lg" data-hue="green">LG</span><span class="mc-badge mc-badge-subtle mc-badge-xl" data-hue="green">XL</span></div>
+                        <div class="guide-row"><span class="grid-label white-label">Blue</span><span class="mc-badge mc-badge-subtle mc-badge-xs" data-hue="blue">XS</span><span class="mc-badge mc-badge-subtle mc-badge-sm" data-hue="blue">SM</span><span class="mc-badge mc-badge-subtle" data-hue="blue">MD</span><span class="mc-badge mc-badge-subtle mc-badge-lg" data-hue="blue">LG</span><span class="mc-badge mc-badge-subtle mc-badge-xl" data-hue="blue">XL</span></div>
+                        <div class="guide-row"><span class="grid-label white-label">Yellow</span><span class="mc-badge mc-badge-subtle mc-badge-xs" data-hue="yellow">XS</span><span class="mc-badge mc-badge-subtle mc-badge-sm" data-hue="yellow">SM</span><span class="mc-badge mc-badge-subtle" data-hue="yellow">MD</span><span class="mc-badge mc-badge-subtle mc-badge-lg" data-hue="yellow">LG</span><span class="mc-badge mc-badge-subtle mc-badge-xl" data-hue="yellow">XL</span></div>
+                        <div class="guide-row"><span class="grid-label white-label">Magenta</span><span class="mc-badge mc-badge-subtle mc-badge-xs" data-hue="magenta">XS</span><span class="mc-badge mc-badge-subtle mc-badge-sm" data-hue="magenta">SM</span><span class="mc-badge mc-badge-subtle" data-hue="magenta">MD</span><span class="mc-badge mc-badge-subtle mc-badge-lg" data-hue="magenta">LG</span><span class="mc-badge mc-badge-subtle mc-badge-xl" data-hue="magenta">XL</span></div>
+                        <div class="guide-row"><span class="grid-label white-label">Teal</span><span class="mc-badge mc-badge-subtle mc-badge-xs" data-hue="teal">XS</span><span class="mc-badge mc-badge-subtle mc-badge-sm" data-hue="teal">SM</span><span class="mc-badge mc-badge-subtle" data-hue="teal">MD</span><span class="mc-badge mc-badge-subtle mc-badge-lg" data-hue="teal">LG</span><span class="mc-badge mc-badge-subtle mc-badge-xl" data-hue="teal">XL</span></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ====== 4. SURFACE MODE ADAPTATION ====== -->
+        <section class="guide-section">
+            <h2 class="text-2xl font-bold mb-1 flex items-center">
+                <span class="section-number bg-p-magenta-500 text-white">4</span>
+                Surface Mode Adaptation
+            </h2>
+            <p class="text-p-neutral-400 text-sm mb-6 ml-10">Badges inherit <code class="text-p-blue-300 text-xs">data-mode</code> from ancestor containers and adapt automatically.</p>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
+                <!-- M1 -->
+                <div class="surface-panel border" data-hue="neutral" data-mode="1" style="background:#FFFFFF; border-color:#c3c3c3;">
+                    <p class="text-[10px] uppercase tracking-[0.12em] font-bold mb-3" style="color:#222222;">M1 &mdash; White #FFF</p>
+                    <div class="flex flex-wrap gap-1.5 mb-2"><span class="mc-badge mc-badge-filled mc-badge-sm" data-hue="blue">Filled</span><span class="mc-badge mc-badge-tonal mc-badge-sm" data-hue="blue">Tonal</span><span class="mc-badge mc-badge-outline mc-badge-sm" data-hue="blue">Outline</span><span class="mc-badge mc-badge-subtle mc-badge-sm" data-hue="blue">Subtle</span></div>
+                    <div class="flex flex-wrap gap-1.5"><span class="mc-badge mc-badge-filled mc-badge-sm" data-hue="red">Filled</span><span class="mc-badge mc-badge-outline mc-badge-sm" data-hue="green">Outline</span><span class="mc-badge mc-badge-subtle mc-badge-sm" data-hue="yellow">Subtle</span></div>
+                </div>
+                <!-- M2 -->
+                <div class="surface-panel border" data-hue="neutral" data-mode="2" style="background:#0A0A0A; border-color:#373737;">
+                    <p class="text-[10px] uppercase tracking-[0.12em] font-bold text-p-neutral-400 mb-3">M2 &mdash; Black #0A0A0A</p>
+                    <div class="flex flex-wrap gap-1.5 mb-2"><span class="mc-badge mc-badge-filled mc-badge-sm" data-hue="blue">Filled</span><span class="mc-badge mc-badge-tonal mc-badge-sm" data-hue="blue">Tonal</span><span class="mc-badge mc-badge-outline mc-badge-sm" data-hue="blue">Outline</span><span class="mc-badge mc-badge-subtle mc-badge-sm" data-hue="blue">Subtle</span></div>
+                    <div class="flex flex-wrap gap-1.5"><span class="mc-badge mc-badge-filled mc-badge-sm" data-hue="red">Filled</span><span class="mc-badge mc-badge-outline mc-badge-sm" data-hue="green">Outline</span><span class="mc-badge mc-badge-subtle mc-badge-sm" data-hue="yellow">Subtle</span></div>
+                </div>
+                <!-- M3 -->
+                <div class="surface-panel border" data-hue="blue" data-mode="3" style="background:#dedeff; border-color:#9494ff;">
+                    <p class="text-[10px] uppercase tracking-[0.12em] font-bold mb-3" style="color:#000035;">M3 &mdash; Light Blue-100</p>
+                    <div class="flex flex-wrap gap-1.5 mb-2"><span class="mc-badge mc-badge-filled mc-badge-sm" data-hue="blue">Filled</span><span class="mc-badge mc-badge-tonal mc-badge-sm" data-hue="blue">Tonal</span><span class="mc-badge mc-badge-outline mc-badge-sm" data-hue="blue">Outline</span><span class="mc-badge mc-badge-subtle mc-badge-sm" data-hue="blue">Subtle</span></div>
+                    <div class="flex flex-wrap gap-1.5"><span class="mc-badge mc-badge-filled mc-badge-sm" data-hue="red">Filled</span><span class="mc-badge mc-badge-outline mc-badge-sm" data-hue="green">Outline</span><span class="mc-badge mc-badge-subtle mc-badge-sm" data-hue="yellow">Subtle</span></div>
+                </div>
+                <!-- M4 -->
+                <div class="surface-panel border" data-hue="blue" data-mode="4" style="background:#000081; border-color:#6d6dff;">
+                    <p class="text-[10px] uppercase tracking-[0.12em] font-bold text-white mb-3">M4 &mdash; Dark Blue-800</p>
+                    <div class="flex flex-wrap gap-1.5 mb-2"><span class="mc-badge mc-badge-filled mc-badge-sm" data-hue="blue">Filled</span><span class="mc-badge mc-badge-tonal mc-badge-sm" data-hue="blue">Tonal</span><span class="mc-badge mc-badge-outline mc-badge-sm" data-hue="blue">Outline</span><span class="mc-badge mc-badge-subtle mc-badge-sm" data-hue="blue">Subtle</span></div>
+                    <div class="flex flex-wrap gap-1.5"><span class="mc-badge mc-badge-filled mc-badge-sm" data-hue="red">Filled</span><span class="mc-badge mc-badge-outline mc-badge-sm" data-hue="green">Outline</span><span class="mc-badge mc-badge-subtle mc-badge-sm" data-hue="yellow">Subtle</span></div>
+                </div>
+                <!-- M5 -->
+                <div class="surface-panel border md:col-span-2 xl:col-span-2" data-hue="blue" data-mode="5" style="background:#5252ff; border-color:#bebeff;">
+                    <p class="text-[10px] uppercase tracking-[0.12em] font-bold text-white mb-3">M5 &mdash; Mid Blue-500</p>
+                    <div class="flex flex-wrap gap-1.5 mb-2"><span class="mc-badge mc-badge-filled mc-badge-sm" data-hue="blue">Filled</span><span class="mc-badge mc-badge-tonal mc-badge-sm" data-hue="blue">Tonal</span><span class="mc-badge mc-badge-outline mc-badge-sm" data-hue="blue">Outline</span><span class="mc-badge mc-badge-subtle mc-badge-sm" data-hue="blue">Subtle</span></div>
+                    <div class="flex flex-wrap gap-1.5"><span class="mc-badge mc-badge-filled mc-badge-sm" data-hue="red">Filled</span><span class="mc-badge mc-badge-filled mc-badge-sm" data-hue="green">Filled</span><span class="mc-badge mc-badge-outline mc-badge-sm" data-hue="yellow">Outline</span><span class="mc-badge mc-badge-outline mc-badge-sm" data-hue="magenta">Outline</span><span class="mc-badge mc-badge-subtle mc-badge-sm" data-hue="teal">Subtle</span></div>
+                </div>
+            </div>
+
+            <div class="code-block mt-4">
+<span class="cm">&lt;!-- Badges adapt to parent surface mode --&gt;</span>
+<span class="t">&lt;div</span> <span class="a">data-hue</span>=<span class="v">"neutral"</span> <span class="a">data-mode</span>=<span class="v">"1"</span> <span class="a">style</span>=<span class="v">"background:#FFF"</span><span class="t">&gt;</span>
+  <span class="t">&lt;span</span> <span class="a">class</span>=<span class="v">"mc-badge mc-badge-outline"</span> <span class="a">data-hue</span>=<span class="v">"red"</span><span class="t">&gt;</span><span class="tx">Adapts to M1</span><span class="t">&lt;/span&gt;</span>
+<span class="t">&lt;/div&gt;</span>
+            </div>
+        </section>
+
+        <!-- ====== 5. SHAPES & DOTS ====== -->
+        <section class="guide-section">
+            <h2 class="text-2xl font-bold mb-1 flex items-center">
+                <span class="section-number bg-p-yellow-500 text-white">5</span>
+                Shapes &amp; Status Dots
+            </h2>
+            <p class="text-p-neutral-400 text-sm mb-6 ml-10">Pill, square, dot indicators, dot-only, and pulsing animations.</p>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <!-- Shapes -->
+                <div class="guide-card">
+                    <h3 class="text-xs font-bold uppercase tracking-widest text-p-neutral-400 mb-4">Shapes</h3>
+                    <div class="space-y-4">
+                        <div>
+                            <p class="text-[10px] text-p-neutral-500 mb-2 font-mono">mc-badge-pill</p>
+                            <div class="flex flex-wrap gap-2">
+                                <span class="mc-badge mc-badge-filled mc-badge-pill" data-hue="blue">Default</span>
+                                <span class="mc-badge mc-badge-filled mc-badge-pill" data-hue="green">Active</span>
+                                <span class="mc-badge mc-badge-outline mc-badge-pill" data-hue="red">Removed</span>
+                                <span class="mc-badge mc-badge-subtle mc-badge-pill" data-hue="magenta">Premium</span>
+                            </div>
+                        </div>
+                        <div>
+                            <p class="text-[10px] text-p-neutral-500 mb-2 font-mono">mc-badge-square</p>
+                            <div class="flex flex-wrap gap-2">
+                                <span class="mc-badge mc-badge-filled mc-badge-square" data-hue="blue">v2.1</span>
+                                <span class="mc-badge mc-badge-filled mc-badge-square" data-hue="red">Breaking</span>
+                                <span class="mc-badge mc-badge-outline mc-badge-square" data-hue="neutral">Draft</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Dots -->
+                <div class="guide-card">
+                    <h3 class="text-xs font-bold uppercase tracking-widest text-p-neutral-400 mb-4">Status Dots</h3>
+                    <div class="space-y-4">
+                        <div>
+                            <p class="text-[10px] text-p-neutral-500 mb-2 font-mono">mc-badge-dot (prefixed dot)</p>
+                            <div class="flex flex-wrap gap-2">
+                                <span class="mc-badge mc-badge-filled mc-badge-dot" data-hue="green">Online</span>
+                                <span class="mc-badge mc-badge-filled mc-badge-dot" data-hue="red">Offline</span>
+                                <span class="mc-badge mc-badge-outline mc-badge-dot" data-hue="yellow">Away</span>
+                            </div>
+                        </div>
+                        <div>
+                            <p class="text-[10px] text-p-neutral-500 mb-2 font-mono">mc-badge-dot-only</p>
+                            <div class="flex items-center gap-3">
+                                <span class="mc-badge mc-badge-dot-only mc-badge-xs" data-hue="green"></span>
+                                <span class="mc-badge mc-badge-dot-only mc-badge-sm" data-hue="red"></span>
+                                <span class="mc-badge mc-badge-dot-only" data-hue="blue"></span>
+                                <span class="mc-badge mc-badge-dot-only mc-badge-lg" data-hue="yellow"></span>
+                                <span class="mc-badge mc-badge-dot-only mc-badge-xl" data-hue="magenta"></span>
+                                <span class="mc-badge mc-badge-dot-only mc-badge-xxl" data-hue="teal"></span>
+                            </div>
+                        </div>
+                        <div>
+                            <p class="text-[10px] text-p-neutral-500 mb-2 font-mono">mc-badge-pulse (animated)</p>
+                            <div class="flex items-center gap-6">
+                                <span class="mc-badge mc-badge-dot-only mc-badge-pulse" data-hue="green"></span>
+                                <span class="mc-badge mc-badge-dot-only mc-badge-pulse" data-hue="red"></span>
+                                <span class="mc-badge mc-badge-dot-only mc-badge-pulse mc-badge-lg" data-hue="blue"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Dot-only full matrix -->
+            <div class="guide-card mt-4">
+                <h3 class="text-xs font-bold uppercase tracking-widest text-p-neutral-400 mb-4">Dot-Only &mdash; All Hues &times; All Sizes</h3>
+                <div class="space-y-2.5">
+                    <div class="guide-row"><span class="grid-label">Neutral</span><span class="mc-badge mc-badge-dot-only mc-badge-xs" data-hue="neutral"></span><span class="mc-badge mc-badge-dot-only mc-badge-sm" data-hue="neutral"></span><span class="mc-badge mc-badge-dot-only" data-hue="neutral"></span><span class="mc-badge mc-badge-dot-only mc-badge-lg" data-hue="neutral"></span><span class="mc-badge mc-badge-dot-only mc-badge-xl" data-hue="neutral"></span><span class="mc-badge mc-badge-dot-only mc-badge-xxl" data-hue="neutral"></span></div>
+                    <div class="guide-row"><span class="grid-label">Red</span><span class="mc-badge mc-badge-dot-only mc-badge-xs" data-hue="red"></span><span class="mc-badge mc-badge-dot-only mc-badge-sm" data-hue="red"></span><span class="mc-badge mc-badge-dot-only" data-hue="red"></span><span class="mc-badge mc-badge-dot-only mc-badge-lg" data-hue="red"></span><span class="mc-badge mc-badge-dot-only mc-badge-xl" data-hue="red"></span><span class="mc-badge mc-badge-dot-only mc-badge-xxl" data-hue="red"></span></div>
+                    <div class="guide-row"><span class="grid-label">Green</span><span class="mc-badge mc-badge-dot-only mc-badge-xs" data-hue="green"></span><span class="mc-badge mc-badge-dot-only mc-badge-sm" data-hue="green"></span><span class="mc-badge mc-badge-dot-only" data-hue="green"></span><span class="mc-badge mc-badge-dot-only mc-badge-lg" data-hue="green"></span><span class="mc-badge mc-badge-dot-only mc-badge-xl" data-hue="green"></span><span class="mc-badge mc-badge-dot-only mc-badge-xxl" data-hue="green"></span></div>
+                    <div class="guide-row"><span class="grid-label">Blue</span><span class="mc-badge mc-badge-dot-only mc-badge-xs" data-hue="blue"></span><span class="mc-badge mc-badge-dot-only mc-badge-sm" data-hue="blue"></span><span class="mc-badge mc-badge-dot-only" data-hue="blue"></span><span class="mc-badge mc-badge-dot-only mc-badge-lg" data-hue="blue"></span><span class="mc-badge mc-badge-dot-only mc-badge-xl" data-hue="blue"></span><span class="mc-badge mc-badge-dot-only mc-badge-xxl" data-hue="blue"></span></div>
+                    <div class="guide-row"><span class="grid-label">Yellow</span><span class="mc-badge mc-badge-dot-only mc-badge-xs" data-hue="yellow"></span><span class="mc-badge mc-badge-dot-only mc-badge-sm" data-hue="yellow"></span><span class="mc-badge mc-badge-dot-only" data-hue="yellow"></span><span class="mc-badge mc-badge-dot-only mc-badge-lg" data-hue="yellow"></span><span class="mc-badge mc-badge-dot-only mc-badge-xl" data-hue="yellow"></span><span class="mc-badge mc-badge-dot-only mc-badge-xxl" data-hue="yellow"></span></div>
+                    <div class="guide-row"><span class="grid-label">Magenta</span><span class="mc-badge mc-badge-dot-only mc-badge-xs" data-hue="magenta"></span><span class="mc-badge mc-badge-dot-only mc-badge-sm" data-hue="magenta"></span><span class="mc-badge mc-badge-dot-only" data-hue="magenta"></span><span class="mc-badge mc-badge-dot-only mc-badge-lg" data-hue="magenta"></span><span class="mc-badge mc-badge-dot-only mc-badge-xl" data-hue="magenta"></span><span class="mc-badge mc-badge-dot-only mc-badge-xxl" data-hue="magenta"></span></div>
+                    <div class="guide-row"><span class="grid-label">Teal</span><span class="mc-badge mc-badge-dot-only mc-badge-xs" data-hue="teal"></span><span class="mc-badge mc-badge-dot-only mc-badge-sm" data-hue="teal"></span><span class="mc-badge mc-badge-dot-only" data-hue="teal"></span><span class="mc-badge mc-badge-dot-only mc-badge-lg" data-hue="teal"></span><span class="mc-badge mc-badge-dot-only mc-badge-xl" data-hue="teal"></span><span class="mc-badge mc-badge-dot-only mc-badge-xxl" data-hue="teal"></span></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ====== 6. UTILITIES ====== -->
+        <section class="guide-section">
+            <h2 class="text-2xl font-bold mb-1 flex items-center">
+                <span class="section-number bg-p-teal-500 text-white">6</span>
+                Utilities
+            </h2>
+            <p class="text-p-neutral-400 text-sm mb-6 ml-10">Dismissible, interactive, groups, and counter overlays.</p>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <!-- Dismissible -->
+                <div class="guide-card">
+                    <h3 class="text-xs font-bold uppercase tracking-widest text-p-neutral-400 mb-4">Dismissible</h3>
+                    <div class="flex flex-wrap gap-2 mb-4">
+                        <span class="mc-badge mc-badge-filled mc-badge-dismissible" data-hue="blue">Filter <span class="mc-badge-close"></span></span>
+                        <span class="mc-badge mc-badge-outline mc-badge-dismissible" data-hue="green">Tag <span class="mc-badge-close"></span></span>
+                        <span class="mc-badge mc-badge-subtle mc-badge-dismissible" data-hue="red">Remove <span class="mc-badge-close"></span></span>
+                        <span class="mc-badge mc-badge-tonal mc-badge-dismissible mc-badge-lg" data-hue="magenta">Large <span class="mc-badge-close"></span></span>
+                    </div>
+                    <div class="code-block text-[10px]"><span class="t">&lt;span</span> <span class="a">class</span>=<span class="v">"mc-badge mc-badge-filled mc-badge-dismissible"</span> <span class="a">data-hue</span>=<span class="v">"blue"</span><span class="t">&gt;</span>
+  <span class="tx">Filter</span> <span class="t">&lt;span</span> <span class="a">class</span>=<span class="v">"mc-badge-close"</span><span class="t">&gt;&lt;/span&gt;</span>
+<span class="t">&lt;/span&gt;</span></div>
+                </div>
+
+                <!-- Interactive -->
+                <div class="guide-card">
+                    <h3 class="text-xs font-bold uppercase tracking-widest text-p-neutral-400 mb-4">Interactive</h3>
+                    <p class="text-[10px] text-p-neutral-500 mb-3">Hover and click to see effects.</p>
+                    <div class="flex flex-wrap gap-2 mb-4">
+                        <span class="mc-badge mc-badge-filled mc-badge-interactive" data-hue="blue">Clickable</span>
+                        <span class="mc-badge mc-badge-outline mc-badge-interactive" data-hue="green">Hoverable</span>
+                        <span class="mc-badge mc-badge-tonal mc-badge-interactive" data-hue="magenta">Pressable</span>
+                        <span class="mc-badge mc-badge-subtle mc-badge-interactive" data-hue="yellow">Subtle</span>
+                    </div>
+                    <div class="code-block text-[10px]"><span class="t">&lt;span</span> <span class="a">class</span>=<span class="v">"mc-badge mc-badge-filled mc-badge-interactive"</span> <span class="a">data-hue</span>=<span class="v">"blue"</span><span class="t">&gt;</span><span class="tx">Click</span><span class="t">&lt;/span&gt;</span></div>
+                </div>
+
+                <!-- Group -->
+                <div class="guide-card">
+                    <h3 class="text-xs font-bold uppercase tracking-widest text-p-neutral-400 mb-4">Badge Group</h3>
+                    <div class="mc-badge-group mb-4">
+                        <span class="mc-badge mc-badge-filled" data-hue="blue">React</span>
+                        <span class="mc-badge mc-badge-filled" data-hue="green">TypeScript</span>
+                        <span class="mc-badge mc-badge-filled" data-hue="yellow">Tailwind</span>
+                        <span class="mc-badge mc-badge-filled" data-hue="red">CSS</span>
+                        <span class="mc-badge mc-badge-filled" data-hue="teal">Node</span>
+                        <span class="mc-badge mc-badge-filled" data-hue="magenta">Prisma</span>
+                    </div>
+                    <div class="code-block text-[10px]"><span class="t">&lt;div</span> <span class="a">class</span>=<span class="v">"mc-badge-group"</span><span class="t">&gt;</span>
+  <span class="t">&lt;span</span> <span class="a">class</span>=<span class="v">"mc-badge mc-badge-filled"</span> <span class="a">data-hue</span>=<span class="v">"blue"</span><span class="t">&gt;</span><span class="tx">React</span><span class="t">&lt;/span&gt;</span>
+  <span class="t">&lt;span</span> <span class="a">class</span>=<span class="v">"mc-badge mc-badge-filled"</span> <span class="a">data-hue</span>=<span class="v">"green"</span><span class="t">&gt;</span><span class="tx">TypeScript</span><span class="t">&lt;/span&gt;</span>
+<span class="t">&lt;/div&gt;</span></div>
+                </div>
+
+                <!-- Counter -->
+                <div class="guide-card">
+                    <h3 class="text-xs font-bold uppercase tracking-widest text-p-neutral-400 mb-4">Counter Overlay</h3>
+                    <div class="flex items-center gap-8 mb-4">
+                        <span class="mc-badge-wrapper">
+                            <div class="w-10 h-10 rounded-full bg-p-neutral-700 border border-p-neutral-600 flex items-center justify-center text-xs">AV</div>
+                            <span class="mc-badge mc-badge-counter" data-hue="red">5</span>
+                        </span>
+                        <span class="mc-badge-wrapper">
+                            <div class="w-10 h-10 rounded-full bg-p-neutral-700 border border-p-neutral-600 flex items-center justify-center text-xs">SM</div>
+                            <span class="mc-badge mc-badge-counter mc-badge-counter-sm" data-hue="red">3</span>
+                        </span>
+                        <span class="mc-badge-wrapper">
+                            <div class="w-10 h-10 rounded-full bg-p-neutral-700 border border-p-neutral-600 flex items-center justify-center text-xs">LG</div>
+                            <span class="mc-badge mc-badge-counter mc-badge-counter-lg" data-hue="red">99+</span>
+                        </span>
+                        <span class="mc-badge-wrapper">
+                            <div class="w-10 h-10 rounded-full bg-p-neutral-700 border border-p-neutral-600 flex items-center justify-center text-xs">GR</div>
+                            <span class="mc-badge mc-badge-counter" data-hue="green">2</span>
+                        </span>
+                    </div>
+                    <div class="code-block text-[10px]"><span class="t">&lt;span</span> <span class="a">class</span>=<span class="v">"mc-badge-wrapper"</span><span class="t">&gt;</span>
+  <span class="t">&lt;div</span><span class="t">&gt;</span><span class="tx">Avatar</span><span class="t">&lt;/div&gt;</span>
+  <span class="t">&lt;span</span> <span class="a">class</span>=<span class="v">"mc-badge mc-badge-counter"</span> <span class="a">data-hue</span>=<span class="v">"red"</span><span class="t">&gt;</span><span class="tx">5</span><span class="t">&lt;/span&gt;</span>
+<span class="t">&lt;/span&gt;</span></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ====== 7. SEMANTIC MAPPING ====== -->
+        <section class="guide-section">
+            <h2 class="text-2xl font-bold mb-1 flex items-center">
+                <span class="section-number bg-p-neutral-500 text-white">7</span>
+                Semantic Hue Mapping
+            </h2>
+            <p class="text-p-neutral-400 text-sm mb-6 ml-10">Recommended hue assignments for common UI meanings.</p>
+
+            <div class="guide-card">
+                <table class="w-full text-xs">
+                    <thead>
+                        <tr class="border-b border-p-neutral-700">
+                            <th class="text-left py-2.5 pr-4 text-[10px] text-p-neutral-400 uppercase tracking-widest font-bold">Meaning</th>
+                            <th class="text-left py-2.5 pr-4 text-[10px] text-p-neutral-400 uppercase tracking-widest font-bold">Hue</th>
+                            <th class="text-left py-2.5 pr-4 text-[10px] text-p-neutral-400 uppercase tracking-widest font-bold">Filled</th>
+                            <th class="text-left py-2.5 pr-4 text-[10px] text-p-neutral-400 uppercase tracking-widest font-bold">Tonal</th>
+                            <th class="text-left py-2.5 pr-4 text-[10px] text-p-neutral-400 uppercase tracking-widest font-bold">Outline</th>
+                            <th class="text-left py-2.5 text-[10px] text-p-neutral-400 uppercase tracking-widest font-bold">Subtle</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="border-b border-p-neutral-800/50"><td class="py-2.5 pr-4 text-white font-semibold">Success</td><td class="py-2.5 pr-4 text-p-neutral-400 font-mono">green</td><td class="py-2.5 pr-4"><span class="mc-badge mc-badge-filled mc-badge-sm" data-hue="green">Active</span></td><td class="py-2.5 pr-4"><span class="mc-badge mc-badge-tonal mc-badge-sm" data-hue="green">Active</span></td><td class="py-2.5 pr-4"><span class="mc-badge mc-badge-outline mc-badge-sm" data-hue="green">Active</span></td><td class="py-2.5"><span class="mc-badge mc-badge-subtle mc-badge-sm" data-hue="green">Active</span></td></tr>
+                        <tr class="border-b border-p-neutral-800/50"><td class="py-2.5 pr-4 text-white font-semibold">Danger</td><td class="py-2.5 pr-4 text-p-neutral-400 font-mono">red</td><td class="py-2.5 pr-4"><span class="mc-badge mc-badge-filled mc-badge-sm" data-hue="red">Error</span></td><td class="py-2.5 pr-4"><span class="mc-badge mc-badge-tonal mc-badge-sm" data-hue="red">Error</span></td><td class="py-2.5 pr-4"><span class="mc-badge mc-badge-outline mc-badge-sm" data-hue="red">Error</span></td><td class="py-2.5"><span class="mc-badge mc-badge-subtle mc-badge-sm" data-hue="red">Error</span></td></tr>
+                        <tr class="border-b border-p-neutral-800/50"><td class="py-2.5 pr-4 text-white font-semibold">Warning</td><td class="py-2.5 pr-4 text-p-neutral-400 font-mono">yellow</td><td class="py-2.5 pr-4"><span class="mc-badge mc-badge-filled mc-badge-sm" data-hue="yellow">Caution</span></td><td class="py-2.5 pr-4"><span class="mc-badge mc-badge-tonal mc-badge-sm" data-hue="yellow">Caution</span></td><td class="py-2.5 pr-4"><span class="mc-badge mc-badge-outline mc-badge-sm" data-hue="yellow">Caution</span></td><td class="py-2.5"><span class="mc-badge mc-badge-subtle mc-badge-sm" data-hue="yellow">Caution</span></td></tr>
+                        <tr class="border-b border-p-neutral-800/50"><td class="py-2.5 pr-4 text-white font-semibold">Info</td><td class="py-2.5 pr-4 text-p-neutral-400 font-mono">blue</td><td class="py-2.5 pr-4"><span class="mc-badge mc-badge-filled mc-badge-sm" data-hue="blue">New</span></td><td class="py-2.5 pr-4"><span class="mc-badge mc-badge-tonal mc-badge-sm" data-hue="blue">New</span></td><td class="py-2.5 pr-4"><span class="mc-badge mc-badge-outline mc-badge-sm" data-hue="blue">New</span></td><td class="py-2.5"><span class="mc-badge mc-badge-subtle mc-badge-sm" data-hue="blue">New</span></td></tr>
+                        <tr class="border-b border-p-neutral-800/50"><td class="py-2.5 pr-4 text-white font-semibold">Premium</td><td class="py-2.5 pr-4 text-p-neutral-400 font-mono">magenta</td><td class="py-2.5 pr-4"><span class="mc-badge mc-badge-filled mc-badge-sm" data-hue="magenta">Pro</span></td><td class="py-2.5 pr-4"><span class="mc-badge mc-badge-tonal mc-badge-sm" data-hue="magenta">Pro</span></td><td class="py-2.5 pr-4"><span class="mc-badge mc-badge-outline mc-badge-sm" data-hue="magenta">Pro</span></td><td class="py-2.5"><span class="mc-badge mc-badge-subtle mc-badge-sm" data-hue="magenta">Pro</span></td></tr>
+                        <tr class="border-b border-p-neutral-800/50"><td class="py-2.5 pr-4 text-white font-semibold">Secondary</td><td class="py-2.5 pr-4 text-p-neutral-400 font-mono">teal</td><td class="py-2.5 pr-4"><span class="mc-badge mc-badge-filled mc-badge-sm" data-hue="teal">Beta</span></td><td class="py-2.5 pr-4"><span class="mc-badge mc-badge-tonal mc-badge-sm" data-hue="teal">Beta</span></td><td class="py-2.5 pr-4"><span class="mc-badge mc-badge-outline mc-badge-sm" data-hue="teal">Beta</span></td><td class="py-2.5"><span class="mc-badge mc-badge-subtle mc-badge-sm" data-hue="teal">Beta</span></td></tr>
+                        <tr><td class="py-2.5 pr-4 text-white font-semibold">Default</td><td class="py-2.5 pr-4 text-p-neutral-400 font-mono">neutral</td><td class="py-2.5 pr-4"><span class="mc-badge mc-badge-filled mc-badge-sm" data-hue="neutral">Draft</span></td><td class="py-2.5 pr-4"><span class="mc-badge mc-badge-tonal mc-badge-sm" data-hue="neutral">Draft</span></td><td class="py-2.5 pr-4"><span class="mc-badge mc-badge-outline mc-badge-sm" data-hue="neutral">Draft</span></td><td class="py-2.5"><span class="mc-badge mc-badge-subtle mc-badge-sm" data-hue="neutral">Draft</span></td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- ====== 8. API REFERENCE ====== -->
+        <section class="guide-section">
+            <h2 class="text-2xl font-bold mb-1 flex items-center">
+                <span class="section-number" style="background:#373737;">8</span>
+                API Reference
+            </h2>
+            <p class="text-p-neutral-400 text-sm mb-6 ml-10">Complete class and attribute reference.</p>
+
+            <div class="guide-card">
+                <table class="w-full text-xs">
+                    <thead>
+                        <tr class="border-b border-p-neutral-700">
+                            <th class="text-left py-2.5 pr-4 text-[10px] text-p-neutral-400 uppercase tracking-widest font-bold w-28">Property</th>
+                            <th class="text-left py-2.5 pr-4 text-[10px] text-p-neutral-400 uppercase tracking-widest font-bold">Values</th>
+                            <th class="text-left py-2.5 text-[10px] text-p-neutral-400 uppercase tracking-widest font-bold w-48">Notes</th>
+                        </tr>
+                    </thead>
+                    <tbody class="font-mono">
+                        <tr class="border-b border-p-neutral-800/50"><td class="py-2.5 pr-4 text-white font-bold font-sans">Color</td><td class="py-2.5 pr-4 text-p-neutral-300">data-hue="neutral | red | green | blue | yellow | magenta | teal"</td><td class="py-2.5 text-p-neutral-500 font-sans">Required attribute</td></tr>
+                        <tr class="border-b border-p-neutral-800/50"><td class="py-2.5 pr-4 text-white font-bold font-sans">Variant</td><td class="py-2.5 pr-4 text-p-neutral-300">mc-badge-filled | mc-badge-tonal | mc-badge-outline | mc-badge-subtle</td><td class="py-2.5 text-p-neutral-500 font-sans">Emphasis level</td></tr>
+                        <tr class="border-b border-p-neutral-800/50"><td class="py-2.5 pr-4 text-white font-bold font-sans">Size</td><td class="py-2.5 pr-4 text-p-neutral-300">mc-badge-xs | -sm | <span class="text-p-neutral-500 italic">md default</span> | -lg | -xl | -xxl</td><td class="py-2.5 text-p-neutral-500 font-sans">No class for md</td></tr>
+                        <tr class="border-b border-p-neutral-800/50"><td class="py-2.5 pr-4 text-white font-bold font-sans">Shape</td><td class="py-2.5 pr-4 text-p-neutral-300">mc-badge-pill | mc-badge-square</td><td class="py-2.5 text-p-neutral-500 font-sans">Optional modifier</td></tr>
+                        <tr class="border-b border-p-neutral-800/50"><td class="py-2.5 pr-4 text-white font-bold font-sans">Dot</td><td class="py-2.5 pr-4 text-p-neutral-300">mc-badge-dot | mc-badge-dot-only | mc-badge-pulse</td><td class="py-2.5 text-p-neutral-500 font-sans">Status indicators</td></tr>
+                        <tr><td class="py-2.5 pr-4 text-white font-bold font-sans">Utility</td><td class="py-2.5 pr-4 text-p-neutral-300">mc-badge-dismissible | -interactive | -group | -wrapper | -counter</td><td class="py-2.5 text-p-neutral-500 font-sans">Functional</td></tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="guide-card mt-4">
+                <h3 class="text-xs font-bold uppercase tracking-widest text-p-neutral-400 mb-3">Usage Template</h3>
+                <div class="code-block">
+<span class="cm">&lt;!-- Standard badge --&gt;</span>
+<span class="t">&lt;span</span> <span class="a">class</span>=<span class="v">"mc-badge mc-badge-<em>{variant}</em> [mc-badge-<em>{size}</em>] [mc-badge-<em>{shape}</em>]"</span> <span class="a">data-hue</span>=<span class="v">"<em>{hue}</em>"</span><span class="t">&gt;</span><span class="tx">Label</span><span class="t">&lt;/span&gt;</span>
+
+<span class="cm">&lt;!-- Dot-only --&gt;</span>
+<span class="t">&lt;span</span> <span class="a">class</span>=<span class="v">"mc-badge mc-badge-dot-only [mc-badge-pulse]"</span> <span class="a">data-hue</span>=<span class="v">"green"</span><span class="t">&gt;&lt;/span&gt;</span>
+
+<span class="cm">&lt;!-- Counter overlay --&gt;</span>
+<span class="t">&lt;span</span> <span class="a">class</span>=<span class="v">"mc-badge-wrapper"</span><span class="t">&gt;</span>
+  <span class="t">&lt;div&gt;</span><span class="tx">...target element...</span><span class="t">&lt;/div&gt;</span>
+  <span class="t">&lt;span</span> <span class="a">class</span>=<span class="v">"mc-badge mc-badge-counter"</span> <span class="a">data-hue</span>=<span class="v">"red"</span><span class="t">&gt;</span><span class="tx">5</span><span class="t">&lt;/span&gt;</span>
+<span class="t">&lt;/span&gt;</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="border-t border-p-neutral-800 pt-6 mt-8 flex flex-wrap gap-4 text-xs text-p-neutral-500">
+            <a href="index.html" class="hover:text-white transition-colors">Documentation</a>
+            <a href="button.html" class="hover:text-white transition-colors">Button Guide</a>
+            <a href="forms.html" class="hover:text-white transition-colors">Forms Guide</a>
+            <a href="selection.html" class="hover:text-white transition-colors">Selection Controls</a>
+            <a href="components.html" class="hover:text-white transition-colors">All Components</a>
+        </footer>
+    </div>
+
+</body>
+</html>

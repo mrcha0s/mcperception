@@ -4,7 +4,7 @@
        Uppercase, small, muted style for form labels
     ======================================= */
     .mc-label {
-        @apply text-mc-dark-gray-50 text-xs font-semibold tracking-wider uppercase mb-1.5 block;
+        @apply text-p-neutral-300 text-xs font-semibold tracking-wider uppercase mb-1.5 block;
     }
 
     /* ======================================
@@ -12,11 +12,11 @@
        Matching input style with dropdown arrow
     ======================================= */
     .mc-select {
-        @apply bg-black border border-mc-dark-gray-700 text-white
+        @apply bg-black border border-p-neutral-800 text-white
                font-semibold font-condensed tracking-wider
                py-2 pl-3 pr-8 rounded outline-none cursor-pointer appearance-none
                transition-colors duration-150
-               focus:border-mc-dark-gray-500;
+               focus:border-p-neutral-300;
         background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23b8b8b8' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
         background-repeat: no-repeat;
         background-position: right 12px center;
@@ -39,13 +39,13 @@
        Styled checkbox with check mark
     ======================================= */
     .mc-checkbox {
-        @apply w-4 h-4 bg-black border border-mc-dark-gray-700 rounded-sm
+        @apply w-4 h-4 bg-black border border-p-neutral-800 rounded-sm
                cursor-pointer appearance-none relative
                transition-colors duration-150;
     }
 
     .mc-checkbox:checked {
-        @apply bg-mc-dark-blue-600 border-mc-dark-blue-400;
+        @apply bg-p-blue-800 border-p-blue-600;
     }
 
     .mc-checkbox:checked::after {
@@ -61,31 +61,460 @@
     }
 
     .mc-checkbox:focus {
-        @apply ring-1 ring-mc-dark-gray-400 ring-offset-1;
+        @apply ring-1 ring-p-neutral-600 ring-offset-1;
+    }
+
+    /* Checkbox disabled state */
+    .mc-checkbox:disabled {
+        @apply opacity-40 cursor-not-allowed;
+    }
+
+    /* Checkbox indeterminate state (parent with mixed children) */
+    .mc-checkbox:indeterminate {
+        @apply bg-p-blue-800 border-p-blue-600;
+    }
+
+    .mc-checkbox:indeterminate::after {
+        content: '';
+        @apply absolute bg-white;
+        left: 3px;
+        top: 6px;
+        width: 8px;
+        height: 2px;
+    }
+
+    /* Checkbox color variants */
+    .mc-checkbox-success:checked {
+        @apply bg-p-green-200 border-p-green-600;
+    }
+
+    .mc-checkbox-danger:checked {
+        @apply bg-p-red-800 border-p-red-200;
+    }
+
+    .mc-checkbox-warning:checked {
+        @apply bg-p-yellow-200 border-p-yellow-700;
+    }
+
+    /* Checkbox size variants */
+    .mc-checkbox-sm {
+        @apply w-3.5 h-3.5;
+    }
+
+    .mc-checkbox-sm:checked::after {
+        left: 3px;
+        top: 0.5px;
+        width: 4px;
+        height: 8px;
+    }
+
+    .mc-checkbox-lg {
+        @apply w-5 h-5;
+    }
+
+    .mc-checkbox-lg:checked::after {
+        left: 5px;
+        top: 1px;
+        width: 6px;
+        height: 11px;
+    }
+
+    .mc-checkbox-lg:indeterminate::after {
+        left: 4px;
+        top: 8px;
+        width: 10px;
     }
 
     /* ======================================
-       BADGE
-       Small status indicators
+       BADGE — Surface-Mode-Aware
+       Inline labels, tags, and status indicators
+
+       Color: data-hue="neutral|red|green|blue|yellow|magenta|teal"
+       Variant: mc-badge-filled | mc-badge-tonal | mc-badge-outline | mc-badge-subtle
+       Size: mc-badge-xs | mc-badge-sm | (md default) | mc-badge-lg | mc-badge-xl | mc-badge-xxl
+       Shape: mc-badge-pill | mc-badge-square
+       Extras: mc-badge-dot | mc-badge-dot-only | mc-badge-pulse
+               mc-badge-dismissible | mc-badge-interactive
+
+       Surface mode: inherits data-mode from ancestor container.
+       Default (no data-mode) = dark surface (Mode 2).
+
+       Anatomy: [dot] [icon] [label] [close]
     ======================================= */
+
+    /* --- Hue Token Layer ---
+       Maps data-hue to generic --b-{step} variables.
+       All variant/mode rules reference --b-* so ONE set of rules covers all 7 hues. */
+    .mc-badge[data-hue="neutral"] {
+        --b-50:  var(--color-p-neutral-50);  --b-100: var(--color-p-neutral-100);
+        --b-200: var(--color-p-neutral-200); --b-300: var(--color-p-neutral-300);
+        --b-400: var(--color-p-neutral-400); --b-500: var(--color-p-neutral-500);
+        --b-600: var(--color-p-neutral-600); --b-700: var(--color-p-neutral-700);
+        --b-800: var(--color-p-neutral-800); --b-900: var(--color-p-neutral-900);
+    }
+    .mc-badge[data-hue="red"] {
+        --b-50:  var(--color-p-red-50);  --b-100: var(--color-p-red-100);
+        --b-200: var(--color-p-red-200); --b-300: var(--color-p-red-300);
+        --b-400: var(--color-p-red-400); --b-500: var(--color-p-red-500);
+        --b-600: var(--color-p-red-600); --b-700: var(--color-p-red-700);
+        --b-800: var(--color-p-red-800); --b-900: var(--color-p-red-900);
+    }
+    .mc-badge[data-hue="green"] {
+        --b-50:  var(--color-p-green-50);  --b-100: var(--color-p-green-100);
+        --b-200: var(--color-p-green-200); --b-300: var(--color-p-green-300);
+        --b-400: var(--color-p-green-400); --b-500: var(--color-p-green-500);
+        --b-600: var(--color-p-green-600); --b-700: var(--color-p-green-700);
+        --b-800: var(--color-p-green-800); --b-900: var(--color-p-green-900);
+    }
+    .mc-badge[data-hue="blue"] {
+        --b-50:  var(--color-p-blue-50);  --b-100: var(--color-p-blue-100);
+        --b-200: var(--color-p-blue-200); --b-300: var(--color-p-blue-300);
+        --b-400: var(--color-p-blue-400); --b-500: var(--color-p-blue-500);
+        --b-600: var(--color-p-blue-600); --b-700: var(--color-p-blue-700);
+        --b-800: var(--color-p-blue-800); --b-900: var(--color-p-blue-900);
+    }
+    .mc-badge[data-hue="yellow"] {
+        --b-50:  var(--color-p-yellow-50);  --b-100: var(--color-p-yellow-100);
+        --b-200: var(--color-p-yellow-200); --b-300: var(--color-p-yellow-300);
+        --b-400: var(--color-p-yellow-400); --b-500: var(--color-p-yellow-500);
+        --b-600: var(--color-p-yellow-600); --b-700: var(--color-p-yellow-700);
+        --b-800: var(--color-p-yellow-800); --b-900: var(--color-p-yellow-900);
+    }
+    .mc-badge[data-hue="magenta"] {
+        --b-50:  var(--color-p-magenta-50);  --b-100: var(--color-p-magenta-100);
+        --b-200: var(--color-p-magenta-200); --b-300: var(--color-p-magenta-300);
+        --b-400: var(--color-p-magenta-400); --b-500: var(--color-p-magenta-500);
+        --b-600: var(--color-p-magenta-600); --b-700: var(--color-p-magenta-700);
+        --b-800: var(--color-p-magenta-800); --b-900: var(--color-p-magenta-900);
+    }
+    .mc-badge[data-hue="teal"] {
+        --b-50:  var(--color-p-teal-50);  --b-100: var(--color-p-teal-100);
+        --b-200: var(--color-p-teal-200); --b-300: var(--color-p-teal-300);
+        --b-400: var(--color-p-teal-400); --b-500: var(--color-p-teal-500);
+        --b-600: var(--color-p-teal-600); --b-700: var(--color-p-teal-700);
+        --b-800: var(--color-p-teal-800); --b-900: var(--color-p-teal-900);
+    }
+
+    /* --- Base --- */
     .mc-badge {
-        @apply inline-block px-2 py-0.5 rounded-sm text-xs font-semibold tracking-wider uppercase;
+        @apply inline-flex items-center gap-1 rounded-sm
+               font-semibold font-condensed tracking-wider uppercase
+               leading-tight whitespace-nowrap
+               border border-transparent
+               transition-colors duration-150;
+        /* md default sizing */
+        font-size: 12px;
+        padding: 2px 8px;
     }
 
-    .mc-badge-success {
-        @apply bg-mc-dark-green-700 text-mc-light-green-400 border border-mc-dark-green-500;
+    /* --- Filled Variant (High Emphasis) ---
+       Badge IS a Mode 5 surface: bg=hue-500, text=white.
+       On M5 ancestor surface: inverts to bg=hue-50, text=black. */
+    .mc-badge-filled {
+        background-color: var(--b-500);
+        color: #FFFFFF;
+        border-color: var(--b-500);
+    }
+    [data-mode="5"] .mc-badge-filled {
+        background-color: var(--b-50);
+        color: #0A0A0A;
+        border-color: var(--b-50);
     }
 
-    .mc-badge-danger {
-        @apply bg-mc-dark-red-800 text-mc-light-red-400 border border-mc-dark-red-600;
+    /* --- Tonal Variant (Medium-High Emphasis) ---
+       Badge IS a Mode 4 surface: bg=hue-800, text=white.
+       On M5: inverts to light fill. */
+    .mc-badge-tonal {
+        background-color: var(--b-800);
+        color: #FFFFFF;
+        border-color: var(--b-600);
+    }
+    [data-mode="1"] .mc-badge-tonal,
+    [data-mode="3"] .mc-badge-tonal {
+        background-color: var(--b-800);
+        color: var(--b-50);
+        border-color: var(--b-600);
+    }
+    [data-mode="5"] .mc-badge-tonal {
+        background-color: var(--b-50);
+        color: #0A0A0A;
+        border-color: var(--b-200);
     }
 
-    .mc-badge-warning {
-        @apply bg-mc-dark-yellow-700 text-mc-light-yellow-100 border border-mc-dark-yellow-500;
+    /* --- Outline Variant (Medium Emphasis) ---
+       Transparent bg, text+border adapt to parent surface mode.
+       Default (no data-mode / M2): step 400. */
+    .mc-badge-outline {
+        background-color: transparent;
+        color: var(--b-400);
+        border-color: var(--b-400);
+    }
+    [data-mode="1"] .mc-badge-outline {
+        color: var(--b-500);
+        border-color: var(--b-500);
+    }
+    [data-mode="3"] .mc-badge-outline {
+        color: var(--b-600);
+        border-color: var(--b-600);
+    }
+    [data-mode="4"] .mc-badge-outline {
+        color: var(--b-300);
+        border-color: var(--b-300);
+    }
+    [data-mode="5"] .mc-badge-outline {
+        color: var(--b-50);
+        border-color: var(--b-50);
     }
 
-    .mc-badge-info {
-        @apply bg-mc-dark-blue-700 text-mc-light-blue-400 border border-mc-dark-blue-500;
+    /* --- Subtle Variant (Low Emphasis) ---
+       Tinted background via ::before pseudo at low opacity.
+       Text color adapts to parent surface mode. */
+    .mc-badge-subtle {
+        @apply relative;
+        background-color: transparent;
+        border-color: transparent;
+        color: var(--b-300);
+    }
+    .mc-badge-subtle::before {
+        content: '';
+        @apply absolute inset-0;
+        border-radius: inherit;
+        z-index: -1;
+        background-color: var(--b-500);
+        opacity: 0.18;
+    }
+    [data-mode="1"] .mc-badge-subtle {
+        color: var(--b-600);
+    }
+    [data-mode="1"] .mc-badge-subtle::before {
+        background-color: var(--b-400);
+        opacity: 0.15;
+    }
+    [data-mode="3"] .mc-badge-subtle {
+        color: var(--b-700);
+    }
+    [data-mode="3"] .mc-badge-subtle::before {
+        background-color: var(--b-500);
+        opacity: 0.2;
+    }
+    [data-mode="4"] .mc-badge-subtle {
+        color: var(--b-300);
+    }
+    [data-mode="4"] .mc-badge-subtle::before {
+        background-color: var(--b-500);
+        opacity: 0.2;
+    }
+    [data-mode="5"] .mc-badge-subtle {
+        color: var(--b-50);
+    }
+    [data-mode="5"] .mc-badge-subtle::before {
+        background-color: #FFFFFF;
+        opacity: 0.15;
+    }
+
+    /* --- Size Variants ---
+       xs=10px  sm=10px  md=12px(default)  lg=14px  xl=16px  xxl=18px */
+    .mc-badge-xs {
+        font-size: 10px;
+        padding: 1px 6px;
+        gap: 2px;
+    }
+    .mc-badge-sm {
+        font-size: 10px;
+        padding: 2px 6px;
+        gap: 2px;
+    }
+    /* md is the default — no extra class needed */
+    .mc-badge-lg {
+        font-size: 14px;
+        padding: 4px 10px;
+        gap: 6px;
+        border-radius: 3px;
+    }
+    .mc-badge-xl {
+        font-size: 16px;
+        padding: 5px 12px;
+        gap: 6px;
+        border-radius: 4px;
+    }
+    .mc-badge-xxl {
+        font-size: 18px;
+        padding: 6px 14px;
+        gap: 8px;
+        border-radius: 5px;
+    }
+
+    /* --- Shape Variants --- */
+    .mc-badge-pill {
+        @apply rounded-full;
+        padding-left: 12px;
+        padding-right: 12px;
+    }
+    .mc-badge-pill.mc-badge-xs {
+        padding-left: 8px;
+        padding-right: 8px;
+    }
+    .mc-badge-pill.mc-badge-sm {
+        padding-left: 8px;
+        padding-right: 8px;
+    }
+    .mc-badge-pill.mc-badge-lg {
+        padding-left: 14px;
+        padding-right: 14px;
+    }
+    .mc-badge-pill.mc-badge-xl {
+        padding-left: 16px;
+        padding-right: 16px;
+    }
+    .mc-badge-pill.mc-badge-xxl {
+        padding-left: 18px;
+        padding-right: 18px;
+    }
+    .mc-badge-square {
+        @apply rounded-none;
+    }
+
+    /* --- Dot Indicator (status dot before label) --- */
+    .mc-badge-dot::before {
+        content: '';
+        @apply inline-block w-1.5 h-1.5 rounded-full shrink-0;
+        background-color: currentColor;
+    }
+
+    /* --- Dot-Only (no text, pure status dot) ---
+       Color comes from --b-* variables via data-hue.
+       Size adapts to parent surface mode for visibility. */
+    .mc-badge-dot-only {
+        @apply w-2.5 h-2.5 p-0 rounded-full border-0;
+        background-color: var(--b-400);
+    }
+    [data-mode="1"] .mc-badge-dot-only { background-color: var(--b-500); }
+    [data-mode="3"] .mc-badge-dot-only { background-color: var(--b-600); }
+    [data-mode="4"] .mc-badge-dot-only { background-color: var(--b-300); }
+    [data-mode="5"] .mc-badge-dot-only { background-color: var(--b-50); }
+    .mc-badge-dot-only.mc-badge-xs {
+        @apply w-1.5 h-1.5;
+    }
+    .mc-badge-dot-only.mc-badge-sm {
+        @apply w-2 h-2;
+    }
+    .mc-badge-dot-only.mc-badge-lg {
+        @apply w-3 h-3;
+    }
+    .mc-badge-dot-only.mc-badge-xl {
+        @apply w-3.5 h-3.5;
+    }
+    .mc-badge-dot-only.mc-badge-xxl {
+        @apply w-4 h-4;
+    }
+
+    /* --- Pulsing Dot (live / active indicator) --- */
+    .mc-badge-pulse {
+        @apply relative;
+    }
+    .mc-badge-pulse::after {
+        content: '';
+        @apply absolute inset-0 rounded-full;
+        background-color: inherit;
+        animation: mc-badge-pulse 1.5s ease-in-out infinite;
+    }
+    @keyframes mc-badge-pulse {
+        0% { opacity: 0.6; transform: scale(1); }
+        50% { opacity: 0; transform: scale(2.2); }
+        100% { opacity: 0; transform: scale(2.2); }
+    }
+
+    /* --- Dismissible Badge (with close button) --- */
+    .mc-badge-dismissible {
+        padding-right: 4px;
+    }
+    .mc-badge-close {
+        @apply inline-flex items-center justify-center
+               rounded-sm ml-0.5
+               opacity-60 hover:opacity-100
+               cursor-pointer transition-opacity duration-150;
+        width: 14px;
+        height: 14px;
+    }
+    .mc-badge-close::after {
+        content: '\00D7';
+        font-size: 10px;
+        line-height: 1;
+    }
+    .mc-badge-lg .mc-badge-close,
+    .mc-badge-xl .mc-badge-close,
+    .mc-badge-xxl .mc-badge-close {
+        width: 16px;
+        height: 16px;
+    }
+    .mc-badge-xl .mc-badge-close::after,
+    .mc-badge-xxl .mc-badge-close::after {
+        font-size: 12px;
+    }
+
+    /* --- Badge with Icon --- */
+    .mc-badge-icon {
+        @apply shrink-0;
+        width: 12px;
+        height: 12px;
+    }
+    .mc-badge-lg .mc-badge-icon {
+        width: 14px;
+        height: 14px;
+    }
+    .mc-badge-xl .mc-badge-icon {
+        width: 16px;
+        height: 16px;
+    }
+    .mc-badge-xxl .mc-badge-icon {
+        width: 18px;
+        height: 18px;
+    }
+
+    /* --- Badge Group (adjacent badges) --- */
+    .mc-badge-group {
+        @apply inline-flex flex-wrap gap-1.5;
+    }
+
+    /* --- Positioned Badge / Counter (overlay on parent) ---
+       Defaults to red. Override with data-hue on the counter element. */
+    .mc-badge-wrapper {
+        @apply relative inline-flex;
+    }
+    .mc-badge-counter {
+        @apply absolute -top-1.5 -right-1.5 z-10
+               inline-flex items-center justify-center
+               min-w-[18px] h-[18px] px-1
+               rounded-full font-bold font-mono
+               leading-none;
+        font-size: 10px;
+        background-color: var(--b-500, var(--color-p-red-500));
+        color: #FFFFFF;
+        border: 2px solid var(--color-p-neutral-800);
+    }
+    .mc-badge-counter:empty,
+    .mc-badge-counter[data-count="0"] {
+        @apply hidden;
+    }
+    .mc-badge-counter-sm {
+        @apply min-w-[14px] h-[14px] px-0.5 -top-1 -right-1;
+        font-size: 9px;
+        border-width: 1px;
+    }
+    .mc-badge-counter-lg {
+        @apply min-w-[22px] h-[22px] px-1.5 -top-2 -right-2;
+        font-size: 12px;
+    }
+
+    /* --- Interactive Badge (clickable/hoverable) --- */
+    .mc-badge-interactive {
+        @apply cursor-pointer;
+    }
+    .mc-badge-interactive:hover {
+        @apply brightness-125;
+    }
+    .mc-badge-interactive:active {
+        @apply brightness-90;
     }
 
     /* ======================================
@@ -97,19 +526,19 @@
     }
 
     .mc-alert-success {
-        @apply bg-mc-dark-green-800 border border-mc-dark-green-500 text-mc-light-green-400;
+        @apply bg-p-green-800 border border-p-green-200 text-p-green-200;
     }
 
     .mc-alert-danger {
-        @apply bg-mc-dark-red-800 border border-mc-dark-red-600 text-mc-light-red-400;
+        @apply bg-p-red-800 border border-p-red-800 text-p-red-200;
     }
 
     .mc-alert-warning {
-        @apply bg-mc-dark-yellow-800 border border-mc-dark-yellow-500 text-mc-light-yellow-100;
+        @apply bg-p-yellow-800 border border-p-yellow-200 text-p-yellow-100;
     }
 
     .mc-alert-info {
-        @apply bg-mc-dark-blue-800 border border-mc-dark-blue-600 text-mc-light-blue-400;
+        @apply bg-p-blue-800 border border-p-blue-800 text-p-blue-200;
     }
 
     /* ======================================
@@ -117,20 +546,20 @@
        Navigation tabs
     ======================================= */
     .mc-tabs {
-        @apply flex border-b border-mc-dark-gray-700;
+        @apply flex border-b border-p-neutral-800;
     }
 
     .mc-tab {
-        @apply py-2.5 px-4 text-mc-dark-gray-100 text-xs font-semibold tracking-wider cursor-pointer
+        @apply py-2.5 px-4 text-p-neutral-400 text-xs font-semibold tracking-wider cursor-pointer
                border-b-2 border-transparent -mb-px transition-colors duration-150;
     }
 
     .mc-tab:hover {
-        @apply text-mc-dark-gray-50;
+        @apply text-p-neutral-300;
     }
 
     .mc-tab.active {
-        @apply text-white border-b-mc-dark-blue-400;
+        @apply text-white border-b-p-blue-600;
     }
 
     /* ======================================
@@ -142,16 +571,16 @@
     }
 
     .mc-table th {
-        @apply bg-mc-dark-gray-800 text-mc-dark-gray-50 text-xs font-semibold tracking-wider uppercase
-               text-left py-2.5 px-3 border-b border-mc-dark-gray-700;
+        @apply bg-p-neutral-800 text-p-neutral-300 text-xs font-semibold tracking-wider uppercase
+               text-left py-2.5 px-3 border-b border-p-neutral-800;
     }
 
     .mc-table td {
-        @apply py-2.5 px-3 border-b border-mc-dark-gray-800 font-mono text-sm;
+        @apply py-2.5 px-3 border-b border-p-neutral-800 font-mono text-sm;
     }
 
     .mc-table tr:hover td {
-        @apply bg-mc-dark-gray-800;
+        @apply bg-p-neutral-800;
     }
 
     /* ======================================
@@ -159,7 +588,7 @@
        For metrics and loading states
     ======================================= */
     .mc-progress {
-        @apply h-1 bg-mc-dark-gray-700 rounded-sm overflow-hidden;
+        @apply h-1 bg-p-neutral-800 rounded-sm overflow-hidden;
     }
 
     .mc-progress-bar {
@@ -167,19 +596,19 @@
     }
 
     .mc-progress-bar-success {
-        @apply bg-mc-light-green-500;
+        @apply bg-p-green-500;
     }
 
     .mc-progress-bar-danger {
-        @apply bg-mc-light-red-400;
+        @apply bg-p-red-200;
     }
 
     .mc-progress-bar-warning {
-        @apply bg-mc-light-yellow-100;
+        @apply bg-p-yellow-100;
     }
 
     .mc-progress-bar-info {
-        @apply bg-mc-light-blue-500;
+        @apply bg-p-blue-500;
     }
 
     /* ======================================
@@ -187,7 +616,7 @@
        Horizontal separator
     ======================================= */
     .mc-divider {
-        @apply h-px bg-mc-dark-gray-700 my-4;
+        @apply h-px bg-p-neutral-800 my-4;
     }
 
     /* ======================================
@@ -195,19 +624,19 @@
        Semantic text colors
     ======================================= */
     .mc-text-positive {
-        @apply text-mc-light-green-500;
+        @apply text-p-green-500;
     }
 
     .mc-text-negative {
-        @apply text-mc-light-red-400;
+        @apply text-p-red-200;
     }
 
     .mc-text-muted {
-        @apply text-mc-dark-gray-100;
+        @apply text-p-neutral-400;
     }
 
     .mc-text-label {
-        @apply text-mc-dark-gray-50;
+        @apply text-p-neutral-300;
     }
 
     /* ======================================
@@ -215,27 +644,7 @@
        For displaying grouped information
     ======================================= */
     .mc-card {
-        @apply bg-black border border-mc-dark-gray-700 rounded p-3;
-    }
-
-    /* ======================================
-       BUTTON GROUP
-       For grouped button sets
-    ======================================= */
-    .mc-button-group {
-        @apply inline-flex;
-    }
-
-    .mc-button-group .mc-button:not(:first-child):not(:last-child) {
-        @apply rounded-none border-r-0;
-    }
-
-    .mc-button-group .mc-button:first-child {
-        @apply rounded-r-none border-r-0;
-    }
-
-    .mc-button-group .mc-button:last-child {
-        @apply rounded-l-none;
+        @apply bg-black border border-p-neutral-800 rounded p-3;
     }
 
     /* ======================================
@@ -247,7 +656,7 @@
 
     .mc-tooltip-content {
         @apply absolute z-10 px-2 py-1 text-xs font-semibold text-white
-               bg-mc-dark-gray-700 rounded border border-mc-dark-gray-600
+               bg-p-neutral-800 rounded border border-p-neutral-700
                whitespace-nowrap opacity-0 invisible transition-opacity duration-150;
         bottom: 100%;
         left: 50%;
@@ -264,15 +673,15 @@
        For loading states
     ======================================= */
     .mc-skeleton {
-        @apply bg-mc-dark-gray-700 rounded animate-pulse;
+        @apply bg-p-neutral-800 rounded animate-pulse;
     }
 
     .mc-skeleton-text {
-        @apply h-4 bg-mc-dark-gray-700 rounded animate-pulse;
+        @apply h-4 bg-p-neutral-800 rounded animate-pulse;
     }
 
     .mc-skeleton-circle {
-        @apply rounded-full bg-mc-dark-gray-700 animate-pulse;
+        @apply rounded-full bg-p-neutral-800 animate-pulse;
     }
 
     /* ======================================
@@ -280,13 +689,13 @@
        Styled radio inputs matching checkbox style
     ======================================= */
     .mc-radio {
-        @apply w-4 h-4 bg-black border border-mc-dark-gray-700 rounded-full
+        @apply w-4 h-4 bg-black border border-p-neutral-800 rounded-full
                cursor-pointer appearance-none relative
                transition-colors duration-150;
     }
 
     .mc-radio:checked {
-        @apply bg-mc-dark-blue-600 border-mc-dark-blue-400;
+        @apply bg-p-blue-800 border-p-blue-600;
     }
 
     .mc-radio:checked::after {
@@ -299,7 +708,48 @@
     }
 
     .mc-radio:focus {
-        @apply ring-1 ring-mc-dark-gray-400 ring-offset-1;
+        @apply ring-1 ring-p-neutral-600 ring-offset-1;
+    }
+
+    /* Radio disabled state */
+    .mc-radio:disabled {
+        @apply opacity-40 cursor-not-allowed;
+    }
+
+    /* Radio color variants */
+    .mc-radio-success:checked {
+        @apply bg-p-green-200 border-p-green-600;
+    }
+
+    .mc-radio-danger:checked {
+        @apply bg-p-red-800 border-p-red-200;
+    }
+
+    .mc-radio-warning:checked {
+        @apply bg-p-yellow-200 border-p-yellow-700;
+    }
+
+    /* Radio size variants */
+    .mc-radio-sm {
+        @apply w-3.5 h-3.5;
+    }
+
+    .mc-radio-sm:checked::after {
+        left: 3px;
+        top: 3px;
+        width: 5px;
+        height: 5px;
+    }
+
+    .mc-radio-lg {
+        @apply w-5 h-5;
+    }
+
+    .mc-radio-lg:checked::after {
+        left: 5px;
+        top: 5px;
+        width: 8px;
+        height: 8px;
     }
 
     /* ======================================
@@ -307,7 +757,7 @@
        On/off toggle control (CSS only)
     ======================================= */
     .mc-switch {
-        @apply w-10 h-5 bg-mc-dark-gray-600 rounded-full cursor-pointer
+        @apply w-10 h-5 bg-p-neutral-700 rounded-full cursor-pointer
                appearance-none relative transition-colors duration-200;
     }
 
@@ -321,7 +771,7 @@
     }
 
     .mc-switch:checked {
-        @apply bg-mc-dark-blue-600;
+        @apply bg-p-blue-800;
     }
 
     .mc-switch:checked::after {
@@ -329,20 +779,52 @@
     }
 
     .mc-switch:focus {
-        @apply ring-1 ring-mc-dark-gray-400 ring-offset-1;
+        @apply ring-1 ring-p-neutral-600 ring-offset-1;
     }
 
     /* Switch color variants */
     .mc-switch-success:checked {
-        @apply bg-mc-dark-green-500;
+        @apply bg-p-green-200;
     }
 
     .mc-switch-danger:checked {
-        @apply bg-mc-dark-red-600;
+        @apply bg-p-red-800;
     }
 
     .mc-switch-warning:checked {
-        @apply bg-mc-dark-yellow-500;
+        @apply bg-p-yellow-200;
+    }
+
+    /* Switch disabled state */
+    .mc-switch:disabled {
+        @apply opacity-40 cursor-not-allowed;
+    }
+
+    /* Switch size variants */
+    .mc-switch-sm {
+        @apply w-8 h-4;
+    }
+
+    .mc-switch-sm::after {
+        width: 12px;
+        height: 12px;
+    }
+
+    .mc-switch-sm:checked::after {
+        transform: translateX(16px);
+    }
+
+    .mc-switch-lg {
+        @apply w-12 h-6;
+    }
+
+    .mc-switch-lg::after {
+        width: 20px;
+        height: 20px;
+    }
+
+    .mc-switch-lg:checked::after {
+        transform: translateX(24px);
     }
 
     /* ======================================
@@ -350,12 +832,12 @@
        Multi-line text input
     ======================================= */
     .mc-textarea {
-        @apply bg-black border border-mc-dark-gray-700 text-white
+        @apply bg-black border border-p-neutral-800 text-white
                font-semibold font-condensed tracking-wider
                p-3 rounded outline-none resize-y min-h-24
                transition-colors duration-150
-               placeholder-mc-dark-gray-200
-               focus:border-mc-dark-gray-500 focus:ring-1 focus:ring-mc-dark-gray-400;
+               placeholder-p-neutral-500
+               focus:border-p-neutral-300 focus:ring-1 focus:ring-p-neutral-600;
     }
 
     .mc-textarea-mono {
@@ -383,7 +865,7 @@
     }
 
     .mc-input-addon {
-        @apply bg-mc-dark-gray-700 border border-mc-dark-gray-600 text-mc-dark-gray-50
+        @apply bg-p-neutral-800 border border-p-neutral-700 text-p-neutral-300
                px-3 flex items-center text-sm font-semibold tracking-wider;
     }
 
@@ -404,7 +886,7 @@
     }
 
     .mc-breadcrumb-item {
-        @apply text-mc-dark-gray-100 hover:text-white transition-colors duration-150;
+        @apply text-p-neutral-400 hover:text-white transition-colors duration-150;
     }
 
     .mc-breadcrumb-item.active {
@@ -412,7 +894,7 @@
     }
 
     .mc-breadcrumb-separator {
-        @apply text-mc-dark-gray-300;
+        @apply text-p-neutral-600;
     }
 
     /* ======================================
@@ -425,10 +907,10 @@
 
     .mc-page {
         @apply w-8 h-8 flex items-center justify-center
-               bg-mc-dark-gray-700 border border-mc-dark-gray-600 text-mc-dark-gray-50
+               bg-p-neutral-800 border border-p-neutral-700 text-p-neutral-300
                text-xs font-semibold cursor-pointer
                transition-colors duration-150
-               hover:bg-mc-dark-gray-600 hover:text-white;
+               hover:bg-p-neutral-700 hover:text-white;
     }
 
     .mc-page:first-child {
@@ -444,11 +926,11 @@
     }
 
     .mc-page.active {
-        @apply bg-mc-dark-blue-600 border-mc-dark-blue-400 text-white;
+        @apply bg-p-blue-800 border-p-blue-600 text-white;
     }
 
     .mc-page.disabled {
-        @apply opacity-50 cursor-not-allowed hover:bg-mc-dark-gray-700 hover:text-mc-dark-gray-50;
+        @apply opacity-50 cursor-not-allowed hover:bg-p-neutral-800 hover:text-p-neutral-300;
     }
 
     /* ======================================
@@ -456,7 +938,7 @@
        Loading indicator (CSS animation)
     ======================================= */
     .mc-spinner {
-        @apply w-5 h-5 border-2 border-mc-dark-gray-600 border-t-mc-light-blue-400
+        @apply w-5 h-5 border-2 border-p-neutral-700 border-t-p-blue-200
                rounded-full animate-spin;
     }
 
@@ -474,15 +956,15 @@
 
     /* Spinner color variants */
     .mc-spinner-success {
-        @apply border-t-mc-light-green-500;
+        @apply border-t-p-green-500;
     }
 
     .mc-spinner-danger {
-        @apply border-t-mc-light-red-400;
+        @apply border-t-p-red-200;
     }
 
     .mc-spinner-warning {
-        @apply border-t-mc-light-yellow-100;
+        @apply border-t-p-yellow-100;
     }
 
     /* ======================================
@@ -490,11 +972,11 @@
        Styled list items
     ======================================= */
     .mc-list-group {
-        @apply border border-mc-dark-gray-700 rounded overflow-hidden;
+        @apply border border-p-neutral-800 rounded overflow-hidden;
     }
 
     .mc-list-item {
-        @apply bg-mc-dark-gray-800 px-4 py-3 text-sm border-b border-mc-dark-gray-700
+        @apply bg-p-neutral-800 px-4 py-3 text-sm border-b border-p-neutral-800
                transition-colors duration-150;
     }
 
@@ -503,15 +985,15 @@
     }
 
     .mc-list-item:hover {
-        @apply bg-mc-dark-gray-700;
+        @apply bg-p-neutral-800;
     }
 
     .mc-list-item.active {
-        @apply bg-mc-dark-blue-700 border-mc-dark-blue-600;
+        @apply bg-p-blue-800 border-p-blue-800;
     }
 
     .mc-list-item.disabled {
-        @apply opacity-50 cursor-not-allowed hover:bg-mc-dark-gray-800;
+        @apply opacity-50 cursor-not-allowed hover:bg-p-neutral-800;
     }
 
     /* ======================================
@@ -520,7 +1002,7 @@
     ======================================= */
     .mc-close {
         @apply w-6 h-6 flex items-center justify-center
-               text-mc-dark-gray-100 hover:text-white
+               text-p-neutral-400 hover:text-white
                cursor-pointer transition-colors duration-150;
     }
 
@@ -550,7 +1032,7 @@
        User profile image placeholder
     ======================================= */
     .mc-avatar {
-        @apply w-10 h-10 rounded-full bg-mc-dark-gray-600 border border-mc-dark-gray-500
+        @apply w-10 h-10 rounded-full bg-p-neutral-700 border border-p-neutral-300
                flex items-center justify-center text-sm font-semibold text-white
                overflow-hidden;
     }
@@ -576,10 +1058,10 @@
        Keyboard key styling
     ======================================= */
     .mc-kbd {
-        @apply inline-block px-2 py-0.5 bg-mc-dark-gray-700 border border-mc-dark-gray-600
-               rounded text-xs font-mono text-mc-dark-gray-50
+        @apply inline-block px-2 py-0.5 bg-p-neutral-800 border border-p-neutral-700
+               rounded text-xs font-mono text-p-neutral-300
                shadow-sm;
-        box-shadow: inset 0 -2px 0 var(--color-mc-dark-gray-800);
+        box-shadow: inset 0 -2px 0 var(--color-p-neutral-800);
     }
 
     /* ======================================
@@ -587,12 +1069,12 @@
        Styled code snippets
     ======================================= */
     .mc-code {
-        @apply bg-black border border-mc-dark-gray-700 rounded p-4
-               font-mono text-sm text-mc-light-green-400 overflow-x-auto;
+        @apply bg-black border border-p-neutral-800 rounded p-4
+               font-mono text-sm text-p-green-200 overflow-x-auto;
     }
 
     .mc-code-inline {
-        @apply bg-mc-dark-gray-700 px-1.5 py-0.5 rounded text-sm font-mono text-mc-light-cyan-300;
+        @apply bg-p-neutral-800 px-1.5 py-0.5 rounded text-sm font-mono text-p-teal-200;
     }
 
     /* ======================================
@@ -600,8 +1082,8 @@
        Styled quotes
     ======================================= */
     .mc-blockquote {
-        @apply border-l-4 border-mc-dark-gray-600 pl-4 py-2
-               text-mc-dark-gray-100 italic;
+        @apply border-l-4 border-p-neutral-700 pl-4 py-2
+               text-p-neutral-400 italic;
     }
 
     /* ======================================
@@ -609,27 +1091,21 @@
        Styled <hr>
     ======================================= */
     .mc-hr {
-        @apply h-px bg-mc-dark-gray-700 border-0 my-6;
+        @apply h-px bg-p-neutral-800 border-0 my-6;
     }
 
     .mc-hr-thick {
         @apply h-0.5;
     }
 
-    /* ======================================
-       BADGE PILL
-       Rounded badge variant
-    ======================================= */
-    .mc-badge-pill {
-        @apply rounded-full px-3;
-    }
+    /* BADGE PILL variant moved to main BADGE section above */
 
     /* ======================================
        TABLE VARIANTS
        Striped and compact tables
     ======================================= */
     .mc-table-striped tbody tr:nth-child(odd) td {
-        @apply bg-mc-dark-gray-800;
+        @apply bg-p-neutral-800;
     }
 
     .mc-table-compact th,
@@ -642,18 +1118,148 @@
        Error/success input states
     ======================================= */
     .mc-input-error {
-        @apply border-mc-dark-red-500 focus:border-mc-dark-red-400 focus:ring-mc-dark-red-400;
+        @apply border-p-red-200 focus:border-p-red-700 focus:ring-p-red-700;
     }
 
     .mc-input-success {
-        @apply border-mc-dark-green-500 focus:border-mc-dark-green-400 focus:ring-mc-dark-green-400;
+        @apply border-p-green-200 focus:border-p-green-700 focus:ring-p-green-700;
     }
 
     .mc-error-text {
-        @apply text-mc-light-red-400 text-xs mt-1;
+        @apply text-p-red-200 text-xs mt-1;
     }
 
     .mc-success-text {
-        @apply text-mc-light-green-400 text-xs mt-1;
+        @apply text-p-green-200 text-xs mt-1;
+    }
+
+    /* ======================================
+       FORM CONTROL WRAPPER
+       Pairs selection controls with labels.
+       Per UX article: labels should be clickable
+       and positioned to the right of the control.
+    ======================================= */
+    .mc-control {
+        @apply flex items-center gap-2 cursor-pointer;
+    }
+
+    .mc-control-label {
+        @apply text-sm text-p-neutral-300 cursor-pointer select-none;
+    }
+
+    .mc-control-description {
+        @apply text-xs text-p-neutral-500 ml-6;
+    }
+
+    /* Control grouping containers */
+    .mc-control-group {
+        @apply flex flex-col gap-2.5;
+    }
+
+    .mc-control-group-inline {
+        @apply flex flex-wrap gap-x-5 gap-y-2;
+    }
+
+    .mc-control-group-label {
+        @apply text-xs uppercase tracking-wider font-semibold text-p-neutral-300 mb-1;
+    }
+
+    /* ======================================
+       CHOICE CHIPS
+       Compact selection alternative to
+       radio buttons or checkboxes.
+       Per UX article: "Choice chips contain
+       at least two options, represent a
+       single selection."
+    ======================================= */
+    .mc-chip {
+        @apply inline-flex items-center gap-1.5 px-3 py-1 rounded-full border
+               text-xs font-semibold font-condensed tracking-wider
+               cursor-pointer transition-colors duration-150
+               bg-transparent text-p-neutral-300 border-p-neutral-300;
+    }
+
+    .mc-chip:hover {
+        @apply bg-p-neutral-700/40;
+    }
+
+    .mc-chip.active,
+    .mc-chip.selected {
+        @apply bg-p-blue-800 border-p-blue-600 text-white;
+    }
+
+    .mc-chip:disabled,
+    .mc-chip[aria-disabled="true"] {
+        @apply opacity-40 cursor-not-allowed pointer-events-none;
+    }
+
+    /* Chip color variants (active state) */
+    .mc-chip-green.active,
+    .mc-chip-green.selected {
+        @apply bg-p-green-200 border-p-green-600 text-white;
+    }
+
+    .mc-chip-red.active,
+    .mc-chip-red.selected {
+        @apply bg-p-red-800 border-p-red-200 text-white;
+    }
+
+    .mc-chip-yellow.active,
+    .mc-chip-yellow.selected {
+        @apply bg-p-yellow-200 border-p-yellow-700 text-p-yellow-100;
+    }
+
+    .mc-chip-purple.active,
+    .mc-chip-purple.selected {
+        @apply bg-p-magenta-200 border-p-magenta-700 text-white;
+    }
+
+    .mc-chip-cyan.active,
+    .mc-chip-cyan.selected {
+        @apply bg-p-teal-200 border-p-teal-700 text-white;
+    }
+
+    /* Chip group */
+    .mc-chip-group {
+        @apply flex flex-wrap gap-2;
+    }
+
+    /* ======================================
+       FORM LAYOUT UTILITIES
+       Per UX article: "Single-column forms
+       have 20-60% higher completion rates"
+    ======================================= */
+    .mc-form-group {
+        @apply flex flex-col gap-1 mb-4;
+    }
+
+    .mc-help-text {
+        @apply text-xs text-p-neutral-500 mt-1;
+    }
+
+    .mc-required::after {
+        content: ' *';
+        @apply text-p-red-200;
+    }
+
+    .mc-char-count {
+        @apply text-xs text-p-neutral-500 text-right mt-1;
+    }
+
+    .mc-fieldset {
+        @apply border border-p-neutral-800 rounded p-4 mb-4;
+    }
+
+    .mc-legend {
+        @apply text-sm font-semibold text-p-neutral-300 px-2;
+    }
+
+    /* Warning validation state */
+    .mc-input-warning {
+        @apply border-p-yellow-200 focus:border-p-yellow-700 focus:ring-p-yellow-700;
+    }
+
+    .mc-warning-text {
+        @apply text-p-yellow-100 text-xs mt-1;
     }
 }

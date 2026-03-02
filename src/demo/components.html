@@ -6,7 +6,7 @@
     <title>MC Perception UI Components Demo</title>
     <link rel="stylesheet" href="../dist/mcperception.css">
 </head>
-<body class="bg-mc-dark-gray-900 min-h-screen text-white">
+<body class="bg-p-neutral-900 min-h-screen text-white">
 
     <div class="max-w-7xl mx-auto p-6">
 
@@ -17,7 +17,7 @@
         </div>
 
         <!-- Design Tokens Reference -->
-        <div class="mc-panel bg-mc-dark-gray-800 border border-mc-dark-gray-700 rounded mb-6">
+        <div class="mc-panel bg-p-neutral-800 border border-p-neutral-800 rounded mb-6">
             <div class="mc-panel-header">
                 <span class="text-sm font-semibold tracking-wider uppercase">Design Tokens Reference</span>
             </div>
@@ -26,42 +26,42 @@
                     <div>
                         <div class="mc-text-label text-xs mb-1">BACKGROUND</div>
                         <div class="flex items-center gap-2">
-                            <div class="w-5 h-5 bg-mc-dark-gray-900 border border-mc-dark-gray-700 rounded-sm"></div>
+                            <div class="w-5 h-5 bg-p-neutral-900 border border-p-neutral-800 rounded-sm"></div>
                             <span>#090909</span>
                         </div>
                     </div>
                     <div>
                         <div class="mc-text-label text-xs mb-1">PANEL</div>
                         <div class="flex items-center gap-2">
-                            <div class="w-5 h-5 bg-mc-dark-gray-800 border border-mc-dark-gray-700 rounded-sm"></div>
+                            <div class="w-5 h-5 bg-p-neutral-800 border border-p-neutral-800 rounded-sm"></div>
                             <span>#171717</span>
                         </div>
                     </div>
                     <div>
                         <div class="mc-text-label text-xs mb-1">BORDER</div>
                         <div class="flex items-center gap-2">
-                            <div class="w-5 h-5 bg-mc-dark-gray-700 border border-mc-dark-gray-500 rounded-sm"></div>
+                            <div class="w-5 h-5 bg-p-neutral-800 border border-p-neutral-300 rounded-sm"></div>
                             <span>#222222</span>
                         </div>
                     </div>
                     <div>
                         <div class="mc-text-label text-xs mb-1">INPUT BG</div>
                         <div class="flex items-center gap-2">
-                            <div class="w-5 h-5 bg-black border border-mc-dark-gray-700 rounded-sm"></div>
+                            <div class="w-5 h-5 bg-black border border-p-neutral-800 rounded-sm"></div>
                             <span>#000000</span>
                         </div>
                     </div>
                     <div>
                         <div class="mc-text-label text-xs mb-1">BUTTON BG</div>
                         <div class="flex items-center gap-2">
-                            <div class="w-5 h-5 bg-mc-dark-gray-600 border border-mc-dark-gray-500 rounded-sm"></div>
+                            <div class="w-5 h-5 bg-p-neutral-700 border border-p-neutral-300 rounded-sm"></div>
                             <span>#2c2c2c</span>
                         </div>
                     </div>
                     <div>
                         <div class="mc-text-label text-xs mb-1">BUTTON BORDER</div>
                         <div class="flex items-center gap-2">
-                            <div class="w-5 h-5 bg-mc-dark-gray-500 border border-mc-dark-gray-400 rounded-sm"></div>
+                            <div class="w-5 h-5 bg-p-neutral-300 border border-p-neutral-600 rounded-sm"></div>
                             <span>#373737</span>
                         </div>
                     </div>
@@ -72,34 +72,34 @@
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
 
             <!-- Buttons Section -->
-            <div class="mc-panel bg-mc-dark-gray-800 border border-mc-dark-gray-700 rounded">
+            <div class="mc-panel bg-p-neutral-800 border border-p-neutral-800 rounded">
                 <div class="mc-panel-header">
                     <span class="text-sm font-semibold tracking-wider uppercase">Buttons</span>
                 </div>
                 <div class="mc-panel-body">
                     <div class="flex flex-wrap gap-3 mb-5">
-                        <button class="mc-button mc-button-sm mc-button-dark-gray">Default</button>
-                        <button class="mc-button mc-button-sm mc-button-primary">Primary</button>
-                        <button class="mc-button mc-button-sm mc-button-success">Success</button>
-                        <button class="mc-button mc-button-sm mc-button-danger">Danger</button>
-                        <button class="mc-button mc-button-sm mc-button-warning">Warning</button>
+                        <button class="mc-button mc-button-sm mc-button-filled" data-hue="neutral">Default</button>
+                        <button class="mc-button mc-button-sm mc-button-filled" data-hue="blue">Primary</button>
+                        <button class="mc-button mc-button-sm mc-button-filled" data-hue="green">Success</button>
+                        <button class="mc-button mc-button-sm mc-button-filled" data-hue="red">Danger</button>
+                        <button class="mc-button mc-button-sm mc-button-filled" data-hue="yellow">Warning</button>
                     </div>
 
                     <div class="mc-divider"></div>
 
                     <div class="mc-label">Button Group</div>
                     <div class="inline-flex">
-                        <button class="mc-button mc-button-sm mc-button-dark-gray rounded-r-none border-r-0">1D</button>
-                        <button class="mc-button mc-button-sm mc-button-dark-gray rounded-none border-r-0">1W</button>
-                        <button class="mc-button mc-button-sm mc-button-primary rounded-none border-r-0">1M</button>
-                        <button class="mc-button mc-button-sm mc-button-dark-gray rounded-none border-r-0">3M</button>
-                        <button class="mc-button mc-button-sm mc-button-dark-gray rounded-l-none">1Y</button>
+                        <button class="mc-button mc-button-sm mc-button-filled rounded-r-none border-r-0" data-hue="neutral">1D</button>
+                        <button class="mc-button mc-button-sm mc-button-filled rounded-none border-r-0" data-hue="neutral">1W</button>
+                        <button class="mc-button mc-button-sm mc-button-filled rounded-none border-r-0" data-hue="blue">1M</button>
+                        <button class="mc-button mc-button-sm mc-button-filled rounded-none border-r-0" data-hue="neutral">3M</button>
+                        <button class="mc-button mc-button-sm mc-button-filled rounded-l-none" data-hue="neutral">1Y</button>
                     </div>
                 </div>
             </div>
 
             <!-- Inputs Section -->
-            <div class="mc-panel bg-mc-dark-gray-800 border border-mc-dark-gray-700 rounded">
+            <div class="mc-panel bg-p-neutral-800 border border-p-neutral-800 rounded">
                 <div class="mc-panel-header">
                     <span class="text-sm font-semibold tracking-wider uppercase">Form Inputs</span>
                 </div>
@@ -159,16 +159,16 @@
             </div>
 
             <!-- Badges Section -->
-            <div class="mc-panel bg-mc-dark-gray-800 border border-mc-dark-gray-700 rounded">
+            <div class="mc-panel bg-p-neutral-800 border border-p-neutral-800 rounded">
                 <div class="mc-panel-header">
                     <span class="text-sm font-semibold tracking-wider uppercase">Badges & Status</span>
                 </div>
                 <div class="mc-panel-body">
                     <div class="flex flex-wrap gap-3 mb-5">
-                        <span class="mc-badge mc-badge-success">Active</span>
-                        <span class="mc-badge mc-badge-danger">Stopped</span>
-                        <span class="mc-badge mc-badge-warning">Pending</span>
-                        <span class="mc-badge mc-badge-info">Processing</span>
+                        <span class="mc-badge mc-badge-filled" data-hue="green">Active</span>
+                        <span class="mc-badge mc-badge-filled" data-hue="red">Stopped</span>
+                        <span class="mc-badge mc-badge-filled" data-hue="yellow">Pending</span>
+                        <span class="mc-badge mc-badge-filled" data-hue="blue">Processing</span>
                     </div>
 
                     <div class="mc-divider"></div>
@@ -196,7 +196,7 @@
             </div>
 
             <!-- Alerts Section -->
-            <div class="mc-panel bg-mc-dark-gray-800 border border-mc-dark-gray-700 rounded">
+            <div class="mc-panel bg-p-neutral-800 border border-p-neutral-800 rounded">
                 <div class="mc-panel-header">
                     <span class="text-sm font-semibold tracking-wider uppercase">Alerts</span>
                 </div>
@@ -221,7 +221,7 @@
             </div>
 
             <!-- Input Group & Textarea -->
-            <div class="mc-panel bg-mc-dark-gray-800 border border-mc-dark-gray-700 rounded">
+            <div class="mc-panel bg-p-neutral-800 border border-p-neutral-800 rounded">
                 <div class="mc-panel-header">
                     <span class="text-sm font-semibold tracking-wider uppercase">Input Groups & Textarea</span>
                 </div>
@@ -246,7 +246,7 @@
             </div>
 
             <!-- Navigation Components -->
-            <div class="mc-panel bg-mc-dark-gray-800 border border-mc-dark-gray-700 rounded">
+            <div class="mc-panel bg-p-neutral-800 border border-p-neutral-800 rounded">
                 <div class="mc-panel-header">
                     <span class="text-sm font-semibold tracking-wider uppercase">Navigation</span>
                 </div>
@@ -274,7 +274,7 @@
             </div>
 
             <!-- Utility Components -->
-            <div class="mc-panel bg-mc-dark-gray-800 border border-mc-dark-gray-700 rounded">
+            <div class="mc-panel bg-p-neutral-800 border border-p-neutral-800 rounded">
                 <div class="mc-panel-header">
                     <span class="text-sm font-semibold tracking-wider uppercase">Utility Components</span>
                 </div>
@@ -306,7 +306,7 @@
             </div>
 
             <!-- List Group & Close -->
-            <div class="mc-panel bg-mc-dark-gray-800 border border-mc-dark-gray-700 rounded">
+            <div class="mc-panel bg-p-neutral-800 border border-p-neutral-800 rounded">
                 <div class="mc-panel-header">
                     <span class="text-sm font-semibold tracking-wider uppercase">List Group</span>
                     <span class="mc-close mc-close-sm"></span>
@@ -321,7 +321,7 @@
             </div>
 
             <!-- Form Validation -->
-            <div class="mc-panel bg-mc-dark-gray-800 border border-mc-dark-gray-700 rounded">
+            <div class="mc-panel bg-p-neutral-800 border border-p-neutral-800 rounded">
                 <div class="mc-panel-header">
                     <span class="text-sm font-semibold tracking-wider uppercase">Form Validation</span>
                 </div>
@@ -342,7 +342,7 @@
         </div>
 
         <!-- Tabs Demo -->
-        <div class="mc-panel bg-mc-dark-gray-800 border border-mc-dark-gray-700 rounded mt-6">
+        <div class="mc-panel bg-p-neutral-800 border border-p-neutral-800 rounded mt-6">
             <div class="mc-tabs">
                 <div class="mc-tab active">Positions</div>
                 <div class="mc-tab">Orders</div>
@@ -366,38 +366,38 @@
                     <tbody>
                         <tr>
                             <td class="font-semibold text-white">BTC/USD</td>
-                            <td><span class="mc-badge mc-badge-success">Long</span></td>
+                            <td><span class="mc-badge mc-badge-filled" data-hue="green">Long</span></td>
                             <td>0.5000</td>
                             <td>42,150.00</td>
                             <td>43,280.50</td>
                             <td class="mc-text-positive">+$565.25</td>
                             <td class="mc-text-positive">+2.68%</td>
                             <td>
-                                <button class="mc-button mc-button-xs mc-button-dark-gray">Close</button>
+                                <button class="mc-button mc-button-xs mc-button-filled" data-hue="neutral">Close</button>
                             </td>
                         </tr>
                         <tr>
                             <td class="font-semibold text-white">ETH/USD</td>
-                            <td><span class="mc-badge mc-badge-danger">Short</span></td>
+                            <td><span class="mc-badge mc-badge-filled" data-hue="red">Short</span></td>
                             <td>5.0000</td>
                             <td>2,280.00</td>
                             <td>2,315.75</td>
                             <td class="mc-text-negative">-$178.75</td>
                             <td class="mc-text-negative">-1.57%</td>
                             <td>
-                                <button class="mc-button mc-button-xs mc-button-dark-gray">Close</button>
+                                <button class="mc-button mc-button-xs mc-button-filled" data-hue="neutral">Close</button>
                             </td>
                         </tr>
                         <tr>
                             <td class="font-semibold text-white">SOL/USD</td>
-                            <td><span class="mc-badge mc-badge-success">Long</span></td>
+                            <td><span class="mc-badge mc-badge-filled" data-hue="green">Long</span></td>
                             <td>100.0000</td>
                             <td>98.50</td>
                             <td>105.25</td>
                             <td class="mc-text-positive">+$675.00</td>
                             <td class="mc-text-positive">+6.85%</td>
                             <td>
-                                <button class="mc-button mc-button-xs mc-button-dark-gray">Close</button>
+                                <button class="mc-button mc-button-xs mc-button-filled" data-hue="neutral">Close</button>
                             </td>
                         </tr>
                     </tbody>
@@ -409,10 +409,10 @@
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mt-6">
 
             <!-- Order Form -->
-            <div class="mc-panel bg-mc-dark-gray-800 border border-mc-dark-gray-700 rounded">
+            <div class="mc-panel bg-p-neutral-800 border border-p-neutral-800 rounded">
                 <div class="mc-panel-header">
                     <span class="text-sm font-semibold tracking-wider uppercase">New Order</span>
-                    <span class="mc-badge mc-badge-success">Connected</span>
+                    <span class="mc-badge mc-badge-filled" data-hue="green">Connected</span>
                 </div>
                 <div class="mc-panel-body">
                     <div class="mb-4">
@@ -428,8 +428,8 @@
                         <div>
                             <label class="mc-label">Side</label>
                             <div class="grid grid-cols-2 gap-2">
-                                <button class="mc-button mc-button-sm mc-button-success w-full">Buy</button>
-                                <button class="mc-button mc-button-sm mc-button-dark-gray w-full">Sell</button>
+                                <button class="mc-button mc-button-sm mc-button-filled w-full" data-hue="green">Buy</button>
+                                <button class="mc-button mc-button-sm mc-button-filled w-full" data-hue="neutral">Sell</button>
                             </div>
                         </div>
                         <div>
@@ -453,7 +453,7 @@
                         </div>
                     </div>
 
-                    <div class="bg-black border border-mc-dark-gray-700 rounded p-3 mb-4">
+                    <div class="bg-black border border-p-neutral-800 rounded p-3 mb-4">
                         <div class="flex justify-between text-xs mb-2">
                             <span class="mc-text-muted">Order Value</span>
                             <span class="font-mono">$4,325.00</span>
@@ -464,12 +464,12 @@
                         </div>
                     </div>
 
-                    <button class="mc-button mc-button-md mc-button-success w-full">Place Buy Order</button>
+                    <button class="mc-button mc-button-md mc-button-filled w-full" data-hue="green">Place Buy Order</button>
                 </div>
             </div>
 
             <!-- Market Info -->
-            <div class="mc-panel bg-mc-dark-gray-800 border border-mc-dark-gray-700 rounded">
+            <div class="mc-panel bg-p-neutral-800 border border-p-neutral-800 rounded">
                 <div class="mc-panel-header">
                     <span class="text-sm font-semibold tracking-wider uppercase">BTC/USD</span>
                     <span class="mc-text-positive text-xs">+2.45%</span>
@@ -514,7 +514,7 @@
             </div>
 
             <!-- Account Summary -->
-            <div class="mc-panel bg-mc-dark-gray-800 border border-mc-dark-gray-700 rounded">
+            <div class="mc-panel bg-p-neutral-800 border border-p-neutral-800 rounded">
                 <div class="mc-panel-header">
                     <span class="text-sm font-semibold tracking-wider uppercase">Account</span>
                 </div>
@@ -547,8 +547,8 @@
                     </div>
 
                     <div class="grid grid-cols-2 gap-2">
-                        <button class="mc-button mc-button-sm mc-button-success w-full">Deposit</button>
-                        <button class="mc-button mc-button-sm mc-button-dark-gray w-full">Withdraw</button>
+                        <button class="mc-button mc-button-sm mc-button-filled w-full" data-hue="green">Deposit</button>
+                        <button class="mc-button mc-button-sm mc-button-filled w-full" data-hue="neutral">Withdraw</button>
                     </div>
                 </div>
             </div>
@@ -556,66 +556,66 @@
         </div>
 
         <!-- CSS Code Reference -->
-        <div class="mc-panel bg-mc-dark-gray-800 border border-mc-dark-gray-700 rounded mt-6">
+        <div class="mc-panel bg-p-neutral-800 border border-p-neutral-800 rounded mt-6">
             <div class="mc-panel-header">
                 <span class="text-sm font-semibold tracking-wider uppercase">CSS Classes Reference</span>
             </div>
             <div class="mc-panel-body">
                 <div class="font-mono text-xs bg-black p-4 rounded overflow-x-auto">
-                    <pre class="text-mc-dark-gray-50">
-<span class="text-mc-dark-gray-100">/* Core Components */</span>
-<span class="text-mc-dark-red-50">.mc-panel</span>          <span class="text-mc-dark-gray-100">/* Container with header/body */</span>
-<span class="text-mc-dark-red-50">.mc-button</span>         <span class="text-mc-dark-gray-100">/* mc-button-[xs|sm|md|lg|xl] mc-button-[color] */</span>
-<span class="text-mc-dark-red-50">.mc-input</span>          <span class="text-mc-dark-gray-100">/* mc-input-[size] mc-input-[color] mc-input-mono */</span>
+                    <pre class="text-p-neutral-300">
+<span class="text-p-neutral-400">/* Core Components */</span>
+<span class="text-p-red-200">.mc-panel</span>          <span class="text-p-neutral-400">/* Container with header/body */</span>
+<span class="text-p-red-200">.mc-button</span>         <span class="text-p-neutral-400">/* mc-button-[filled|outline|ghost] data-hue="[hue]" */</span>
+<span class="text-p-red-200">.mc-input</span>          <span class="text-p-neutral-400">/* mc-input-[size] mc-input-[color] mc-input-mono */</span>
 
-<span class="text-mc-dark-gray-100">/* Form Controls */</span>
-<span class="text-mc-dark-red-50">.mc-checkbox</span>       <span class="text-mc-dark-gray-100">/* Styled checkbox */</span>
-<span class="text-mc-dark-red-50">.mc-radio</span>          <span class="text-mc-dark-gray-100">/* Styled radio button */</span>
-<span class="text-mc-dark-red-50">.mc-switch</span>         <span class="text-mc-dark-gray-100">/* Toggle switch: mc-switch-[success|danger|warning] */</span>
-<span class="text-mc-dark-red-50">.mc-textarea</span>       <span class="text-mc-dark-gray-100">/* Multi-line input: mc-textarea-mono */</span>
-<span class="text-mc-dark-red-50">.mc-input-group</span>    <span class="text-mc-dark-gray-100">/* Input with mc-input-addon prefix/suffix */</span>
-<span class="text-mc-dark-red-50">.mc-select</span>         <span class="text-mc-dark-gray-100">/* Styled dropdown */</span>
+<span class="text-p-neutral-400">/* Form Controls */</span>
+<span class="text-p-red-200">.mc-checkbox</span>       <span class="text-p-neutral-400">/* Styled checkbox */</span>
+<span class="text-p-red-200">.mc-radio</span>          <span class="text-p-neutral-400">/* Styled radio button */</span>
+<span class="text-p-red-200">.mc-switch</span>         <span class="text-p-neutral-400">/* Toggle switch: mc-switch-[success|danger|warning] */</span>
+<span class="text-p-red-200">.mc-textarea</span>       <span class="text-p-neutral-400">/* Multi-line input: mc-textarea-mono */</span>
+<span class="text-p-red-200">.mc-input-group</span>    <span class="text-p-neutral-400">/* Input with mc-input-addon prefix/suffix */</span>
+<span class="text-p-red-200">.mc-select</span>         <span class="text-p-neutral-400">/* Styled dropdown */</span>
 
-<span class="text-mc-dark-gray-100">/* Feedback */</span>
-<span class="text-mc-dark-red-50">.mc-badge</span>          <span class="text-mc-dark-gray-100">/* mc-badge-[success|danger|warning|info] */</span>
-<span class="text-mc-dark-red-50">.mc-alert</span>          <span class="text-mc-dark-gray-100">/* mc-alert-[success|danger|warning|info] */</span>
-<span class="text-mc-dark-red-50">.mc-spinner</span>        <span class="text-mc-dark-gray-100">/* Loading: mc-spinner-[sm|lg|xl] mc-spinner-[color] */</span>
+<span class="text-p-neutral-400">/* Feedback */</span>
+<span class="text-p-red-200">.mc-badge</span>          <span class="text-p-neutral-400">/* mc-badge-[success|danger|warning|info] */</span>
+<span class="text-p-red-200">.mc-alert</span>          <span class="text-p-neutral-400">/* mc-alert-[success|danger|warning|info] */</span>
+<span class="text-p-red-200">.mc-spinner</span>        <span class="text-p-neutral-400">/* Loading: mc-spinner-[sm|lg|xl] mc-spinner-[color] */</span>
 
-<span class="text-mc-dark-gray-100">/* Navigation */</span>
-<span class="text-mc-dark-red-50">.mc-tabs</span>           <span class="text-mc-dark-gray-100">/* Tab container with .mc-tab items */</span>
-<span class="text-mc-dark-red-50">.mc-breadcrumb</span>     <span class="text-mc-dark-gray-100">/* mc-breadcrumb-item, mc-breadcrumb-separator */</span>
-<span class="text-mc-dark-red-50">.mc-pagination</span>     <span class="text-mc-dark-gray-100">/* mc-page, .active, .disabled */</span>
+<span class="text-p-neutral-400">/* Navigation */</span>
+<span class="text-p-red-200">.mc-tabs</span>           <span class="text-p-neutral-400">/* Tab container with .mc-tab items */</span>
+<span class="text-p-red-200">.mc-breadcrumb</span>     <span class="text-p-neutral-400">/* mc-breadcrumb-item, mc-breadcrumb-separator */</span>
+<span class="text-p-red-200">.mc-pagination</span>     <span class="text-p-neutral-400">/* mc-page, .active, .disabled */</span>
 
-<span class="text-mc-dark-gray-100">/* Data Display */</span>
-<span class="text-mc-dark-red-50">.mc-table</span>          <span class="text-mc-dark-gray-100">/* Styled table: mc-table-striped, mc-table-compact */</span>
-<span class="text-mc-dark-red-50">.mc-list-group</span>     <span class="text-mc-dark-gray-100">/* mc-list-item with .active, .disabled */</span>
-<span class="text-mc-dark-red-50">.mc-avatar</span>         <span class="text-mc-dark-gray-100">/* mc-avatar-[sm|lg|xl] */</span>
-<span class="text-mc-dark-red-50">.mc-progress</span>       <span class="text-mc-dark-gray-100">/* mc-progress-bar-[success|danger|warning|info] */</span>
+<span class="text-p-neutral-400">/* Data Display */</span>
+<span class="text-p-red-200">.mc-table</span>          <span class="text-p-neutral-400">/* Styled table: mc-table-striped, mc-table-compact */</span>
+<span class="text-p-red-200">.mc-list-group</span>     <span class="text-p-neutral-400">/* mc-list-item with .active, .disabled */</span>
+<span class="text-p-red-200">.mc-avatar</span>         <span class="text-p-neutral-400">/* mc-avatar-[sm|lg|xl] */</span>
+<span class="text-p-red-200">.mc-progress</span>       <span class="text-p-neutral-400">/* mc-progress-bar-[success|danger|warning|info] */</span>
 
-<span class="text-mc-dark-gray-100">/* Utilities */</span>
-<span class="text-mc-dark-red-50">.mc-code</span>           <span class="text-mc-dark-gray-100">/* Code block: mc-code-inline for inline */</span>
-<span class="text-mc-dark-red-50">.mc-kbd</span>            <span class="text-mc-dark-gray-100">/* Keyboard key styling */</span>
-<span class="text-mc-dark-red-50">.mc-close</span>          <span class="text-mc-dark-gray-100">/* Close button: mc-close-[sm|lg] */</span>
-<span class="text-mc-dark-red-50">.mc-divider</span>        <span class="text-mc-dark-gray-100">/* Horizontal separator */</span>
+<span class="text-p-neutral-400">/* Utilities */</span>
+<span class="text-p-red-200">.mc-code</span>           <span class="text-p-neutral-400">/* Code block: mc-code-inline for inline */</span>
+<span class="text-p-red-200">.mc-kbd</span>            <span class="text-p-neutral-400">/* Keyboard key styling */</span>
+<span class="text-p-red-200">.mc-close</span>          <span class="text-p-neutral-400">/* Close button: mc-close-[sm|lg] */</span>
+<span class="text-p-red-200">.mc-divider</span>        <span class="text-p-neutral-400">/* Horizontal separator */</span>
 
-<span class="text-mc-dark-gray-100">/* Validation */</span>
-<span class="text-mc-dark-red-50">.mc-input-error</span>    <span class="text-mc-dark-gray-100">/* Error state border */</span>
-<span class="text-mc-dark-red-50">.mc-input-success</span>  <span class="text-mc-dark-gray-100">/* Success state border */</span>
-<span class="text-mc-dark-red-50">.mc-error-text</span>     <span class="text-mc-dark-gray-100">/* Red helper text */</span>
-<span class="text-mc-dark-red-50">.mc-success-text</span>   <span class="text-mc-dark-gray-100">/* Green helper text */</span>
+<span class="text-p-neutral-400">/* Validation */</span>
+<span class="text-p-red-200">.mc-input-error</span>    <span class="text-p-neutral-400">/* Error state border */</span>
+<span class="text-p-red-200">.mc-input-success</span>  <span class="text-p-neutral-400">/* Success state border */</span>
+<span class="text-p-red-200">.mc-error-text</span>     <span class="text-p-neutral-400">/* Red helper text */</span>
+<span class="text-p-red-200">.mc-success-text</span>   <span class="text-p-neutral-400">/* Green helper text */</span>
 
-<span class="text-mc-dark-gray-100">/* Text Utilities */</span>
-<span class="text-mc-dark-red-50">.mc-text-positive</span>  <span class="text-mc-dark-gray-100">/* Green: gains, success */</span>
-<span class="text-mc-dark-red-50">.mc-text-negative</span>  <span class="text-mc-dark-gray-100">/* Red: losses, errors */</span>
-<span class="text-mc-dark-red-50">.mc-text-muted</span>     <span class="text-mc-dark-gray-100">/* Gray: secondary text */</span>
-<span class="text-mc-dark-red-50">.mc-text-label</span>     <span class="text-mc-dark-gray-100">/* Light gray: labels */</span>
+<span class="text-p-neutral-400">/* Text Utilities */</span>
+<span class="text-p-red-200">.mc-text-positive</span>  <span class="text-p-neutral-400">/* Green: gains, success */</span>
+<span class="text-p-red-200">.mc-text-negative</span>  <span class="text-p-neutral-400">/* Red: losses, errors */</span>
+<span class="text-p-red-200">.mc-text-muted</span>     <span class="text-p-neutral-400">/* Gray: secondary text */</span>
+<span class="text-p-red-200">.mc-text-label</span>     <span class="text-p-neutral-400">/* Light gray: labels */</span>
                     </pre>
                 </div>
             </div>
         </div>
 
         <!-- Footer -->
-        <div class="mt-8 pt-4 border-t border-mc-dark-gray-700 text-center">
+        <div class="mt-8 pt-4 border-t border-p-neutral-800 text-center">
             <p class="mc-text-muted text-xs">
                 MC Perception Design System - Apache License 2.0
             </p>
