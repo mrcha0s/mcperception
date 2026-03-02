@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Typography Text Tiers — MC Perception</title>
+    <link rel="stylesheet" href="../dist/mcperception.css">
+    <style>
+        .guide-card { background: var(--p-surface); border: 1px solid var(--p-divider); border-radius: 8px; padding: 1.25rem; }
+        .tier-preview { border-radius: 10px; padding: 20px 24px; min-width: 280px; }
+        .tier-row { display: flex; align-items: baseline; gap: 12px; padding: 6px 0; }
+        .tier-label { font-family: 'Roboto Mono', ui-monospace, monospace; font-size: 10px; min-width: 70px; flex-shrink: 0; }
+        .tier-text { font-size: 16px; font-weight: 500; }
+        .tier-sm { font-size: 13px; font-weight: 400; }
+        .ratio-badge { font-family: 'Roboto Mono', ui-monospace, monospace; font-size: 9px; padding: 1px 5px; border-radius: 3px; margin-left: auto; flex-shrink: 0; }
+        .ratio-pass { background: rgba(46,125,50,0.15); color: #4CAF50; }
+        .ratio-fail { background: rgba(198,40,40,0.15); color: #EF5350; }
+        .mode-label { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 6px; }
+        .grid-modes { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 16px; }
+        .summary-table { width: 100%; border-collapse: collapse; font-size: 11px; }
+        .summary-table th { padding: 6px 8px; font-weight: 700; font-size: 9px; text-transform: uppercase; letter-spacing: 0.05em; border-bottom: 2px solid var(--p-divider); text-align: left; }
+        .summary-table td { padding: 5px 8px; border-bottom: 1px solid var(--p-divider); font-family: 'Roboto Mono', ui-monospace, monospace; font-size: 10px; }
+        .swatch { display: inline-block; width: 14px; height: 14px; border-radius: 3px; vertical-align: middle; margin-right: 4px; border: 1px solid rgba(255,255,255,0.1); }
+    </style>
+</head>
+<body class="min-h-screen" data-hue="neutral" data-mode="2">
+
+    <div class="max-w-6xl mx-auto p-6" style="background: var(--p-surface);">
+
+        <!-- Header -->
+        <header class="mb-8">
+            <div class="flex items-center gap-3 mb-2">
+                <a href="index.html" class="mc-text-n3 hover:mc-text-n1 text-sm">&larr; Home</a>
+            </div>
+            <h1 class="mc-text-n1 text-3xl font-bold mb-2">Typography Text Tiers</h1>
+            <p class="mc-text-n3 text-sm mb-4">
+                Surface-mode-aware text colors — 3 neutral tiers + 3 hue tiers per mode, all WCAG AA &ge; 4.5:1
+            </p>
+            <div class="mc-divider"></div>
+        </header>
+
+        <!-- Section 1: Overview -->
+        <section class="mb-10">
+            <h2 class="mc-text-n1 text-xl font-bold mb-4">How It Works</h2>
+            <div class="guide-card mb-4">
+                <p class="mc-text-n2 text-sm mb-3">
+                    Each <code class="mc-text-h1 font-mono">data-hue</code> + <code class="mc-text-h1 font-mono">data-mode</code> surface block defines 6 text color CSS variables.
+                    Use the utility classes inside any surface container — colors auto-adapt to guarantee WCAG AA contrast.
+                </p>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
+                    <div>
+                        <h4 class="mc-text-n1 font-semibold mb-2">Neutral Tiers</h4>
+                        <div class="space-y-1 font-mono text-xs">
+                            <div><span class="mc-text-h1">.mc-text-n1</span> <span class="mc-text-n3">— Primary (headings, key text)</span></div>
+                            <div><span class="mc-text-h1">.mc-text-n2</span> <span class="mc-text-n3">— Secondary (body, descriptions)</span></div>
+                            <div><span class="mc-text-h1">.mc-text-n3</span> <span class="mc-text-n3">— Tertiary (captions, subtle)</span></div>
+                        </div>
+                    </div>
+                    <div>
+                        <h4 class="mc-text-n1 font-semibold mb-2">Hue Tiers</h4>
+                        <div class="space-y-1 font-mono text-xs">
+                            <div><span class="mc-text-h1">.mc-text-h1</span> <span class="mc-text-n3">— Vivid hue (links, accents)</span></div>
+                            <div><span class="mc-text-h1">.mc-text-h2</span> <span class="mc-text-n3">— Medium hue (labels, tags)</span></div>
+                            <div><span class="mc-text-h1">.mc-text-h3</span> <span class="mc-text-n3">— Subtle hue (hints, borders)</span></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 2: Hue Selector -->
+        <section class="mb-10">
+            <h2 class="mc-text-n1 text-xl font-bold mb-4">Live Preview</h2>
+            <p class="mc-text-n3 text-sm mb-4">Select a hue to see all 5 surface modes with their text tiers.</p>
+
+            <!-- Hue tabs -->
+            <div class="flex flex-wrap gap-2 mb-6" id="hue-tabs">
+                <button class="mc-button mc-button-filled mc-button-sm" data-hue="neutral" data-tab="neutral">Neutral</button>
+                <button class="mc-button mc-button-outline mc-button-sm" data-hue="red" data-tab="red">Red</button>
+                <button class="mc-button mc-button-outline mc-button-sm" data-hue="green" data-tab="green">Green</button>
+                <button class="mc-button mc-button-outline mc-button-sm" data-hue="blue" data-tab="blue">Blue</button>
+                <button class="mc-button mc-button-outline mc-button-sm" data-hue="yellow" data-tab="yellow">Yellow</button>
+                <button class="mc-button mc-button-outline mc-button-sm" data-hue="magenta" data-tab="magenta">Magenta</button>
+                <button class="mc-button mc-button-outline mc-button-sm" data-hue="teal" data-tab="teal">Teal</button>
+            </div>
+
+            <!-- Mode previews grid -->
+            <div class="grid-modes" id="mode-grid"></div>
+        </section>
+
+        <!-- Section 3: Contrast Ratio Table -->
+        <section class="mb-10">
+            <h2 class="mc-text-n1 text-xl font-bold mb-4">WCAG AA Contrast Ratios</h2>
+            <p class="mc-text-n3 text-sm mb-4">Every tier &ge; 4.5:1. <span id="hue-label" class="mc-text-h1 font-semibold">neutral</span> hue selected.</p>
+            <div class="guide-card overflow-x-auto">
+                <table class="summary-table" id="ratio-table">
+                    <thead>
+                        <tr>
+                            <th class="mc-text-n3">Mode</th>
+                            <th class="mc-text-n3">Surface</th>
+                            <th class="mc-text-n3">n1</th>
+                            <th class="mc-text-n3">n2</th>
+                            <th class="mc-text-n3">n3</th>
+                            <th class="mc-text-n3">h1</th>
+                            <th class="mc-text-n3">h2</th>
+                            <th class="mc-text-n3">h3</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- Section 4: Usage Examples -->
+        <section class="mb-10">
+            <h2 class="mc-text-n1 text-xl font-bold mb-4">Usage Examples</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <!-- Dark card example -->
+                <div class="guide-card">
+                    <div class="mode-label mc-text-n3">Card on dark surface</div>
+                    <div data-hue="blue" data-mode="2" style="background: var(--p-surface); border-radius: 8px; padding: 16px;">
+                        <h3 class="mc-text-n1 text-lg font-bold mb-1">Account Overview</h3>
+                        <p class="mc-text-n2 text-sm mb-2">Your portfolio performance this quarter</p>
+                        <p class="mc-text-n3 text-xs mb-3">Last updated 5 minutes ago</p>
+                        <a class="mc-text-h1 text-sm font-semibold">View Details &rarr;</a>
+                        <span class="mc-text-h2 text-xs ml-3">12 assets</span>
+                        <span class="mc-text-h3 text-xs ml-2">managed</span>
+                    </div>
+                </div>
+
+                <!-- Light card example -->
+                <div class="guide-card">
+                    <div class="mode-label mc-text-n3">Card on light surface</div>
+                    <div data-hue="green" data-mode="1" style="background: var(--p-surface); border-radius: 8px; padding: 16px;">
+                        <h3 class="mc-text-n1 text-lg font-bold mb-1">Transaction Complete</h3>
+                        <p class="mc-text-n2 text-sm mb-2">Your payment has been processed successfully</p>
+                        <p class="mc-text-n3 text-xs mb-3">Confirmation #TXN-2024-0847</p>
+                        <a class="mc-text-h1 text-sm font-semibold">Download Receipt &rarr;</a>
+                        <span class="mc-text-h2 text-xs ml-3">$1,250.00</span>
+                        <span class="mc-text-h3 text-xs ml-2">processed</span>
+                    </div>
+                </div>
+
+                <!-- Hue surface example -->
+                <div class="guide-card">
+                    <div class="mode-label mc-text-n3">Card on hue-tinted dark surface</div>
+                    <div data-hue="magenta" data-mode="4" style="background: var(--p-surface); border-radius: 8px; padding: 16px;">
+                        <h3 class="mc-text-n1 text-lg font-bold mb-1">Premium Features</h3>
+                        <p class="mc-text-n2 text-sm mb-2">Unlock advanced analytics and insights</p>
+                        <p class="mc-text-n3 text-xs mb-3">Available with Pro plan</p>
+                        <a class="mc-text-h1 text-sm font-semibold">Upgrade Now &rarr;</a>
+                        <span class="mc-text-h2 text-xs ml-3">Save 20%</span>
+                        <span class="mc-text-h3 text-xs ml-2">annual</span>
+                    </div>
+                </div>
+
+                <!-- Mid surface example -->
+                <div class="guide-card">
+                    <div class="mode-label mc-text-n3">Card on mid-tone surface (M5)</div>
+                    <div data-hue="red" data-mode="5" style="background: var(--p-surface); border-radius: 8px; padding: 16px;">
+                        <h3 class="mc-text-n1 text-lg font-bold mb-1">Critical Alert</h3>
+                        <p class="mc-text-n2 text-sm mb-2">System requires immediate attention</p>
+                        <p class="mc-text-n3 text-xs mb-3">Note: M5 has limited tier range</p>
+                        <a class="mc-text-h1 text-sm font-semibold">Resolve Issue &rarr;</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 5: Code Reference -->
+        <section class="mb-10">
+            <h2 class="mc-text-n1 text-xl font-bold mb-4">Code Reference</h2>
+            <div class="guide-card">
+                <pre class="text-xs mc-text-n2 overflow-x-auto"><code>&lt;!-- Wrap content in a surface mode container --&gt;
+&lt;div data-hue="blue" data-mode="2"&gt;
+    &lt;h2 class="mc-text-n1"&gt;Heading&lt;/h2&gt;
+    &lt;p class="mc-text-n2"&gt;Body text&lt;/p&gt;
+    &lt;span class="mc-text-n3"&gt;Caption&lt;/span&gt;
+
+    &lt;a class="mc-text-h1"&gt;Blue link&lt;/a&gt;
+    &lt;span class="mc-text-h2"&gt;Blue label&lt;/span&gt;
+    &lt;span class="mc-text-h3"&gt;Blue hint&lt;/span&gt;
+&lt;/div&gt;
+
+&lt;!-- CSS variables available inside any surface block --&gt;
+.custom-element {
+    color: var(--p-text-n1);     /* primary neutral */
+    border-color: var(--p-text-h3);  /* subtle hue */
+}</code></pre>
+            </div>
+        </section>
+
+    </div>
+
+    <script>
+    // ── Palette data ──
+    const PALETTE = {
+        neutral: { 50:'#fafafa',100:'#e1e1e1',200:'#c3c3c3',300:'#a0a0a0',400:'#7f7f7f',500:'#6c6c6c',600:'#515151',700:'#373737',800:'#222222',900:'#090909' },
+        red:     { 50:'#fffafa',100:'#ffd8d8',200:'#ffafaf',300:'#ff7474',400:'#ff0000',500:'#da0000',600:'#a70000',700:'#740000',800:'#4d0000',900:'#1c0000' },
+        green:   { 50:'#ebffeb',100:'#62ff62',200:'#00e400',300:'#00ba00',400:'#009400',500:'#007f00',600:'#005f00',700:'#004000',800:'#002900',900:'#000c00' },
+        blue:    { 50:'#f8f8ff',100:'#dedeff',200:'#bebeff',300:'#9494ff',400:'#6d6dff',500:'#5252ff',600:'#1919ff',700:'#0000bf',800:'#000081',900:'#000035' },
+        yellow:  { 50:'#ffff97',100:'#e8e800',200:'#caca00',300:'#a6a600',400:'#838300',500:'#6f6f00',600:'#545400',700:'#383800',800:'#242400',900:'#090900' },
+        magenta: { 50:'#fff7ff',100:'#ffd2ff',200:'#ffa4ff',300:'#ff55ff',400:'#e000e0',500:'#c000c0',600:'#910091',700:'#660066',800:'#420042',900:'#170017' },
+        teal:    { 50:'#e3ffff',100:'#00f9f9',200:'#00dada',300:'#00b2b2',400:'#008e8e',500:'#007979',600:'#005a5a',700:'#003d3d',800:'#002727',900:'#000b0b' },
+    };
+    const WHITE = '#FFFFFF', BLACK = '#0A0A0A';
+
+    // ── WCAG helpers ──
+    function hexToRgb(h) { h=h.replace('#',''); return [parseInt(h.slice(0,2),16)/255,parseInt(h.slice(2,4),16)/255,parseInt(h.slice(4,6),16)/255]; }
+    function lum(hex) { const [r,g,b]=hexToRgb(hex).map(c=>c<=0.04045?c/12.92:Math.pow((c+0.055)/1.055,2.4)); return 0.2126*r+0.7152*g+0.0722*b; }
+    function cr(a,b) { const l1=lum(a),l2=lum(b); return (Math.max(l1,l2)+0.05)/(Math.min(l1,l2)+0.05); }
+
+    // ── Tier definitions (matching CSS) ──
+    function getTiers(hue) {
+        const P = PALETTE[hue];
+        const N = PALETTE.neutral;
+        return {
+            1: { surface: WHITE,
+                 n1: BLACK, n2: N[600], n3: N[500],
+                 h1: P[500], h2: P[600], h3: P[700] },
+            2: { surface: BLACK,
+                 n1: WHITE, n2: N[200], n3: N[300],
+                 h1: P[300], h2: P[200], h3: P[100] },
+            3: { surface: P[100],
+                 n1: BLACK, n2: N[700], n3: N[600],
+                 h1: P[600], h2: P[700], h3: P[800] },
+            4: { surface: P[800],
+                 n1: WHITE, n2: N[200], n3: N[300],
+                 h1: P[300], h2: P[200], h3: P[100] },
+            5: { surface: P[500],
+                 n1: WHITE, n2: N[50], n3: N[50],
+                 h1: P[50], h2: P[50], h3: P[50] },
+        };
+    }
+
+    const MODE_NAMES = { 1:'White (#FFF)', 2:'Black (#0A0A0A)', 3:'Light (step-100)', 4:'Dark (step-800)', 5:'Mid (step-500)' };
+    const TIER_NAMES = { n1:'Primary Neutral', n2:'Secondary Neutral', n3:'Tertiary Neutral', h1:'Vivid Hue', h2:'Medium Hue', h3:'Subtle Hue' };
+    const TIER_CLASSES = { n1:'mc-text-n1', n2:'mc-text-n2', n3:'mc-text-n3', h1:'mc-text-h1', h2:'mc-text-h2', h3:'mc-text-h3' };
+
+    let activeHue = 'neutral';
+
+    function render() {
+        const tiers = getTiers(activeHue);
+        const grid = document.getElementById('mode-grid');
+        const tbody = document.querySelector('#ratio-table tbody');
+        document.getElementById('hue-label').textContent = activeHue;
+
+        // Build mode preview cards
+        let html = '';
+        for (let m = 1; m <= 5; m++) {
+            const t = tiers[m];
+            const isDark = lum(t.surface) < 0.2;
+
+            html += `<div>
+                <div class="mode-label mc-text-n3">Mode ${m} — ${MODE_NAMES[m]}</div>
+                <div class="tier-preview" data-hue="${activeHue}" data-mode="${m}" style="background:${t.surface}; border:1px solid ${isDark?'#333':'#ccc'}">`;
+
+            for (const tier of ['n1','n2','n3','h1','h2','h3']) {
+                const color = t[tier];
+                const ratio = cr(color, t.surface);
+                const pass = ratio >= 4.5;
+                const isHue = tier.startsWith('h');
+                const sep = tier === 'h1' ? `<div style="border-top:1px solid ${isDark?'rgba(255,255,255,0.08)':'rgba(0,0,0,0.08)'}; margin: 4px 0;"></div>` : '';
+
+                html += `${sep}<div class="tier-row">
+                    <span class="tier-label mc-text-n3">${tier}</span>
+                    <span class="${isHue?'tier-sm':'tier-text'} ${TIER_CLASSES[tier]}">${TIER_NAMES[tier]}</span>
+                    <span class="ratio-badge ${pass?'ratio-pass':'ratio-fail'}">${ratio.toFixed(1)}:1</span>
+                </div>`;
+            }
+
+            html += `</div></div>`;
+        }
+        grid.innerHTML = html;
+
+        // Build ratio table
+        let rows = '';
+        for (let m = 1; m <= 5; m++) {
+            const t = tiers[m];
+            rows += `<tr>
+                <td class="mc-text-n1" style="font-weight:700;">M${m}</td>
+                <td class="mc-text-n2"><span class="swatch" style="background:${t.surface}"></span>${t.surface}</td>`;
+            for (const tier of ['n1','n2','n3','h1','h2','h3']) {
+                const ratio = cr(t[tier], t.surface);
+                const pass = ratio >= 4.5;
+                rows += `<td>
+                    <span class="swatch" style="background:${t[tier]}"></span>
+                    <span style="color:${pass?'#4CAF50':'#EF5350'}">${ratio.toFixed(1)}:1</span>
+                </td>`;
+            }
+            rows += '</tr>';
+        }
+        tbody.innerHTML = rows;
+    }
+
+    // Hue tab switching
+    document.getElementById('hue-tabs').addEventListener('click', e => {
+        const btn = e.target.closest('[data-tab]');
+        if (!btn) return;
+        activeHue = btn.dataset.tab;
+
+        document.querySelectorAll('#hue-tabs button').forEach(b => {
+            const isActive = b.dataset.tab === activeHue;
+            b.className = `mc-button mc-button-sm ${isActive ? 'mc-button-filled' : 'mc-button-outline'}`;
+        });
+        render();
+    });
+
+    render();
+    </script>
+
+</body>
+</html>

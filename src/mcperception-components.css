@@ -639,6 +639,16 @@
         @apply text-p-neutral-300;
     }
 
+    /* ── Surface-Mode-Aware Text Tiers ──
+       Use inside [data-hue][data-mode] containers.
+       All pairs ≥ 4.5:1 WCAG AA guaranteed. */
+    .mc-text-n1 { color: var(--p-text-n1); }
+    .mc-text-n2 { color: var(--p-text-n2); }
+    .mc-text-n3 { color: var(--p-text-n3); }
+    .mc-text-h1 { color: var(--p-text-h1); }
+    .mc-text-h2 { color: var(--p-text-h2); }
+    .mc-text-h3 { color: var(--p-text-h3); }
+
     /* ======================================
        CARD / INFO BOX
        For displaying grouped information
