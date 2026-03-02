@@ -1,181 +1,653 @@
-<!doctype html>
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="../dist/mcperception.css" rel="stylesheet">
-</head>
-<body>
-    <div class="grid grid-cols-2">
-        <div>
-            <div class="bg-p-neutral-300 text-black"><span>bg-p-neutral-300</span><span>#b8b8b8</span></div>
-            <div class="bg-p-neutral-400 text-white"><span>bg-p-neutral-400</span><span>#7f7f7f</span></div>
-            <div class="bg-p-neutral-500 text-white"><span>bg-p-neutral-500</span><span>#646464</span></div>
-            <div class="bg-p-neutral-600 text-white"><span>bg-p-neutral-600</span><span>#515151</span></div>
-            <div class="bg-p-neutral-600 text-white"><span>bg-p-neutral-600</span><span>#424242</span></div>
-            <div class="bg-p-neutral-300 text-white"><span>bg-p-neutral-300</span><span>#373737</span></div>
-            <div class="bg-p-neutral-700 text-white"><span>bg-p-neutral-700</span><span>#2c2c2c</span></div>
-            <div class="bg-p-neutral-800 text-white"><span>bg-p-neutral-800</span><span>#222222</span></div>
-            <div class="bg-p-neutral-800 text-white"><span>bg-p-neutral-800</span><span>#171717</span></div>
-            <div class="bg-p-neutral-900 text-white"><span>bg-p-neutral-900</span><span>#090909</span></div>
-        </div>
-        <div>
-            <div class="bg-p-neutral-50 text-black"><span>bg-p-neutral-50</span><span>#b8b8b8</span></div>
-            <div class="bg-p-neutral-100 text-black"><span>bg-p-neutral-100</span><span>#7f7f7f</span></div>
-            <div class="bg-p-neutral-100 text-black"><span>bg-p-neutral-100</span><span>#646464</span></div>
-            <div class="bg-p-neutral-200 text-black"><span>bg-p-neutral-200</span><span>#515151</span></div>
-            <div class="bg-p-neutral-200 text-black"><span>bg-p-neutral-200</span><span>#424242</span></div>
-            <div class="bg-p-neutral-500 text-black"><span>bg-p-neutral-500</span><span>#373737</span></div>
-            <div class="bg-p-neutral-300 text-black"><span>bg-p-neutral-300</span><span>#2c2c2c</span></div>
-            <div class="bg-p-neutral-400 text-white"><span>bg-p-neutral-400</span><span>#222222</span></div>
-            <div class="bg-p-neutral-500 text-white"><span>bg-p-neutral-500</span><span>#171717</span></div>
-            <div class="bg-p-neutral-700 text-white"><span>bg-p-neutral-700</span><span>#090909</span></div>
-        </div>
+    <title>Color Palette — MC Perception</title>
+    <link rel="stylesheet" href="../dist/mcperception.css">
+    <style>
+        .guide-section { margin-bottom: 3.5rem; }
+        .guide-card { background: #111111; border: 1px solid #222222; border-radius: 6px; padding: 1.5rem; }
+        .guide-label { min-width: 72px; font-size: 0.6rem; text-transform: uppercase; letter-spacing: 0.1em; color: #6c6c6c; font-weight: 700; }
+        .code-block {
+            background: #0a0a0a; border: 1px solid #222222; border-radius: 6px;
+            padding: 1rem 1.25rem; font-family: 'Roboto Mono', ui-monospace, monospace;
+            font-size: 0.7rem; line-height: 1.8; color: #a0a0a0; overflow-x: auto; tab-size: 2;
+        }
+        .code-block .t  { color: #ff7474; }
+        .code-block .a  { color: #9494ff; }
+        .code-block .v  { color: #00ba00; }
+        .code-block .cm { color: #515151; }
+        .section-number {
+            display: inline-flex; align-items: center; justify-content: center;
+            width: 28px; height: 28px; border-radius: 6px;
+            font-size: 0.75rem; font-weight: 800; margin-right: 0.5rem;
+        }
 
-        <div>
-            <div class="bg-p-red-200 text-black"><span>bg-p-red-200</span><span>#b8b8b8</span></div>
-            <div class="bg-p-red-400 text-white"><span>bg-p-red-400</span><span>#7f7f7f</span></div>
-            <div class="bg-p-red-500 text-white"><span>bg-p-red-500</span><span>#646464</span></div>
-            <div class="bg-p-red-600 text-white"><span>bg-p-red-600</span><span>#515151</span></div>
-            <div class="bg-p-red-700 text-white"><span>bg-p-red-700</span><span>#424242</span></div>
-            <div class="bg-p-red-200 text-white"><span>bg-p-red-200</span><span>#373737</span></div>
-            <div class="bg-p-red-800 text-white"><span>bg-p-red-800</span><span>#2c2c2c</span></div>
-            <div class="bg-p-red-800 text-white"><span>bg-p-red-800</span><span>#222222</span></div>
-            <div class="bg-p-red-800 text-white"><span>bg-p-red-800</span><span>#171717</span></div>
-            <div class="bg-p-red-900 text-white"><span>bg-p-red-900</span><span>#090909</span></div>
-        </div>
-        <div>
-            <div class="bg-p-red-50 text-black"><span>bg-p-red-50</span><span>#b8b8b8</span></div>
-            <div class="bg-p-red-100 text-black"><span>bg-p-red-100</span><span>#7f7f7f</span></div>
-            <div class="bg-p-red-100 text-black"><span>bg-p-red-100</span><span>#646464</span></div>
-            <div class="bg-p-red-200 text-black"><span>bg-p-red-200</span><span>#515151</span></div>
-            <div class="bg-p-red-200 text-black"><span>bg-p-red-200</span><span>#424242</span></div>
-            <div class="bg-p-red-500 text-black"><span>bg-p-red-500</span><span>#373737</span></div>
-            <div class="bg-p-red-300 text-black"><span>bg-p-red-300</span><span>#2c2c2c</span></div>
-            <div class="bg-p-red-300 text-white"><span>bg-p-red-300</span><span>#222222</span></div>
-            <div class="bg-p-red-500 text-white"><span>bg-p-red-500</span><span>#171717</span></div>
-            <div class="bg-p-red-700 text-white"><span>bg-p-red-700</span><span>#090909</span></div>
-        </div>
-        <div>
-            <div class="bg-p-green-200 text-black"><span>bg-p-green-200</span><span>#b8b8b8</span></div>
-            <div class="bg-p-green-400 text-white"><span>bg-p-green-400</span><span>#7f7f7f</span></div>
-            <div class="bg-p-green-500 text-white"><span>bg-p-green-500</span><span>#646464</span></div>
-            <div class="bg-p-green-600 text-white"><span>bg-p-green-600</span><span>#515151</span></div>
-            <div class="bg-p-green-700 text-white"><span>bg-p-green-700</span><span>#424242</span></div>
-            <div class="bg-p-green-200 text-white"><span>bg-p-green-200</span><span>#373737</span></div>
-            <div class="bg-p-green-800 text-white"><span>bg-p-green-800</span><span>#2c2c2c</span></div>
-            <div class="bg-p-green-800 text-white"><span>bg-p-green-800</span><span>#222222</span></div>
-            <div class="bg-p-green-800 text-white"><span>bg-p-green-800</span><span>#171717</span></div>
-            <div class="bg-p-green-900 text-white"><span>bg-p-green-900</span><span>#090909</span></div>
-        </div>
-        <div>
-            <div class="bg-p-green-50 text-black"><span>bg-p-green-50</span><span>#b8b8b8</span></div>
-            <div class="bg-p-green-100 text-black"><span>bg-p-green-100</span><span>#7f7f7f</span></div>
-            <div class="bg-p-green-100 text-black"><span>bg-p-green-100</span><span>#646464</span></div>
-            <div class="bg-p-green-200 text-black"><span>bg-p-green-200</span><span>#515151</span></div>
-            <div class="bg-p-green-200 text-black"><span>bg-p-green-200</span><span>#424242</span></div>
-            <div class="bg-p-green-500 text-black"><span>bg-p-green-500</span><span>#373737</span></div>
-            <div class="bg-p-green-300 text-black"><span>bg-p-green-300</span><span>#2c2c2c</span></div>
-            <div class="bg-p-green-400 text-white"><span>bg-p-green-400</span><span>#222222</span></div>
-            <div class="bg-p-green-500 text-white"><span>bg-p-green-500</span><span>#171717</span></div>
-            <div class="bg-p-green-700 text-white"><span>bg-p-green-700</span><span>#090909</span></div>
-        </div>
-        <div>
-            <div class="bg-p-blue-200 text-black"><span>bg-p-blue-200</span><span>#b8b8b8</span></div>
-            <div class="bg-p-blue-400 text-white"><span>bg-p-blue-400</span><span>#7f7f7f</span></div>
-            <div class="bg-p-blue-500 text-white"><span>bg-p-blue-500</span><span>#646464</span></div>
-            <div class="bg-p-blue-600 text-white"><span>bg-p-blue-600</span><span>#515151</span></div>
-            <div class="bg-p-blue-600 text-white"><span>bg-p-blue-600</span><span>#424242</span></div>
-            <div class="bg-p-blue-200 text-white"><span>bg-p-blue-200</span><span>#373737</span></div>
-            <div class="bg-p-blue-800 text-white"><span>bg-p-blue-800</span><span>#2c2c2c</span></div>
-            <div class="bg-p-blue-800 text-white"><span>bg-p-blue-800</span><span>#222222</span></div>
-            <div class="bg-p-blue-800 text-white"><span>bg-p-blue-800</span><span>#171717</span></div>
-            <div class="bg-p-blue-900 text-white"><span>bg-p-blue-900</span><span>#090909</span></div>
-        </div>
-        <div>
-            <div class="bg-p-blue-50 text-black"><span>bg-p-blue-50</span><span>#b8b8b8</span></div>
-            <div class="bg-p-blue-100 text-black"><span>bg-p-blue-100</span><span>#7f7f7f</span></div>
-            <div class="bg-p-blue-100 text-black"><span>bg-p-blue-100</span><span>#646464</span></div>
-            <div class="bg-p-blue-200 text-black"><span>bg-p-blue-200</span><span>#515151</span></div>
-            <div class="bg-p-blue-200 text-black"><span>bg-p-blue-200</span><span>#424242</span></div>
-            <div class="bg-p-blue-500 text-black"><span>bg-p-blue-500</span><span>#373737</span></div>
-            <div class="bg-p-blue-300 text-black"><span>bg-p-blue-300</span><span>#2c2c2c</span></div>
-            <div class="bg-p-blue-400 text-white"><span>bg-p-blue-400</span><span>#222222</span></div>
-            <div class="bg-p-blue-500 text-white"><span>bg-p-blue-500</span><span>#171717</span></div>
-            <div class="bg-p-blue-700 text-white"><span>bg-p-blue-700</span><span>#090909</span></div>
-        </div>
-        <div>
-            <div class="bg-p-yellow-200 text-black"><span>bg-p-yellow-200</span><span>#b8b8b8</span></div>
-            <div class="bg-p-yellow-400 text-white"><span>bg-p-yellow-400</span><span>#7f7f7f</span></div>
-            <div class="bg-p-yellow-500 text-white"><span>bg-p-yellow-500</span><span>#646464</span></div>
-            <div class="bg-p-yellow-600 text-white"><span>bg-p-yellow-600</span><span>#515151</span></div>
-            <div class="bg-p-yellow-700 text-white"><span>bg-p-yellow-700</span><span>#424242</span></div>
-            <div class="bg-p-yellow-200 text-white"><span>bg-p-yellow-200</span><span>#373737</span></div>
-            <div class="bg-p-yellow-800 text-white"><span>bg-p-yellow-800</span><span>#2c2c2c</span></div>
-            <div class="bg-p-yellow-800 text-white"><span>bg-p-yellow-800</span><span>#222222</span></div>
-            <div class="bg-p-yellow-800 text-white"><span>bg-p-yellow-800</span><span>#171717</span></div>
-            <div class="bg-p-yellow-900 text-white"><span>bg-p-yellow-900</span><span>#090909</span></div>
-        </div>
-        <div>
-            <div class="bg-p-yellow-50 text-black"><span>bg-p-yellow-50</span><span>#b8b8b8</span></div>
-            <div class="bg-p-yellow-100 text-black"><span>bg-p-yellow-100</span><span>#7f7f7f</span></div>
-            <div class="bg-p-yellow-100 text-black"><span>bg-p-yellow-100</span><span>#646464</span></div>
-            <div class="bg-p-yellow-200 text-black"><span>bg-p-yellow-200</span><span>#515151</span></div>
-            <div class="bg-p-yellow-200 text-black"><span>bg-p-yellow-200</span><span>#424242</span></div>
-            <div class="bg-p-yellow-500 text-black"><span>bg-p-yellow-500</span><span>#373737</span></div>
-            <div class="bg-p-yellow-300 text-black"><span>bg-p-yellow-300</span><span>#2c2c2c</span></div>
-            <div class="bg-p-yellow-400 text-white"><span>bg-p-yellow-400</span><span>#222222</span></div>
-            <div class="bg-p-yellow-500 text-white"><span>bg-p-yellow-500</span><span>#171717</span></div>
-            <div class="bg-p-yellow-700 text-white"><span>bg-p-yellow-700</span><span>#090909</span></div>
-        </div>
-        <div>
-            <div class="bg-p-magenta-200 text-black"><span>bg-p-magenta-200</span><span>#b8b8b8</span></div>
-            <div class="bg-p-magenta-400 text-white"><span>bg-p-magenta-400</span><span>#7f7f7f</span></div>
-            <div class="bg-p-magenta-500 text-white"><span>bg-p-magenta-500</span><span>#646464</span></div>
-            <div class="bg-p-magenta-600 text-white"><span>bg-p-magenta-600</span><span>#515151</span></div>
-            <div class="bg-p-magenta-700 text-white"><span>bg-p-magenta-700</span><span>#424242</span></div>
-            <div class="bg-p-magenta-200 text-white"><span>bg-p-magenta-200</span><span>#373737</span></div>
-            <div class="bg-p-magenta-800 text-white"><span>bg-p-magenta-800</span><span>#2c2c2c</span></div>
-            <div class="bg-p-magenta-800 text-white"><span>bg-p-magenta-800</span><span>#222222</span></div>
-            <div class="bg-p-magenta-800 text-white"><span>bg-p-magenta-800</span><span>#171717</span></div>
-            <div class="bg-p-magenta-900 text-white"><span>bg-p-magenta-900</span><span>#090909</span></div>
-        </div>
-        <div>
-            <div class="bg-p-magenta-50 text-black"><span>bg-p-magenta-50</span><span>#b8b8b8</span></div>
-            <div class="bg-p-magenta-100 text-black"><span>bg-p-magenta-100</span><span>#7f7f7f</span></div>
-            <div class="bg-p-magenta-100 text-black"><span>bg-p-magenta-100</span><span>#646464</span></div>
-            <div class="bg-p-magenta-200 text-black"><span>bg-p-magenta-200</span><span>#515151</span></div>
-            <div class="bg-p-magenta-200 text-black"><span>bg-p-magenta-200</span><span>#424242</span></div>
-            <div class="bg-p-magenta-500 text-black"><span>bg-p-magenta-500</span><span>#373737</span></div>
-            <div class="bg-p-magenta-300 text-black"><span>bg-p-magenta-300</span><span>#2c2c2c</span></div>
-            <div class="bg-p-magenta-400 text-white"><span>bg-p-magenta-400</span><span>#222222</span></div>
-            <div class="bg-p-magenta-500 text-white"><span>bg-p-magenta-500</span><span>#171717</span></div>
-            <div class="bg-p-magenta-700 text-white"><span>bg-p-magenta-700</span><span>#090909</span></div>
-        </div>
-        <div>
-            <div class="bg-p-teal-200 text-black"><span>bg-p-teal-200</span><span>#b8b8b8</span></div>
-            <div class="bg-p-teal-400 text-white"><span>bg-p-teal-400</span><span>#7f7f7f</span></div>
-            <div class="bg-p-teal-500 text-white"><span>bg-p-teal-500</span><span>#646464</span></div>
-            <div class="bg-p-teal-600 text-white"><span>bg-p-teal-600</span><span>#515151</span></div>
-            <div class="bg-p-teal-700 text-white"><span>bg-p-teal-700</span><span>#424242</span></div>
-            <div class="bg-p-teal-200 text-white"><span>bg-p-teal-200</span><span>#373737</span></div>
-            <div class="bg-p-teal-800 text-white"><span>bg-p-teal-800</span><span>#2c2c2c</span></div>
-            <div class="bg-p-teal-800 text-white"><span>bg-p-teal-800</span><span>#222222</span></div>
-            <div class="bg-p-teal-800 text-white"><span>bg-p-teal-800</span><span>#171717</span></div>
-            <div class="bg-p-teal-900 text-white"><span>bg-p-teal-900</span><span>#090909</span></div>
-        </div>
-        <div>
-            <div class="bg-p-teal-50 text-black"><span>bg-p-teal-50</span><span>#b8b8b8</span></div>
-            <div class="bg-p-teal-100 text-black"><span>bg-p-teal-100</span><span>#7f7f7f</span></div>
-            <div class="bg-p-teal-100 text-black"><span>bg-p-teal-100</span><span>#646464</span></div>
-            <div class="bg-p-teal-200 text-black"><span>bg-p-teal-200</span><span>#515151</span></div>
-            <div class="bg-p-teal-200 text-black"><span>bg-p-teal-200</span><span>#424242</span></div>
-            <div class="bg-p-teal-500 text-black"><span>bg-p-teal-500</span><span>#373737</span></div>
-            <div class="bg-p-teal-300 text-black"><span>bg-p-teal-300</span><span>#2c2c2c</span></div>
-            <div class="bg-p-teal-400 text-white"><span>bg-p-teal-400</span><span>#222222</span></div>
-            <div class="bg-p-teal-500 text-white"><span>bg-p-teal-500</span><span>#171717</span></div>
-            <div class="bg-p-teal-700 text-white"><span>bg-p-teal-700</span><span>#090909</span></div>
-        </div>
+        /* Palette swatch */
+        .swatch-row { display: flex; border-radius: 8px; overflow: hidden; }
+        .swatch-cell {
+            flex: 1; display: flex; flex-direction: column; align-items: center;
+            justify-content: center; padding: 10px 4px; min-height: 56px; position: relative;
+        }
+        .swatch-step { font-size: 10px; font-weight: 800; letter-spacing: 0.02em; }
+        .swatch-hex { font-size: 8px; font-family: 'Roboto Mono', monospace; opacity: 0.7; margin-top: 1px; }
+        .swatch-ratio { font-size: 7px; font-family: 'Roboto Mono', monospace; opacity: 0.5; margin-top: 2px; }
+
+        /* Contrast matrix */
+        .contrast-table { width: 100%; border-collapse: collapse; font-size: 11px; }
+        .contrast-table th { text-align: left; padding: 5px 8px; font-weight: 700; font-size: 10px; color: #666; border-bottom: 2px solid #333; text-transform: uppercase; letter-spacing: 0.05em; }
+        .contrast-table td { padding: 5px 8px; border-bottom: 1px solid #1a1a1a; }
+        .contrast-table .step-cell { font-family: 'Roboto Mono', monospace; font-size: 10px; font-weight: 600; }
+        .contrast-table .pass { color: #00ba00; }
+        .contrast-table .fail { color: #ff7474; }
+        .contrast-table .lg-only { color: #e8e800; }
+
+        /* Token reference */
+        .token-table { width: 100%; border-collapse: collapse; font-size: 11px; }
+        .token-table th { text-align: left; padding: 5px 8px; font-weight: 700; font-size: 10px; color: #666; border-bottom: 2px solid #333; text-transform: uppercase; letter-spacing: 0.05em; }
+        .token-table td { padding: 6px 8px; border-bottom: 1px solid #1a1a1a; font-family: 'Roboto Mono', monospace; font-size: 10px; }
+
+        .surface-panel { border-radius: 8px; padding: 1.25rem 1.5rem; }
+
+        /* Semantic role card */
+        .role-card { border: 1px solid #222; border-radius: 8px; padding: 14px 16px; background: #0f0f0f; }
+        .role-label { font-size: 9px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: #555; margin-bottom: 4px; }
+        .role-value { font-family: 'Roboto Mono', monospace; font-size: 11px; }
+
+        /* Hue selector */
+        .hue-tab { transition: all 0.15s; }
+    </style>
+</head>
+<body class="bg-p-black text-white min-h-screen font-sans">
+    <div class="max-w-7xl mx-auto px-6 py-12">
+
+        <!-- Header -->
+        <header class="mb-16">
+            <nav class="text-xs text-p-neutral-400 mb-6 flex gap-2 items-center">
+                <a href="index.html" class="hover:text-white transition-colors">Components</a>
+                <span class="text-p-neutral-600">/</span>
+                <span class="text-white font-semibold">Color Palette</span>
+            </nav>
+
+            <div class="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-6 mb-8">
+                <div>
+                    <h1 class="text-5xl font-bold tracking-tight mb-3">Color Palette</h1>
+                    <p class="text-p-neutral-300 text-lg max-w-2xl">7 hue families x 10 luminance steps + 2 anchors. Every color is WCAG AA verified. Monotonically decreasing luminance from step 50 (lightest) to step 900 (darkest).</p>
+                </div>
+                <div class="flex gap-3">
+                    <span class="mc-badge mc-badge-filled mc-badge-sm" data-hue="neutral">72 Tokens</span>
+                    <span class="mc-badge mc-badge-filled mc-badge-sm" data-hue="green">AA Verified</span>
+                    <span class="mc-badge mc-badge-filled mc-badge-sm" data-hue="blue">7 Hues</span>
+                </div>
+            </div>
+
+            <!-- Quick start -->
+            <div class="guide-card">
+                <div class="text-xs text-p-neutral-400 font-semibold mb-3">QUICK START</div>
+                <div class="code-block">
+                    <span class="cm">&lt;!-- Background --&gt;</span><br>
+                    <span class="t">&lt;div</span> <span class="a">class</span>=<span class="v">"bg-p-blue-500"</span><span class="t">&gt;</span>...<span class="t">&lt;/div&gt;</span><br><br>
+                    <span class="cm">&lt;!-- Text color --&gt;</span><br>
+                    <span class="t">&lt;p</span> <span class="a">class</span>=<span class="v">"text-p-red-400"</span><span class="t">&gt;</span>Error text<span class="t">&lt;/p&gt;</span><br><br>
+                    <span class="cm">&lt;!-- Border --&gt;</span><br>
+                    <span class="t">&lt;div</span> <span class="a">class</span>=<span class="v">"border border-p-neutral-700"</span><span class="t">&gt;</span>...<span class="t">&lt;/div&gt;</span><br><br>
+                    <span class="cm">&lt;!-- CSS variable --&gt;</span><br>
+                    <span class="a">color</span>: <span class="v">var(--color-p-teal-300)</span>;
+                </div>
+            </div>
+        </header>
+
+        <!-- ============================================================
+             Section 1: Anchor Colors
+             ============================================================ -->
+        <section class="guide-section">
+            <h2 class="text-2xl font-bold mb-6">
+                <span class="section-number bg-p-neutral-500 text-white">1</span>
+                Anchor Colors
+            </h2>
+            <p class="text-p-neutral-400 text-sm mb-6">Two special colors anchor the entire system. Pure #000000 is never used — the perceptual black is #0A0A0A.</p>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div class="guide-card flex items-center gap-4">
+                    <div style="width:64px;height:64px;border-radius:8px;background:#FFFFFF;border:1px solid #333;flex-shrink:0"></div>
+                    <div>
+                        <div class="text-sm font-bold">White</div>
+                        <div class="font-mono text-xs text-p-neutral-400">#FFFFFF</div>
+                        <div class="text-xs text-p-neutral-500 mt-1">bg-p-white / text-p-white</div>
+                        <div class="text-xs text-p-neutral-500">var(--color-p-white)</div>
+                    </div>
+                </div>
+                <div class="guide-card flex items-center gap-4">
+                    <div style="width:64px;height:64px;border-radius:8px;background:#0A0A0A;border:1px solid #333;flex-shrink:0"></div>
+                    <div>
+                        <div class="text-sm font-bold">Black</div>
+                        <div class="font-mono text-xs text-p-neutral-400">#0A0A0A</div>
+                        <div class="text-xs text-p-neutral-500 mt-1">bg-p-black / text-p-black</div>
+                        <div class="text-xs text-p-neutral-500">var(--color-p-black)</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============================================================
+             Section 2: Full Palette (all 7 hues)
+             ============================================================ -->
+        <section class="guide-section">
+            <h2 class="text-2xl font-bold mb-6">
+                <span class="section-number bg-p-blue-500 text-white">2</span>
+                Complete Palette
+            </h2>
+            <p class="text-p-neutral-400 text-sm mb-6">Each hue has 10 steps with monotonically decreasing luminance. Step 50 is near-white, step 900 is near-black. Click a hue to see detailed contrast ratios below.</p>
+
+            <div id="palette-grid" class="space-y-3"></div>
+        </section>
+
+        <!-- ============================================================
+             Section 3: Contrast Ratio Matrix
+             ============================================================ -->
+        <section class="guide-section">
+            <h2 class="text-2xl font-bold mb-6">
+                <span class="section-number bg-p-green-500 text-white">3</span>
+                Contrast Ratios
+            </h2>
+            <p class="text-p-neutral-400 text-sm mb-4">Select a hue to see every step's contrast ratio against White (#FFFFFF) and Black (#0A0A0A). Steps that pass AA small text (>= 4.5:1) are marked green, large text only (>= 3.0:1) in yellow, and failing in red.</p>
+
+            <!-- Hue tabs -->
+            <div id="contrast-tabs" class="flex gap-2 flex-wrap mb-4"></div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
+                <div class="guide-card">
+                    <div class="text-xs text-p-neutral-400 font-semibold mb-3">VS WHITE (#FFFFFF)</div>
+                    <table class="contrast-table" id="table-vs-white">
+                        <thead><tr><th>Step</th><th>Hex</th><th>Swatch</th><th>Ratio</th><th>AA</th></tr></thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+                <div class="guide-card">
+                    <div class="text-xs text-p-neutral-400 font-semibold mb-3">VS BLACK (#0A0A0A)</div>
+                    <table class="contrast-table" id="table-vs-black">
+                        <thead><tr><th>Step</th><th>Hex</th><th>Swatch</th><th>Ratio</th><th>AA</th></tr></thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============================================================
+             Section 4: Surface Mode Pairings
+             ============================================================ -->
+        <section class="guide-section">
+            <h2 class="text-2xl font-bold mb-6">
+                <span class="section-number bg-p-magenta-500 text-white">4</span>
+                Surface Mode Quick Reference
+            </h2>
+            <p class="text-p-neutral-400 text-sm mb-6">Which steps to use on each surface mode. These rules are universal across all 7 hues.</p>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                <div class="guide-card">
+                    <div class="flex items-center gap-2 mb-3">
+                        <span style="width:20px;height:20px;border-radius:4px;background:#FFFFFF;border:1px solid #555"></span>
+                        <span class="text-sm font-bold">M1 — White Surface</span>
+                    </div>
+                    <div class="text-xs text-p-neutral-500 space-y-1">
+                        <div><span class="text-p-neutral-300 font-semibold">Text:</span> Steps 500-900</div>
+                        <div><span class="text-p-neutral-300 font-semibold">Accent:</span> Step 500</div>
+                        <div><span class="text-p-neutral-300 font-semibold">Divider:</span> Step 400</div>
+                        <div class="text-p-red-400 font-semibold mt-2">Avoid: Steps 50-300 for text</div>
+                    </div>
+                </div>
+                <div class="guide-card">
+                    <div class="flex items-center gap-2 mb-3">
+                        <span style="width:20px;height:20px;border-radius:4px;background:#0A0A0A;border:1px solid #555"></span>
+                        <span class="text-sm font-bold">M2 — Black Surface</span>
+                    </div>
+                    <div class="text-xs text-p-neutral-500 space-y-1">
+                        <div><span class="text-p-neutral-300 font-semibold">Text:</span> Steps 50-400 + White</div>
+                        <div><span class="text-p-neutral-300 font-semibold">Accent:</span> Step 400</div>
+                        <div><span class="text-p-neutral-300 font-semibold">Divider:</span> Step 500</div>
+                        <div class="text-p-red-400 font-semibold mt-2">Avoid: Steps 600-900 for text</div>
+                    </div>
+                </div>
+                <div class="guide-card">
+                    <div class="flex items-center gap-2 mb-3">
+                        <span style="width:20px;height:20px;border-radius:4px;background:#dedeff;border:1px solid #555"></span>
+                        <span class="text-sm font-bold">M3 — Light Hue (100)</span>
+                    </div>
+                    <div class="text-xs text-p-neutral-500 space-y-1">
+                        <div><span class="text-p-neutral-300 font-semibold">Text:</span> Steps 600-900 + Black</div>
+                        <div><span class="text-p-neutral-300 font-semibold">Accent:</span> Step 600</div>
+                        <div><span class="text-p-neutral-300 font-semibold">Divider:</span> Step 500</div>
+                        <div class="text-p-red-400 font-semibold mt-2">Avoid: Steps 50-300 for text</div>
+                    </div>
+                </div>
+                <div class="guide-card">
+                    <div class="flex items-center gap-2 mb-3">
+                        <span style="width:20px;height:20px;border-radius:4px;background:#000081;border:1px solid #555"></span>
+                        <span class="text-sm font-bold">M4 — Dark Hue (800)</span>
+                    </div>
+                    <div class="text-xs text-p-neutral-500 space-y-1">
+                        <div><span class="text-p-neutral-300 font-semibold">Text:</span> Steps 50-300 + White</div>
+                        <div><span class="text-p-neutral-300 font-semibold">Accent:</span> Step 300</div>
+                        <div><span class="text-p-neutral-300 font-semibold">Divider:</span> Step 500</div>
+                        <div class="text-p-red-400 font-semibold mt-2">Avoid: Steps 600-900 for text</div>
+                    </div>
+                </div>
+                <div class="guide-card">
+                    <div class="flex items-center gap-2 mb-3">
+                        <span style="width:20px;height:20px;border-radius:4px;background:#5252ff;border:1px solid #555"></span>
+                        <span class="text-sm font-bold">M5 — Mid Hue (500)</span>
+                    </div>
+                    <div class="text-xs text-p-neutral-500 space-y-1">
+                        <div><span class="text-p-neutral-300 font-semibold">Text:</span> White / Step 50</div>
+                        <div><span class="text-p-neutral-300 font-semibold">Accent:</span> Step 50</div>
+                        <div><span class="text-p-neutral-300 font-semibold">Divider:</span> Black</div>
+                        <div class="text-p-red-400 font-semibold mt-2">Avoid: Steps 300-700 for text</div>
+                    </div>
+                </div>
+                <div class="guide-card flex flex-col justify-center">
+                    <div class="text-xs text-p-neutral-500 space-y-2">
+                        <div class="text-p-neutral-300 font-semibold text-sm">WCAG Thresholds</div>
+                        <div><span class="text-p-green-400 font-mono">4.5:1</span> — AA small text</div>
+                        <div><span class="text-p-yellow-400 font-mono">3.0:1</span> — AA large text / UI</div>
+                        <div><span class="text-p-red-400 font-mono">&lt;3.0:1</span> — Fails</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============================================================
+             Section 5: Live Surface Previews
+             ============================================================ -->
+        <section class="guide-section">
+            <h2 class="text-2xl font-bold mb-6">
+                <span class="section-number bg-p-red-500 text-white">5</span>
+                Live Surface Previews
+            </h2>
+            <p class="text-p-neutral-400 text-sm mb-4">Each hue shown on all 5 surface modes. Select a hue to preview.</p>
+
+            <div id="surface-tabs" class="flex gap-2 flex-wrap mb-6"></div>
+            <div id="surface-previews" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4"></div>
+        </section>
+
+        <!-- ============================================================
+             Section 6: CSS Token Reference
+             ============================================================ -->
+        <section class="guide-section">
+            <h2 class="text-2xl font-bold mb-6">
+                <span class="section-number bg-p-yellow-500 text-white">6</span>
+                CSS Token Reference
+            </h2>
+            <p class="text-p-neutral-400 text-sm mb-4">Every color is available as a Tailwind utility class and a CSS custom property.</p>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
+                <div class="guide-card">
+                    <div class="text-xs text-p-neutral-400 font-semibold mb-3">TAILWIND UTILITY CLASSES</div>
+                    <table class="token-table">
+                        <thead><tr><th>Usage</th><th>Pattern</th><th>Example</th></tr></thead>
+                        <tbody>
+                            <tr><td class="text-p-neutral-300" style="font-family:inherit">Background</td><td>bg-p-{hue}-{step}</td><td class="text-p-blue-400">bg-p-blue-500</td></tr>
+                            <tr><td class="text-p-neutral-300" style="font-family:inherit">Text</td><td>text-p-{hue}-{step}</td><td class="text-p-blue-400">text-p-red-400</td></tr>
+                            <tr><td class="text-p-neutral-300" style="font-family:inherit">Border</td><td>border-p-{hue}-{step}</td><td class="text-p-blue-400">border-p-neutral-700</td></tr>
+                            <tr><td class="text-p-neutral-300" style="font-family:inherit">Ring</td><td>ring-p-{hue}-{step}</td><td class="text-p-blue-400">ring-p-green-500</td></tr>
+                            <tr><td class="text-p-neutral-300" style="font-family:inherit">White</td><td>bg-p-white</td><td class="text-p-blue-400">text-p-white</td></tr>
+                            <tr><td class="text-p-neutral-300" style="font-family:inherit">Black</td><td>bg-p-black</td><td class="text-p-blue-400">text-p-black</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="guide-card">
+                    <div class="text-xs text-p-neutral-400 font-semibold mb-3">CSS CUSTOM PROPERTIES</div>
+                    <table class="token-table">
+                        <thead><tr><th>Usage</th><th>Pattern</th><th>Example</th></tr></thead>
+                        <tbody>
+                            <tr><td class="text-p-neutral-300" style="font-family:inherit">Hue step</td><td>--color-p-{hue}-{step}</td><td class="text-p-blue-400">--color-p-blue-500</td></tr>
+                            <tr><td class="text-p-neutral-300" style="font-family:inherit">White</td><td>--color-p-white</td><td class="text-p-blue-400">#FFFFFF</td></tr>
+                            <tr><td class="text-p-neutral-300" style="font-family:inherit">Black</td><td>--color-p-black</td><td class="text-p-blue-400">#0A0A0A</td></tr>
+                            <tr><td class="text-p-neutral-300" style="font-family:inherit">Surface</td><td>--p-surface</td><td class="text-p-blue-400">via data-mode</td></tr>
+                            <tr><td class="text-p-neutral-300" style="font-family:inherit">Text</td><td>--p-text</td><td class="text-p-blue-400">via data-mode</td></tr>
+                            <tr><td class="text-p-neutral-300" style="font-family:inherit">Accent</td><td>--p-accent</td><td class="text-p-blue-400">via data-mode</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============================================================
+             Section 7: Semantic Variables
+             ============================================================ -->
+        <section class="guide-section">
+            <h2 class="text-2xl font-bold mb-6">
+                <span class="section-number bg-p-teal-500 text-white">7</span>
+                Semantic Variables
+            </h2>
+            <p class="text-p-neutral-400 text-sm mb-4">When you set <code class="text-p-blue-400 text-xs">data-hue</code> + <code class="text-p-blue-400 text-xs">data-mode</code> on a container, these 13 semantic CSS variables resolve automatically.</p>
+
+            <div class="guide-card">
+                <div class="code-block">
+                    <span class="cm">&lt;!-- All --p-* variables resolve inside this container --&gt;</span><br>
+                    <span class="t">&lt;div</span> <span class="a">data-hue</span>=<span class="v">"blue"</span> <span class="a">data-mode</span>=<span class="v">"2"</span><span class="t">&gt;</span><br>
+                    &nbsp;&nbsp;<span class="t">&lt;p</span> <span class="a">style</span>=<span class="v">"color: var(--p-text)"</span><span class="t">&gt;</span>Primary text<span class="t">&lt;/p&gt;</span><br>
+                    &nbsp;&nbsp;<span class="t">&lt;p</span> <span class="a">style</span>=<span class="v">"color: var(--p-accent)"</span><span class="t">&gt;</span>Accent link<span class="t">&lt;/p&gt;</span><br>
+                    &nbsp;&nbsp;<span class="t">&lt;hr</span> <span class="a">style</span>=<span class="v">"border-color: var(--p-divider)"</span><span class="t"> /&gt;</span><br>
+                    &nbsp;&nbsp;<span class="t">&lt;button</span> <span class="a">style</span>=<span class="v">"background: var(--p-btn-bg); color: var(--p-btn-text)"</span><span class="t">&gt;</span>Button<span class="t">&lt;/button&gt;</span><br>
+                    <span class="t">&lt;/div&gt;</span>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-3 mt-4" id="semantic-vars"></div>
+        </section>
+
+        <!-- ============================================================
+             Section 8: Semantic Hue Mapping
+             ============================================================ -->
+        <section class="guide-section">
+            <h2 class="text-2xl font-bold mb-6">
+                <span class="section-number" style="background:#373737">8</span>
+                Semantic Hue Mapping
+            </h2>
+            <p class="text-p-neutral-400 text-sm mb-4">Default hue assignments for semantic roles. Components can override via <code class="text-p-blue-400 text-xs">data-hue</code>.</p>
+
+            <div class="guide-card overflow-x-auto">
+                <table class="contrast-table">
+                    <thead>
+                        <tr><th>Role</th><th>Hue</th><th>Swatch</th><th>Usage</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="font-semibold text-white">Primary</td>
+                            <td class="step-cell text-p-blue-400">blue</td>
+                            <td><span style="display:inline-block;width:24px;height:14px;border-radius:3px;background:#5252ff"></span></td>
+                            <td class="text-p-neutral-400">Default actions, links, primary buttons</td>
+                        </tr>
+                        <tr>
+                            <td class="font-semibold text-white">Success</td>
+                            <td class="step-cell text-p-green-400">green</td>
+                            <td><span style="display:inline-block;width:24px;height:14px;border-radius:3px;background:#007f00"></span></td>
+                            <td class="text-p-neutral-400">Confirmations, positive values, gains</td>
+                        </tr>
+                        <tr>
+                            <td class="font-semibold text-white">Danger</td>
+                            <td class="step-cell text-p-red-400">red</td>
+                            <td><span style="display:inline-block;width:24px;height:14px;border-radius:3px;background:#da0000"></span></td>
+                            <td class="text-p-neutral-400">Errors, destructive actions, losses</td>
+                        </tr>
+                        <tr>
+                            <td class="font-semibold text-white">Warning</td>
+                            <td class="step-cell text-p-yellow-400">yellow</td>
+                            <td><span style="display:inline-block;width:24px;height:14px;border-radius:3px;background:#6f6f00"></span></td>
+                            <td class="text-p-neutral-400">Caution, attention needed, pending</td>
+                        </tr>
+                        <tr>
+                            <td class="font-semibold text-white">Info</td>
+                            <td class="step-cell text-p-teal-400">teal</td>
+                            <td><span style="display:inline-block;width:24px;height:14px;border-radius:3px;background:#007979"></span></td>
+                            <td class="text-p-neutral-400">Informational, neutral notifications</td>
+                        </tr>
+                        <tr>
+                            <td class="font-semibold text-white">Premium</td>
+                            <td class="step-cell text-p-magenta-400">magenta</td>
+                            <td><span style="display:inline-block;width:24px;height:14px;border-radius:3px;background:#c000c0"></span></td>
+                            <td class="text-p-neutral-400">Special features, premium tier, highlights</td>
+                        </tr>
+                        <tr>
+                            <td class="font-semibold text-white">Default</td>
+                            <td class="step-cell text-p-neutral-400">neutral</td>
+                            <td><span style="display:inline-block;width:24px;height:14px;border-radius:3px;background:#6c6c6c"></span></td>
+                            <td class="text-p-neutral-400">Chrome, borders, secondary elements</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="border-t border-p-neutral-800 pt-8 mt-16 pb-12">
+            <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+                <div class="text-xs text-p-neutral-500">MC Perception Design System — Color Palette</div>
+                <nav class="flex gap-4 text-xs">
+                    <a href="index.html" class="text-p-neutral-400 hover:text-white transition-colors">Overview</a>
+                    <a href="surface-modes.html" class="text-p-neutral-400 hover:text-white transition-colors">Surface Modes</a>
+                    <a href="button.html" class="text-p-neutral-400 hover:text-white transition-colors">Buttons</a>
+                    <a href="badges.html" class="text-p-neutral-400 hover:text-white transition-colors">Badges</a>
+                    <a href="forms.html" class="text-p-neutral-400 hover:text-white transition-colors">Forms</a>
+                    <a href="components.html" class="text-p-neutral-400 hover:text-white transition-colors">Components</a>
+                </nav>
+            </div>
+        </footer>
     </div>
+
+<script>
+/* ================================================================
+   WCAG Helpers
+   ================================================================ */
+function sRGBtoLinear(c) {
+    var s = c / 255;
+    return s <= 0.03928 ? s / 12.92 : Math.pow((s + 0.055) / 1.055, 2.4);
+}
+function lum(hex) {
+    hex = hex.replace('#', '');
+    var r = parseInt(hex.slice(0, 2), 16);
+    var g = parseInt(hex.slice(2, 4), 16);
+    var b = parseInt(hex.slice(4, 6), 16);
+    return 0.2126 * sRGBtoLinear(r) + 0.7152 * sRGBtoLinear(g) + 0.0722 * sRGBtoLinear(b);
+}
+function cr(a, b) {
+    var l1 = lum(a), l2 = lum(b);
+    return (Math.max(l1, l2) + 0.05) / (Math.min(l1, l2) + 0.05);
+}
+
+var W = '#FFFFFF', B = '#0A0A0A';
+
+/* ================================================================
+   Palette Data
+   ================================================================ */
+var PALETTES = {
+    neutral: { 50:'#fafafa',100:'#e1e1e1',200:'#c3c3c3',300:'#a0a0a0',400:'#7f7f7f',500:'#6c6c6c',600:'#515151',700:'#373737',800:'#222222',900:'#090909' },
+    red:     { 50:'#fffafa',100:'#ffd8d8',200:'#ffafaf',300:'#ff7474',400:'#ff0000',500:'#da0000',600:'#a70000',700:'#740000',800:'#4d0000',900:'#1c0000' },
+    green:   { 50:'#ebffeb',100:'#62ff62',200:'#00e400',300:'#00ba00',400:'#009400',500:'#007f00',600:'#005f00',700:'#004000',800:'#002900',900:'#000c00' },
+    blue:    { 50:'#f8f8ff',100:'#dedeff',200:'#bebeff',300:'#9494ff',400:'#6d6dff',500:'#5252ff',600:'#1919ff',700:'#0000bf',800:'#000081',900:'#000035' },
+    yellow:  { 50:'#ffff97',100:'#e8e800',200:'#caca00',300:'#a6a600',400:'#838300',500:'#6f6f00',600:'#545400',700:'#383800',800:'#242400',900:'#090900' },
+    magenta: { 50:'#fff7ff',100:'#ffd2ff',200:'#ffa4ff',300:'#ff55ff',400:'#e000e0',500:'#c000c0',600:'#910091',700:'#660066',800:'#420042',900:'#170017' },
+    teal:    { 50:'#e3ffff',100:'#00f9f9',200:'#00dada',300:'#00b2b2',400:'#008e8e',500:'#007979',600:'#005a5a',700:'#003d3d',800:'#002727',900:'#000b0b' },
+};
+
+var HUE_NAMES = Object.keys(PALETTES);
+var STEPS = [50,100,200,300,400,500,600,700,800,900];
+var selectedHue = 'blue';
+
+/* ================================================================
+   Section 2: Full Palette Grid
+   ================================================================ */
+function renderPaletteGrid() {
+    var container = document.getElementById('palette-grid');
+    var html = '';
+
+    for (var h = 0; h < HUE_NAMES.length; h++) {
+        var hue = HUE_NAMES[h];
+        var P = PALETTES[hue];
+        html += '<div>';
+        html += '<div class="flex items-center gap-2 mb-1">';
+        html += '<span class="text-xs font-bold text-p-neutral-300 uppercase tracking-wider" style="width:70px">' + hue + '</span>';
+        html += '</div>';
+        html += '<div class="swatch-row">';
+
+        for (var i = 0; i < STEPS.length; i++) {
+            var step = STEPS[i];
+            var hex = P[step];
+            var isLight = lum(hex) > 0.18;
+            var textColor = isLight ? '#000' : '#fff';
+            var subColor = isLight ? 'rgba(0,0,0,0.5)' : 'rgba(255,255,255,0.5)';
+            html += '<div class="swatch-cell" style="background:' + hex + '">';
+            html += '<span class="swatch-step" style="color:' + textColor + '">' + step + '</span>';
+            html += '<span class="swatch-hex" style="color:' + subColor + '">' + hex + '</span>';
+            html += '</div>';
+        }
+
+        html += '</div></div>';
+    }
+
+    container.innerHTML = html;
+}
+
+/* ================================================================
+   Section 3: Contrast Ratio Tables
+   ================================================================ */
+function renderContrastTabs() {
+    var container = document.getElementById('contrast-tabs');
+    var html = '';
+    for (var h = 0; h < HUE_NAMES.length; h++) {
+        var hue = HUE_NAMES[h];
+        var isActive = hue === selectedHue;
+        var variant = isActive ? 'mc-button-filled' : 'mc-button-outline';
+        html += '<button class="mc-button mc-button-xs ' + variant + '" data-hue="' + hue + '" onclick="selectHue(\'' + hue + '\')">' + hue + '</button>';
+    }
+    container.innerHTML = html;
+}
+
+function renderContrastTables() {
+    var P = PALETTES[selectedHue];
+    var wBody = '', bBody = '';
+
+    for (var i = 0; i < STEPS.length; i++) {
+        var step = STEPS[i];
+        var hex = P[step];
+        var isLight = lum(hex) > 0.18;
+        var border = isLight ? '1px solid rgba(0,0,0,0.1)' : '1px solid rgba(255,255,255,0.08)';
+
+        var ratioW = cr(hex, W);
+        var ratioB = cr(hex, B);
+
+        var clsW = ratioW >= 4.5 ? 'pass' : (ratioW >= 3.0 ? 'lg-only' : 'fail');
+        var lblW = ratioW >= 4.5 ? 'AA' : (ratioW >= 3.0 ? 'Lg' : 'Fail');
+        var clsB = ratioB >= 4.5 ? 'pass' : (ratioB >= 3.0 ? 'lg-only' : 'fail');
+        var lblB = ratioB >= 4.5 ? 'AA' : (ratioB >= 3.0 ? 'Lg' : 'Fail');
+
+        var swatchHtml = '<span style="display:inline-block;width:28px;height:16px;border-radius:3px;background:' + hex + ';border:' + border + '"></span>';
+
+        wBody += '<tr>';
+        wBody += '<td class="step-cell text-p-neutral-300">' + step + '</td>';
+        wBody += '<td class="step-cell">' + hex + '</td>';
+        wBody += '<td>' + swatchHtml + '</td>';
+        wBody += '<td class="step-cell ' + clsW + '">' + ratioW.toFixed(1) + ':1</td>';
+        wBody += '<td class="' + clsW + ' font-bold">' + lblW + '</td>';
+        wBody += '</tr>';
+
+        bBody += '<tr>';
+        bBody += '<td class="step-cell text-p-neutral-300">' + step + '</td>';
+        bBody += '<td class="step-cell">' + hex + '</td>';
+        bBody += '<td>' + swatchHtml + '</td>';
+        bBody += '<td class="step-cell ' + clsB + '">' + ratioB.toFixed(1) + ':1</td>';
+        bBody += '<td class="' + clsB + ' font-bold">' + lblB + '</td>';
+        bBody += '</tr>';
+    }
+
+    document.querySelector('#table-vs-white tbody').innerHTML = wBody;
+    document.querySelector('#table-vs-black tbody').innerHTML = bBody;
+}
+
+/* ================================================================
+   Section 5: Surface Previews
+   ================================================================ */
+function renderSurfaceTabs() {
+    var container = document.getElementById('surface-tabs');
+    var html = '';
+    for (var h = 0; h < HUE_NAMES.length; h++) {
+        var hue = HUE_NAMES[h];
+        var isActive = hue === selectedHue;
+        var variant = isActive ? 'mc-button-filled' : 'mc-button-outline';
+        html += '<button class="mc-button mc-button-xs ' + variant + '" data-hue="' + hue + '" onclick="selectHue(\'' + hue + '\')">' + hue + '</button>';
+    }
+    container.innerHTML = html;
+}
+
+function renderSurfacePreviews() {
+    var hue = selectedHue;
+    var P = PALETTES[hue];
+    var modes = [
+        { id: 1, name: 'White', bg: W },
+        { id: 2, name: 'Black', bg: B },
+        { id: 3, name: 'Light (100)', bg: P[100] },
+        { id: 4, name: 'Dark (800)', bg: P[800] },
+        { id: 5, name: 'Mid (500)', bg: P[500] },
+    ];
+
+    var container = document.getElementById('surface-previews');
+    var html = '';
+
+    for (var m = 0; m < modes.length; m++) {
+        var mode = modes[m];
+        var isLight = lum(mode.bg) > 0.3;
+
+        html += '<div data-hue="' + hue + '" data-mode="' + mode.id + '" class="surface-panel" style="background:' + mode.bg + ';border:1px solid ' + (isLight ? '#ccc' : '#333') + '">';
+        html += '<div style="font-size:8px;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;opacity:0.35;margin-bottom:8px;color:' + (isLight ? '#000' : '#fff') + '">Mode ' + mode.id + ' — ' + mode.name + '</div>';
+        html += '<div style="font-size:18px;font-weight:800;color:var(--p-text);margin-bottom:4px">Heading</div>';
+        html += '<div style="font-size:11px;color:var(--p-text2);margin-bottom:4px;line-height:1.4">Secondary body text on this surface.</div>';
+        html += '<div style="font-size:10px;font-weight:600;color:var(--p-accent);text-decoration:underline;text-underline-offset:2px;margin-bottom:12px">Accent link</div>';
+        html += '<div style="height:1px;background:var(--p-divider);margin-bottom:12px"></div>';
+        html += '<div style="display:flex;gap:6px;margin-bottom:10px">';
+        html += '<button style="background:var(--p-btn-bg);color:var(--p-btn-text);border:none;border-radius:5px;padding:5px 14px;font-size:10px;font-weight:700;cursor:pointer;font-family:inherit;letter-spacing:0.04em">Button</button>';
+        html += '<button style="background:transparent;color:var(--p-outline);border:1.5px solid var(--p-outline);border-radius:5px;padding:5px 14px;font-size:10px;font-weight:700;cursor:pointer;font-family:inherit;letter-spacing:0.04em">Outline</button>';
+        html += '</div>';
+        html += '<div style="display:flex;gap:6px">';
+        html += '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--p-icon)" stroke-width="2.5" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>';
+        html += '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--p-icon)" stroke-width="2.5" stroke-linecap="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>';
+        html += '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--p-icon)" stroke-width="2.5" stroke-linecap="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>';
+        html += '</div>';
+        html += '</div>';
+    }
+
+    container.innerHTML = html;
+}
+
+/* ================================================================
+   Section 7: Semantic Variables
+   ================================================================ */
+function renderSemanticVars() {
+    var vars = [
+        { name: '--p-surface', desc: 'Background' },
+        { name: '--p-text', desc: 'Primary text' },
+        { name: '--p-text2', desc: 'Secondary text' },
+        { name: '--p-accent', desc: 'Accent / links' },
+        { name: '--p-btn-bg', desc: 'Button fill' },
+        { name: '--p-btn-text', desc: 'Button text' },
+        { name: '--p-outline', desc: 'Outline / border' },
+        { name: '--p-icon', desc: 'Icons' },
+        { name: '--p-divider', desc: 'Divider lines' },
+        { name: '--p-hover', desc: 'Hover state' },
+        { name: '--p-pressed', desc: 'Pressed state' },
+        { name: '--p-focus', desc: 'Focus ring' },
+        { name: '--p-disabled', desc: 'Disabled' },
+    ];
+
+    var html = '';
+    for (var i = 0; i < vars.length; i++) {
+        var v = vars[i];
+        html += '<div class="role-card">';
+        html += '<div class="role-label">' + v.desc + '</div>';
+        html += '<div class="role-value text-p-blue-400">' + v.name + '</div>';
+        html += '</div>';
+    }
+    document.getElementById('semantic-vars').innerHTML = html;
+}
+
+/* ================================================================
+   Event Handlers
+   ================================================================ */
+function selectHue(hue) {
+    selectedHue = hue;
+    render();
+}
+
+function render() {
+    renderPaletteGrid();
+    renderContrastTabs();
+    renderContrastTables();
+    renderSurfaceTabs();
+    renderSurfacePreviews();
+    renderSemanticVars();
+}
+
+render();
+</script>
 </body>
 </html>
