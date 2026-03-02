@@ -1,87 +1,173 @@
 # MC Perception
 
-MC Perception is a function-first design system and color palette built for high-clarity dashboards, trading interfaces, and internal data-dense tools. It follows the principle of **form follows function**, prioritizing readability, precision, and performance over ornamentation.
+A WCAG AA-compliant design system and component library built for data-dense interfaces, trading dashboards, and internal tooling. Powered by Tailwind CSS v4 with a strict 7-hue, 5-surface-mode, 6-size architecture.
 
-Although visually minimal — even intentionally "ugly" by aesthetic standards — every decision is correct, calculated, and optimized for fast comprehension under real-world conditions.
-
----
-
-## Features
-
-- **Engineered Color Palette**
-  Carefully calculated contrast ratios for maximum readability and accessibility.
-
-- **Tailwind UI Components**
-  Practical, minimal, and predictable building blocks for internal tooling.
-
-- **Data-Dense Design Optimization**
-  Built specifically for dashboards, monitoring tools, analytics panels, and trading UIs.
-
-- **Token-Based Architecture**
-  Scalable colors, typography, spacing, and layout primitives.
-
-- **Form Follows Function**
-  No decoration, no fluff — clarity and correctness above everything.
+**Use it standalone** as a drop-in CSS framework, or **pair it with Claude Code** for AI-assisted UI generation that automatically follows every design rule.
 
 ---
 
-## Philosophy
+## Quick Start
 
-MC Perception is built around functional clarity. Every color, ratio, and component is intentionally designed to:
-
-- reduce cognitive load
-- increase scan speed
-- emphasize information hierarchy
-- aid high-pressure decision-making
-
-It rejects aesthetic noise and focuses on correctness and comprehension — especially in trading and monitoring environments where readability matters more than visual branding.
-
----
-
-## Usage
-
-To use MC Perception in your project, include the CDN stylesheet in your HTML:
+### CDN (No Build Required)
 
 ```html
 <link rel="stylesheet" href="https://mrcha0s.github.io/mcperception/src/dist/mcperception.css">
 ```
 
-This loads the full MC Perception design system, including:
+This single file includes Tailwind 4 utilities, all MC Perception components, color tokens, and inlined Roboto font families. No installation needed.
 
-- Tailwind 4.1 utilities
-- MC Perception theme tokens
-- Color system
-- Typography system
-- Fully inlined Roboto / Roboto Condensed / Roboto Mono / Roboto Slab fonts
-- All UI resets and base styling
+### Local Development
 
-No Tailwind installation is required. Everything is precompiled into a single CSS file.
+```bash
+cd src
+npm install
+npm run build    # one-time build
+npm run dev      # watch mode
+```
+
+Build pipeline: Tailwind CLI compiles source CSS, then PostCSS processes the output.
+
+---
+
+## Design Principles
+
+MC Perception follows **form follows function** — every decision is calculated for fast comprehension under real-world conditions.
+
+### 1. Function Over Decoration
+No ornamentation, no visual noise. Every pixel serves information delivery. Interfaces should be scannable in milliseconds, not admired.
+
+### 2. Strict Color Discipline
+Only 7 engineered hue families with 10 luminance steps each. No ad-hoc colors. Every foreground/background pair is mathematically verified for WCAG AA contrast compliance.
+
+### 3. Universal Surface Adaptation
+Every component works on all 5 surface modes without modification. Dark mode, light mode, hue-tinted surfaces — one set of classes handles all of them through CSS variable indirection.
+
+### 4. Accessibility is Non-Negotiable
+- Text contrast: **>= 4.5:1** (AA small text)
+- Large text contrast: **>= 3.0:1** (AA large text)
+- Non-text UI (borders, icons): **>= 3.0:1** (WCAG 1.4.11)
+- No exceptions. Every color pairing is audited.
+
+### 5. Predictable API
+Components follow a consistent pattern: base class + variant + hue + size. No surprises, no special cases.
+
+```html
+<element class="mc-{component} mc-{component}-{variant} mc-{component}-{size}" data-hue="{hue}">
+```
+
+### 6. Data-Dense Optimization
+Built for dashboards, monitoring tools, trading UIs, and analytics panels where information density matters more than whitespace.
+
+---
+
+## Architecture
+
+### The Variant Matrix
+
+Every component produces up to:
+
+```
+7 hues  x  5 surface modes  x  6 sizes  =  210 variants
+```
+
+from a single, small set of CSS rules — powered by CSS variable indirection.
+
+### 7 Hues
+
+| Hue | Semantic Role | Step 500 |
+|-----|--------------|----------|
+| `neutral` | Default, chrome, borders | `#6c6c6c` |
+| `red` | Errors, destructive actions | `#da0000` |
+| `green` | Success, positive states | `#007f00` |
+| `blue` | Primary actions, links | `#5252ff` |
+| `yellow` | Warnings, caution | `#6f6f00` |
+| `magenta` | Premium, highlights | `#c000c0` |
+| `teal` | Informational, neutral alerts | `#007979` |
+
+Hues are applied via the `data-hue` attribute:
+
+```html
+<button class="mc-button mc-button-filled" data-hue="blue">Submit</button>
+<span class="mc-badge mc-badge-filled" data-hue="red">Error</span>
+```
+
+### 5 Surface Modes
+
+Surface modes define the background context. Components automatically adapt their colors.
+
+| Mode | Background | Use Case | Attribute |
+|------|-----------|----------|-----------|
+| **M1** White | `#FFFFFF` | Light content pages | `data-mode="1"` |
+| **M2** Black | `#0A0A0A` | Dark mode (default) | `data-mode="2"` or none |
+| **M3** Light Hue | Step 100 | Alerts, banners, cards | `data-mode="3"` |
+| **M4** Dark Hue | Step 800 | Headers, hero sections, nav | `data-mode="4"` |
+| **M5** Mid Hue | Step 500 | CTAs, badges, accent areas | `data-mode="5"` |
+
+Set the mode on any ancestor container:
+
+```html
+<!-- Dark surface (default) -->
+<div data-hue="blue" data-mode="2">
+    <button class="mc-button mc-button-outline" data-hue="blue">Dark Mode</button>
+</div>
+
+<!-- White surface -->
+<div data-hue="blue" data-mode="1">
+    <button class="mc-button mc-button-outline" data-hue="blue">Light Mode</button>
+</div>
+
+<!-- Mid hue surface -->
+<div data-hue="blue" data-mode="5" class="p-6" style="background: var(--color-p-blue-500)">
+    <button class="mc-button mc-button-filled" data-hue="blue">Inverted</button>
+</div>
+```
+
+### 6 Sizes
+
+| Size | Font | Padding | Min Height | Class |
+|------|------|---------|------------|-------|
+| **xs** | 11px | 4px 8px | 24px | `mc-{component}-xs` |
+| **sm** | 12px | 6px 12px | 30px | `mc-{component}-sm` |
+| **md** | 14px | 8px 16px | 36px | *(default — no class)* |
+| **lg** | 16px | 10px 20px | 44px | `mc-{component}-lg` |
+| **xl** | 18px | 12px 24px | 52px | `mc-{component}-xl` |
+| **xxl** | 20px | 14px 28px | 60px | `mc-{component}-xxl` |
 
 ---
 
 ## Color Palette
 
-Strict dark mode palette with maximum contrast:
+Each hue has 10 steps (50-900) with monotonically decreasing luminance. Two special colors complete the system:
 
-| Token | Hex | Usage |
-|-------|-----|-------|
-| `bg-mc-dark-gray-900` | #090909 | Page background |
-| `bg-mc-dark-gray-800` | #171717 | Panel background |
-| `border-mc-dark-gray-700` | #222222 | Borders |
-| `bg-mc-dark-gray-600` | #2c2c2c | Button background |
-| `border-mc-dark-gray-500` | #373737 | Button border |
-| `bg-black` | #000000 | Input background |
+- **White**: `#FFFFFF`
+- **Black**: `#0A0A0A` (never pure `#000000`)
 
-Semantic colors for data visualization:
+### Neutral
 
-| Class | Usage |
-|-------|-------|
-| `text-mc-light-green-500` | Positive values, gains |
-| `text-mc-light-red-400` | Negative values, losses |
-| `text-mc-dark-gray-100` | Muted/secondary text |
-| `text-mc-dark-gray-50` | Labels |
+| Step | Hex | vs White | vs Black |
+|------|-----|----------|----------|
+| 50 | `#fafafa` | 1.1:1 | 19.1:1 |
+| 100 | `#e1e1e1` | 1.4:1 | 14.1:1 |
+| 200 | `#c3c3c3` | 2.1:1 | 9.6:1 |
+| 300 | `#a0a0a0` | 3.4:1 | 5.9:1 |
+| 400 | `#7f7f7f` | 5.3:1 | 3.8:1 |
+| 500 | `#6c6c6c` | 6.6:1 | 3.1:1 |
+| 600 | `#515151` | 9.5:1 | 2.1:1 |
+| 700 | `#373737` | 13.3:1 | 1.5:1 |
+| 800 | `#222222` | 16.6:1 | 1.2:1 |
+| 900 | `#090909` | 20.5:1 | 1.0:1 |
 
-Available color families: `gray`, `red`, `green`, `blue`, `yellow`, `purple`, `cyan`
+All 7 hues follow the same luminance curve. Full hex tables for red, green, blue, yellow, magenta, and teal are documented in [`skills/skill-palette.md`](skills/skill-palette.md).
+
+### Contrast Rules by Surface
+
+| Surface Mode | Pass AA (text) | Accent/Links | Avoid |
+|-------------|----------------|-------------|-------|
+| **M1** White | Steps 500-900 | Step 500 | Steps 50-300 |
+| **M2** Black | Steps 50-400 | Step 400 | Steps 600-900 |
+| **M3** Light (100) | Steps 600-900 + Black | Step 600 | Steps 50-300 |
+| **M4** Dark (800) | Steps 50-300 + White | Step 300 | Steps 600-900 |
+| **M5** Mid (500) | White / Step 50 | White | Steps 300-700 |
 
 ---
 
@@ -89,247 +175,95 @@ Available color families: `gray`, `red`, `green`, `blue`, `yellow`, `purple`, `c
 
 ### Buttons
 
+4 variants for emphasis hierarchy:
+
 ```html
-<button class="mc-button mc-button-md mc-button-dark-gray">Default</button>
-<button class="mc-button mc-button-md mc-button-primary">Primary</button>
-<button class="mc-button mc-button-md mc-button-success">Success</button>
-<button class="mc-button mc-button-md mc-button-danger">Danger</button>
-<button class="mc-button mc-button-md mc-button-warning">Warning</button>
+<!-- Filled (high emphasis) -->
+<button class="mc-button mc-button-filled" data-hue="blue">Submit</button>
+
+<!-- Tonal (medium-high) -->
+<button class="mc-button mc-button-tonal" data-hue="green">Approve</button>
+
+<!-- Outline (medium) -->
+<button class="mc-button mc-button-outline" data-hue="red">Cancel</button>
+
+<!-- Ghost (low emphasis) -->
+<button class="mc-button mc-button-ghost" data-hue="neutral">More</button>
 ```
 
-**Sizes:** `mc-button-xs` | `mc-button-sm` | `mc-button-md` | `mc-button-lg` | `mc-button-xl`
+**Sizes:** `mc-button-xs` | `mc-button-sm` | *(md default)* | `mc-button-lg` | `mc-button-xl` | `mc-button-xxl`
 
-**Colors:** `mc-button-dark-[gray|red|green|blue|yellow|purple|cyan]` | `mc-button-light-[color]`
+**Icons:**
+
+```html
+<button class="mc-button mc-button-filled mc-button-icon-left" data-hue="green">
+    <svg>...</svg> Download
+</button>
+
+<button class="mc-button mc-button-outline mc-button-icon-only" data-hue="neutral" aria-label="Close">
+    <svg>...</svg>
+</button>
+```
+
+**States:** `disabled` attribute | `mc-button-loading` class
+
+**Groups:**
+
+```html
+<div class="mc-button-group">
+    <button class="mc-button mc-button-filled mc-button-sm" data-hue="blue">1D</button>
+    <button class="mc-button mc-button-filled mc-button-sm" data-hue="neutral">1W</button>
+    <button class="mc-button mc-button-filled mc-button-sm" data-hue="neutral">1M</button>
+</div>
+```
+
+### Badges
+
+3 variants with all hues and sizes:
+
+```html
+<span class="mc-badge mc-badge-filled" data-hue="red">Error</span>
+<span class="mc-badge mc-badge-tonal" data-hue="green">Active</span>
+<span class="mc-badge mc-badge-outline" data-hue="blue">Beta</span>
+```
+
+**Sizes:** `mc-badge-xs` | `mc-badge-sm` | *(md default)* | `mc-badge-lg` | `mc-badge-xl` | `mc-badge-xxl`
+
+**Shapes:** `mc-badge-pill` | `mc-badge-dot` (status indicator)
 
 ### Inputs
 
 ```html
-<input class="mc-input mc-input-md mc-input-dark-gray" placeholder="Text input">
-<input class="mc-input mc-input-md mc-input-dark-gray mc-input-mono" value="123,456.78">
+<input class="mc-input mc-input-md" placeholder="Text input">
+<input class="mc-input mc-input-md mc-input-mono" value="123,456.78">
+<textarea class="mc-textarea" placeholder="Enter text..."></textarea>
 ```
 
 **Sizes:** `mc-input-xs` | `mc-input-sm` | `mc-input-md` | `mc-input-lg` | `mc-input-xl`
 
-**Colors:** `mc-input-dark-[gray|red|green|blue|yellow|purple|cyan]` | `mc-input-light-[color]`
-
-**Modifiers:** `mc-input-mono` (monospace for numbers)
-
-### Select, Checkbox & Radio
+### Selection Controls
 
 ```html
-<select class="mc-select">
-  <option>Option 1</option>
-</select>
-
+<select class="mc-select"><option>Option 1</option></select>
 <input type="checkbox" class="mc-checkbox">
 <input type="radio" name="group" class="mc-radio">
-```
-
-### Switch / Toggle
-
-```html
 <input type="checkbox" class="mc-switch">
-<input type="checkbox" class="mc-switch mc-switch-success">
-<input type="checkbox" class="mc-switch mc-switch-danger">
-```
-
-### Textarea
-
-```html
-<textarea class="mc-textarea" placeholder="Enter text..."></textarea>
-<textarea class="mc-textarea mc-textarea-mono"></textarea>
-```
-
-### Input Group
-
-```html
-<div class="mc-input-group">
-  <span class="mc-input-addon">$</span>
-  <input class="mc-input mc-input-md mc-input-dark-gray" value="100.00">
-  <span class="mc-input-addon">USD</span>
-</div>
 ```
 
 ### Panels
 
 ```html
 <div class="mc-panel">
-  <div class="mc-panel-header">
-    <span class="mc-panel-title">Title</span>
-  </div>
-  <div class="mc-panel-body">
-    <p class="mc-panel-subtitle">Subtitle</p>
-    Content here
-  </div>
+    <div class="mc-panel-header">
+        <span class="mc-panel-title">Title</span>
+    </div>
+    <div class="mc-panel-body">Content</div>
 </div>
 ```
 
-**Colors:** `mc-panel-dark-[gray|red|green|blue|yellow|purple|cyan]`
+### Other Components
 
-**Variants:** `mc-panel-[color]-bevel` | `mc-panel-[color]-emboss`
-
-### Badges
-
-```html
-<span class="mc-badge mc-badge-success">Success</span>
-<span class="mc-badge mc-badge-danger">Danger</span>
-<span class="mc-badge mc-badge-warning">Warning</span>
-<span class="mc-badge mc-badge-info">Info</span>
-```
-
-### Alerts
-
-```html
-<div class="mc-alert mc-alert-success">Success message</div>
-<div class="mc-alert mc-alert-danger">Error message</div>
-<div class="mc-alert mc-alert-warning">Warning message</div>
-<div class="mc-alert mc-alert-info">Info message</div>
-```
-
-### Tabs
-
-```html
-<div class="mc-tabs">
-  <div class="mc-tab active">Tab 1</div>
-  <div class="mc-tab">Tab 2</div>
-  <div class="mc-tab">Tab 3</div>
-</div>
-```
-
-### Tables
-
-```html
-<table class="mc-table">
-  <thead>
-    <tr>
-      <th>Symbol</th>
-      <th>Price</th>
-      <th>Change</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>BTC/USD</td>
-      <td>43,250.00</td>
-      <td class="mc-text-positive">+2.45%</td>
-    </tr>
-  </tbody>
-</table>
-```
-
-### Progress Bars
-
-```html
-<div class="mc-progress">
-  <div class="mc-progress-bar mc-progress-bar-success" style="width: 75%;"></div>
-</div>
-```
-
-**Colors:** `mc-progress-bar-success` | `mc-progress-bar-danger` | `mc-progress-bar-warning` | `mc-progress-bar-info`
-
-### Utilities
-
-```html
-<div class="mc-divider"></div>
-<div class="mc-card">Card content</div>
-
-<div class="mc-button-group">
-  <button class="mc-button mc-button-sm mc-button-dark-gray">1D</button>
-  <button class="mc-button mc-button-sm mc-button-primary">1W</button>
-  <button class="mc-button mc-button-sm mc-button-dark-gray">1M</button>
-</div>
-```
-
-### Text Utilities
-
-```html
-<span class="mc-text-positive">+2.45%</span>
-<span class="mc-text-negative">-1.23%</span>
-<span class="mc-text-muted">Secondary text</span>
-<span class="mc-text-label">LABEL</span>
-```
-
-### Breadcrumb
-
-```html
-<nav class="mc-breadcrumb">
-  <a class="mc-breadcrumb-item" href="#">Home</a>
-  <span class="mc-breadcrumb-separator">/</span>
-  <a class="mc-breadcrumb-item" href="#">Products</a>
-  <span class="mc-breadcrumb-separator">/</span>
-  <span class="mc-breadcrumb-item active">Details</span>
-</nav>
-```
-
-### Pagination
-
-```html
-<div class="mc-pagination">
-  <div class="mc-page disabled">&lt;</div>
-  <div class="mc-page active">1</div>
-  <div class="mc-page">2</div>
-  <div class="mc-page">3</div>
-  <div class="mc-page">&gt;</div>
-</div>
-```
-
-### Spinner
-
-```html
-<div class="mc-spinner"></div>
-<div class="mc-spinner mc-spinner-sm"></div>
-<div class="mc-spinner mc-spinner-lg mc-spinner-success"></div>
-```
-
-**Sizes:** `mc-spinner-sm` | `mc-spinner-lg` | `mc-spinner-xl`
-
-**Colors:** `mc-spinner-success` | `mc-spinner-danger` | `mc-spinner-warning`
-
-### List Group
-
-```html
-<div class="mc-list-group">
-  <div class="mc-list-item">Item 1</div>
-  <div class="mc-list-item active">Item 2 (active)</div>
-  <div class="mc-list-item">Item 3</div>
-</div>
-```
-
-### Avatar
-
-```html
-<div class="mc-avatar">JD</div>
-<div class="mc-avatar mc-avatar-sm">A</div>
-<div class="mc-avatar mc-avatar-lg"><img src="photo.jpg"></div>
-```
-
-**Sizes:** `mc-avatar-sm` | `mc-avatar-lg` | `mc-avatar-xl`
-
-### Code & Keyboard
-
-```html
-<code class="mc-code-inline">npm install</code>
-<pre class="mc-code">const x = 42;</pre>
-<kbd class="mc-kbd">Ctrl</kbd> + <kbd class="mc-kbd">C</kbd>
-```
-
-### Close Button
-
-```html
-<span class="mc-close"></span>
-<span class="mc-close mc-close-sm"></span>
-<span class="mc-close mc-close-lg"></span>
-```
-
-### Form Validation
-
-```html
-<input class="mc-input mc-input-md mc-input-dark-gray mc-input-error">
-<p class="mc-error-text">This field is required</p>
-
-<input class="mc-input mc-input-md mc-input-dark-gray mc-input-success">
-<p class="mc-success-text">Looks good!</p>
-```
+Tables (`mc-table`), alerts (`mc-alert`), tabs (`mc-tabs`), progress bars (`mc-progress`), spinners (`mc-spinner`), avatars (`mc-avatar`), breadcrumbs (`mc-breadcrumb`), pagination (`mc-pagination`), code blocks (`mc-code`), kbd (`mc-kbd`), dividers (`mc-divider`), list groups (`mc-list-group`).
 
 ---
 
@@ -342,30 +276,219 @@ Available color families: `gray`, `red`, `green`, `blue`, `yellow`, `purple`, `c
 | `font-mono` | Roboto Mono | Numbers, code, data |
 | `font-slab` | Roboto Slab | Headlines |
 
+All four font families are embedded in the compiled CSS. No external font loading required.
+
 ---
 
-## Demos
+## Using with Claude Code
 
-- [Component Library Documentation](src/demo/index.html)
-- [Component Showcase](src/demo/components.html)
-- [Crypto Trading Cards](src/demo/trading-card.html)
-- [Orderbook Demo](src/demo/orderbook.html)
-- [Panel Variants](src/demo/panel.html)
-- [Color Palette](src/demo/color.html)
+MC Perception is designed to work with [Claude Code](https://docs.anthropic.com/en/docs/claude-code) for AI-assisted UI generation. When Claude Code is connected to this repository, it automatically loads the design system rules and generates WCAG-compliant UI that follows every convention.
+
+### How It Works
+
+The `.claude/skills/perception-bootstrap/` directory contains the **master orchestrator skill** — a 4-layer architecture that routes Claude to the correct design specifications based on what you're building:
+
+```
+Layer 4: COMPOSITIONS  — dashboard, data-viz, financial-ux, presentation
+Layer 3: COMPONENTS    — buttons, forms, selection, navigation, tables, loading
+Layer 2: PRINCIPLES    — design-principles, ui-design-rules, simplify-design
+Layer 1: FOUNDATION    — palette, surface-modes, perception-ui-system
+```
+
+When you ask Claude Code to build UI — a button, a form, a dashboard — it reads the relevant skill files and generates code that:
+
+- Uses the correct `data-hue` + `data-mode` attributes
+- Follows the variant matrix (7 hues x 5 modes x 6 sizes)
+- Passes WCAG AA contrast requirements
+- Follows the component API conventions
+
+### Example Prompts in Claude Code
+
+```
+> Create a login form with email and password fields
+
+> Build a trading dashboard with a price chart, orderbook, and trade history
+
+> Add a navigation sidebar with blue accent
+
+> Design a settings page with toggle switches and form inputs
+```
+
+Claude Code will read the relevant skills (foundation + components + compositions) and generate complete HTML using MC Perception classes.
+
+### Skill Files
+
+The `skills/` directory contains two types of files you can use with any AI tool:
+
+**Skill References** (`skill-*.md`) — Complete design specifications:
+
+| File | What It Defines |
+|------|----------------|
+| `skill-palette.md` | All 7 hues x 10 steps, exact hex values, contrast ratios |
+| `skill-surface-mode.md` | 5 surface modes, pairing tables, interactive states |
+| `skill-perception-ui-system.md` | Master rules, variant matrix, WCAG requirements |
+| `skill-button-design.md` | Button patterns, hierarchy, states, accessibility |
+| `skill-text-fields-forms-design.md` | Forms, inputs, validation, UX patterns |
+| `skill-selection-controls-design.md` | Checkboxes, radios, toggles, chips |
+| `skill-navigation-design.md` | Navbars, sidebars, menus, tabs |
+| `skill-data-tables-design.md` | Tables, grids, sorting, pagination |
+| `skill-loading-progress-indicators.md` | Spinners, skeletons, progress bars |
+| `skill-dashboard-design.md` | Dashboard layouts, KPI cards, metrics |
+| `skill-data-visualization-design.md` | Charts, graphs, data-ink principles |
+| `skill-financial-ux-design.md` | Trading, banking, fintech patterns |
+| `skill-presentation-design.md` | Slide decks, visual storytelling |
+| `skill-design-principles.md` | 10 foundational design principles |
+| `skill-ui-design-rules.md` | 58 UI quality rules |
+| `skill-simplify-design.md` | 21 simplification and declutter rules |
+
+**Prompt Templates** (`prompt-*.md`) — Ready-to-paste prompts for AI tools:
+
+Each prompt file contains a structured instruction that tells the AI to follow the MC Perception design system rules when generating UI. You can paste these into ChatGPT, Claude.ai, or any LLM interface.
+
+```
+skills/
+  prompt-button-design.md        # "Generate buttons following these rules..."
+  prompt-dashboard-design.md     # "Generate dashboards following these rules..."
+  prompt-data-tables-design.md   # "Generate tables following these rules..."
+  ...13 prompt files total
+```
+
+### Using Skills Without Claude Code
+
+You don't need Claude Code to benefit from the skill files. Use them with any AI:
+
+1. **Copy-paste a skill file** into your AI conversation as context
+2. **Ask the AI** to generate UI following those rules
+3. **The AI** will produce MC Perception-compatible HTML
+
+For example, paste `skill-button-design.md` into ChatGPT and ask: *"Create a button group for a trading interface with buy/sell actions"* — the AI will generate correct MC Perception markup.
+
+---
+
+## CSS Architecture
+
+### File Structure
+
+```
+src/
+  mcperception.css              # Entry point — imports all modules
+  mcperception-color.css        # Color system: 7 hues x 10 steps + surface mode tokens
+  mcperception-font.css         # Embedded Roboto font families
+  mcperception-input.css        # Buttons (filled/tonal/outline/ghost) + inputs
+  mcperception-panel.css        # Panel component
+  mcperception-components.css   # Badges, tables, alerts, tabs, spinners, etc.
+  dist/
+    mcperception.css            # Compiled output (production)
+    mcperception.raw.css        # Pre-PostCSS output
+```
+
+### CSS Variable Indirection
+
+Components use a two-layer variable system. The `data-hue` attribute maps hue-specific tokens to generic component variables:
+
+```css
+/* Layer 1: Hue maps to generic tokens */
+.mc-button[data-hue="blue"] {
+    --btn-500: var(--color-p-blue-500);
+    --btn-600: var(--color-p-blue-600);
+    /* ... */
+}
+
+/* Layer 2: Variants reference generic tokens */
+.mc-button-filled {
+    background-color: var(--btn-500);
+    color: #FFFFFF;
+}
+.mc-button-filled:hover {
+    background-color: var(--btn-600);
+}
+
+/* Layer 3: Surface modes override tokens */
+[data-mode="5"] .mc-button-filled {
+    background-color: var(--btn-50);
+    color: #0A0A0A;
+}
+```
+
+This means **one set of variant rules** handles all 7 hues across all 5 surface modes.
+
+---
+
+## Demo Pages
+
+| Page | Description |
+|------|-------------|
+| [index.html](src/demo/index.html) | Component library overview |
+| [button.html](src/demo/button.html) | Button style guide — variants, sizes, modes, icons, groups |
+| [badges.html](src/demo/badges.html) | Badge style guide — filled, tonal, outline, shapes |
+| [surface-modes.html](src/demo/surface-modes.html) | Interactive WCAG explorer — 7 hues x 5 modes with contrast auditing |
+| [forms.html](src/demo/forms.html) | Forms and input components |
+| [selection.html](src/demo/selection.html) | Checkboxes, radios, toggles, switches |
+| [color.html](src/demo/color.html) | Full color palette reference |
+| [components.html](src/demo/components.html) | All components showcase |
+| [panel.html](src/demo/panel.html) | Panel variants and color grid |
+| [input.html](src/demo/input.html) | Input size and color matrix |
+| [trading-card.html](src/demo/trading-card.html) | Crypto trading card compositions |
+| [orderbook.html](src/demo/orderbook.html) | Orderbook interface demo |
+| [font.html](src/demo/font.html) | Typography specimens |
+
+---
+
+## Project Structure
+
+```
+Perception/
+  README.md                       # This file
+  CLAUDE.md                       # Claude Code project configuration
+  skills/                         # AI skill + prompt files (standalone)
+    skill-palette.md
+    skill-surface-mode.md
+    skill-perception-ui-system.md
+    skill-button-design.md
+    prompt-button-design.md
+    ... (30 files total)
+  .claude/
+    skills/
+      perception-bootstrap/       # Claude Code auto-trigger skill
+        SKILL.md                  # Master orchestrator
+        references/
+          foundation/             # Palette, surface modes, UI system rules
+          components/             # Button, form, table, nav, loading specs
+          compositions/           # Dashboard, data-viz, financial, presentation
+          principles/             # Design principles, UI rules, simplification
+  src/
+    mcperception.css              # CSS entry point
+    mcperception-color.css        # Color system
+    mcperception-font.css         # Typography
+    mcperception-input.css        # Buttons + inputs
+    mcperception-panel.css        # Panels
+    mcperception-components.css   # All other components
+    package.json                  # Build scripts
+    dist/                         # Compiled CSS output
+    demo/                         # 13 interactive demo pages
+```
 
 ---
 
 ## Roadmap
 
-- [x] Expand Tailwind component catalog
-- [x] Provide complete design tokens
-- [ ] Documentation site
-- [ ] Example dashboard templates
-- [ ] Theme variations (dark/light/system)
-- [ ] Accessibility presets
+- [x] Engineered 7-hue color palette with monotonic luminance
+- [x] 5 surface mode system with automatic component adaptation
+- [x] Button system (filled, tonal, outline, ghost) with WCAG AA audit
+- [x] Badge system (filled, tonal, outline) with surface mode support
+- [x] Claude Code skill integration (30 skill + prompt files)
+- [x] Interactive surface mode explorer with contrast visualization
+- [x] 13 demo/style guide pages
+- [ ] Modal / dialog component
+- [ ] Toast / notification component
+- [ ] Card component with hue/mode support
+- [ ] Tooltip / popover component
+- [ ] Stepper / wizard component
+- [ ] Documentation site with live playground
+- [ ] npm package distribution
 
 ---
 
 ## License
 
-MC Perception is free for personal or commercial use, under a permissive Apache License 2.0.  
+MC Perception is free for personal or commercial use under the Apache License 2.0.
