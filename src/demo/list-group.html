@@ -1,0 +1,1057 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>List Group Style Guide — MC Perception</title>
+    <link rel="stylesheet" href="../dist/mcperception.css">
+    <style>
+/* ── Docs Layout ── */
+.docs-layout {
+    display: flex;
+    min-height: 100vh;
+}
+.docs-sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 240px;
+    height: 100vh;
+    background: #222222;
+    border-right: 1px solid #222222;
+    overflow-y: auto;
+    z-index: 40;
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.2s ease;
+}
+.docs-sidebar-header {
+    padding: 1.25rem 1.25rem 0.75rem;
+    border-bottom: 1px solid #222222;
+    display: flex;
+    align-items: baseline;
+    gap: 0.5rem;
+}
+.docs-logo {
+    font-size: 0.875rem;
+    font-weight: 700;
+    color: #FFFFFF;
+    text-decoration: none;
+    letter-spacing: -0.01em;
+}
+.docs-logo:hover { color: #c3c3c3; }
+.docs-version {
+    font-size: 0.625rem;
+    color: #515151;
+    font-family: 'Roboto Mono', ui-monospace, monospace;
+}
+.docs-sidebar-nav {
+    padding: 0.75rem 0;
+    flex: 1;
+}
+.docs-nav-group {
+    margin-bottom: 0.25rem;
+}
+.docs-nav-group-label {
+    font-size: 0.625rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: #515151;
+    padding: 0.625rem 1.25rem 0.375rem;
+}
+.docs-nav-link {
+    display: block;
+    font-size: 0.8125rem;
+    color: #a0a0a0;
+    text-decoration: none;
+    padding: 0.375rem 1.25rem;
+    border-left: 2px solid transparent;
+    transition: color 0.15s, border-color 0.15s, background 0.15s;
+}
+.docs-nav-link:hover {
+    color: #c3c3c3;
+    background: #222222;
+}
+.docs-nav-link.active {
+    color: #5252ff;
+    border-left-color: #5252ff;
+    background: #222222;
+}
+.docs-content {
+    flex: 1;
+    margin-left: 240px;
+}
+
+/* ── Mobile: hamburger + overlay ── */
+#docs-hamburger {
+    display: none;
+    position: fixed;
+    top: 0.75rem;
+    left: 0.75rem;
+    z-index: 50;
+    background: #222222;
+    border: 1px solid #222222;
+    color: #a0a0a0;
+    font-size: 1.25rem;
+    width: 36px;
+    height: 36px;
+    border-radius: 6px;
+    cursor: pointer;
+    align-items: center;
+    justify-content: center;
+    line-height: 1;
+    padding: 0;
+}
+#docs-hamburger:hover { color: #FFFFFF; }
+#docs-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: #090909;
+    z-index: 35;
+}
+@media (max-width: 1023px) {
+    #docs-hamburger { display: flex; }
+    .docs-sidebar {
+        transform: translateX(-100%);
+    }
+    .docs-sidebar.open {
+        transform: translateX(0);
+    }
+    #docs-overlay.open {
+        display: block;
+    }
+    .docs-content {
+        margin-left: 0;
+    }
+}
+
+/* ── Guide Cards & Code Blocks ── */
+.guide-section { margin-bottom: 4rem; }
+.guide-card {
+    background: #090909;
+    border: 1px solid #222222;
+    border-radius: 6px;
+    padding: 1.5rem;
+}
+.guide-label {
+    min-width: 72px;
+    font-size: 0.6rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: #6c6c6c;
+    font-weight: 700;
+}
+.guide-row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.5rem;
+}
+.code-block {
+    background: #0A0A0A;
+    border: 1px solid #222222;
+    border-radius: 6px;
+    padding: 1rem 1.25rem;
+    font-family: 'Roboto Mono', ui-monospace, monospace;
+    font-size: 0.7rem;
+    line-height: 1.8;
+    color: #a0a0a0;
+    overflow-x: auto;
+    tab-size: 2;
+}
+.code-block .t  { color: #ff7474; }
+.code-block .a  { color: #9494ff; }
+.code-block .v  { color: #00ba00; }
+.code-block .c  { color: #6d6dff; }
+.code-block .cm { color: #515151; }
+.code-block .tx { color: #c3c3c3; }
+.surface-panel {
+    border-radius: 8px;
+    padding: 1.25rem 1.5rem;
+}
+.section-number {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    border-radius: 6px;
+    font-size: 0.75rem;
+    font-weight: 800;
+    margin-right: 0.5rem;
+}
+.grid-label {
+    font-size: 0.6rem;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    font-weight: 700;
+    color: #515151;
+    width: 64px;
+    flex-shrink: 0;
+}
+.white-label { color: #7f7f7f; }
+
+/* ── Mode Panel Helpers ── */
+.mode-panel {
+    padding: 1.5rem;
+    border-radius: 3px;
+    border: 1px solid #222222;
+}
+.mode-panel-m1 { background: #FFFFFF; border-color: #c3c3c3; }
+.mode-panel-m2 { background: #0A0A0A; border-color: #222222; }
+
+/* ── Size Table ── */
+.size-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+.size-table th {
+    text-align: left;
+    font-size: 0.65rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: #515151;
+    padding: 0.5rem 0.75rem;
+    border-bottom: 1px solid #222222;
+    font-weight: 700;
+}
+.size-table td {
+    padding: 0.75rem;
+    border-bottom: 1px solid #222222;
+    font-size: 0.8rem;
+    color: #c3c3c3;
+    vertical-align: middle;
+}
+.size-table .mono {
+    font-family: 'Roboto Mono', ui-monospace, monospace;
+    font-size: 0.7rem;
+    color: #9494ff;
+}
+
+/* ── Standard Footer ── */
+.docs-footer {
+    margin-top: 6rem;
+    padding: 2rem 0;
+    border-top: 1px solid #222222;
+    text-align: center;
+}
+.docs-footer p {
+    font-size: 0.75rem;
+    color: #515151;
+}
+.docs-footer a {
+    color: #6d6dff;
+    text-decoration: none;
+}
+.docs-footer a:hover {
+    color: #9494ff;
+}
+
+/* ── Demo-specific helpers ── */
+.side-by-side {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+}
+@media (max-width: 767px) {
+    .side-by-side { grid-template-columns: 1fr; }
+}
+    </style>
+</head>
+<body class="bg-p-black text-white min-h-screen font-sans">
+
+    <button id="docs-hamburger">&#9776;</button>
+    <div id="docs-overlay"></div>
+
+    <div class="docs-layout">
+        <aside class="docs-sidebar" id="docs-sidebar">
+            <div class="docs-sidebar-header">
+                <a href="index.html" class="docs-logo">MC Perception</a>
+                <span class="docs-version">v1.0</span>
+            </div>
+            <nav class="docs-sidebar-nav">
+                <div class="docs-nav-group">
+                    <div class="docs-nav-group-label">Getting Started</div>
+                    <a href="index.html" class="docs-nav-link" data-page="index">Home</a>
+                    <a href="getting-started.html" class="docs-nav-link" data-page="getting-started">Getting Started</a>
+                </div>
+                <div class="docs-nav-group">
+                    <div class="docs-nav-group-label">Foundation</div>
+                    <a href="color.html" class="docs-nav-link" data-page="color">Color Palette</a>
+                    <a href="surface-modes.html" class="docs-nav-link" data-page="surface-modes">Surface Modes</a>
+                    <a href="typography.html" class="docs-nav-link" data-page="typography">Typography</a>
+                </div>
+                <div class="docs-nav-group">
+                    <div class="docs-nav-group-label">Components</div>
+                    <a href="button.html" class="docs-nav-link" data-page="button">Buttons</a>
+                    <a href="badges.html" class="docs-nav-link" data-page="badges">Badges</a>
+                    <a href="alert.html" class="docs-nav-link" data-page="alert">Alerts</a>
+                    <a href="progress.html" class="docs-nav-link" data-page="progress">Progress</a>
+                    <a href="spinner.html" class="docs-nav-link" data-page="spinner">Spinners</a>
+                    <a href="pagination.html" class="docs-nav-link" data-page="pagination">Pagination</a>
+                    <a href="list-group.html" class="docs-nav-link" data-page="list-group">List Group</a>
+                    <a href="navs-tabs.html" class="docs-nav-link" data-page="navs-tabs">Navs &amp; Tabs</a>
+                    <a href="navbar.html" class="docs-nav-link" data-page="navbar">Navbar</a>
+                    <a href="list-group.html" class="docs-nav-link" data-page="list-group">List Group</a>
+                    <a href="input.html" class="docs-nav-link" data-page="input">Form Inputs</a>
+                    <a href="selection.html" class="docs-nav-link" data-page="selection">Selection Controls</a>
+                    <a href="table.html" class="docs-nav-link" data-page="table">Tables</a>
+                    <a href="panel-system.html" class="docs-nav-link" data-page="panel-system">Panels</a>
+                </div>
+                <div class="docs-nav-group">
+                    <div class="docs-nav-group-label">Patterns</div>
+                    <a href="forms.html" class="docs-nav-link" data-page="forms">Form Layout</a>
+                    <a href="dark-surfaces.html" class="docs-nav-link" data-page="dark-surfaces">Dark Surface Depth</a>
+                </div>
+                <div class="docs-nav-group">
+                    <div class="docs-nav-group-label">Examples</div>
+                    <a href="trading-card.html" class="docs-nav-link" data-page="trading-card">Trading Card</a>
+                    <a href="orderbook.html" class="docs-nav-link" data-page="orderbook">Orderbook</a>
+                </div>
+            </nav>
+        </aside>
+
+        <main class="docs-content">
+            <div class="max-w-7xl mx-auto px-6 py-12">
+
+        <!-- ====== HERO ====== -->
+        <header class="mb-16">
+            <nav class="text-xs text-p-neutral-400 mb-6 flex gap-2 items-center">
+                <a href="index.html" class="hover:text-white transition-colors">Home</a>
+                <span class="text-p-neutral-600">/</span>
+                <a href="index.html" class="hover:text-white transition-colors">Components</a>
+                <span class="text-p-neutral-600">/</span>
+                <span class="text-white font-semibold">List Group</span>
+            </nav>
+
+            <div class="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-6 mb-8">
+                <div>
+                    <h1 class="text-5xl font-bold tracking-tight mb-3">List Group</h1>
+                    <p class="text-p-neutral-300 text-lg max-w-2xl">Flexible content lists with actionable items, active/disabled states, flush and numbered variants. 7 hues, 6 sizes, 5 surface modes with WCAG AA compliance.</p>
+                </div>
+                <div class="flex gap-2 flex-wrap">
+                    <span class="mc-badge mc-badge-filled mc-badge-pill" data-hue="blue">Content</span>
+                    <span class="mc-badge mc-badge-tonal mc-badge-pill" data-hue="green">WCAG AA</span>
+                    <span class="mc-badge mc-badge-outline mc-badge-pill" data-hue="magenta">7 Hues</span>
+                    <span class="mc-badge mc-badge-subtle mc-badge-pill" data-hue="teal">5 Modes</span>
+                </div>
+            </div>
+
+            <!-- Quick code example -->
+            <div class="guide-card">
+                <div class="flex items-center gap-2 mb-3">
+                    <span class="text-[10px] uppercase tracking-widest text-p-neutral-400 font-bold">Quick Start</span>
+                </div>
+                <div class="code-block">
+<span class="cm">&lt;!-- Basic list group --&gt;</span>
+<span class="t">&lt;ul</span> <span class="a">class</span>=<span class="v">"mc-list-group"</span> <span class="a">data-hue</span>=<span class="v">"blue"</span><span class="t">&gt;</span>
+  <span class="t">&lt;li</span> <span class="a">class</span>=<span class="v">"mc-list-group-item active"</span><span class="t">&gt;</span><span class="tx">Active item</span><span class="t">&lt;/li&gt;</span>
+  <span class="t">&lt;li</span> <span class="a">class</span>=<span class="v">"mc-list-group-item"</span><span class="t">&gt;</span><span class="tx">Second item</span><span class="t">&lt;/li&gt;</span>
+  <span class="t">&lt;li</span> <span class="a">class</span>=<span class="v">"mc-list-group-item"</span><span class="t">&gt;</span><span class="tx">Third item</span><span class="t">&lt;/li&gt;</span>
+  <span class="t">&lt;li</span> <span class="a">class</span>=<span class="v">"mc-list-group-item disabled"</span><span class="t">&gt;</span><span class="tx">Disabled item</span><span class="t">&lt;/li&gt;</span>
+<span class="t">&lt;/ul&gt;</span>
+
+<span class="cm">&lt;!-- With surface mode context --&gt;</span>
+<span class="t">&lt;div</span> <span class="a">data-mode</span>=<span class="v">"1"</span><span class="t">&gt;</span>
+  <span class="t">&lt;ul</span> <span class="a">class</span>=<span class="v">"mc-list-group"</span> <span class="a">data-hue</span>=<span class="v">"blue"</span><span class="t">&gt;</span><span class="cm">...</span><span class="t">&lt;/ul&gt;</span>
+<span class="t">&lt;/div&gt;</span>
+                </div>
+            </div>
+        </header>
+
+        <!-- ====== 1. BASIC LIST GROUP ====== -->
+        <section class="guide-section">
+            <h2 class="text-2xl font-bold mb-1 flex items-center">
+                <span class="section-number" style="background-color: #5252ff; color: #FFFFFF;">1</span>
+                Basic List Group
+            </h2>
+            <p class="text-p-neutral-400 text-sm mb-6 ml-10">Default list group on Mode 2 (dark), neutral hue. Shows active and disabled states alongside standard items.</p>
+
+            <div class="guide-card">
+                <div class="guide-label mb-3">Neutral &mdash; Mode 2 (default dark)</div>
+                <ul class="mc-list-group" data-hue="neutral">
+                    <li class="mc-list-group-item active">Active first item</li>
+                    <li class="mc-list-group-item">Second item</li>
+                    <li class="mc-list-group-item">Third item</li>
+                    <li class="mc-list-group-item">Fourth item</li>
+                    <li class="mc-list-group-item disabled">Disabled fifth item</li>
+                </ul>
+            </div>
+
+            <!-- Code snippet -->
+            <div class="guide-card mt-4">
+                <div class="guide-label mb-2">Code</div>
+                <div class="code-block">
+<span class="t">&lt;ul</span> <span class="a">class</span>=<span class="v">"mc-list-group"</span> <span class="a">data-hue</span>=<span class="v">"neutral"</span><span class="t">&gt;</span>
+  <span class="t">&lt;li</span> <span class="a">class</span>=<span class="v">"mc-list-group-item active"</span><span class="t">&gt;</span><span class="tx">Active first item</span><span class="t">&lt;/li&gt;</span>
+  <span class="t">&lt;li</span> <span class="a">class</span>=<span class="v">"mc-list-group-item"</span><span class="t">&gt;</span><span class="tx">Second item</span><span class="t">&lt;/li&gt;</span>
+  <span class="t">&lt;li</span> <span class="a">class</span>=<span class="v">"mc-list-group-item"</span><span class="t">&gt;</span><span class="tx">Third item</span><span class="t">&lt;/li&gt;</span>
+  <span class="t">&lt;li</span> <span class="a">class</span>=<span class="v">"mc-list-group-item"</span><span class="t">&gt;</span><span class="tx">Fourth item</span><span class="t">&lt;/li&gt;</span>
+  <span class="t">&lt;li</span> <span class="a">class</span>=<span class="v">"mc-list-group-item disabled"</span><span class="t">&gt;</span><span class="tx">Disabled fifth item</span><span class="t">&lt;/li&gt;</span>
+<span class="t">&lt;/ul&gt;</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- ====== 2. ACTIONABLE ITEMS ====== -->
+        <section class="guide-section">
+            <h2 class="text-2xl font-bold mb-1 flex items-center">
+                <span class="section-number" style="background-color: #007f00; color: #FFFFFF;">2</span>
+                Actionable Items
+            </h2>
+            <p class="text-p-neutral-400 text-sm mb-6 ml-10">Interactive list items using anchors and buttons with <code style="color: #9494ff;">.mc-list-group-item-action</code>. Hover and active states included.</p>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
+                <!-- Anchor links -->
+                <div class="guide-card">
+                    <div class="guide-label mb-3">Anchor links (a)</div>
+                    <div class="mc-list-group" data-hue="blue">
+                        <a href="#" class="mc-list-group-item mc-list-group-item-action active">Active link item</a>
+                        <a href="#" class="mc-list-group-item mc-list-group-item-action">Second link item</a>
+                        <a href="#" class="mc-list-group-item mc-list-group-item-action">Third link item</a>
+                        <a href="#" class="mc-list-group-item mc-list-group-item-action disabled" tabindex="-1" aria-disabled="true">Disabled link item</a>
+                    </div>
+                </div>
+
+                <!-- Button elements -->
+                <div class="guide-card">
+                    <div class="guide-label mb-3">Button elements (button)</div>
+                    <div class="mc-list-group" data-hue="green">
+                        <button type="button" class="mc-list-group-item mc-list-group-item-action active">Active button item</button>
+                        <button type="button" class="mc-list-group-item mc-list-group-item-action">Second button item</button>
+                        <button type="button" class="mc-list-group-item mc-list-group-item-action">Third button item</button>
+                        <button type="button" class="mc-list-group-item mc-list-group-item-action" disabled>Disabled button item</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Code snippet -->
+            <div class="guide-card mt-4">
+                <div class="guide-label mb-2">Code</div>
+                <div class="code-block">
+<span class="cm">&lt;!-- Anchor-based actionable list --&gt;</span>
+<span class="t">&lt;div</span> <span class="a">class</span>=<span class="v">"mc-list-group"</span> <span class="a">data-hue</span>=<span class="v">"blue"</span><span class="t">&gt;</span>
+  <span class="t">&lt;a</span> <span class="a">href</span>=<span class="v">"#"</span> <span class="a">class</span>=<span class="v">"mc-list-group-item mc-list-group-item-action active"</span><span class="t">&gt;</span><span class="tx">Active link</span><span class="t">&lt;/a&gt;</span>
+  <span class="t">&lt;a</span> <span class="a">href</span>=<span class="v">"#"</span> <span class="a">class</span>=<span class="v">"mc-list-group-item mc-list-group-item-action"</span><span class="t">&gt;</span><span class="tx">Link item</span><span class="t">&lt;/a&gt;</span>
+  <span class="t">&lt;a</span> <span class="a">href</span>=<span class="v">"#"</span> <span class="a">class</span>=<span class="v">"mc-list-group-item mc-list-group-item-action disabled"</span>
+     <span class="a">tabindex</span>=<span class="v">"-1"</span> <span class="a">aria-disabled</span>=<span class="v">"true"</span><span class="t">&gt;</span><span class="tx">Disabled link</span><span class="t">&lt;/a&gt;</span>
+<span class="t">&lt;/div&gt;</span>
+
+<span class="cm">&lt;!-- Button-based actionable list --&gt;</span>
+<span class="t">&lt;div</span> <span class="a">class</span>=<span class="v">"mc-list-group"</span> <span class="a">data-hue</span>=<span class="v">"green"</span><span class="t">&gt;</span>
+  <span class="t">&lt;button</span> <span class="a">type</span>=<span class="v">"button"</span> <span class="a">class</span>=<span class="v">"mc-list-group-item mc-list-group-item-action active"</span><span class="t">&gt;</span><span class="tx">Active button</span><span class="t">&lt;/button&gt;</span>
+  <span class="t">&lt;button</span> <span class="a">type</span>=<span class="v">"button"</span> <span class="a">class</span>=<span class="v">"mc-list-group-item mc-list-group-item-action"</span><span class="t">&gt;</span><span class="tx">Button item</span><span class="t">&lt;/button&gt;</span>
+  <span class="t">&lt;button</span> <span class="a">type</span>=<span class="v">"button"</span> <span class="a">class</span>=<span class="v">"mc-list-group-item mc-list-group-item-action"</span> <span class="a">disabled</span><span class="t">&gt;</span><span class="tx">Disabled</span><span class="t">&lt;/button&gt;</span>
+<span class="t">&lt;/div&gt;</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- ====== 3. ALL 7 HUES ====== -->
+        <section class="guide-section">
+            <h2 class="text-2xl font-bold mb-1 flex items-center">
+                <span class="section-number" style="background-color: #da0000; color: #FFFFFF;">3</span>
+                All 7 Hues
+            </h2>
+            <p class="text-p-neutral-400 text-sm mb-6 ml-10">One list group per hue on Mode 2 background, each with 3 items (one active).</p>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
+                <!-- Neutral -->
+                <div class="guide-card">
+                    <div class="guide-label mb-3">Neutral</div>
+                    <ul class="mc-list-group" data-hue="neutral">
+                        <li class="mc-list-group-item active">Active item</li>
+                        <li class="mc-list-group-item">Second item</li>
+                        <li class="mc-list-group-item">Third item</li>
+                    </ul>
+                </div>
+
+                <!-- Red -->
+                <div class="guide-card">
+                    <div class="guide-label mb-3">Red</div>
+                    <ul class="mc-list-group" data-hue="red">
+                        <li class="mc-list-group-item active">Active item</li>
+                        <li class="mc-list-group-item">Second item</li>
+                        <li class="mc-list-group-item">Third item</li>
+                    </ul>
+                </div>
+
+                <!-- Green -->
+                <div class="guide-card">
+                    <div class="guide-label mb-3">Green</div>
+                    <ul class="mc-list-group" data-hue="green">
+                        <li class="mc-list-group-item active">Active item</li>
+                        <li class="mc-list-group-item">Second item</li>
+                        <li class="mc-list-group-item">Third item</li>
+                    </ul>
+                </div>
+
+                <!-- Blue -->
+                <div class="guide-card">
+                    <div class="guide-label mb-3">Blue</div>
+                    <ul class="mc-list-group" data-hue="blue">
+                        <li class="mc-list-group-item active">Active item</li>
+                        <li class="mc-list-group-item">Second item</li>
+                        <li class="mc-list-group-item">Third item</li>
+                    </ul>
+                </div>
+
+                <!-- Yellow -->
+                <div class="guide-card">
+                    <div class="guide-label mb-3">Yellow</div>
+                    <ul class="mc-list-group" data-hue="yellow">
+                        <li class="mc-list-group-item active">Active item</li>
+                        <li class="mc-list-group-item">Second item</li>
+                        <li class="mc-list-group-item">Third item</li>
+                    </ul>
+                </div>
+
+                <!-- Magenta -->
+                <div class="guide-card">
+                    <div class="guide-label mb-3">Magenta</div>
+                    <ul class="mc-list-group" data-hue="magenta">
+                        <li class="mc-list-group-item active">Active item</li>
+                        <li class="mc-list-group-item">Second item</li>
+                        <li class="mc-list-group-item">Third item</li>
+                    </ul>
+                </div>
+
+                <!-- Teal -->
+                <div class="guide-card">
+                    <div class="guide-label mb-3">Teal</div>
+                    <ul class="mc-list-group" data-hue="teal">
+                        <li class="mc-list-group-item active">Active item</li>
+                        <li class="mc-list-group-item">Second item</li>
+                        <li class="mc-list-group-item">Third item</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Code snippet -->
+            <div class="guide-card mt-4">
+                <div class="guide-label mb-2">Code</div>
+                <div class="code-block">
+<span class="cm">&lt;!-- Change hue via data-hue attribute --&gt;</span>
+<span class="t">&lt;ul</span> <span class="a">class</span>=<span class="v">"mc-list-group"</span> <span class="a">data-hue</span>=<span class="v">"blue"</span><span class="t">&gt;</span><span class="cm">...</span><span class="t">&lt;/ul&gt;</span>
+<span class="t">&lt;ul</span> <span class="a">class</span>=<span class="v">"mc-list-group"</span> <span class="a">data-hue</span>=<span class="v">"red"</span><span class="t">&gt;</span><span class="cm">...</span><span class="t">&lt;/ul&gt;</span>
+<span class="t">&lt;ul</span> <span class="a">class</span>=<span class="v">"mc-list-group"</span> <span class="a">data-hue</span>=<span class="v">"green"</span><span class="t">&gt;</span><span class="cm">...</span><span class="t">&lt;/ul&gt;</span>
+<span class="t">&lt;ul</span> <span class="a">class</span>=<span class="v">"mc-list-group"</span> <span class="a">data-hue</span>=<span class="v">"neutral"</span><span class="t">&gt;</span><span class="cm">...</span><span class="t">&lt;/ul&gt;</span>
+<span class="t">&lt;ul</span> <span class="a">class</span>=<span class="v">"mc-list-group"</span> <span class="a">data-hue</span>=<span class="v">"yellow"</span><span class="t">&gt;</span><span class="cm">...</span><span class="t">&lt;/ul&gt;</span>
+<span class="t">&lt;ul</span> <span class="a">class</span>=<span class="v">"mc-list-group"</span> <span class="a">data-hue</span>=<span class="v">"magenta"</span><span class="t">&gt;</span><span class="cm">...</span><span class="t">&lt;/ul&gt;</span>
+<span class="t">&lt;ul</span> <span class="a">class</span>=<span class="v">"mc-list-group"</span> <span class="a">data-hue</span>=<span class="v">"teal"</span><span class="t">&gt;</span><span class="cm">...</span><span class="t">&lt;/ul&gt;</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- ====== 4. FLUSH & NUMBERED ====== -->
+        <section class="guide-section">
+            <h2 class="text-2xl font-bold mb-1 flex items-center">
+                <span class="section-number" style="background-color: #c000c0; color: #FFFFFF;">4</span>
+                Flush &amp; Numbered
+            </h2>
+            <p class="text-p-neutral-400 text-sm mb-6 ml-10">Flush removes outer borders and rounded corners for edge-to-edge rendering. Numbered uses an ordered list with auto-numbering.</p>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
+                <!-- Flush variant -->
+                <div class="guide-card">
+                    <div class="guide-label mb-3">Flush (no border / no radius)</div>
+                    <ul class="mc-list-group mc-list-group-flush" data-hue="blue">
+                        <li class="mc-list-group-item">First flush item</li>
+                        <li class="mc-list-group-item active">Active flush item</li>
+                        <li class="mc-list-group-item">Third flush item</li>
+                        <li class="mc-list-group-item">Fourth flush item</li>
+                        <li class="mc-list-group-item disabled">Disabled flush item</li>
+                    </ul>
+                </div>
+
+                <!-- Numbered variant -->
+                <div class="guide-card">
+                    <div class="guide-label mb-3">Numbered (ol with auto-count)</div>
+                    <ol class="mc-list-group mc-list-group-numbered" data-hue="magenta">
+                        <li class="mc-list-group-item">First numbered item</li>
+                        <li class="mc-list-group-item active">Active numbered item</li>
+                        <li class="mc-list-group-item">Third numbered item</li>
+                        <li class="mc-list-group-item">Fourth numbered item</li>
+                        <li class="mc-list-group-item disabled">Disabled numbered item</li>
+                    </ol>
+                </div>
+            </div>
+
+            <!-- Code snippet -->
+            <div class="guide-card mt-4">
+                <div class="guide-label mb-2">Code</div>
+                <div class="code-block">
+<span class="cm">&lt;!-- Flush variant --&gt;</span>
+<span class="t">&lt;ul</span> <span class="a">class</span>=<span class="v">"mc-list-group mc-list-group-flush"</span> <span class="a">data-hue</span>=<span class="v">"blue"</span><span class="t">&gt;</span>
+  <span class="t">&lt;li</span> <span class="a">class</span>=<span class="v">"mc-list-group-item"</span><span class="t">&gt;</span><span class="tx">Item text</span><span class="t">&lt;/li&gt;</span>
+<span class="t">&lt;/ul&gt;</span>
+
+<span class="cm">&lt;!-- Numbered variant --&gt;</span>
+<span class="t">&lt;ol</span> <span class="a">class</span>=<span class="v">"mc-list-group mc-list-group-numbered"</span> <span class="a">data-hue</span>=<span class="v">"magenta"</span><span class="t">&gt;</span>
+  <span class="t">&lt;li</span> <span class="a">class</span>=<span class="v">"mc-list-group-item"</span><span class="t">&gt;</span><span class="tx">First numbered item</span><span class="t">&lt;/li&gt;</span>
+  <span class="t">&lt;li</span> <span class="a">class</span>=<span class="v">"mc-list-group-item"</span><span class="t">&gt;</span><span class="tx">Second numbered item</span><span class="t">&lt;/li&gt;</span>
+<span class="t">&lt;/ol&gt;</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- ====== 5. HORIZONTAL ====== -->
+        <section class="guide-section">
+            <h2 class="text-2xl font-bold mb-1 flex items-center">
+                <span class="section-number" style="background-color: #007979; color: #FFFFFF;">5</span>
+                Horizontal Layout
+            </h2>
+            <p class="text-p-neutral-400 text-sm mb-6 ml-10">Horizontal list groups arrange items in a row. Responsive breakpoints available for adaptive layouts.</p>
+
+            <div class="guide-card">
+                <div class="guide-label mb-3">Horizontal (always)</div>
+                <ul class="mc-list-group mc-list-group-horizontal" data-hue="teal">
+                    <li class="mc-list-group-item">First item</li>
+                    <li class="mc-list-group-item active">Active item</li>
+                    <li class="mc-list-group-item">Third item</li>
+                    <li class="mc-list-group-item">Fourth item</li>
+                </ul>
+            </div>
+
+            <div class="guide-card mt-4">
+                <div class="guide-label mb-3">Horizontal from md breakpoint</div>
+                <ul class="mc-list-group mc-list-group-horizontal-md" data-hue="blue">
+                    <li class="mc-list-group-item">First item</li>
+                    <li class="mc-list-group-item active">Active item</li>
+                    <li class="mc-list-group-item">Third item</li>
+                </ul>
+            </div>
+
+            <!-- Code snippet -->
+            <div class="guide-card mt-4">
+                <div class="guide-label mb-2">Code</div>
+                <div class="code-block">
+<span class="cm">&lt;!-- Always horizontal --&gt;</span>
+<span class="t">&lt;ul</span> <span class="a">class</span>=<span class="v">"mc-list-group mc-list-group-horizontal"</span> <span class="a">data-hue</span>=<span class="v">"teal"</span><span class="t">&gt;</span>
+  <span class="t">&lt;li</span> <span class="a">class</span>=<span class="v">"mc-list-group-item"</span><span class="t">&gt;</span><span class="tx">Item</span><span class="t">&lt;/li&gt;</span>
+<span class="t">&lt;/ul&gt;</span>
+
+<span class="cm">&lt;!-- Horizontal from a specific breakpoint --&gt;</span>
+<span class="t">&lt;ul</span> <span class="a">class</span>=<span class="v">"mc-list-group mc-list-group-horizontal-md"</span> <span class="a">data-hue</span>=<span class="v">"blue"</span><span class="t">&gt;</span><span class="cm">...</span><span class="t">&lt;/ul&gt;</span>
+<span class="t">&lt;ul</span> <span class="a">class</span>=<span class="v">"mc-list-group mc-list-group-horizontal-lg"</span> <span class="a">data-hue</span>=<span class="v">"blue"</span><span class="t">&gt;</span><span class="cm">...</span><span class="t">&lt;/ul&gt;</span>
+<span class="t">&lt;ul</span> <span class="a">class</span>=<span class="v">"mc-list-group mc-list-group-horizontal-xl"</span> <span class="a">data-hue</span>=<span class="v">"blue"</span><span class="t">&gt;</span><span class="cm">...</span><span class="t">&lt;/ul&gt;</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- ====== 6. SIZE SCALE ====== -->
+        <section class="guide-section">
+            <h2 class="text-2xl font-bold mb-1 flex items-center">
+                <span class="section-number" style="background-color: #6f6f00; color: #FFFFFF;">6</span>
+                Size Scale
+            </h2>
+            <p class="text-p-neutral-400 text-sm mb-6 ml-10">6 size tiers from xs to xxl. Default is md (no size class needed).</p>
+
+            <div class="guide-card">
+                <table class="size-table">
+                    <thead>
+                        <tr>
+                            <th>Size</th>
+                            <th>Class</th>
+                            <th>Font</th>
+                            <th>Preview</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td style="color: #FFFFFF;">xs</td>
+                            <td class="mono">mc-list-group-xs</td>
+                            <td>11px</td>
+                            <td>
+                                <ul class="mc-list-group mc-list-group-xs" data-hue="blue">
+                                    <li class="mc-list-group-item">First item</li>
+                                    <li class="mc-list-group-item active">Active</li>
+                                    <li class="mc-list-group-item">Third item</li>
+                                </ul>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="color: #FFFFFF;">sm</td>
+                            <td class="mono">mc-list-group-sm</td>
+                            <td>12px</td>
+                            <td>
+                                <ul class="mc-list-group mc-list-group-sm" data-hue="blue">
+                                    <li class="mc-list-group-item">First item</li>
+                                    <li class="mc-list-group-item active">Active</li>
+                                    <li class="mc-list-group-item">Third item</li>
+                                </ul>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="color: #FFFFFF;">md</td>
+                            <td class="mono" style="color: #6d6dff;">default</td>
+                            <td>14px</td>
+                            <td>
+                                <ul class="mc-list-group" data-hue="blue">
+                                    <li class="mc-list-group-item">First item</li>
+                                    <li class="mc-list-group-item active">Active</li>
+                                    <li class="mc-list-group-item">Third item</li>
+                                </ul>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="color: #FFFFFF;">lg</td>
+                            <td class="mono">mc-list-group-lg</td>
+                            <td>16px</td>
+                            <td>
+                                <ul class="mc-list-group mc-list-group-lg" data-hue="blue">
+                                    <li class="mc-list-group-item">First item</li>
+                                    <li class="mc-list-group-item active">Active</li>
+                                    <li class="mc-list-group-item">Third item</li>
+                                </ul>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="color: #FFFFFF;">xl</td>
+                            <td class="mono">mc-list-group-xl</td>
+                            <td>18px</td>
+                            <td>
+                                <ul class="mc-list-group mc-list-group-xl" data-hue="blue">
+                                    <li class="mc-list-group-item">First item</li>
+                                    <li class="mc-list-group-item active">Active</li>
+                                    <li class="mc-list-group-item">Third item</li>
+                                </ul>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="color: #FFFFFF;">xxl</td>
+                            <td class="mono">mc-list-group-xxl</td>
+                            <td>20px</td>
+                            <td>
+                                <ul class="mc-list-group mc-list-group-xxl" data-hue="blue">
+                                    <li class="mc-list-group-item">First item</li>
+                                    <li class="mc-list-group-item active">Active</li>
+                                    <li class="mc-list-group-item">Third item</li>
+                                </ul>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Code snippet -->
+            <div class="guide-card mt-4">
+                <div class="guide-label mb-2">Code</div>
+                <div class="code-block">
+<span class="cm">&lt;!-- Extra small --&gt;</span>
+<span class="t">&lt;ul</span> <span class="a">class</span>=<span class="v">"mc-list-group mc-list-group-xs"</span> <span class="a">data-hue</span>=<span class="v">"blue"</span><span class="t">&gt;</span><span class="cm">...</span><span class="t">&lt;/ul&gt;</span>
+
+<span class="cm">&lt;!-- Medium (default, no size class) --&gt;</span>
+<span class="t">&lt;ul</span> <span class="a">class</span>=<span class="v">"mc-list-group"</span> <span class="a">data-hue</span>=<span class="v">"blue"</span><span class="t">&gt;</span><span class="cm">...</span><span class="t">&lt;/ul&gt;</span>
+
+<span class="cm">&lt;!-- Extra extra large --&gt;</span>
+<span class="t">&lt;ul</span> <span class="a">class</span>=<span class="v">"mc-list-group mc-list-group-xxl"</span> <span class="a">data-hue</span>=<span class="v">"blue"</span><span class="t">&gt;</span><span class="cm">...</span><span class="t">&lt;/ul&gt;</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- ====== 7. SURFACE MODE ADAPTATION ====== -->
+        <section class="guide-section">
+            <h2 class="text-2xl font-bold mb-1 flex items-center">
+                <span class="section-number" style="background-color: #da0000; color: #FFFFFF;">7</span>
+                Surface Modes
+            </h2>
+            <p class="text-p-neutral-400 text-sm mb-6 ml-10">All 5 surface modes with blue hue. List group automatically adapts colors, borders, and active/disabled treatment to each surface.</p>
+
+            <!-- Mode 1 — White -->
+            <div class="mb-6">
+                <h3 class="text-sm font-bold mb-2 flex items-center gap-2" style="color: #c3c3c3;">
+                    <span class="text-xs font-mono" style="color: #6d6dff;">M1</span> Mode 1 &mdash; White Surface
+                </h3>
+                <div class="mode-panel mode-panel-m1" data-mode="1">
+                    <div class="guide-label mb-2" style="color: #515151;">Blue</div>
+                    <ul class="mc-list-group" data-hue="blue">
+                        <li class="mc-list-group-item active">Active item</li>
+                        <li class="mc-list-group-item">Second item</li>
+                        <li class="mc-list-group-item">Third item</li>
+                        <li class="mc-list-group-item disabled">Disabled item</li>
+                    </ul>
+                    <div class="guide-label mb-2 mt-4" style="color: #515151;">Red</div>
+                    <ul class="mc-list-group" data-hue="red">
+                        <li class="mc-list-group-item active">Active item</li>
+                        <li class="mc-list-group-item">Second item</li>
+                        <li class="mc-list-group-item">Third item</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Mode 2 — Black -->
+            <div class="mb-6">
+                <h3 class="text-sm font-bold mb-2 flex items-center gap-2" style="color: #c3c3c3;">
+                    <span class="text-xs font-mono" style="color: #6d6dff;">M2</span> Mode 2 &mdash; Black Surface
+                </h3>
+                <div class="mode-panel mode-panel-m2" data-mode="2" style="border-color: #222222;">
+                    <div class="guide-label mb-2">Blue</div>
+                    <ul class="mc-list-group" data-hue="blue">
+                        <li class="mc-list-group-item active">Active item</li>
+                        <li class="mc-list-group-item">Second item</li>
+                        <li class="mc-list-group-item">Third item</li>
+                        <li class="mc-list-group-item disabled">Disabled item</li>
+                    </ul>
+                    <div class="guide-label mb-2 mt-4">Green</div>
+                    <ul class="mc-list-group" data-hue="green">
+                        <li class="mc-list-group-item active">Active item</li>
+                        <li class="mc-list-group-item">Second item</li>
+                        <li class="mc-list-group-item">Third item</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Mode 3 — Light Hue -->
+            <div class="mb-6">
+                <h3 class="text-sm font-bold mb-2 flex items-center gap-2" style="color: #c3c3c3;">
+                    <span class="text-xs font-mono" style="color: #6d6dff;">M3</span> Mode 3 &mdash; Light Hue Surface
+                </h3>
+                <div class="mode-panel" data-mode="3" style="background-color: #dedeff; border: 1px solid #bebeff; border-radius: 3px;">
+                    <div class="guide-label mb-2" style="color: #1919ff;">Blue</div>
+                    <ul class="mc-list-group" data-hue="blue">
+                        <li class="mc-list-group-item active">Active item</li>
+                        <li class="mc-list-group-item">Second item</li>
+                        <li class="mc-list-group-item">Third item</li>
+                        <li class="mc-list-group-item disabled">Disabled item</li>
+                    </ul>
+                    <div class="guide-label mb-2 mt-4" style="color: #1919ff;">Teal</div>
+                    <ul class="mc-list-group" data-hue="teal">
+                        <li class="mc-list-group-item active">Active item</li>
+                        <li class="mc-list-group-item">Second item</li>
+                        <li class="mc-list-group-item">Third item</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Mode 4 — Dark Hue -->
+            <div class="mb-6">
+                <h3 class="text-sm font-bold mb-2 flex items-center gap-2" style="color: #c3c3c3;">
+                    <span class="text-xs font-mono" style="color: #6d6dff;">M4</span> Mode 4 &mdash; Dark Hue Surface
+                </h3>
+                <div class="mode-panel" data-mode="4" style="background-color: #000081; border: 1px solid #0000bf; border-radius: 3px;">
+                    <div class="guide-label mb-2" style="color: #9494ff;">Blue</div>
+                    <ul class="mc-list-group" data-hue="blue">
+                        <li class="mc-list-group-item active">Active item</li>
+                        <li class="mc-list-group-item">Second item</li>
+                        <li class="mc-list-group-item">Third item</li>
+                        <li class="mc-list-group-item disabled">Disabled item</li>
+                    </ul>
+                    <div class="guide-label mb-2 mt-4" style="color: #9494ff;">Magenta</div>
+                    <ul class="mc-list-group" data-hue="magenta">
+                        <li class="mc-list-group-item active">Active item</li>
+                        <li class="mc-list-group-item">Second item</li>
+                        <li class="mc-list-group-item">Third item</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Mode 5 — Mid Hue -->
+            <div class="mb-6">
+                <h3 class="text-sm font-bold mb-2 flex items-center gap-2" style="color: #c3c3c3;">
+                    <span class="text-xs font-mono" style="color: #6d6dff;">M5</span> Mode 5 &mdash; Mid Hue Surface
+                </h3>
+                <div class="mode-panel" data-mode="5" style="background-color: #5252ff; border: 1px solid #6d6dff; border-radius: 3px;">
+                    <div class="guide-label mb-2" style="color: #dedeff;">Blue</div>
+                    <ul class="mc-list-group" data-hue="blue">
+                        <li class="mc-list-group-item active">Active item</li>
+                        <li class="mc-list-group-item">Second item</li>
+                        <li class="mc-list-group-item">Third item</li>
+                        <li class="mc-list-group-item disabled">Disabled item</li>
+                    </ul>
+                    <div class="guide-label mb-2 mt-4" style="color: #dedeff;">Neutral</div>
+                    <ul class="mc-list-group" data-hue="neutral">
+                        <li class="mc-list-group-item active">Active item</li>
+                        <li class="mc-list-group-item">Second item</li>
+                        <li class="mc-list-group-item">Third item</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Code snippet -->
+            <div class="guide-card mt-4">
+                <div class="guide-label mb-2">Code</div>
+                <div class="code-block">
+<span class="cm">&lt;!-- Mode 1 — White surface --&gt;</span>
+<span class="t">&lt;div</span> <span class="a">data-mode</span>=<span class="v">"1"</span> <span class="a">style</span>=<span class="v">"background: #FFFFFF;"</span><span class="t">&gt;</span>
+  <span class="t">&lt;ul</span> <span class="a">class</span>=<span class="v">"mc-list-group"</span> <span class="a">data-hue</span>=<span class="v">"blue"</span><span class="t">&gt;</span><span class="cm">...</span><span class="t">&lt;/ul&gt;</span>
+<span class="t">&lt;/div&gt;</span>
+
+<span class="cm">&lt;!-- Mode 2 — Black surface --&gt;</span>
+<span class="t">&lt;div</span> <span class="a">data-mode</span>=<span class="v">"2"</span> <span class="a">style</span>=<span class="v">"background: #0A0A0A;"</span><span class="t">&gt;</span>
+  <span class="t">&lt;ul</span> <span class="a">class</span>=<span class="v">"mc-list-group"</span> <span class="a">data-hue</span>=<span class="v">"blue"</span><span class="t">&gt;</span><span class="cm">...</span><span class="t">&lt;/ul&gt;</span>
+<span class="t">&lt;/div&gt;</span>
+
+<span class="cm">&lt;!-- Mode 3 — Light hue surface --&gt;</span>
+<span class="t">&lt;div</span> <span class="a">data-mode</span>=<span class="v">"3"</span> <span class="a">style</span>=<span class="v">"background: #dedeff;"</span><span class="t">&gt;</span>
+  <span class="t">&lt;ul</span> <span class="a">class</span>=<span class="v">"mc-list-group"</span> <span class="a">data-hue</span>=<span class="v">"blue"</span><span class="t">&gt;</span><span class="cm">...</span><span class="t">&lt;/ul&gt;</span>
+<span class="t">&lt;/div&gt;</span>
+
+<span class="cm">&lt;!-- Mode 4 — Dark hue surface --&gt;</span>
+<span class="t">&lt;div</span> <span class="a">data-mode</span>=<span class="v">"4"</span> <span class="a">style</span>=<span class="v">"background: #000081;"</span><span class="t">&gt;</span>
+  <span class="t">&lt;ul</span> <span class="a">class</span>=<span class="v">"mc-list-group"</span> <span class="a">data-hue</span>=<span class="v">"blue"</span><span class="t">&gt;</span><span class="cm">...</span><span class="t">&lt;/ul&gt;</span>
+<span class="t">&lt;/div&gt;</span>
+
+<span class="cm">&lt;!-- Mode 5 — Mid hue surface --&gt;</span>
+<span class="t">&lt;div</span> <span class="a">data-mode</span>=<span class="v">"5"</span> <span class="a">style</span>=<span class="v">"background: #5252ff;"</span><span class="t">&gt;</span>
+  <span class="t">&lt;ul</span> <span class="a">class</span>=<span class="v">"mc-list-group"</span> <span class="a">data-hue</span>=<span class="v">"blue"</span><span class="t">&gt;</span><span class="cm">...</span><span class="t">&lt;/ul&gt;</span>
+<span class="t">&lt;/div&gt;</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- ====== 8. SEMANTIC HUE MAPPING ====== -->
+        <section class="guide-section">
+            <h2 class="text-2xl font-bold mb-1 flex items-center">
+                <span class="section-number" style="background-color: #5252ff; color: #FFFFFF;">8</span>
+                Semantic Hue Mapping
+            </h2>
+            <p class="text-p-neutral-400 text-sm mb-6 ml-10">Map hues to semantic meaning. Primary uses blue, success uses green, danger uses red, warning uses yellow, info uses teal, premium uses magenta.</p>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
+                <!-- Primary = Blue -->
+                <div class="guide-card">
+                    <div class="flex items-center gap-2 mb-3">
+                        <span class="mc-badge mc-badge-filled" data-hue="blue" style="font-size: 0.625rem;">Primary</span>
+                        <span class="guide-label">blue</span>
+                    </div>
+                    <p class="text-p-neutral-500 text-xs mb-3">Default navigation menus, standard list selections.</p>
+                    <ul class="mc-list-group" data-hue="blue">
+                        <li class="mc-list-group-item active">Dashboard</li>
+                        <li class="mc-list-group-item">Settings</li>
+                        <li class="mc-list-group-item">Profile</li>
+                    </ul>
+                </div>
+
+                <!-- Success = Green -->
+                <div class="guide-card">
+                    <div class="flex items-center gap-2 mb-3">
+                        <span class="mc-badge mc-badge-filled" data-hue="green" style="font-size: 0.625rem;">Success</span>
+                        <span class="guide-label">green</span>
+                    </div>
+                    <p class="text-p-neutral-500 text-xs mb-3">Completed items, verified entries, positive states.</p>
+                    <ul class="mc-list-group" data-hue="green">
+                        <li class="mc-list-group-item active">Payment received</li>
+                        <li class="mc-list-group-item">Order shipped</li>
+                        <li class="mc-list-group-item">Delivery confirmed</li>
+                    </ul>
+                </div>
+
+                <!-- Danger = Red -->
+                <div class="guide-card">
+                    <div class="flex items-center gap-2 mb-3">
+                        <span class="mc-badge mc-badge-filled" data-hue="red" style="font-size: 0.625rem;">Danger</span>
+                        <span class="guide-label">red</span>
+                    </div>
+                    <p class="text-p-neutral-500 text-xs mb-3">Error logs, alerts, flagged items, destructive actions.</p>
+                    <ul class="mc-list-group" data-hue="red">
+                        <li class="mc-list-group-item active">Critical alert</li>
+                        <li class="mc-list-group-item">Failed login attempt</li>
+                        <li class="mc-list-group-item">Expired certificate</li>
+                    </ul>
+                </div>
+
+                <!-- Warning = Yellow -->
+                <div class="guide-card">
+                    <div class="flex items-center gap-2 mb-3">
+                        <span class="mc-badge mc-badge-filled" data-hue="yellow" style="font-size: 0.625rem;">Warning</span>
+                        <span class="guide-label">yellow</span>
+                    </div>
+                    <p class="text-p-neutral-500 text-xs mb-3">Caution items, pending actions, attention needed.</p>
+                    <ul class="mc-list-group" data-hue="yellow">
+                        <li class="mc-list-group-item active">Pending review</li>
+                        <li class="mc-list-group-item">Low disk space</li>
+                        <li class="mc-list-group-item">Update available</li>
+                    </ul>
+                </div>
+
+                <!-- Info = Teal -->
+                <div class="guide-card">
+                    <div class="flex items-center gap-2 mb-3">
+                        <span class="mc-badge mc-badge-filled" data-hue="teal" style="font-size: 0.625rem;">Info</span>
+                        <span class="guide-label">teal</span>
+                    </div>
+                    <p class="text-p-neutral-500 text-xs mb-3">Informational lists, neutral notifications, tips.</p>
+                    <ul class="mc-list-group" data-hue="teal">
+                        <li class="mc-list-group-item active">System status</li>
+                        <li class="mc-list-group-item">Release notes</li>
+                        <li class="mc-list-group-item">Documentation</li>
+                    </ul>
+                </div>
+
+                <!-- Premium = Magenta -->
+                <div class="guide-card">
+                    <div class="flex items-center gap-2 mb-3">
+                        <span class="mc-badge mc-badge-filled" data-hue="magenta" style="font-size: 0.625rem;">Premium</span>
+                        <span class="guide-label">magenta</span>
+                    </div>
+                    <p class="text-p-neutral-500 text-xs mb-3">Special features, premium tier items, highlights.</p>
+                    <ul class="mc-list-group" data-hue="magenta">
+                        <li class="mc-list-group-item active">Pro plan</li>
+                        <li class="mc-list-group-item">Enterprise plan</li>
+                        <li class="mc-list-group-item">Custom plan</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Code snippet -->
+            <div class="guide-card mt-4">
+                <div class="guide-label mb-2">Code</div>
+                <div class="code-block">
+<span class="cm">&lt;!-- Primary navigation --&gt;</span>
+<span class="t">&lt;ul</span> <span class="a">class</span>=<span class="v">"mc-list-group"</span> <span class="a">data-hue</span>=<span class="v">"blue"</span><span class="t">&gt;</span><span class="cm">...</span><span class="t">&lt;/ul&gt;</span>
+
+<span class="cm">&lt;!-- Success / completed items --&gt;</span>
+<span class="t">&lt;ul</span> <span class="a">class</span>=<span class="v">"mc-list-group"</span> <span class="a">data-hue</span>=<span class="v">"green"</span><span class="t">&gt;</span><span class="cm">...</span><span class="t">&lt;/ul&gt;</span>
+
+<span class="cm">&lt;!-- Danger / error log --&gt;</span>
+<span class="t">&lt;ul</span> <span class="a">class</span>=<span class="v">"mc-list-group"</span> <span class="a">data-hue</span>=<span class="v">"red"</span><span class="t">&gt;</span><span class="cm">...</span><span class="t">&lt;/ul&gt;</span>
+
+<span class="cm">&lt;!-- Warning / pending actions --&gt;</span>
+<span class="t">&lt;ul</span> <span class="a">class</span>=<span class="v">"mc-list-group"</span> <span class="a">data-hue</span>=<span class="v">"yellow"</span><span class="t">&gt;</span><span class="cm">...</span><span class="t">&lt;/ul&gt;</span>
+
+<span class="cm">&lt;!-- Info / informational --&gt;</span>
+<span class="t">&lt;ul</span> <span class="a">class</span>=<span class="v">"mc-list-group"</span> <span class="a">data-hue</span>=<span class="v">"teal"</span><span class="t">&gt;</span><span class="cm">...</span><span class="t">&lt;/ul&gt;</span>
+
+<span class="cm">&lt;!-- Premium / special features --&gt;</span>
+<span class="t">&lt;ul</span> <span class="a">class</span>=<span class="v">"mc-list-group"</span> <span class="a">data-hue</span>=<span class="v">"magenta"</span><span class="t">&gt;</span><span class="cm">...</span><span class="t">&lt;/ul&gt;</span>
+                </div>
+            </div>
+        </section>
+
+        <footer class="docs-footer">
+            <p>MC Perception Design System &mdash; 7 hues &times; 5 modes &times; 6 sizes &mdash; WCAG AA compliant</p>
+            <p style="margin-top: 0.5rem;"><a href="https://github.com/anthropics/claude-code">Built with Claude Code</a></p>
+        </footer>
+
+            </div>
+        </main>
+    </div>
+
+    <script>
+    (function() {
+        var page = location.pathname.split('/').pop().replace('.html','') || 'index';
+        var links = document.querySelectorAll('.docs-nav-link');
+        links.forEach(function(a) {
+            if (a.getAttribute('data-page') === page) a.classList.add('active');
+        });
+        var hamburger = document.getElementById('docs-hamburger');
+        var sidebar = document.getElementById('docs-sidebar');
+        var overlay = document.getElementById('docs-overlay');
+        if (hamburger && sidebar && overlay) {
+            hamburger.addEventListener('click', function() {
+                sidebar.classList.toggle('open');
+                overlay.classList.toggle('open');
+            });
+            overlay.addEventListener('click', function() {
+                sidebar.classList.remove('open');
+                overlay.classList.remove('open');
+            });
+        }
+    })();
+    </script>
+
+</body>
+</html>
