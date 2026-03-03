@@ -1168,6 +1168,253 @@
     [data-mode="5"] .mc-alert-filled .mc-alert-close:hover { color: var(--al-600); }
 
     /* ======================================
+       PROGRESS BAR — Surface-Mode-Aware
+       Horizontal progress indicators, skill bars, loading tracks
+
+       Color:   data-hue="neutral|red|green|blue|yellow|magenta|teal"
+       Size:    mc-progress-xs | mc-progress-sm | (md default) | mc-progress-lg | mc-progress-xl | mc-progress-xxl
+       Extras:  mc-progress-striped | mc-progress-animated | mc-progress-stacked
+       Labels:  text inside .mc-progress-bar
+
+       Surface mode: inherits data-mode from ancestor container.
+       Default (no data-mode) = dark surface (Mode 2).
+    ======================================= */
+
+    /* --- Hue Token Layer --- */
+    .mc-progress[data-hue="neutral"], .mc-progress-stacked[data-hue="neutral"] .mc-progress {
+        --pg-50:  var(--color-p-neutral-50);  --pg-100: var(--color-p-neutral-100);
+        --pg-200: var(--color-p-neutral-200); --pg-300: var(--color-p-neutral-300);
+        --pg-400: var(--color-p-neutral-400); --pg-500: var(--color-p-neutral-500);
+        --pg-600: var(--color-p-neutral-600); --pg-700: var(--color-p-neutral-700);
+        --pg-800: var(--color-p-neutral-800); --pg-900: var(--color-p-neutral-900);
+    }
+    .mc-progress[data-hue="red"], .mc-progress-stacked[data-hue="red"] .mc-progress {
+        --pg-50:  var(--color-p-red-50);  --pg-100: var(--color-p-red-100);
+        --pg-200: var(--color-p-red-200); --pg-300: var(--color-p-red-300);
+        --pg-400: var(--color-p-red-400); --pg-500: var(--color-p-red-500);
+        --pg-600: var(--color-p-red-600); --pg-700: var(--color-p-red-700);
+        --pg-800: var(--color-p-red-800); --pg-900: var(--color-p-red-900);
+    }
+    .mc-progress[data-hue="green"], .mc-progress-stacked[data-hue="green"] .mc-progress {
+        --pg-50:  var(--color-p-green-50);  --pg-100: var(--color-p-green-100);
+        --pg-200: var(--color-p-green-200); --pg-300: var(--color-p-green-300);
+        --pg-400: var(--color-p-green-400); --pg-500: var(--color-p-green-500);
+        --pg-600: var(--color-p-green-600); --pg-700: var(--color-p-green-700);
+        --pg-800: var(--color-p-green-800); --pg-900: var(--color-p-green-900);
+    }
+    .mc-progress[data-hue="blue"], .mc-progress-stacked[data-hue="blue"] .mc-progress {
+        --pg-50:  var(--color-p-blue-50);  --pg-100: var(--color-p-blue-100);
+        --pg-200: var(--color-p-blue-200); --pg-300: var(--color-p-blue-300);
+        --pg-400: var(--color-p-blue-400); --pg-500: var(--color-p-blue-500);
+        --pg-600: var(--color-p-blue-600); --pg-700: var(--color-p-blue-700);
+        --pg-800: var(--color-p-blue-800); --pg-900: var(--color-p-blue-900);
+    }
+    .mc-progress[data-hue="yellow"], .mc-progress-stacked[data-hue="yellow"] .mc-progress {
+        --pg-50:  var(--color-p-yellow-50);  --pg-100: var(--color-p-yellow-100);
+        --pg-200: var(--color-p-yellow-200); --pg-300: var(--color-p-yellow-300);
+        --pg-400: var(--color-p-yellow-400); --pg-500: var(--color-p-yellow-500);
+        --pg-600: var(--color-p-yellow-600); --pg-700: var(--color-p-yellow-700);
+        --pg-800: var(--color-p-yellow-800); --pg-900: var(--color-p-yellow-900);
+    }
+    .mc-progress[data-hue="magenta"], .mc-progress-stacked[data-hue="magenta"] .mc-progress {
+        --pg-50:  var(--color-p-magenta-50);  --pg-100: var(--color-p-magenta-100);
+        --pg-200: var(--color-p-magenta-200); --pg-300: var(--color-p-magenta-300);
+        --pg-400: var(--color-p-magenta-400); --pg-500: var(--color-p-magenta-500);
+        --pg-600: var(--color-p-magenta-600); --pg-700: var(--color-p-magenta-700);
+        --pg-800: var(--color-p-magenta-800); --pg-900: var(--color-p-magenta-900);
+    }
+    .mc-progress[data-hue="teal"], .mc-progress-stacked[data-hue="teal"] .mc-progress {
+        --pg-50:  var(--color-p-teal-50);  --pg-100: var(--color-p-teal-100);
+        --pg-200: var(--color-p-teal-200); --pg-300: var(--color-p-teal-300);
+        --pg-400: var(--color-p-teal-400); --pg-500: var(--color-p-teal-500);
+        --pg-600: var(--color-p-teal-600); --pg-700: var(--color-p-teal-700);
+        --pg-800: var(--color-p-teal-800); --pg-900: var(--color-p-teal-900);
+    }
+
+    /* --- Base (M2 dark default) --- */
+    .mc-progress {
+        display: flex;
+        height: 10px;
+        background-color: var(--pg-800);
+        border: 1px solid var(--pg-700);
+        border-radius: 6px;
+        overflow: hidden;
+        font-size: 11px;
+        line-height: 1;
+    }
+    .mc-progress-bar {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-color: var(--pg-400);
+        color: #0A0A0A;
+        font-size: inherit;
+        font-weight: 600;
+        white-space: nowrap;
+        overflow: hidden;
+        transition: width 0.3s ease;
+    }
+
+    /* --- Striped --- */
+    .mc-progress-striped .mc-progress-bar {
+        background-image: repeating-linear-gradient(
+            45deg,
+            var(--pg-400),
+            var(--pg-400) 8px,
+            var(--pg-300) 8px,
+            var(--pg-300) 16px
+        );
+        background-size: 22.6px 22.6px;
+    }
+
+    /* --- Animated --- */
+    @keyframes mc-progress-stripes {
+        from { background-position: 22.6px 0; }
+        to   { background-position: 0 0; }
+    }
+    .mc-progress-animated .mc-progress-bar {
+        animation: mc-progress-stripes 1s linear infinite;
+    }
+
+    /* --- Stacked --- */
+    .mc-progress-stacked {
+        display: flex;
+        overflow: hidden;
+        border-radius: 6px;
+        border: 1px solid var(--pg-700);
+        height: 10px;
+        background-color: var(--pg-800);
+    }
+    .mc-progress-stacked .mc-progress {
+        border: none;
+        border-radius: 0;
+        overflow: visible;
+        background: transparent;
+        height: 100%;
+    }
+
+    /* --- Mode 1: White Surface --- */
+    [data-mode="1"] .mc-progress {
+        background-color: var(--pg-100);
+        border-color: var(--pg-200);
+    }
+    [data-mode="1"] .mc-progress-bar {
+        background-color: var(--pg-500);
+        color: #FFFFFF;
+    }
+    [data-mode="1"] .mc-progress-striped .mc-progress-bar {
+        background-image: repeating-linear-gradient(
+            45deg, var(--pg-500), var(--pg-500) 8px, var(--pg-400) 8px, var(--pg-400) 16px
+        );
+    }
+    [data-mode="1"] .mc-progress-stacked {
+        background-color: var(--pg-100);
+        border-color: var(--pg-200);
+    }
+
+    /* --- Mode 3: Light Hue Surface --- */
+    [data-mode="3"] .mc-progress {
+        background-color: var(--pg-200);
+        border-color: var(--pg-300);
+    }
+    [data-mode="3"] .mc-progress-bar {
+        background-color: var(--pg-600);
+        color: #FFFFFF;
+    }
+    [data-mode="3"] .mc-progress-striped .mc-progress-bar {
+        background-image: repeating-linear-gradient(
+            45deg, var(--pg-600), var(--pg-600) 8px, var(--pg-500) 8px, var(--pg-500) 16px
+        );
+    }
+    [data-mode="3"] .mc-progress-stacked {
+        background-color: var(--pg-200);
+        border-color: var(--pg-300);
+    }
+
+    /* --- Mode 4: Dark Hue Surface --- */
+    [data-mode="4"] .mc-progress {
+        background-color: var(--pg-900);
+        border-color: var(--pg-700);
+    }
+    [data-mode="4"] .mc-progress-bar {
+        background-color: var(--pg-300);
+        color: #0A0A0A;
+    }
+    [data-mode="4"] .mc-progress-striped .mc-progress-bar {
+        background-image: repeating-linear-gradient(
+            45deg, var(--pg-300), var(--pg-300) 8px, var(--pg-200) 8px, var(--pg-200) 16px
+        );
+    }
+    [data-mode="4"] .mc-progress-stacked {
+        background-color: var(--pg-900);
+        border-color: var(--pg-700);
+    }
+
+    /* --- Mode 5: Mid Hue Surface --- */
+    [data-mode="5"] .mc-progress {
+        background-color: var(--pg-700);
+        border-color: #0A0A0A;
+    }
+    [data-mode="5"] .mc-progress-bar {
+        background-color: var(--pg-50);
+        color: #0A0A0A;
+    }
+    [data-mode="5"] .mc-progress-striped .mc-progress-bar {
+        background-image: repeating-linear-gradient(
+            45deg, var(--pg-50), var(--pg-50) 8px, var(--pg-100) 8px, var(--pg-100) 16px
+        );
+    }
+    [data-mode="5"] .mc-progress-stacked {
+        background-color: var(--pg-700);
+        border-color: #0A0A0A;
+    }
+
+    /* --- M2 & M4: Dark Surface Depth --- */
+    [data-mode="2"] .mc-progress,
+    [data-mode="4"] .mc-progress,
+    [data-mode="2"] .mc-progress-stacked,
+    [data-mode="4"] .mc-progress-stacked {
+        border-radius: 3px;
+    }
+
+    /* --- Size Variants --- */
+    .mc-progress-xs, .mc-progress-stacked.mc-progress-xs {
+        height: 4px; font-size: 0; border-radius: 2px;
+    }
+    .mc-progress-sm, .mc-progress-stacked.mc-progress-sm {
+        height: 6px; font-size: 0; border-radius: 3px;
+    }
+    /* md = default (10px) */
+    .mc-progress-lg, .mc-progress-stacked.mc-progress-lg {
+        height: 16px; font-size: 12px; border-radius: 7px;
+    }
+    .mc-progress-xl, .mc-progress-stacked.mc-progress-xl {
+        height: 22px; font-size: 14px; border-radius: 8px;
+    }
+    .mc-progress-xxl, .mc-progress-stacked.mc-progress-xxl {
+        height: 30px; font-size: 16px; border-radius: 10px;
+    }
+    /* Dark surface depth: cap all size radii at 3px */
+    [data-mode="2"] .mc-progress-xs, [data-mode="2"] .mc-progress-sm,
+    [data-mode="2"] .mc-progress-lg, [data-mode="2"] .mc-progress-xl,
+    [data-mode="2"] .mc-progress-xxl,
+    [data-mode="4"] .mc-progress-xs, [data-mode="4"] .mc-progress-sm,
+    [data-mode="4"] .mc-progress-lg, [data-mode="4"] .mc-progress-xl,
+    [data-mode="4"] .mc-progress-xxl,
+    [data-mode="2"] .mc-progress-stacked.mc-progress-xs,
+    [data-mode="2"] .mc-progress-stacked.mc-progress-sm,
+    [data-mode="2"] .mc-progress-stacked.mc-progress-lg,
+    [data-mode="2"] .mc-progress-stacked.mc-progress-xl,
+    [data-mode="2"] .mc-progress-stacked.mc-progress-xxl,
+    [data-mode="4"] .mc-progress-stacked.mc-progress-xs,
+    [data-mode="4"] .mc-progress-stacked.mc-progress-sm,
+    [data-mode="4"] .mc-progress-stacked.mc-progress-lg,
+    [data-mode="4"] .mc-progress-stacked.mc-progress-xl,
+    [data-mode="4"] .mc-progress-stacked.mc-progress-xxl {
+        border-radius: 3px;
+    }
+
+    /* ======================================
        TABS
        Navigation tabs
     ======================================= */
