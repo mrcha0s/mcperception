@@ -3803,6 +3803,111 @@
     .mc-card-xxl .mc-card-footer { padding: 18px 28px; font-size: 18px; }
 
     /* ======================================
+       BUTTON GROUP — Surface-Mode-Aware
+       Group a series of buttons together on a single line or vertically
+
+       Color: data-hue="neutral|red|green|blue|yellow|magenta|teal" (on child .mc-btn)
+       Size: mc-btn-group-xs | mc-btn-group-sm | (md default) | mc-btn-group-lg | mc-btn-group-xl | mc-btn-group-xxl
+       Layout: mc-btn-group (horizontal) | mc-btn-group-vertical
+       Toolbar: mc-btn-toolbar (groups of groups)
+
+       Surface mode: inherits data-mode from ancestor container.
+       Buttons inside use existing .mc-btn classes.
+    ======================================= */
+
+    /* --- Horizontal Button Group --- */
+    .mc-btn-group {
+        position: relative;
+        display: inline-flex;
+        vertical-align: middle;
+    }
+    .mc-btn-group > .mc-btn {
+        position: relative;
+        flex: 1 1 auto;
+    }
+    /* Remove inner border-radius for connected buttons */
+    .mc-btn-group > .mc-btn:not(:first-child) {
+        margin-left: -1px;
+    }
+    .mc-btn-group > .mc-btn:not(:last-child):not(.mc-dropdown-toggle) {
+        border-top-right-radius: 0;
+        border-bottom-right-radius: 0;
+    }
+    .mc-btn-group > .mc-btn:not(:first-child) {
+        border-top-left-radius: 0;
+        border-bottom-left-radius: 0;
+    }
+    /* Lift active/focus button above siblings */
+    .mc-btn-group > .mc-btn:hover,
+    .mc-btn-group > .mc-btn:focus-visible,
+    .mc-btn-group > .mc-btn:active,
+    .mc-btn-group > .mc-btn.active {
+        z-index: 1;
+    }
+
+    /* --- Vertical Button Group --- */
+    .mc-btn-group-vertical {
+        position: relative;
+        display: inline-flex;
+        flex-direction: column;
+        vertical-align: middle;
+    }
+    .mc-btn-group-vertical > .mc-btn {
+        position: relative;
+        flex: 1 1 auto;
+    }
+    .mc-btn-group-vertical > .mc-btn:not(:first-child) {
+        margin-top: -1px;
+    }
+    .mc-btn-group-vertical > .mc-btn:not(:last-child):not(.mc-dropdown-toggle) {
+        border-bottom-left-radius: 0;
+        border-bottom-right-radius: 0;
+    }
+    .mc-btn-group-vertical > .mc-btn:not(:first-child) {
+        border-top-left-radius: 0;
+        border-top-right-radius: 0;
+    }
+    .mc-btn-group-vertical > .mc-btn:hover,
+    .mc-btn-group-vertical > .mc-btn:focus-visible,
+    .mc-btn-group-vertical > .mc-btn:active,
+    .mc-btn-group-vertical > .mc-btn.active {
+        z-index: 1;
+    }
+
+    /* --- Button Toolbar --- */
+    .mc-btn-toolbar {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: flex-start;
+        gap: 8px;
+    }
+
+    /* --- Size Variants ---
+       These override child button sizing for uniform groups. */
+    .mc-btn-group-xs > .mc-btn { padding: 4px 8px; font-size: 11px; min-height: 24px; }
+    .mc-btn-group-sm > .mc-btn { padding: 6px 12px; font-size: 12px; min-height: 30px; }
+    /* md is default — buttons use their own sizing */
+    .mc-btn-group-lg > .mc-btn { padding: 10px 20px; font-size: 16px; min-height: 44px; }
+    .mc-btn-group-xl > .mc-btn { padding: 12px 24px; font-size: 18px; min-height: 52px; }
+    .mc-btn-group-xxl > .mc-btn { padding: 14px 28px; font-size: 20px; min-height: 60px; }
+
+    /* --- Nested Dropdown inside Button Group --- */
+    .mc-btn-group > .mc-btn-group {
+        position: relative;
+    }
+    .mc-btn-group > .mc-btn-group > .mc-btn {
+        border-radius: 0;
+    }
+    .mc-btn-group > .mc-btn-group:first-child > .mc-btn {
+        border-top-left-radius: inherit;
+        border-bottom-left-radius: inherit;
+    }
+    .mc-btn-group > .mc-btn-group:last-child > .mc-btn {
+        border-top-right-radius: inherit;
+        border-bottom-right-radius: inherit;
+    }
+
+    /* ======================================
        TABLE — Surface-Mode-Aware
        Bootstrap-compatible data table system
 

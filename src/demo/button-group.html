@@ -1,0 +1,1022 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Button Group Style Guide — MC Perception</title>
+    <link rel="stylesheet" href="../dist/mcperception.css">
+    <style>
+/* ── Docs Layout ── */
+.docs-layout {
+    display: flex;
+    min-height: 100vh;
+}
+.docs-sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 240px;
+    height: 100vh;
+    background: #222222;
+    border-right: 1px solid #222222;
+    overflow-y: auto;
+    z-index: 40;
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.2s ease;
+}
+.docs-sidebar-header {
+    padding: 1.25rem 1.25rem 0.75rem;
+    border-bottom: 1px solid #222222;
+    display: flex;
+    align-items: baseline;
+    gap: 0.5rem;
+}
+.docs-logo {
+    font-size: 0.875rem;
+    font-weight: 700;
+    color: #FFFFFF;
+    text-decoration: none;
+    letter-spacing: -0.01em;
+}
+.docs-logo:hover { color: #c3c3c3; }
+.docs-version {
+    font-size: 0.625rem;
+    color: #515151;
+    font-family: 'Roboto Mono', ui-monospace, monospace;
+}
+.docs-sidebar-nav {
+    padding: 0.75rem 0;
+    flex: 1;
+}
+.docs-nav-group {
+    margin-bottom: 0.25rem;
+}
+.docs-nav-group-label {
+    font-size: 0.625rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: #515151;
+    padding: 0.625rem 1.25rem 0.375rem;
+}
+.docs-nav-link {
+    display: block;
+    font-size: 0.8125rem;
+    color: #a0a0a0;
+    text-decoration: none;
+    padding: 0.375rem 1.25rem;
+    border-left: 2px solid transparent;
+    transition: color 0.15s, border-color 0.15s, background 0.15s;
+}
+.docs-nav-link:hover {
+    color: #c3c3c3;
+    background: #222222;
+}
+.docs-nav-link.active {
+    color: #5252ff;
+    border-left-color: #5252ff;
+    background: #222222;
+}
+.docs-content {
+    flex: 1;
+    margin-left: 240px;
+}
+
+/* ── Mobile: hamburger + overlay ── */
+#docs-hamburger {
+    display: none;
+    position: fixed;
+    top: 0.75rem;
+    left: 0.75rem;
+    z-index: 50;
+    background: #222222;
+    border: 1px solid #222222;
+    color: #a0a0a0;
+    font-size: 1.25rem;
+    width: 36px;
+    height: 36px;
+    border-radius: 6px;
+    cursor: pointer;
+    align-items: center;
+    justify-content: center;
+    line-height: 1;
+    padding: 0;
+}
+#docs-hamburger:hover { color: #FFFFFF; }
+#docs-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: #090909;
+    z-index: 35;
+}
+@media (max-width: 1023px) {
+    #docs-hamburger { display: flex; }
+    .docs-sidebar {
+        transform: translateX(-100%);
+    }
+    .docs-sidebar.open {
+        transform: translateX(0);
+    }
+    #docs-overlay.open {
+        display: block;
+    }
+    .docs-content {
+        margin-left: 0;
+    }
+}
+
+/* ── Guide Cards & Code Blocks ── */
+.guide-section { margin-bottom: 4rem; }
+.guide-card {
+    background: #090909;
+    border: 1px solid #222222;
+    border-radius: 6px;
+    padding: 1.5rem;
+}
+.guide-label {
+    min-width: 72px;
+    font-size: 0.6rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: #6c6c6c;
+    font-weight: 700;
+}
+.guide-row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    gap: 1rem;
+}
+.code-block {
+    background: #0A0A0A;
+    border: 1px solid #222222;
+    border-radius: 6px;
+    padding: 1rem 1.25rem;
+    font-family: 'Roboto Mono', ui-monospace, monospace;
+    font-size: 0.7rem;
+    line-height: 1.8;
+    color: #a0a0a0;
+    overflow-x: auto;
+    tab-size: 2;
+}
+.code-block .t  { color: #ff7474; }
+.code-block .a  { color: #9494ff; }
+.code-block .v  { color: #00ba00; }
+.code-block .c  { color: #6d6dff; }
+.code-block .cm { color: #515151; }
+.code-block .tx { color: #c3c3c3; }
+.section-number {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    border-radius: 6px;
+    font-size: 0.75rem;
+    font-weight: 800;
+    margin-right: 0.5rem;
+}
+
+/* ── Mode Panel Helpers ── */
+.mode-panel {
+    padding: 1.5rem;
+    border-radius: 3px;
+    border: 1px solid #222222;
+    margin-bottom: 1rem;
+}
+.mode-panel-m1 { background: #FFFFFF; border-color: #c3c3c3; }
+.mode-panel-m2 { background: #0A0A0A; border-color: #222222; }
+.mode-panel-m3 { background: #dedeff; border-color: #bebeff; }
+.mode-panel-m4 { background: #000081; border-color: #0000bf; }
+.mode-panel-m5 { background: #5252ff; border-color: #0000bf; }
+
+/* ── Standard Footer ── */
+.docs-footer {
+    margin-top: 6rem;
+    padding: 2rem 0;
+    border-top: 1px solid #222222;
+    text-align: center;
+}
+.docs-footer p {
+    font-size: 0.75rem;
+    color: #515151;
+}
+.docs-footer a {
+    color: #6d6dff;
+    text-decoration: none;
+}
+.docs-footer a:hover {
+    color: #9494ff;
+}
+
+/* ── Demo-specific helpers ── */
+.mode-label {
+    font-size: 0.65rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    font-weight: 700;
+    margin-bottom: 0.75rem;
+}
+.mode-label-dark { color: #a0a0a0; }
+.mode-label-light { color: #515151; }
+.mode-label-m5 { color: #dedeff; }
+.size-label {
+    font-size: 0.6rem;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    font-weight: 700;
+    color: #515151;
+    width: 48px;
+    flex-shrink: 0;
+}
+.white-label { color: #7f7f7f; }
+.semantic-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+    align-items: flex-start;
+}
+.semantic-cell {
+    min-width: 200px;
+}
+    </style>
+</head>
+<body class="bg-p-black text-white min-h-screen font-sans">
+
+    <button id="docs-hamburger">&#9776;</button>
+    <div id="docs-overlay"></div>
+
+    <div class="docs-layout">
+        <aside class="docs-sidebar" id="docs-sidebar">
+            <div class="docs-sidebar-header">
+                <a href="index.html" class="docs-logo">MC Perception</a>
+                <span class="docs-version">v1.0</span>
+            </div>
+            <nav class="docs-sidebar-nav">
+                <div class="docs-nav-group">
+                    <div class="docs-nav-group-label">Getting Started</div>
+                    <a href="index.html" class="docs-nav-link" data-page="index">Home</a>
+                    <a href="getting-started.html" class="docs-nav-link" data-page="getting-started">Getting Started</a>
+                </div>
+                <div class="docs-nav-group">
+                    <div class="docs-nav-group-label">Foundation</div>
+                    <a href="color.html" class="docs-nav-link" data-page="color">Color Palette</a>
+                    <a href="surface-modes.html" class="docs-nav-link" data-page="surface-modes">Surface Modes</a>
+                    <a href="typography.html" class="docs-nav-link" data-page="typography">Typography</a>
+                </div>
+                <div class="docs-nav-group">
+                    <div class="docs-nav-group-label">Components</div>
+                    <a href="button.html" class="docs-nav-link" data-page="button">Buttons</a>
+                    <a href="button-group.html" class="docs-nav-link" data-page="button-group">Button Group</a>
+                    <a href="badges.html" class="docs-nav-link" data-page="badges">Badges</a>
+                    <a href="alert.html" class="docs-nav-link" data-page="alert">Alerts</a>
+                    <a href="dropdown.html" class="docs-nav-link" data-page="dropdown">Dropdowns</a>
+                    <a href="card.html" class="docs-nav-link" data-page="card">Card</a>
+                    <a href="button-group.html" class="docs-nav-link" data-page="button-group">Button Group</a>
+                    <a href="progress.html" class="docs-nav-link" data-page="progress">Progress</a>
+                    <a href="spinner.html" class="docs-nav-link" data-page="spinner">Spinners</a>
+                    <a href="pagination.html" class="docs-nav-link" data-page="pagination">Pagination</a>
+                    <a href="list-group.html" class="docs-nav-link" data-page="list-group">List Group</a>
+                    <a href="navs-tabs.html" class="docs-nav-link" data-page="navs-tabs">Navs &amp; Tabs</a>
+                    <a href="navbar.html" class="docs-nav-link" data-page="navbar">Navbar</a>
+                    <a href="input.html" class="docs-nav-link" data-page="input">Form Inputs</a>
+                    <a href="selection.html" class="docs-nav-link" data-page="selection">Selection Controls</a>
+                    <a href="table.html" class="docs-nav-link" data-page="table">Tables</a>
+                    <a href="panel-system.html" class="docs-nav-link" data-page="panel-system">Panels</a>
+                </div>
+                <div class="docs-nav-group">
+                    <div class="docs-nav-group-label">Patterns</div>
+                    <a href="forms.html" class="docs-nav-link" data-page="forms">Form Layout</a>
+                    <a href="dark-surfaces.html" class="docs-nav-link" data-page="dark-surfaces">Dark Surface Depth</a>
+                </div>
+                <div class="docs-nav-group">
+                    <div class="docs-nav-group-label">Examples</div>
+                    <a href="trading-card.html" class="docs-nav-link" data-page="trading-card">Trading Card</a>
+                    <a href="orderbook.html" class="docs-nav-link" data-page="orderbook">Orderbook</a>
+                </div>
+            </nav>
+        </aside>
+
+        <main class="docs-content">
+            <div class="max-w-7xl mx-auto px-6 py-12">
+
+        <!-- ====== HERO ====== -->
+        <header class="mb-16">
+            <nav class="text-xs text-p-neutral-400 mb-6 flex gap-2 items-center">
+                <a href="index.html" class="hover:text-white transition-colors">Home</a>
+                <span class="text-p-neutral-600">/</span>
+                <a href="index.html" class="hover:text-white transition-colors">Components</a>
+                <span class="text-p-neutral-600">/</span>
+                <span class="text-white font-semibold">Button Group</span>
+            </nav>
+
+            <div class="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-6 mb-8">
+                <div>
+                    <h1 class="text-5xl font-bold tracking-tight mb-3">Button Group</h1>
+                    <p class="text-p-neutral-300 text-lg max-w-2xl">Group buttons into connected toolbars and segmented controls. Horizontal, vertical, and toolbar layouts with 7 hues, 6 sizes, and 5 surface modes. WCAG AA compliant.</p>
+                </div>
+                <div class="flex gap-2 flex-wrap">
+                    <span class="mc-badge mc-badge-filled mc-badge-pill" data-hue="blue">Layout</span>
+                    <span class="mc-badge mc-badge-tonal mc-badge-pill" data-hue="green">WCAG AA</span>
+                    <span class="mc-badge mc-badge-outline mc-badge-pill" data-hue="magenta">7 Hues</span>
+                    <span class="mc-badge mc-badge-subtle mc-badge-pill" data-hue="teal">5 Modes</span>
+                </div>
+            </div>
+
+            <!-- Quick code example -->
+            <div class="guide-card">
+                <div class="flex items-center gap-2 mb-3">
+                    <span class="text-[10px] uppercase tracking-widest text-p-neutral-400 font-bold">Quick Start</span>
+                </div>
+                <div class="code-block">
+<span class="cm">&lt;!-- Horizontal button group --&gt;</span>
+<span class="t">&lt;div</span> <span class="a">class</span>=<span class="v">"mc-btn-group"</span> <span class="a">role</span>=<span class="v">"group"</span> <span class="a">aria-label</span>=<span class="v">"Basic button group"</span><span class="t">&gt;</span>
+  <span class="t">&lt;button</span> <span class="a">class</span>=<span class="v">"mc-btn"</span> <span class="a">data-hue</span>=<span class="v">"blue"</span><span class="t">&gt;</span><span class="tx">Left</span><span class="t">&lt;/button&gt;</span>
+  <span class="t">&lt;button</span> <span class="a">class</span>=<span class="v">"mc-btn"</span> <span class="a">data-hue</span>=<span class="v">"blue"</span><span class="t">&gt;</span><span class="tx">Middle</span><span class="t">&lt;/button&gt;</span>
+  <span class="t">&lt;button</span> <span class="a">class</span>=<span class="v">"mc-btn"</span> <span class="a">data-hue</span>=<span class="v">"blue"</span><span class="t">&gt;</span><span class="tx">Right</span><span class="t">&lt;/button&gt;</span>
+<span class="t">&lt;/div&gt;</span>
+                </div>
+            </div>
+        </header>
+
+        <!-- ====== 1. BASIC BUTTON GROUP ====== -->
+        <section class="guide-section">
+            <h2 class="text-2xl font-bold mb-1 flex items-center">
+                <span class="section-number" style="background-color: #5252ff; color: #FFFFFF;">1</span>
+                Basic Button Group
+            </h2>
+            <p class="text-p-neutral-400 text-sm mb-6 ml-10">Horizontal group of connected solid buttons on Mode 2 (dark). Adjacent buttons share borders with inner border-radius removed.</p>
+
+            <div class="guide-card">
+                <div class="guide-label mb-3">Blue &mdash; Mode 2 (default dark)</div>
+                <div class="mc-btn-group" role="group" aria-label="Basic button group">
+                    <button class="mc-btn" data-hue="blue">Left</button>
+                    <button class="mc-btn" data-hue="blue">Middle</button>
+                    <button class="mc-btn" data-hue="blue">Right</button>
+                </div>
+            </div>
+
+            <!-- Code snippet -->
+            <div class="guide-card mt-4">
+                <div class="guide-label mb-2">Code</div>
+                <div class="code-block">
+<span class="t">&lt;div</span> <span class="a">class</span>=<span class="v">"mc-btn-group"</span> <span class="a">role</span>=<span class="v">"group"</span> <span class="a">aria-label</span>=<span class="v">"Basic button group"</span><span class="t">&gt;</span>
+  <span class="t">&lt;button</span> <span class="a">class</span>=<span class="v">"mc-btn"</span> <span class="a">data-hue</span>=<span class="v">"blue"</span><span class="t">&gt;</span><span class="tx">Left</span><span class="t">&lt;/button&gt;</span>
+  <span class="t">&lt;button</span> <span class="a">class</span>=<span class="v">"mc-btn"</span> <span class="a">data-hue</span>=<span class="v">"blue"</span><span class="t">&gt;</span><span class="tx">Middle</span><span class="t">&lt;/button&gt;</span>
+  <span class="t">&lt;button</span> <span class="a">class</span>=<span class="v">"mc-btn"</span> <span class="a">data-hue</span>=<span class="v">"blue"</span><span class="t">&gt;</span><span class="tx">Right</span><span class="t">&lt;/button&gt;</span>
+<span class="t">&lt;/div&gt;</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- ====== 2. OUTLINED GROUP ====== -->
+        <section class="guide-section">
+            <h2 class="text-2xl font-bold mb-1 flex items-center">
+                <span class="section-number" style="background-color: #007f00; color: #FFFFFF;">2</span>
+                Outlined Group
+            </h2>
+            <p class="text-p-neutral-400 text-sm mb-6 ml-10">Button group using outlined variants. The border-collapse ensures clean shared edges between buttons.</p>
+
+            <div class="guide-card">
+                <div class="guide-label mb-3">Blue outlined &mdash; Mode 2</div>
+                <div class="mc-btn-group" role="group" aria-label="Outlined button group">
+                    <button class="mc-btn mc-btn-outline" data-hue="blue">Left</button>
+                    <button class="mc-btn mc-btn-outline" data-hue="blue">Middle</button>
+                    <button class="mc-btn mc-btn-outline" data-hue="blue">Right</button>
+                </div>
+            </div>
+
+            <div class="guide-card mt-4">
+                <div class="guide-label mb-3">Green outlined &mdash; Mode 2</div>
+                <div class="mc-btn-group" role="group" aria-label="Green outlined button group">
+                    <button class="mc-btn mc-btn-outline" data-hue="green">First</button>
+                    <button class="mc-btn mc-btn-outline" data-hue="green">Second</button>
+                    <button class="mc-btn mc-btn-outline" data-hue="green">Third</button>
+                </div>
+            </div>
+
+            <!-- Code snippet -->
+            <div class="guide-card mt-4">
+                <div class="guide-label mb-2">Code</div>
+                <div class="code-block">
+<span class="t">&lt;div</span> <span class="a">class</span>=<span class="v">"mc-btn-group"</span> <span class="a">role</span>=<span class="v">"group"</span> <span class="a">aria-label</span>=<span class="v">"Outlined button group"</span><span class="t">&gt;</span>
+  <span class="t">&lt;button</span> <span class="a">class</span>=<span class="v">"mc-btn mc-btn-outline"</span> <span class="a">data-hue</span>=<span class="v">"blue"</span><span class="t">&gt;</span><span class="tx">Left</span><span class="t">&lt;/button&gt;</span>
+  <span class="t">&lt;button</span> <span class="a">class</span>=<span class="v">"mc-btn mc-btn-outline"</span> <span class="a">data-hue</span>=<span class="v">"blue"</span><span class="t">&gt;</span><span class="tx">Middle</span><span class="t">&lt;/button&gt;</span>
+  <span class="t">&lt;button</span> <span class="a">class</span>=<span class="v">"mc-btn mc-btn-outline"</span> <span class="a">data-hue</span>=<span class="v">"blue"</span><span class="t">&gt;</span><span class="tx">Right</span><span class="t">&lt;/button&gt;</span>
+<span class="t">&lt;/div&gt;</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- ====== 3. MIXED STYLES ====== -->
+        <section class="guide-section">
+            <h2 class="text-2xl font-bold mb-1 flex items-center">
+                <span class="section-number" style="background-color: #da0000; color: #FFFFFF;">3</span>
+                Mixed Styles
+            </h2>
+            <p class="text-p-neutral-400 text-sm mb-6 ml-10">Button groups can mix different hues on each button, allowing for multi-purpose action bars.</p>
+
+            <div class="guide-card">
+                <div class="guide-label mb-3">Mixed hues &mdash; solid</div>
+                <div class="mc-btn-group" role="group" aria-label="Mixed hue button group">
+                    <button class="mc-btn" data-hue="green">Approve</button>
+                    <button class="mc-btn" data-hue="yellow">Review</button>
+                    <button class="mc-btn" data-hue="red">Reject</button>
+                </div>
+            </div>
+
+            <div class="guide-card mt-4">
+                <div class="guide-label mb-3">Mixed hues &mdash; outlined</div>
+                <div class="mc-btn-group" role="group" aria-label="Mixed hue outlined button group">
+                    <button class="mc-btn mc-btn-outline" data-hue="blue">Edit</button>
+                    <button class="mc-btn mc-btn-outline" data-hue="magenta">Share</button>
+                    <button class="mc-btn mc-btn-outline" data-hue="teal">Export</button>
+                    <button class="mc-btn mc-btn-outline" data-hue="red">Delete</button>
+                </div>
+            </div>
+
+            <!-- Code snippet -->
+            <div class="guide-card mt-4">
+                <div class="guide-label mb-2">Code</div>
+                <div class="code-block">
+<span class="cm">&lt;!-- Mixed hues — each button has its own data-hue --&gt;</span>
+<span class="t">&lt;div</span> <span class="a">class</span>=<span class="v">"mc-btn-group"</span> <span class="a">role</span>=<span class="v">"group"</span> <span class="a">aria-label</span>=<span class="v">"Actions"</span><span class="t">&gt;</span>
+  <span class="t">&lt;button</span> <span class="a">class</span>=<span class="v">"mc-btn"</span> <span class="a">data-hue</span>=<span class="v">"green"</span><span class="t">&gt;</span><span class="tx">Approve</span><span class="t">&lt;/button&gt;</span>
+  <span class="t">&lt;button</span> <span class="a">class</span>=<span class="v">"mc-btn"</span> <span class="a">data-hue</span>=<span class="v">"yellow"</span><span class="t">&gt;</span><span class="tx">Review</span><span class="t">&lt;/button&gt;</span>
+  <span class="t">&lt;button</span> <span class="a">class</span>=<span class="v">"mc-btn"</span> <span class="a">data-hue</span>=<span class="v">"red"</span><span class="t">&gt;</span><span class="tx">Reject</span><span class="t">&lt;/button&gt;</span>
+<span class="t">&lt;/div&gt;</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- ====== 4. BUTTON TOOLBAR ====== -->
+        <section class="guide-section">
+            <h2 class="text-2xl font-bold mb-1 flex items-center">
+                <span class="section-number" style="background-color: #c000c0; color: #FFFFFF;">4</span>
+                Button Toolbar
+            </h2>
+            <p class="text-p-neutral-400 text-sm mb-6 ml-10">Combine multiple button groups and input groups into a toolbar using <code style="color: #9494ff;">.mc-btn-toolbar</code>. The toolbar provides flex layout with consistent spacing.</p>
+
+            <div class="guide-card">
+                <div class="guide-label mb-3">Toolbar with multiple groups</div>
+                <div class="mc-btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
+                    <div class="mc-btn-group" role="group" aria-label="First group">
+                        <button class="mc-btn" data-hue="blue">1</button>
+                        <button class="mc-btn" data-hue="blue">2</button>
+                        <button class="mc-btn" data-hue="blue">3</button>
+                        <button class="mc-btn" data-hue="blue">4</button>
+                    </div>
+                    <div class="mc-btn-group" role="group" aria-label="Second group">
+                        <button class="mc-btn mc-btn-outline" data-hue="teal">5</button>
+                        <button class="mc-btn mc-btn-outline" data-hue="teal">6</button>
+                        <button class="mc-btn mc-btn-outline" data-hue="teal">7</button>
+                    </div>
+                    <div class="mc-btn-group" role="group" aria-label="Third group">
+                        <button class="mc-btn mc-btn-outline" data-hue="neutral">8</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="guide-card mt-4">
+                <div class="guide-label mb-3">Toolbar with input group</div>
+                <div class="mc-btn-toolbar" role="toolbar" aria-label="Toolbar with input group" style="gap: 0.5rem;">
+                    <div class="mc-btn-group" role="group" aria-label="Navigation group">
+                        <button class="mc-btn mc-btn-outline" data-hue="blue">Prev</button>
+                        <button class="mc-btn mc-btn-outline" data-hue="blue">Next</button>
+                    </div>
+                    <div style="display: flex; align-items: center;">
+                        <input type="text" class="mc-input" data-hue="blue" placeholder="Page number" style="width: 120px;">
+                    </div>
+                    <div class="mc-btn-group" role="group" aria-label="Action group">
+                        <button class="mc-btn" data-hue="green">Go</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Code snippet -->
+            <div class="guide-card mt-4">
+                <div class="guide-label mb-2">Code</div>
+                <div class="code-block">
+<span class="t">&lt;div</span> <span class="a">class</span>=<span class="v">"mc-btn-toolbar"</span> <span class="a">role</span>=<span class="v">"toolbar"</span> <span class="a">aria-label</span>=<span class="v">"Toolbar"</span><span class="t">&gt;</span>
+  <span class="t">&lt;div</span> <span class="a">class</span>=<span class="v">"mc-btn-group"</span> <span class="a">role</span>=<span class="v">"group"</span> <span class="a">aria-label</span>=<span class="v">"First group"</span><span class="t">&gt;</span>
+    <span class="t">&lt;button</span> <span class="a">class</span>=<span class="v">"mc-btn"</span> <span class="a">data-hue</span>=<span class="v">"blue"</span><span class="t">&gt;</span><span class="tx">1</span><span class="t">&lt;/button&gt;</span>
+    <span class="t">&lt;button</span> <span class="a">class</span>=<span class="v">"mc-btn"</span> <span class="a">data-hue</span>=<span class="v">"blue"</span><span class="t">&gt;</span><span class="tx">2</span><span class="t">&lt;/button&gt;</span>
+    <span class="t">&lt;button</span> <span class="a">class</span>=<span class="v">"mc-btn"</span> <span class="a">data-hue</span>=<span class="v">"blue"</span><span class="t">&gt;</span><span class="tx">3</span><span class="t">&lt;/button&gt;</span>
+  <span class="t">&lt;/div&gt;</span>
+  <span class="t">&lt;div</span> <span class="a">class</span>=<span class="v">"mc-btn-group"</span> <span class="a">role</span>=<span class="v">"group"</span> <span class="a">aria-label</span>=<span class="v">"Second group"</span><span class="t">&gt;</span>
+    <span class="t">&lt;button</span> <span class="a">class</span>=<span class="v">"mc-btn mc-btn-outline"</span> <span class="a">data-hue</span>=<span class="v">"teal"</span><span class="t">&gt;</span><span class="tx">5</span><span class="t">&lt;/button&gt;</span>
+    <span class="t">&lt;button</span> <span class="a">class</span>=<span class="v">"mc-btn mc-btn-outline"</span> <span class="a">data-hue</span>=<span class="v">"teal"</span><span class="t">&gt;</span><span class="tx">6</span><span class="t">&lt;/button&gt;</span>
+  <span class="t">&lt;/div&gt;</span>
+<span class="t">&lt;/div&gt;</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- ====== 5. SIZE SCALE ====== -->
+        <section class="guide-section">
+            <h2 class="text-2xl font-bold mb-1 flex items-center">
+                <span class="section-number" style="background-color: #6f6f00; color: #FFFFFF;">5</span>
+                Size Scale
+            </h2>
+            <p class="text-p-neutral-400 text-sm mb-6 ml-10">All 6 sizes from <code style="color: #9494ff;">xs</code> (11px) to <code style="color: #9494ff;">xxl</code> (20px). The size class on the group overrides child button sizing for uniform groups.</p>
+
+            <div class="guide-card">
+                <div style="display: flex; flex-direction: column; gap: 1.25rem;">
+
+                    <div style="display: flex; align-items: center; gap: 1rem;">
+                        <span class="size-label">xs</span>
+                        <div class="mc-btn-group mc-btn-group-xs" role="group" aria-label="Extra small button group">
+                            <button class="mc-btn" data-hue="blue">Left</button>
+                            <button class="mc-btn" data-hue="blue">Middle</button>
+                            <button class="mc-btn" data-hue="blue">Right</button>
+                        </div>
+                    </div>
+
+                    <div style="display: flex; align-items: center; gap: 1rem;">
+                        <span class="size-label">sm</span>
+                        <div class="mc-btn-group mc-btn-group-sm" role="group" aria-label="Small button group">
+                            <button class="mc-btn" data-hue="blue">Left</button>
+                            <button class="mc-btn" data-hue="blue">Middle</button>
+                            <button class="mc-btn" data-hue="blue">Right</button>
+                        </div>
+                    </div>
+
+                    <div style="display: flex; align-items: center; gap: 1rem;">
+                        <span class="size-label">md</span>
+                        <div class="mc-btn-group" role="group" aria-label="Medium button group">
+                            <button class="mc-btn" data-hue="blue">Left</button>
+                            <button class="mc-btn" data-hue="blue">Middle</button>
+                            <button class="mc-btn" data-hue="blue">Right</button>
+                        </div>
+                    </div>
+
+                    <div style="display: flex; align-items: center; gap: 1rem;">
+                        <span class="size-label">lg</span>
+                        <div class="mc-btn-group mc-btn-group-lg" role="group" aria-label="Large button group">
+                            <button class="mc-btn" data-hue="blue">Left</button>
+                            <button class="mc-btn" data-hue="blue">Middle</button>
+                            <button class="mc-btn" data-hue="blue">Right</button>
+                        </div>
+                    </div>
+
+                    <div style="display: flex; align-items: center; gap: 1rem;">
+                        <span class="size-label">xl</span>
+                        <div class="mc-btn-group mc-btn-group-xl" role="group" aria-label="Extra large button group">
+                            <button class="mc-btn" data-hue="blue">Left</button>
+                            <button class="mc-btn" data-hue="blue">Middle</button>
+                            <button class="mc-btn" data-hue="blue">Right</button>
+                        </div>
+                    </div>
+
+                    <div style="display: flex; align-items: center; gap: 1rem;">
+                        <span class="size-label">xxl</span>
+                        <div class="mc-btn-group mc-btn-group-xxl" role="group" aria-label="Extra extra large button group">
+                            <button class="mc-btn" data-hue="blue">Left</button>
+                            <button class="mc-btn" data-hue="blue">Middle</button>
+                            <button class="mc-btn" data-hue="blue">Right</button>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- Code snippet -->
+            <div class="guide-card mt-4">
+                <div class="guide-label mb-2">Code</div>
+                <div class="code-block">
+<span class="cm">&lt;!-- Extra small --&gt;</span>
+<span class="t">&lt;div</span> <span class="a">class</span>=<span class="v">"mc-btn-group mc-btn-group-xs"</span> <span class="a">role</span>=<span class="v">"group"</span><span class="t">&gt;</span><span class="cm">...</span><span class="t">&lt;/div&gt;</span>
+
+<span class="cm">&lt;!-- Small --&gt;</span>
+<span class="t">&lt;div</span> <span class="a">class</span>=<span class="v">"mc-btn-group mc-btn-group-sm"</span> <span class="a">role</span>=<span class="v">"group"</span><span class="t">&gt;</span><span class="cm">...</span><span class="t">&lt;/div&gt;</span>
+
+<span class="cm">&lt;!-- Medium (default — no size class needed) --&gt;</span>
+<span class="t">&lt;div</span> <span class="a">class</span>=<span class="v">"mc-btn-group"</span> <span class="a">role</span>=<span class="v">"group"</span><span class="t">&gt;</span><span class="cm">...</span><span class="t">&lt;/div&gt;</span>
+
+<span class="cm">&lt;!-- Large --&gt;</span>
+<span class="t">&lt;div</span> <span class="a">class</span>=<span class="v">"mc-btn-group mc-btn-group-lg"</span> <span class="a">role</span>=<span class="v">"group"</span><span class="t">&gt;</span><span class="cm">...</span><span class="t">&lt;/div&gt;</span>
+
+<span class="cm">&lt;!-- Extra large --&gt;</span>
+<span class="t">&lt;div</span> <span class="a">class</span>=<span class="v">"mc-btn-group mc-btn-group-xl"</span> <span class="a">role</span>=<span class="v">"group"</span><span class="t">&gt;</span><span class="cm">...</span><span class="t">&lt;/div&gt;</span>
+
+<span class="cm">&lt;!-- Extra extra large --&gt;</span>
+<span class="t">&lt;div</span> <span class="a">class</span>=<span class="v">"mc-btn-group mc-btn-group-xxl"</span> <span class="a">role</span>=<span class="v">"group"</span><span class="t">&gt;</span><span class="cm">...</span><span class="t">&lt;/div&gt;</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- ====== 6. VERTICAL ====== -->
+        <section class="guide-section">
+            <h2 class="text-2xl font-bold mb-1 flex items-center">
+                <span class="section-number" style="background-color: #007979; color: #FFFFFF;">6</span>
+                Vertical
+            </h2>
+            <p class="text-p-neutral-400 text-sm mb-6 ml-10">Stack buttons vertically with <code style="color: #9494ff;">.mc-btn-group-vertical</code>. Adjacent buttons share horizontal borders with top/bottom radius removed.</p>
+
+            <div class="guide-card">
+                <div class="guide-row">
+                    <div>
+                        <div class="guide-label mb-3">Solid &mdash; blue</div>
+                        <div class="mc-btn-group-vertical" role="group" aria-label="Vertical button group">
+                            <button class="mc-btn" data-hue="blue">Top</button>
+                            <button class="mc-btn" data-hue="blue">Middle</button>
+                            <button class="mc-btn" data-hue="blue">Bottom</button>
+                            <button class="mc-btn" data-hue="blue">Last</button>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="guide-label mb-3">Outlined &mdash; teal</div>
+                        <div class="mc-btn-group-vertical" role="group" aria-label="Vertical outlined button group">
+                            <button class="mc-btn mc-btn-outline" data-hue="teal">Profile</button>
+                            <button class="mc-btn mc-btn-outline" data-hue="teal">Settings</button>
+                            <button class="mc-btn mc-btn-outline" data-hue="teal">Messages</button>
+                            <button class="mc-btn mc-btn-outline" data-hue="teal">Sign out</button>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="guide-label mb-3">Mixed hues</div>
+                        <div class="mc-btn-group-vertical" role="group" aria-label="Vertical mixed hue button group">
+                            <button class="mc-btn" data-hue="green">Save</button>
+                            <button class="mc-btn" data-hue="blue">Edit</button>
+                            <button class="mc-btn" data-hue="yellow">Archive</button>
+                            <button class="mc-btn" data-hue="red">Delete</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Code snippet -->
+            <div class="guide-card mt-4">
+                <div class="guide-label mb-2">Code</div>
+                <div class="code-block">
+<span class="t">&lt;div</span> <span class="a">class</span>=<span class="v">"mc-btn-group-vertical"</span> <span class="a">role</span>=<span class="v">"group"</span> <span class="a">aria-label</span>=<span class="v">"Vertical group"</span><span class="t">&gt;</span>
+  <span class="t">&lt;button</span> <span class="a">class</span>=<span class="v">"mc-btn"</span> <span class="a">data-hue</span>=<span class="v">"blue"</span><span class="t">&gt;</span><span class="tx">Top</span><span class="t">&lt;/button&gt;</span>
+  <span class="t">&lt;button</span> <span class="a">class</span>=<span class="v">"mc-btn"</span> <span class="a">data-hue</span>=<span class="v">"blue"</span><span class="t">&gt;</span><span class="tx">Middle</span><span class="t">&lt;/button&gt;</span>
+  <span class="t">&lt;button</span> <span class="a">class</span>=<span class="v">"mc-btn"</span> <span class="a">data-hue</span>=<span class="v">"blue"</span><span class="t">&gt;</span><span class="tx">Bottom</span><span class="t">&lt;/button&gt;</span>
+  <span class="t">&lt;button</span> <span class="a">class</span>=<span class="v">"mc-btn"</span> <span class="a">data-hue</span>=<span class="v">"blue"</span><span class="t">&gt;</span><span class="tx">Last</span><span class="t">&lt;/button&gt;</span>
+<span class="t">&lt;/div&gt;</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- ====== 7. SURFACE MODES ====== -->
+        <section class="guide-section">
+            <h2 class="text-2xl font-bold mb-1 flex items-center">
+                <span class="section-number" style="background-color: #5252ff; color: #FFFFFF;">7</span>
+                Surface Modes
+            </h2>
+            <p class="text-p-neutral-400 text-sm mb-6 ml-10">Button groups on all 5 surface modes. Child buttons inherit mode context from parent <code style="color: #9494ff;">data-mode</code> attribute. Shown with both solid and outlined variants.</p>
+
+            <!-- Mode 1 — White -->
+            <div class="guide-card mb-4">
+                <div class="mode-panel mode-panel-m1" data-mode="1">
+                    <div class="mode-label mode-label-light">Mode 1 &mdash; White (#FFFFFF)</div>
+                    <div style="display: flex; flex-wrap: wrap; gap: 1rem; align-items: center;">
+                        <div class="mc-btn-group" role="group" aria-label="Mode 1 solid group" data-mode="1">
+                            <button class="mc-btn" data-hue="blue">Left</button>
+                            <button class="mc-btn" data-hue="blue">Middle</button>
+                            <button class="mc-btn" data-hue="blue">Right</button>
+                        </div>
+                        <div class="mc-btn-group" role="group" aria-label="Mode 1 outlined group" data-mode="1">
+                            <button class="mc-btn mc-btn-outline" data-hue="blue">Left</button>
+                            <button class="mc-btn mc-btn-outline" data-hue="blue">Middle</button>
+                            <button class="mc-btn mc-btn-outline" data-hue="blue">Right</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Mode 2 — Black -->
+            <div class="guide-card mb-4">
+                <div class="mode-panel mode-panel-m2" data-mode="2">
+                    <div class="mode-label mode-label-dark">Mode 2 &mdash; Black (#0A0A0A)</div>
+                    <div style="display: flex; flex-wrap: wrap; gap: 1rem; align-items: center;">
+                        <div class="mc-btn-group" role="group" aria-label="Mode 2 solid group">
+                            <button class="mc-btn" data-hue="blue">Left</button>
+                            <button class="mc-btn" data-hue="blue">Middle</button>
+                            <button class="mc-btn" data-hue="blue">Right</button>
+                        </div>
+                        <div class="mc-btn-group" role="group" aria-label="Mode 2 outlined group">
+                            <button class="mc-btn mc-btn-outline" data-hue="blue">Left</button>
+                            <button class="mc-btn mc-btn-outline" data-hue="blue">Middle</button>
+                            <button class="mc-btn mc-btn-outline" data-hue="blue">Right</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Mode 3 — Light Hue -->
+            <div class="guide-card mb-4">
+                <div class="mode-panel mode-panel-m3" data-mode="3">
+                    <div class="mode-label mode-label-light">Mode 3 &mdash; Light Hue (blue.100 #dedeff)</div>
+                    <div style="display: flex; flex-wrap: wrap; gap: 1rem; align-items: center;">
+                        <div class="mc-btn-group" role="group" aria-label="Mode 3 solid group" data-mode="3">
+                            <button class="mc-btn" data-hue="blue">Left</button>
+                            <button class="mc-btn" data-hue="blue">Middle</button>
+                            <button class="mc-btn" data-hue="blue">Right</button>
+                        </div>
+                        <div class="mc-btn-group" role="group" aria-label="Mode 3 outlined group" data-mode="3">
+                            <button class="mc-btn mc-btn-outline" data-hue="blue">Left</button>
+                            <button class="mc-btn mc-btn-outline" data-hue="blue">Middle</button>
+                            <button class="mc-btn mc-btn-outline" data-hue="blue">Right</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Mode 4 — Dark Hue -->
+            <div class="guide-card mb-4">
+                <div class="mode-panel mode-panel-m4" data-mode="4">
+                    <div class="mode-label mode-label-dark">Mode 4 &mdash; Dark Hue (blue.800 #000081)</div>
+                    <div style="display: flex; flex-wrap: wrap; gap: 1rem; align-items: center;">
+                        <div class="mc-btn-group" role="group" aria-label="Mode 4 solid group">
+                            <button class="mc-btn" data-hue="blue">Left</button>
+                            <button class="mc-btn" data-hue="blue">Middle</button>
+                            <button class="mc-btn" data-hue="blue">Right</button>
+                        </div>
+                        <div class="mc-btn-group" role="group" aria-label="Mode 4 outlined group">
+                            <button class="mc-btn mc-btn-outline" data-hue="blue">Left</button>
+                            <button class="mc-btn mc-btn-outline" data-hue="blue">Middle</button>
+                            <button class="mc-btn mc-btn-outline" data-hue="blue">Right</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Mode 5 — Mid Hue -->
+            <div class="guide-card mb-4">
+                <div class="mode-panel mode-panel-m5" data-mode="5">
+                    <div class="mode-label mode-label-m5">Mode 5 &mdash; Mid Hue (blue.500 #5252ff)</div>
+                    <div style="display: flex; flex-wrap: wrap; gap: 1rem; align-items: center;">
+                        <div class="mc-btn-group" role="group" aria-label="Mode 5 solid group">
+                            <button class="mc-btn" data-hue="blue">Left</button>
+                            <button class="mc-btn" data-hue="blue">Middle</button>
+                            <button class="mc-btn" data-hue="blue">Right</button>
+                        </div>
+                        <div class="mc-btn-group" role="group" aria-label="Mode 5 outlined group">
+                            <button class="mc-btn mc-btn-outline" data-hue="blue">Left</button>
+                            <button class="mc-btn mc-btn-outline" data-hue="blue">Middle</button>
+                            <button class="mc-btn mc-btn-outline" data-hue="blue">Right</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- All 7 hues on Mode 2 -->
+            <div class="guide-card mt-4">
+                <div class="guide-label mb-3">All 7 hues &mdash; Mode 2</div>
+                <div style="display: flex; flex-direction: column; gap: 1rem;">
+                    <div style="display: flex; align-items: center; gap: 1rem;">
+                        <span class="size-label">neutral</span>
+                        <div class="mc-btn-group" role="group" aria-label="Neutral button group">
+                            <button class="mc-btn" data-hue="neutral">Left</button>
+                            <button class="mc-btn" data-hue="neutral">Middle</button>
+                            <button class="mc-btn" data-hue="neutral">Right</button>
+                        </div>
+                    </div>
+                    <div style="display: flex; align-items: center; gap: 1rem;">
+                        <span class="size-label">red</span>
+                        <div class="mc-btn-group" role="group" aria-label="Red button group">
+                            <button class="mc-btn" data-hue="red">Left</button>
+                            <button class="mc-btn" data-hue="red">Middle</button>
+                            <button class="mc-btn" data-hue="red">Right</button>
+                        </div>
+                    </div>
+                    <div style="display: flex; align-items: center; gap: 1rem;">
+                        <span class="size-label">green</span>
+                        <div class="mc-btn-group" role="group" aria-label="Green button group">
+                            <button class="mc-btn" data-hue="green">Left</button>
+                            <button class="mc-btn" data-hue="green">Middle</button>
+                            <button class="mc-btn" data-hue="green">Right</button>
+                        </div>
+                    </div>
+                    <div style="display: flex; align-items: center; gap: 1rem;">
+                        <span class="size-label">blue</span>
+                        <div class="mc-btn-group" role="group" aria-label="Blue button group">
+                            <button class="mc-btn" data-hue="blue">Left</button>
+                            <button class="mc-btn" data-hue="blue">Middle</button>
+                            <button class="mc-btn" data-hue="blue">Right</button>
+                        </div>
+                    </div>
+                    <div style="display: flex; align-items: center; gap: 1rem;">
+                        <span class="size-label">yellow</span>
+                        <div class="mc-btn-group" role="group" aria-label="Yellow button group">
+                            <button class="mc-btn" data-hue="yellow">Left</button>
+                            <button class="mc-btn" data-hue="yellow">Middle</button>
+                            <button class="mc-btn" data-hue="yellow">Right</button>
+                        </div>
+                    </div>
+                    <div style="display: flex; align-items: center; gap: 1rem;">
+                        <span class="size-label">magenta</span>
+                        <div class="mc-btn-group" role="group" aria-label="Magenta button group">
+                            <button class="mc-btn" data-hue="magenta">Left</button>
+                            <button class="mc-btn" data-hue="magenta">Middle</button>
+                            <button class="mc-btn" data-hue="magenta">Right</button>
+                        </div>
+                    </div>
+                    <div style="display: flex; align-items: center; gap: 1rem;">
+                        <span class="size-label">teal</span>
+                        <div class="mc-btn-group" role="group" aria-label="Teal button group">
+                            <button class="mc-btn" data-hue="teal">Left</button>
+                            <button class="mc-btn" data-hue="teal">Middle</button>
+                            <button class="mc-btn" data-hue="teal">Right</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Code snippet -->
+            <div class="guide-card mt-4">
+                <div class="guide-label mb-2">Code</div>
+                <div class="code-block">
+<span class="cm">&lt;!-- Mode 1 — White surface --&gt;</span>
+<span class="t">&lt;div</span> <span class="a">data-mode</span>=<span class="v">"1"</span> <span class="a">style</span>=<span class="v">"background: #FFFFFF; padding: 1.5rem;"</span><span class="t">&gt;</span>
+  <span class="t">&lt;div</span> <span class="a">class</span>=<span class="v">"mc-btn-group"</span> <span class="a">role</span>=<span class="v">"group"</span> <span class="a">data-mode</span>=<span class="v">"1"</span><span class="t">&gt;</span>
+    <span class="t">&lt;button</span> <span class="a">class</span>=<span class="v">"mc-btn"</span> <span class="a">data-hue</span>=<span class="v">"blue"</span><span class="t">&gt;</span><span class="tx">Left</span><span class="t">&lt;/button&gt;</span>
+    <span class="t">&lt;button</span> <span class="a">class</span>=<span class="v">"mc-btn"</span> <span class="a">data-hue</span>=<span class="v">"blue"</span><span class="t">&gt;</span><span class="tx">Middle</span><span class="t">&lt;/button&gt;</span>
+    <span class="t">&lt;button</span> <span class="a">class</span>=<span class="v">"mc-btn"</span> <span class="a">data-hue</span>=<span class="v">"blue"</span><span class="t">&gt;</span><span class="tx">Right</span><span class="t">&lt;/button&gt;</span>
+  <span class="t">&lt;/div&gt;</span>
+<span class="t">&lt;/div&gt;</span>
+
+<span class="cm">&lt;!-- Mode 2 — Black surface --&gt;</span>
+<span class="t">&lt;div</span> <span class="a">data-mode</span>=<span class="v">"2"</span> <span class="a">style</span>=<span class="v">"background: #0A0A0A; padding: 1.5rem;"</span><span class="t">&gt;</span>
+  <span class="t">&lt;div</span> <span class="a">class</span>=<span class="v">"mc-btn-group"</span> <span class="a">role</span>=<span class="v">"group"</span><span class="t">&gt;</span><span class="cm">...</span><span class="t">&lt;/div&gt;</span>
+<span class="t">&lt;/div&gt;</span>
+
+<span class="cm">&lt;!-- Mode 3 — Light hue surface --&gt;</span>
+<span class="t">&lt;div</span> <span class="a">data-mode</span>=<span class="v">"3"</span> <span class="a">style</span>=<span class="v">"background: #dedeff; padding: 1.5rem;"</span><span class="t">&gt;</span>
+  <span class="t">&lt;div</span> <span class="a">class</span>=<span class="v">"mc-btn-group"</span> <span class="a">role</span>=<span class="v">"group"</span> <span class="a">data-mode</span>=<span class="v">"3"</span><span class="t">&gt;</span><span class="cm">...</span><span class="t">&lt;/div&gt;</span>
+<span class="t">&lt;/div&gt;</span>
+
+<span class="cm">&lt;!-- Mode 4 — Dark hue surface --&gt;</span>
+<span class="t">&lt;div</span> <span class="a">data-mode</span>=<span class="v">"4"</span> <span class="a">style</span>=<span class="v">"background: #000081; padding: 1.5rem;"</span><span class="t">&gt;</span>
+  <span class="t">&lt;div</span> <span class="a">class</span>=<span class="v">"mc-btn-group"</span> <span class="a">role</span>=<span class="v">"group"</span><span class="t">&gt;</span><span class="cm">...</span><span class="t">&lt;/div&gt;</span>
+<span class="t">&lt;/div&gt;</span>
+
+<span class="cm">&lt;!-- Mode 5 — Mid hue surface --&gt;</span>
+<span class="t">&lt;div</span> <span class="a">data-mode</span>=<span class="v">"5"</span> <span class="a">style</span>=<span class="v">"background: #5252ff; padding: 1.5rem;"</span><span class="t">&gt;</span>
+  <span class="t">&lt;div</span> <span class="a">class</span>=<span class="v">"mc-btn-group"</span> <span class="a">role</span>=<span class="v">"group"</span><span class="t">&gt;</span><span class="cm">...</span><span class="t">&lt;/div&gt;</span>
+<span class="t">&lt;/div&gt;</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- ====== 8. SEMANTIC MAPPING ====== -->
+        <section class="guide-section">
+            <h2 class="text-2xl font-bold mb-1 flex items-center">
+                <span class="section-number" style="background-color: #da0000; color: #FFFFFF;">8</span>
+                Semantic Mapping
+            </h2>
+            <p class="text-p-neutral-400 text-sm mb-6 ml-10">Button groups using semantic hue assignments: primary (blue), success (green), danger (red), warning (yellow), info (teal), premium (magenta), and default (neutral).</p>
+
+            <div class="guide-card">
+                <div class="semantic-row">
+                    <div class="semantic-cell">
+                        <div class="guide-label mb-3">Primary (blue)</div>
+                        <div class="mc-btn-group" role="group" aria-label="Primary action group">
+                            <button class="mc-btn" data-hue="blue">View</button>
+                            <button class="mc-btn" data-hue="blue">Edit</button>
+                            <button class="mc-btn" data-hue="blue">Share</button>
+                        </div>
+                    </div>
+                    <div class="semantic-cell">
+                        <div class="guide-label mb-3">Success (green)</div>
+                        <div class="mc-btn-group" role="group" aria-label="Success action group">
+                            <button class="mc-btn" data-hue="green">Accept</button>
+                            <button class="mc-btn" data-hue="green">Approve</button>
+                            <button class="mc-btn" data-hue="green">Confirm</button>
+                        </div>
+                    </div>
+                    <div class="semantic-cell">
+                        <div class="guide-label mb-3">Danger (red)</div>
+                        <div class="mc-btn-group" role="group" aria-label="Danger action group">
+                            <button class="mc-btn" data-hue="red">Remove</button>
+                            <button class="mc-btn" data-hue="red">Delete</button>
+                            <button class="mc-btn" data-hue="red">Purge</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="guide-card mt-4">
+                <div class="semantic-row">
+                    <div class="semantic-cell">
+                        <div class="guide-label mb-3">Warning (yellow)</div>
+                        <div class="mc-btn-group" role="group" aria-label="Warning action group">
+                            <button class="mc-btn mc-btn-outline" data-hue="yellow">Flag</button>
+                            <button class="mc-btn mc-btn-outline" data-hue="yellow">Review</button>
+                            <button class="mc-btn mc-btn-outline" data-hue="yellow">Escalate</button>
+                        </div>
+                    </div>
+                    <div class="semantic-cell">
+                        <div class="guide-label mb-3">Info (teal)</div>
+                        <div class="mc-btn-group" role="group" aria-label="Info action group">
+                            <button class="mc-btn mc-btn-outline" data-hue="teal">Details</button>
+                            <button class="mc-btn mc-btn-outline" data-hue="teal">Help</button>
+                            <button class="mc-btn mc-btn-outline" data-hue="teal">About</button>
+                        </div>
+                    </div>
+                    <div class="semantic-cell">
+                        <div class="guide-label mb-3">Premium (magenta)</div>
+                        <div class="mc-btn-group" role="group" aria-label="Premium action group">
+                            <button class="mc-btn mc-btn-outline" data-hue="magenta">Upgrade</button>
+                            <button class="mc-btn mc-btn-outline" data-hue="magenta">Pro</button>
+                            <button class="mc-btn mc-btn-outline" data-hue="magenta">Enterprise</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="guide-card mt-4">
+                <div class="semantic-row">
+                    <div class="semantic-cell">
+                        <div class="guide-label mb-3">Default (neutral)</div>
+                        <div class="mc-btn-group" role="group" aria-label="Default action group">
+                            <button class="mc-btn mc-btn-outline" data-hue="neutral">Cancel</button>
+                            <button class="mc-btn mc-btn-outline" data-hue="neutral">Reset</button>
+                            <button class="mc-btn mc-btn-outline" data-hue="neutral">Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Code snippet -->
+            <div class="guide-card mt-4">
+                <div class="guide-label mb-2">Code</div>
+                <div class="code-block">
+<span class="cm">&lt;!-- Primary / default actions --&gt;</span>
+<span class="t">&lt;div</span> <span class="a">class</span>=<span class="v">"mc-btn-group"</span> <span class="a">role</span>=<span class="v">"group"</span><span class="t">&gt;</span>
+  <span class="t">&lt;button</span> <span class="a">class</span>=<span class="v">"mc-btn"</span> <span class="a">data-hue</span>=<span class="v">"blue"</span><span class="t">&gt;</span><span class="tx">View</span><span class="t">&lt;/button&gt;</span>
+  <span class="t">&lt;button</span> <span class="a">class</span>=<span class="v">"mc-btn"</span> <span class="a">data-hue</span>=<span class="v">"blue"</span><span class="t">&gt;</span><span class="tx">Edit</span><span class="t">&lt;/button&gt;</span>
+  <span class="t">&lt;button</span> <span class="a">class</span>=<span class="v">"mc-btn"</span> <span class="a">data-hue</span>=<span class="v">"blue"</span><span class="t">&gt;</span><span class="tx">Share</span><span class="t">&lt;/button&gt;</span>
+<span class="t">&lt;/div&gt;</span>
+
+<span class="cm">&lt;!-- Success / completed items --&gt;</span>
+<span class="t">&lt;div</span> <span class="a">class</span>=<span class="v">"mc-btn-group"</span> <span class="a">role</span>=<span class="v">"group"</span><span class="t">&gt;</span>
+  <span class="t">&lt;button</span> <span class="a">class</span>=<span class="v">"mc-btn"</span> <span class="a">data-hue</span>=<span class="v">"green"</span><span class="t">&gt;</span><span class="tx">Accept</span><span class="t">&lt;/button&gt;</span>
+  <span class="t">&lt;button</span> <span class="a">class</span>=<span class="v">"mc-btn"</span> <span class="a">data-hue</span>=<span class="v">"green"</span><span class="t">&gt;</span><span class="tx">Approve</span><span class="t">&lt;/button&gt;</span>
+<span class="t">&lt;/div&gt;</span>
+
+<span class="cm">&lt;!-- Danger / destructive actions --&gt;</span>
+<span class="t">&lt;div</span> <span class="a">class</span>=<span class="v">"mc-btn-group"</span> <span class="a">role</span>=<span class="v">"group"</span><span class="t">&gt;</span>
+  <span class="t">&lt;button</span> <span class="a">class</span>=<span class="v">"mc-btn"</span> <span class="a">data-hue</span>=<span class="v">"red"</span><span class="t">&gt;</span><span class="tx">Remove</span><span class="t">&lt;/button&gt;</span>
+  <span class="t">&lt;button</span> <span class="a">class</span>=<span class="v">"mc-btn"</span> <span class="a">data-hue</span>=<span class="v">"red"</span><span class="t">&gt;</span><span class="tx">Delete</span><span class="t">&lt;/button&gt;</span>
+<span class="t">&lt;/div&gt;</span>
+
+<span class="cm">&lt;!-- Warning / attention --&gt;</span>
+<span class="t">&lt;div</span> <span class="a">class</span>=<span class="v">"mc-btn-group"</span> <span class="a">role</span>=<span class="v">"group"</span><span class="t">&gt;</span>
+  <span class="t">&lt;button</span> <span class="a">class</span>=<span class="v">"mc-btn mc-btn-outline"</span> <span class="a">data-hue</span>=<span class="v">"yellow"</span><span class="t">&gt;</span><span class="tx">Flag</span><span class="t">&lt;/button&gt;</span>
+  <span class="t">&lt;button</span> <span class="a">class</span>=<span class="v">"mc-btn mc-btn-outline"</span> <span class="a">data-hue</span>=<span class="v">"yellow"</span><span class="t">&gt;</span><span class="tx">Review</span><span class="t">&lt;/button&gt;</span>
+<span class="t">&lt;/div&gt;</span>
+
+<span class="cm">&lt;!-- Info / informational --&gt;</span>
+<span class="t">&lt;div</span> <span class="a">class</span>=<span class="v">"mc-btn-group"</span> <span class="a">role</span>=<span class="v">"group"</span><span class="t">&gt;</span>
+  <span class="t">&lt;button</span> <span class="a">class</span>=<span class="v">"mc-btn mc-btn-outline"</span> <span class="a">data-hue</span>=<span class="v">"teal"</span><span class="t">&gt;</span><span class="tx">Details</span><span class="t">&lt;/button&gt;</span>
+  <span class="t">&lt;button</span> <span class="a">class</span>=<span class="v">"mc-btn mc-btn-outline"</span> <span class="a">data-hue</span>=<span class="v">"teal"</span><span class="t">&gt;</span><span class="tx">Help</span><span class="t">&lt;/button&gt;</span>
+<span class="t">&lt;/div&gt;</span>
+
+<span class="cm">&lt;!-- Premium / special features --&gt;</span>
+<span class="t">&lt;div</span> <span class="a">class</span>=<span class="v">"mc-btn-group"</span> <span class="a">role</span>=<span class="v">"group"</span><span class="t">&gt;</span>
+  <span class="t">&lt;button</span> <span class="a">class</span>=<span class="v">"mc-btn mc-btn-outline"</span> <span class="a">data-hue</span>=<span class="v">"magenta"</span><span class="t">&gt;</span><span class="tx">Upgrade</span><span class="t">&lt;/button&gt;</span>
+  <span class="t">&lt;button</span> <span class="a">class</span>=<span class="v">"mc-btn mc-btn-outline"</span> <span class="a">data-hue</span>=<span class="v">"magenta"</span><span class="t">&gt;</span><span class="tx">Pro</span><span class="t">&lt;/button&gt;</span>
+<span class="t">&lt;/div&gt;</span>
+                </div>
+            </div>
+        </section>
+
+        <footer class="docs-footer">
+            <p>MC Perception Design System &mdash; 7 hues &times; 5 modes &times; 6 sizes &mdash; WCAG AA compliant</p>
+            <p style="margin-top: 0.5rem;"><a href="https://github.com/anthropics/claude-code">Built with Claude Code</a></p>
+        </footer>
+
+            </div>
+        </main>
+    </div>
+
+    <script>
+    (function() {
+        var page = location.pathname.split('/').pop().replace('.html','') || 'index';
+        var links = document.querySelectorAll('.docs-nav-link');
+        links.forEach(function(a) {
+            if (a.getAttribute('data-page') === page) a.classList.add('active');
+        });
+        var hamburger = document.getElementById('docs-hamburger');
+        var sidebar = document.getElementById('docs-sidebar');
+        var overlay = document.getElementById('docs-overlay');
+        if (hamburger && sidebar && overlay) {
+            hamburger.addEventListener('click', function() {
+                sidebar.classList.toggle('open');
+                overlay.classList.toggle('open');
+            });
+            overlay.addEventListener('click', function() {
+                sidebar.classList.remove('open');
+                overlay.classList.remove('open');
+            });
+        }
+    })();
+    </script>
+
+</body>
+</html>
