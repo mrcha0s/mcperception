@@ -1,0 +1,1036 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Navbar Style Guide — MC Perception</title>
+    <link rel="stylesheet" href="../dist/mcperception.css">
+    <style>
+/* ── Docs Layout ── */
+.docs-layout {
+    display: flex;
+    min-height: 100vh;
+}
+.docs-sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 240px;
+    height: 100vh;
+    background: #222222;
+    border-right: 1px solid #222222;
+    overflow-y: auto;
+    z-index: 40;
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.2s ease;
+}
+.docs-sidebar-header {
+    padding: 1.25rem 1.25rem 0.75rem;
+    border-bottom: 1px solid #222222;
+    display: flex;
+    align-items: baseline;
+    gap: 0.5rem;
+}
+.docs-logo {
+    font-size: 0.875rem;
+    font-weight: 700;
+    color: #FFFFFF;
+    text-decoration: none;
+    letter-spacing: -0.01em;
+}
+.docs-logo:hover { color: #c3c3c3; }
+.docs-version {
+    font-size: 0.625rem;
+    color: #515151;
+    font-family: 'Roboto Mono', ui-monospace, monospace;
+}
+.docs-sidebar-nav {
+    padding: 0.75rem 0;
+    flex: 1;
+}
+.docs-nav-group {
+    margin-bottom: 0.25rem;
+}
+.docs-nav-group-label {
+    font-size: 0.625rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: #515151;
+    padding: 0.625rem 1.25rem 0.375rem;
+}
+.docs-nav-link {
+    display: block;
+    font-size: 0.8125rem;
+    color: #a0a0a0;
+    text-decoration: none;
+    padding: 0.375rem 1.25rem;
+    border-left: 2px solid transparent;
+    transition: color 0.15s, border-color 0.15s, background 0.15s;
+}
+.docs-nav-link:hover {
+    color: #c3c3c3;
+    background: #222222;
+}
+.docs-nav-link.active {
+    color: #5252ff;
+    border-left-color: #5252ff;
+    background: #222222;
+}
+.docs-content {
+    flex: 1;
+    margin-left: 240px;
+}
+
+/* ── Mobile: hamburger + overlay ── */
+#docs-hamburger {
+    display: none;
+    position: fixed;
+    top: 0.75rem;
+    left: 0.75rem;
+    z-index: 50;
+    background: #222222;
+    border: 1px solid #222222;
+    color: #a0a0a0;
+    font-size: 1.25rem;
+    width: 36px;
+    height: 36px;
+    border-radius: 6px;
+    cursor: pointer;
+    align-items: center;
+    justify-content: center;
+    line-height: 1;
+    padding: 0;
+}
+#docs-hamburger:hover { color: #FFFFFF; }
+#docs-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: #090909;
+    z-index: 35;
+}
+@media (max-width: 1023px) {
+    #docs-hamburger { display: flex; }
+    .docs-sidebar {
+        transform: translateX(-100%);
+    }
+    .docs-sidebar.open {
+        transform: translateX(0);
+    }
+    #docs-overlay.open {
+        display: block;
+    }
+    .docs-content {
+        margin-left: 0;
+    }
+}
+
+/* ── Guide Cards & Code Blocks ── */
+.guide-section { margin-bottom: 4rem; }
+.guide-card {
+    background: #090909;
+    border: 1px solid #222222;
+    border-radius: 6px;
+    padding: 1.5rem;
+}
+.guide-label {
+    min-width: 72px;
+    font-size: 0.6rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: #6c6c6c;
+    font-weight: 700;
+}
+.guide-row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.5rem;
+}
+.code-block {
+    background: #0A0A0A;
+    border: 1px solid #222222;
+    border-radius: 6px;
+    padding: 1rem 1.25rem;
+    font-family: 'Roboto Mono', ui-monospace, monospace;
+    font-size: 0.7rem;
+    line-height: 1.8;
+    color: #a0a0a0;
+    overflow-x: auto;
+    tab-size: 2;
+}
+.code-block .t  { color: #ff7474; }
+.code-block .a  { color: #9494ff; }
+.code-block .v  { color: #00ba00; }
+.code-block .c  { color: #6d6dff; }
+.code-block .cm { color: #515151; }
+.code-block .tx { color: #c3c3c3; }
+.surface-panel {
+    border-radius: 8px;
+    padding: 1.25rem 1.5rem;
+}
+.surface-panel-dark {
+    border-radius: 3px;
+    padding: 1.25rem 1.5rem;
+}
+.section-number {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    border-radius: 6px;
+    font-size: 0.75rem;
+    font-weight: 800;
+    margin-right: 0.5rem;
+}
+.grid-label {
+    font-size: 0.6rem;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    font-weight: 700;
+    color: #515151;
+    width: 64px;
+    flex-shrink: 0;
+}
+.white-label { color: #7f7f7f; }
+
+/* ── Standard Footer ── */
+.docs-footer {
+    margin-top: 6rem;
+    padding: 2rem 0;
+    border-top: 1px solid #222222;
+    text-align: center;
+}
+.docs-footer p {
+    font-size: 0.75rem;
+    color: #515151;
+}
+.docs-footer a {
+    color: #6d6dff;
+    text-decoration: none;
+}
+.docs-footer a:hover {
+    color: #9494ff;
+}
+
+/* ── Navbar demo specific ── */
+.navbar-demo-spacer {
+    margin-bottom: 1rem;
+}
+    </style>
+</head>
+<body class="bg-p-black text-white min-h-screen font-sans">
+
+    <button id="docs-hamburger">&#9776;</button>
+    <div id="docs-overlay"></div>
+
+    <div class="docs-layout">
+        <aside class="docs-sidebar" id="docs-sidebar">
+            <div class="docs-sidebar-header">
+                <a href="index.html" class="docs-logo">MC Perception</a>
+                <span class="docs-version">v1.0</span>
+            </div>
+            <nav class="docs-sidebar-nav">
+                <div class="docs-nav-group">
+                    <div class="docs-nav-group-label">Getting Started</div>
+                    <a href="index.html" class="docs-nav-link" data-page="index">Home</a>
+                    <a href="getting-started.html" class="docs-nav-link" data-page="getting-started">Getting Started</a>
+                </div>
+                <div class="docs-nav-group">
+                    <div class="docs-nav-group-label">Foundation</div>
+                    <a href="color.html" class="docs-nav-link" data-page="color">Color Palette</a>
+                    <a href="surface-modes.html" class="docs-nav-link" data-page="surface-modes">Surface Modes</a>
+                    <a href="typography.html" class="docs-nav-link" data-page="typography">Typography</a>
+                </div>
+                <div class="docs-nav-group">
+                    <div class="docs-nav-group-label">Components</div>
+                    <a href="button.html" class="docs-nav-link" data-page="button">Buttons</a>
+                    <a href="badges.html" class="docs-nav-link" data-page="badges">Badges</a>
+                    <a href="alert.html" class="docs-nav-link" data-page="alert">Alerts</a>
+                    <a href="progress.html" class="docs-nav-link" data-page="progress">Progress</a>
+                    <a href="spinner.html" class="docs-nav-link" data-page="spinner">Spinners</a>
+                    <a href="pagination.html" class="docs-nav-link" data-page="pagination">Pagination</a>
+                    <a href="navs-tabs.html" class="docs-nav-link" data-page="navs-tabs">Navs &amp; Tabs</a>
+                    <a href="navbar.html" class="docs-nav-link" data-page="navbar">Navbar</a>
+                    <a href="navbar.html" class="docs-nav-link" data-page="navbar">Navbar</a>
+                    <a href="input.html" class="docs-nav-link" data-page="input">Form Inputs</a>
+                    <a href="selection.html" class="docs-nav-link" data-page="selection">Selection Controls</a>
+                    <a href="table.html" class="docs-nav-link" data-page="table">Tables</a>
+                    <a href="panel-system.html" class="docs-nav-link" data-page="panel-system">Panels</a>
+                </div>
+                <div class="docs-nav-group">
+                    <div class="docs-nav-group-label">Patterns</div>
+                    <a href="forms.html" class="docs-nav-link" data-page="forms">Form Layout</a>
+                    <a href="dark-surfaces.html" class="docs-nav-link" data-page="dark-surfaces">Dark Surface Depth</a>
+                </div>
+                <div class="docs-nav-group">
+                    <div class="docs-nav-group-label">Examples</div>
+                    <a href="trading-card.html" class="docs-nav-link" data-page="trading-card">Trading Card</a>
+                    <a href="orderbook.html" class="docs-nav-link" data-page="orderbook">Orderbook</a>
+                </div>
+            </nav>
+        </aside>
+
+        <main class="docs-content">
+            <div class="max-w-7xl mx-auto px-6 py-12">
+
+        <!-- ====== HERO ====== -->
+        <header class="mb-16">
+            <nav class="text-xs text-p-neutral-400 mb-6 flex gap-2 items-center">
+                <a href="index.html" class="hover:text-white transition-colors">Home</a>
+                <span class="text-p-neutral-600">/</span>
+                <a href="index.html" class="hover:text-white transition-colors">Components</a>
+                <span class="text-p-neutral-600">/</span>
+                <span class="text-white font-semibold">Navbar</span>
+            </nav>
+
+            <div class="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-6 mb-8">
+                <div>
+                    <h1 class="text-5xl font-bold tracking-tight mb-3">Navbar</h1>
+                    <p class="text-p-neutral-300 text-lg max-w-2xl">Surface-mode-aware responsive navigation bar. 7 hues, 6 sizes, 5 surface modes with collapsible toggler support.</p>
+                </div>
+                <div class="flex gap-2 flex-wrap">
+                    <span class="mc-badge mc-badge-filled mc-badge-pill" data-hue="blue">Responsive</span>
+                    <span class="mc-badge mc-badge-tonal mc-badge-pill" data-hue="green">WCAG AA</span>
+                    <span class="mc-badge mc-badge-outline mc-badge-pill" data-hue="magenta">7 Hues</span>
+                    <span class="mc-badge mc-badge-subtle mc-badge-pill" data-hue="teal">5 Modes</span>
+                </div>
+            </div>
+
+            <!-- Quick code example -->
+            <div class="guide-card">
+                <div class="flex items-center gap-2 mb-3">
+                    <span class="text-[10px] uppercase tracking-widest text-p-neutral-400 font-bold">Quick Start</span>
+                </div>
+                <div class="code-block">
+<span class="cm">&lt;!-- Basic navbar --&gt;</span>
+<span class="t">&lt;nav</span> <span class="a">class</span>=<span class="v">"mc-navbar"</span> <span class="a">data-hue</span>=<span class="v">"blue"</span><span class="t">&gt;</span>
+  <span class="t">&lt;a</span> <span class="a">class</span>=<span class="v">"mc-navbar-brand"</span> <span class="a">href</span>=<span class="v">"#"</span><span class="t">&gt;</span><span class="tx">Brand</span><span class="t">&lt;/a&gt;</span>
+  <span class="t">&lt;button</span> <span class="a">class</span>=<span class="v">"mc-navbar-toggler"</span><span class="t">&gt;</span>
+    <span class="t">&lt;span</span> <span class="a">class</span>=<span class="v">"mc-navbar-toggler-icon"</span><span class="t">&gt;&lt;/span&gt;</span>
+  <span class="t">&lt;/button&gt;</span>
+  <span class="t">&lt;div</span> <span class="a">class</span>=<span class="v">"mc-navbar-collapse"</span><span class="t">&gt;</span>
+    <span class="t">&lt;ul</span> <span class="a">class</span>=<span class="v">"mc-navbar-nav"</span><span class="t">&gt;</span>
+      <span class="t">&lt;li&gt;&lt;a</span> <span class="a">class</span>=<span class="v">"mc-nav-link active"</span> <span class="a">href</span>=<span class="v">"#"</span><span class="t">&gt;</span><span class="tx">Home</span><span class="t">&lt;/a&gt;&lt;/li&gt;</span>
+      <span class="t">&lt;li&gt;&lt;a</span> <span class="a">class</span>=<span class="v">"mc-nav-link"</span> <span class="a">href</span>=<span class="v">"#"</span><span class="t">&gt;</span><span class="tx">Features</span><span class="t">&lt;/a&gt;&lt;/li&gt;</span>
+    <span class="t">&lt;/ul&gt;</span>
+  <span class="t">&lt;/div&gt;</span>
+<span class="t">&lt;/nav&gt;</span>
+                </div>
+            </div>
+        </header>
+
+        <!-- ====== 1. BASIC NAVBAR ====== -->
+        <section class="guide-section">
+            <h2 class="text-2xl font-bold mb-1 flex items-center">
+                <span class="section-number bg-p-blue-500 text-white">1</span>
+                Basic Navbar
+            </h2>
+            <p class="text-p-neutral-400 text-sm mb-6 ml-10">Default dark (Mode 2) navbar with brand, nav links, and toggler.</p>
+
+            <div class="guide-card mb-4">
+                <div class="flex items-center justify-between mb-4">
+                    <div>
+                        <h3 class="text-sm font-bold text-white">Default Navbar</h3>
+                        <p class="text-[10px] text-p-neutral-500 uppercase tracking-wider">Brand + Links + Toggler</p>
+                    </div>
+                    <div class="text-[10px] text-p-neutral-600 font-mono">mc-navbar</div>
+                </div>
+                <div data-mode="2" style="background:#0A0A0A; border:1px solid #222222; border-radius:3px; padding:0.75rem;">
+                    <nav class="mc-navbar" data-hue="blue">
+                        <a class="mc-navbar-brand" href="#">Perception</a>
+                        <button class="mc-navbar-toggler" aria-label="Toggle navigation">
+                            <span class="mc-navbar-toggler-icon"></span>
+                        </button>
+                        <div class="mc-navbar-collapse show">
+                            <ul class="mc-navbar-nav">
+                                <li><a class="mc-nav-link active" href="#">Home</a></li>
+                                <li><a class="mc-nav-link" href="#">Features</a></li>
+                                <li><a class="mc-nav-link" href="#">Pricing</a></li>
+                                <li><a class="mc-nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a></li>
+                            </ul>
+                        </div>
+                    </nav>
+                </div>
+                <div class="code-block mt-4 text-[10px]">
+<span class="t">&lt;nav</span> <span class="a">class</span>=<span class="v">"mc-navbar"</span> <span class="a">data-hue</span>=<span class="v">"blue"</span><span class="t">&gt;</span>
+  <span class="t">&lt;a</span> <span class="a">class</span>=<span class="v">"mc-navbar-brand"</span> <span class="a">href</span>=<span class="v">"#"</span><span class="t">&gt;</span><span class="tx">Perception</span><span class="t">&lt;/a&gt;</span>
+  <span class="t">&lt;button</span> <span class="a">class</span>=<span class="v">"mc-navbar-toggler"</span> <span class="a">aria-label</span>=<span class="v">"Toggle navigation"</span><span class="t">&gt;</span>
+    <span class="t">&lt;span</span> <span class="a">class</span>=<span class="v">"mc-navbar-toggler-icon"</span><span class="t">&gt;&lt;/span&gt;</span>
+  <span class="t">&lt;/button&gt;</span>
+  <span class="t">&lt;div</span> <span class="a">class</span>=<span class="v">"mc-navbar-collapse show"</span><span class="t">&gt;</span>
+    <span class="t">&lt;ul</span> <span class="a">class</span>=<span class="v">"mc-navbar-nav"</span><span class="t">&gt;</span>
+      <span class="t">&lt;li&gt;&lt;a</span> <span class="a">class</span>=<span class="v">"mc-nav-link active"</span> <span class="a">href</span>=<span class="v">"#"</span><span class="t">&gt;</span><span class="tx">Home</span><span class="t">&lt;/a&gt;&lt;/li&gt;</span>
+      <span class="t">&lt;li&gt;&lt;a</span> <span class="a">class</span>=<span class="v">"mc-nav-link"</span> <span class="a">href</span>=<span class="v">"#"</span><span class="t">&gt;</span><span class="tx">Features</span><span class="t">&lt;/a&gt;&lt;/li&gt;</span>
+      <span class="t">&lt;li&gt;&lt;a</span> <span class="a">class</span>=<span class="v">"mc-nav-link"</span> <span class="a">href</span>=<span class="v">"#"</span><span class="t">&gt;</span><span class="tx">Pricing</span><span class="t">&lt;/a&gt;&lt;/li&gt;</span>
+      <span class="t">&lt;li&gt;&lt;a</span> <span class="a">class</span>=<span class="v">"mc-nav-link disabled"</span> <span class="a">href</span>=<span class="v">"#"</span> <span class="a">tabindex</span>=<span class="v">"-1"</span> <span class="a">aria-disabled</span>=<span class="v">"true"</span><span class="t">&gt;</span><span class="tx">Disabled</span><span class="t">&lt;/a&gt;&lt;/li&gt;</span>
+    <span class="t">&lt;/ul&gt;</span>
+  <span class="t">&lt;/div&gt;</span>
+<span class="t">&lt;/nav&gt;</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- ====== 2. ALL 7 HUES ====== -->
+        <section class="guide-section">
+            <h2 class="text-2xl font-bold mb-1 flex items-center">
+                <span class="section-number bg-p-green-500 text-white">2</span>
+                All 7 Hues
+            </h2>
+            <p class="text-p-neutral-400 text-sm mb-6 ml-10">Each hue on a Mode 2 (black) background.</p>
+
+            <div class="guide-card">
+                <div class="space-y-3">
+                    <div>
+                        <span class="guide-label mb-1 block">Neutral</span>
+                        <div data-mode="2" style="background:#0A0A0A; border:1px solid #222222; border-radius:3px; padding:0.5rem;">
+                            <nav class="mc-navbar" data-hue="neutral">
+                                <a class="mc-navbar-brand" href="#">Neutral</a>
+                                <div class="mc-navbar-collapse show">
+                                    <ul class="mc-navbar-nav">
+                                        <li><a class="mc-nav-link active" href="#">Home</a></li>
+                                        <li><a class="mc-nav-link" href="#">Features</a></li>
+                                        <li><a class="mc-nav-link" href="#">Pricing</a></li>
+                                    </ul>
+                                </div>
+                            </nav>
+                        </div>
+                    </div>
+                    <div>
+                        <span class="guide-label mb-1 block">Red</span>
+                        <div data-mode="2" style="background:#0A0A0A; border:1px solid #222222; border-radius:3px; padding:0.5rem;">
+                            <nav class="mc-navbar" data-hue="red">
+                                <a class="mc-navbar-brand" href="#">Red</a>
+                                <div class="mc-navbar-collapse show">
+                                    <ul class="mc-navbar-nav">
+                                        <li><a class="mc-nav-link active" href="#">Home</a></li>
+                                        <li><a class="mc-nav-link" href="#">Features</a></li>
+                                        <li><a class="mc-nav-link" href="#">Pricing</a></li>
+                                    </ul>
+                                </div>
+                            </nav>
+                        </div>
+                    </div>
+                    <div>
+                        <span class="guide-label mb-1 block">Green</span>
+                        <div data-mode="2" style="background:#0A0A0A; border:1px solid #222222; border-radius:3px; padding:0.5rem;">
+                            <nav class="mc-navbar" data-hue="green">
+                                <a class="mc-navbar-brand" href="#">Green</a>
+                                <div class="mc-navbar-collapse show">
+                                    <ul class="mc-navbar-nav">
+                                        <li><a class="mc-nav-link active" href="#">Home</a></li>
+                                        <li><a class="mc-nav-link" href="#">Features</a></li>
+                                        <li><a class="mc-nav-link" href="#">Pricing</a></li>
+                                    </ul>
+                                </div>
+                            </nav>
+                        </div>
+                    </div>
+                    <div>
+                        <span class="guide-label mb-1 block">Blue</span>
+                        <div data-mode="2" style="background:#0A0A0A; border:1px solid #222222; border-radius:3px; padding:0.5rem;">
+                            <nav class="mc-navbar" data-hue="blue">
+                                <a class="mc-navbar-brand" href="#">Blue</a>
+                                <div class="mc-navbar-collapse show">
+                                    <ul class="mc-navbar-nav">
+                                        <li><a class="mc-nav-link active" href="#">Home</a></li>
+                                        <li><a class="mc-nav-link" href="#">Features</a></li>
+                                        <li><a class="mc-nav-link" href="#">Pricing</a></li>
+                                    </ul>
+                                </div>
+                            </nav>
+                        </div>
+                    </div>
+                    <div>
+                        <span class="guide-label mb-1 block">Yellow</span>
+                        <div data-mode="2" style="background:#0A0A0A; border:1px solid #222222; border-radius:3px; padding:0.5rem;">
+                            <nav class="mc-navbar" data-hue="yellow">
+                                <a class="mc-navbar-brand" href="#">Yellow</a>
+                                <div class="mc-navbar-collapse show">
+                                    <ul class="mc-navbar-nav">
+                                        <li><a class="mc-nav-link active" href="#">Home</a></li>
+                                        <li><a class="mc-nav-link" href="#">Features</a></li>
+                                        <li><a class="mc-nav-link" href="#">Pricing</a></li>
+                                    </ul>
+                                </div>
+                            </nav>
+                        </div>
+                    </div>
+                    <div>
+                        <span class="guide-label mb-1 block">Magenta</span>
+                        <div data-mode="2" style="background:#0A0A0A; border:1px solid #222222; border-radius:3px; padding:0.5rem;">
+                            <nav class="mc-navbar" data-hue="magenta">
+                                <a class="mc-navbar-brand" href="#">Magenta</a>
+                                <div class="mc-navbar-collapse show">
+                                    <ul class="mc-navbar-nav">
+                                        <li><a class="mc-nav-link active" href="#">Home</a></li>
+                                        <li><a class="mc-nav-link" href="#">Features</a></li>
+                                        <li><a class="mc-nav-link" href="#">Pricing</a></li>
+                                    </ul>
+                                </div>
+                            </nav>
+                        </div>
+                    </div>
+                    <div>
+                        <span class="guide-label mb-1 block">Teal</span>
+                        <div data-mode="2" style="background:#0A0A0A; border:1px solid #222222; border-radius:3px; padding:0.5rem;">
+                            <nav class="mc-navbar" data-hue="teal">
+                                <a class="mc-navbar-brand" href="#">Teal</a>
+                                <div class="mc-navbar-collapse show">
+                                    <ul class="mc-navbar-nav">
+                                        <li><a class="mc-nav-link active" href="#">Home</a></li>
+                                        <li><a class="mc-nav-link" href="#">Features</a></li>
+                                        <li><a class="mc-nav-link" href="#">Pricing</a></li>
+                                    </ul>
+                                </div>
+                            </nav>
+                        </div>
+                    </div>
+                </div>
+                <div class="code-block mt-4 text-[10px]">
+<span class="cm">&lt;!-- Change hue via data-hue attribute --&gt;</span>
+<span class="t">&lt;nav</span> <span class="a">class</span>=<span class="v">"mc-navbar"</span> <span class="a">data-hue</span>=<span class="v">"neutral"</span><span class="t">&gt;</span><span class="tx">...</span><span class="t">&lt;/nav&gt;</span>
+<span class="t">&lt;nav</span> <span class="a">class</span>=<span class="v">"mc-navbar"</span> <span class="a">data-hue</span>=<span class="v">"red"</span><span class="t">&gt;</span><span class="tx">...</span><span class="t">&lt;/nav&gt;</span>
+<span class="t">&lt;nav</span> <span class="a">class</span>=<span class="v">"mc-navbar"</span> <span class="a">data-hue</span>=<span class="v">"green"</span><span class="t">&gt;</span><span class="tx">...</span><span class="t">&lt;/nav&gt;</span>
+<span class="t">&lt;nav</span> <span class="a">class</span>=<span class="v">"mc-navbar"</span> <span class="a">data-hue</span>=<span class="v">"blue"</span><span class="t">&gt;</span><span class="tx">...</span><span class="t">&lt;/nav&gt;</span>
+<span class="t">&lt;nav</span> <span class="a">class</span>=<span class="v">"mc-navbar"</span> <span class="a">data-hue</span>=<span class="v">"yellow"</span><span class="t">&gt;</span><span class="tx">...</span><span class="t">&lt;/nav&gt;</span>
+<span class="t">&lt;nav</span> <span class="a">class</span>=<span class="v">"mc-navbar"</span> <span class="a">data-hue</span>=<span class="v">"magenta"</span><span class="t">&gt;</span><span class="tx">...</span><span class="t">&lt;/nav&gt;</span>
+<span class="t">&lt;nav</span> <span class="a">class</span>=<span class="v">"mc-navbar"</span> <span class="a">data-hue</span>=<span class="v">"teal"</span><span class="t">&gt;</span><span class="tx">...</span><span class="t">&lt;/nav&gt;</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- ====== 3. SIZE SCALE ====== -->
+        <section class="guide-section">
+            <h2 class="text-2xl font-bold mb-1 flex items-center">
+                <span class="section-number bg-p-magenta-500 text-white">3</span>
+                Size Scale
+            </h2>
+            <p class="text-p-neutral-400 text-sm mb-6 ml-10">6 sizes from xs (11px) to xxl (20px). Default is md (14px).</p>
+
+            <div class="guide-card mb-4">
+                <table class="w-full text-xs">
+                    <thead>
+                        <tr class="border-b border-p-neutral-800">
+                            <th class="text-left py-2 pr-4 text-[10px] text-p-neutral-400 uppercase tracking-widest font-bold">Size</th>
+                            <th class="text-left py-2 pr-4 text-[10px] text-p-neutral-400 uppercase tracking-widest font-bold">Class</th>
+                            <th class="text-left py-2 pr-4 text-[10px] text-p-neutral-400 uppercase tracking-widest font-bold">Font</th>
+                            <th class="text-left py-2 text-[10px] text-p-neutral-400 uppercase tracking-widest font-bold">Min Height</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="border-b border-p-neutral-700"><td class="py-2.5 pr-4 text-white font-semibold">XS</td><td class="py-2.5 pr-4 text-p-neutral-400 font-mono">mc-navbar-xs</td><td class="py-2.5 pr-4 text-p-neutral-400">11px</td><td class="py-2.5 text-p-neutral-400">24px</td></tr>
+                        <tr class="border-b border-p-neutral-700"><td class="py-2.5 pr-4 text-white font-semibold">SM</td><td class="py-2.5 pr-4 text-p-neutral-400 font-mono">mc-navbar-sm</td><td class="py-2.5 pr-4 text-p-neutral-400">12px</td><td class="py-2.5 text-p-neutral-400">30px</td></tr>
+                        <tr class="border-b border-p-neutral-700"><td class="py-2.5 pr-4 text-white font-semibold">MD</td><td class="py-2.5 pr-4 text-p-neutral-300 font-mono italic">default</td><td class="py-2.5 pr-4 text-p-neutral-400">14px</td><td class="py-2.5 text-p-neutral-400">36px</td></tr>
+                        <tr class="border-b border-p-neutral-700"><td class="py-2.5 pr-4 text-white font-semibold">LG</td><td class="py-2.5 pr-4 text-p-neutral-400 font-mono">mc-navbar-lg</td><td class="py-2.5 pr-4 text-p-neutral-400">16px</td><td class="py-2.5 text-p-neutral-400">44px</td></tr>
+                        <tr class="border-b border-p-neutral-700"><td class="py-2.5 pr-4 text-white font-semibold">XL</td><td class="py-2.5 pr-4 text-p-neutral-400 font-mono">mc-navbar-xl</td><td class="py-2.5 pr-4 text-p-neutral-400">18px</td><td class="py-2.5 text-p-neutral-400">52px</td></tr>
+                        <tr><td class="py-2.5 pr-4 text-white font-semibold">XXL</td><td class="py-2.5 pr-4 text-p-neutral-400 font-mono">mc-navbar-xxl</td><td class="py-2.5 pr-4 text-p-neutral-400">20px</td><td class="py-2.5 text-p-neutral-400">60px</td></tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="guide-card">
+                <h3 class="text-xs font-bold uppercase tracking-widest text-p-neutral-400 mb-4">Size Comparison</h3>
+                <div class="space-y-3">
+                    <div>
+                        <span class="guide-label mb-1 block">XS</span>
+                        <div data-mode="2" style="background:#0A0A0A; border:1px solid #222222; border-radius:3px; padding:0.5rem;">
+                            <nav class="mc-navbar mc-navbar-xs" data-hue="neutral">
+                                <a class="mc-navbar-brand" href="#">Brand</a>
+                                <div class="mc-navbar-collapse show">
+                                    <ul class="mc-navbar-nav">
+                                        <li><a class="mc-nav-link active" href="#">Home</a></li>
+                                        <li><a class="mc-nav-link" href="#">Link</a></li>
+                                    </ul>
+                                </div>
+                            </nav>
+                        </div>
+                    </div>
+                    <div>
+                        <span class="guide-label mb-1 block">SM</span>
+                        <div data-mode="2" style="background:#0A0A0A; border:1px solid #222222; border-radius:3px; padding:0.5rem;">
+                            <nav class="mc-navbar mc-navbar-sm" data-hue="neutral">
+                                <a class="mc-navbar-brand" href="#">Brand</a>
+                                <div class="mc-navbar-collapse show">
+                                    <ul class="mc-navbar-nav">
+                                        <li><a class="mc-nav-link active" href="#">Home</a></li>
+                                        <li><a class="mc-nav-link" href="#">Link</a></li>
+                                    </ul>
+                                </div>
+                            </nav>
+                        </div>
+                    </div>
+                    <div>
+                        <span class="guide-label mb-1 block">MD (default)</span>
+                        <div data-mode="2" style="background:#0A0A0A; border:1px solid #222222; border-radius:3px; padding:0.5rem;">
+                            <nav class="mc-navbar" data-hue="neutral">
+                                <a class="mc-navbar-brand" href="#">Brand</a>
+                                <div class="mc-navbar-collapse show">
+                                    <ul class="mc-navbar-nav">
+                                        <li><a class="mc-nav-link active" href="#">Home</a></li>
+                                        <li><a class="mc-nav-link" href="#">Link</a></li>
+                                    </ul>
+                                </div>
+                            </nav>
+                        </div>
+                    </div>
+                    <div>
+                        <span class="guide-label mb-1 block">LG</span>
+                        <div data-mode="2" style="background:#0A0A0A; border:1px solid #222222; border-radius:3px; padding:0.5rem;">
+                            <nav class="mc-navbar mc-navbar-lg" data-hue="neutral">
+                                <a class="mc-navbar-brand" href="#">Brand</a>
+                                <div class="mc-navbar-collapse show">
+                                    <ul class="mc-navbar-nav">
+                                        <li><a class="mc-nav-link active" href="#">Home</a></li>
+                                        <li><a class="mc-nav-link" href="#">Link</a></li>
+                                    </ul>
+                                </div>
+                            </nav>
+                        </div>
+                    </div>
+                    <div>
+                        <span class="guide-label mb-1 block">XL</span>
+                        <div data-mode="2" style="background:#0A0A0A; border:1px solid #222222; border-radius:3px; padding:0.5rem;">
+                            <nav class="mc-navbar mc-navbar-xl" data-hue="neutral">
+                                <a class="mc-navbar-brand" href="#">Brand</a>
+                                <div class="mc-navbar-collapse show">
+                                    <ul class="mc-navbar-nav">
+                                        <li><a class="mc-nav-link active" href="#">Home</a></li>
+                                        <li><a class="mc-nav-link" href="#">Link</a></li>
+                                    </ul>
+                                </div>
+                            </nav>
+                        </div>
+                    </div>
+                    <div>
+                        <span class="guide-label mb-1 block">XXL</span>
+                        <div data-mode="2" style="background:#0A0A0A; border:1px solid #222222; border-radius:3px; padding:0.5rem;">
+                            <nav class="mc-navbar mc-navbar-xxl" data-hue="neutral">
+                                <a class="mc-navbar-brand" href="#">Brand</a>
+                                <div class="mc-navbar-collapse show">
+                                    <ul class="mc-navbar-nav">
+                                        <li><a class="mc-nav-link active" href="#">Home</a></li>
+                                        <li><a class="mc-nav-link" href="#">Link</a></li>
+                                    </ul>
+                                </div>
+                            </nav>
+                        </div>
+                    </div>
+                </div>
+                <div class="code-block mt-4 text-[10px]">
+<span class="cm">&lt;!-- Size classes --&gt;</span>
+<span class="t">&lt;nav</span> <span class="a">class</span>=<span class="v">"mc-navbar mc-navbar-xs"</span><span class="t">&gt;</span><span class="tx">...</span><span class="t">&lt;/nav&gt;</span>
+<span class="t">&lt;nav</span> <span class="a">class</span>=<span class="v">"mc-navbar mc-navbar-sm"</span><span class="t">&gt;</span><span class="tx">...</span><span class="t">&lt;/nav&gt;</span>
+<span class="t">&lt;nav</span> <span class="a">class</span>=<span class="v">"mc-navbar"</span><span class="t">&gt;</span><span class="tx">...</span><span class="t">&lt;/nav&gt;</span>  <span class="cm">&lt;!-- md (default) --&gt;</span>
+<span class="t">&lt;nav</span> <span class="a">class</span>=<span class="v">"mc-navbar mc-navbar-lg"</span><span class="t">&gt;</span><span class="tx">...</span><span class="t">&lt;/nav&gt;</span>
+<span class="t">&lt;nav</span> <span class="a">class</span>=<span class="v">"mc-navbar mc-navbar-xl"</span><span class="t">&gt;</span><span class="tx">...</span><span class="t">&lt;/nav&gt;</span>
+<span class="t">&lt;nav</span> <span class="a">class</span>=<span class="v">"mc-navbar mc-navbar-xxl"</span><span class="t">&gt;</span><span class="tx">...</span><span class="t">&lt;/nav&gt;</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- ====== 4. SURFACE MODES ====== -->
+        <section class="guide-section">
+            <h2 class="text-2xl font-bold mb-1 flex items-center">
+                <span class="section-number bg-p-red-500 text-white">4</span>
+                Surface Modes
+            </h2>
+            <p class="text-p-neutral-400 text-sm mb-6 ml-10">Navbars adapt to all 5 surface modes via ancestor <code class="text-p-blue-300 text-xs">data-mode</code>.</p>
+
+            <!-- Mode 1 — White -->
+            <h3 class="text-xs font-bold uppercase tracking-widest text-p-neutral-400 mb-3">Mode 1 &mdash; White Surface (#FFFFFF)</h3>
+            <div class="surface-panel border mb-6" data-mode="1" style="background:#FFFFFF; border-color:#c3c3c3;">
+                <p class="text-[9px] uppercase tracking-[0.15em] font-bold mb-3 white-label">Blue Hue</p>
+                <nav class="mc-navbar" data-hue="blue">
+                    <a class="mc-navbar-brand" href="#">Brand</a>
+                    <div class="mc-navbar-collapse show">
+                        <ul class="mc-navbar-nav">
+                            <li><a class="mc-nav-link active" href="#">Home</a></li>
+                            <li><a class="mc-nav-link" href="#">Features</a></li>
+                            <li><a class="mc-nav-link" href="#">Pricing</a></li>
+                            <li><a class="mc-nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a></li>
+                        </ul>
+                    </div>
+                </nav>
+            </div>
+
+            <!-- Mode 2 — Black -->
+            <h3 class="text-xs font-bold uppercase tracking-widest text-p-neutral-400 mb-3">Mode 2 &mdash; Black Surface (#0A0A0A)</h3>
+            <div class="surface-panel-dark border mb-6" data-mode="2" style="background:#0A0A0A; border-color:#222222;">
+                <p class="text-[9px] uppercase tracking-[0.15em] text-p-neutral-500 font-bold mb-3">Blue Hue</p>
+                <nav class="mc-navbar" data-hue="blue">
+                    <a class="mc-navbar-brand" href="#">Brand</a>
+                    <div class="mc-navbar-collapse show">
+                        <ul class="mc-navbar-nav">
+                            <li><a class="mc-nav-link active" href="#">Home</a></li>
+                            <li><a class="mc-nav-link" href="#">Features</a></li>
+                            <li><a class="mc-nav-link" href="#">Pricing</a></li>
+                            <li><a class="mc-nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a></li>
+                        </ul>
+                    </div>
+                </nav>
+            </div>
+
+            <!-- Mode 3 — Light Hue -->
+            <h3 class="text-xs font-bold uppercase tracking-widest text-p-neutral-400 mb-3">Mode 3 &mdash; Light Hue Surface (blue.100 = #dedeff)</h3>
+            <div class="surface-panel border mb-6" data-mode="3" style="background:#dedeff; border-color:#bebeff;">
+                <p class="text-[9px] uppercase tracking-[0.15em] font-bold mb-3 white-label">Blue Hue</p>
+                <nav class="mc-navbar" data-hue="blue">
+                    <a class="mc-navbar-brand" href="#">Brand</a>
+                    <div class="mc-navbar-collapse show">
+                        <ul class="mc-navbar-nav">
+                            <li><a class="mc-nav-link active" href="#">Home</a></li>
+                            <li><a class="mc-nav-link" href="#">Features</a></li>
+                            <li><a class="mc-nav-link" href="#">Pricing</a></li>
+                            <li><a class="mc-nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a></li>
+                        </ul>
+                    </div>
+                </nav>
+            </div>
+
+            <!-- Mode 4 — Dark Hue -->
+            <h3 class="text-xs font-bold uppercase tracking-widest text-p-neutral-400 mb-3">Mode 4 &mdash; Dark Hue Surface (blue.800 = #000081)</h3>
+            <div class="surface-panel-dark border mb-6" data-mode="4" style="background:#000081; border-color:#0000bf;">
+                <p class="text-[9px] uppercase tracking-[0.15em] text-p-blue-300 font-bold mb-3">Blue Hue</p>
+                <nav class="mc-navbar" data-hue="blue">
+                    <a class="mc-navbar-brand" href="#">Brand</a>
+                    <div class="mc-navbar-collapse show">
+                        <ul class="mc-navbar-nav">
+                            <li><a class="mc-nav-link active" href="#">Home</a></li>
+                            <li><a class="mc-nav-link" href="#">Features</a></li>
+                            <li><a class="mc-nav-link" href="#">Pricing</a></li>
+                            <li><a class="mc-nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a></li>
+                        </ul>
+                    </div>
+                </nav>
+            </div>
+
+            <!-- Mode 5 — Mid Hue -->
+            <h3 class="text-xs font-bold uppercase tracking-widest text-p-neutral-400 mb-3">Mode 5 &mdash; Mid Hue Surface (blue.500 = #5252ff)</h3>
+            <div class="surface-panel border mb-6" data-mode="5" style="background:#5252ff; border-color:#6d6dff;">
+                <p class="text-[9px] uppercase tracking-[0.15em] font-bold mb-3" style="color:#FFFFFF;">Blue Hue</p>
+                <nav class="mc-navbar" data-hue="blue">
+                    <a class="mc-navbar-brand" href="#">Brand</a>
+                    <div class="mc-navbar-collapse show">
+                        <ul class="mc-navbar-nav">
+                            <li><a class="mc-nav-link active" href="#">Home</a></li>
+                            <li><a class="mc-nav-link" href="#">Features</a></li>
+                            <li><a class="mc-nav-link" href="#">Pricing</a></li>
+                            <li><a class="mc-nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a></li>
+                        </ul>
+                    </div>
+                </nav>
+            </div>
+
+            <div class="code-block text-[10px]">
+<span class="cm">&lt;!-- Mode is inherited from parent container --&gt;</span>
+<span class="t">&lt;div</span> <span class="a">data-mode</span>=<span class="v">"1"</span><span class="t">&gt;</span>  <span class="cm">&lt;!-- White surface --&gt;</span>
+  <span class="t">&lt;nav</span> <span class="a">class</span>=<span class="v">"mc-navbar"</span> <span class="a">data-hue</span>=<span class="v">"blue"</span><span class="t">&gt;</span><span class="tx">...</span><span class="t">&lt;/nav&gt;</span>
+<span class="t">&lt;/div&gt;</span>
+
+<span class="t">&lt;div</span> <span class="a">data-mode</span>=<span class="v">"2"</span><span class="t">&gt;</span>  <span class="cm">&lt;!-- Black surface --&gt;</span>
+  <span class="t">&lt;nav</span> <span class="a">class</span>=<span class="v">"mc-navbar"</span> <span class="a">data-hue</span>=<span class="v">"blue"</span><span class="t">&gt;</span><span class="tx">...</span><span class="t">&lt;/nav&gt;</span>
+<span class="t">&lt;/div&gt;</span>
+
+<span class="t">&lt;div</span> <span class="a">data-mode</span>=<span class="v">"3"</span> <span class="a">style</span>=<span class="v">"background:#dedeff"</span><span class="t">&gt;</span>  <span class="cm">&lt;!-- Light hue --&gt;</span>
+  <span class="t">&lt;nav</span> <span class="a">class</span>=<span class="v">"mc-navbar"</span> <span class="a">data-hue</span>=<span class="v">"blue"</span><span class="t">&gt;</span><span class="tx">...</span><span class="t">&lt;/nav&gt;</span>
+<span class="t">&lt;/div&gt;</span>
+
+<span class="t">&lt;div</span> <span class="a">data-mode</span>=<span class="v">"4"</span> <span class="a">style</span>=<span class="v">"background:#000081"</span><span class="t">&gt;</span>  <span class="cm">&lt;!-- Dark hue --&gt;</span>
+  <span class="t">&lt;nav</span> <span class="a">class</span>=<span class="v">"mc-navbar"</span> <span class="a">data-hue</span>=<span class="v">"blue"</span><span class="t">&gt;</span><span class="tx">...</span><span class="t">&lt;/nav&gt;</span>
+<span class="t">&lt;/div&gt;</span>
+
+<span class="t">&lt;div</span> <span class="a">data-mode</span>=<span class="v">"5"</span> <span class="a">style</span>=<span class="v">"background:#5252ff"</span><span class="t">&gt;</span>  <span class="cm">&lt;!-- Mid hue --&gt;</span>
+  <span class="t">&lt;nav</span> <span class="a">class</span>=<span class="v">"mc-navbar"</span> <span class="a">data-hue</span>=<span class="v">"blue"</span><span class="t">&gt;</span><span class="tx">...</span><span class="t">&lt;/nav&gt;</span>
+<span class="t">&lt;/div&gt;</span>
+            </div>
+        </section>
+
+        <!-- ====== 5. WITH TOGGLER ====== -->
+        <section class="guide-section">
+            <h2 class="text-2xl font-bold mb-1 flex items-center">
+                <span class="section-number bg-p-teal-500 text-white">5</span>
+                With Toggler
+            </h2>
+            <p class="text-p-neutral-400 text-sm mb-6 ml-10">Click the hamburger icon to toggle <code class="text-p-blue-300 text-xs">.show</code> on <code class="text-p-blue-300 text-xs">.mc-navbar-collapse</code>.</p>
+
+            <div class="guide-card mb-4">
+                <div class="flex items-center justify-between mb-4">
+                    <div>
+                        <h3 class="text-sm font-bold text-white">Collapsed State (default)</h3>
+                        <p class="text-[10px] text-p-neutral-500 uppercase tracking-wider">Click toggler to expand</p>
+                    </div>
+                </div>
+                <div data-mode="2" style="background:#0A0A0A; border:1px solid #222222; border-radius:3px; padding:0.75rem;">
+                    <nav class="mc-navbar" data-hue="blue" id="demo-navbar-collapsed">
+                        <a class="mc-navbar-brand" href="#">Perception</a>
+                        <button class="mc-navbar-toggler" aria-label="Toggle navigation" data-target="demo-collapse-1">
+                            <span class="mc-navbar-toggler-icon"></span>
+                        </button>
+                        <div class="mc-navbar-collapse" id="demo-collapse-1">
+                            <ul class="mc-navbar-nav">
+                                <li><a class="mc-nav-link active" href="#">Home</a></li>
+                                <li><a class="mc-nav-link" href="#">Features</a></li>
+                                <li><a class="mc-nav-link" href="#">Pricing</a></li>
+                                <li><a class="mc-nav-link" href="#">About</a></li>
+                            </ul>
+                            <span class="mc-navbar-text">Signed in as User</span>
+                        </div>
+                    </nav>
+                </div>
+            </div>
+
+            <div class="guide-card mb-4">
+                <div class="flex items-center justify-between mb-4">
+                    <div>
+                        <h3 class="text-sm font-bold text-white">Expanded State</h3>
+                        <p class="text-[10px] text-p-neutral-500 uppercase tracking-wider">.mc-navbar-collapse.show</p>
+                    </div>
+                </div>
+                <div data-mode="2" style="background:#0A0A0A; border:1px solid #222222; border-radius:3px; padding:0.75rem;">
+                    <nav class="mc-navbar" data-hue="blue">
+                        <a class="mc-navbar-brand" href="#">Perception</a>
+                        <button class="mc-navbar-toggler" aria-label="Toggle navigation" data-target="demo-collapse-2">
+                            <span class="mc-navbar-toggler-icon"></span>
+                        </button>
+                        <div class="mc-navbar-collapse show" id="demo-collapse-2">
+                            <ul class="mc-navbar-nav">
+                                <li><a class="mc-nav-link active" href="#">Home</a></li>
+                                <li><a class="mc-nav-link" href="#">Features</a></li>
+                                <li><a class="mc-nav-link" href="#">Pricing</a></li>
+                                <li><a class="mc-nav-link" href="#">About</a></li>
+                            </ul>
+                            <span class="mc-navbar-text">Signed in as User</span>
+                        </div>
+                    </nav>
+                </div>
+            </div>
+
+            <div class="code-block text-[10px]">
+<span class="cm">&lt;!-- Toggler + collapsible content --&gt;</span>
+<span class="t">&lt;nav</span> <span class="a">class</span>=<span class="v">"mc-navbar"</span> <span class="a">data-hue</span>=<span class="v">"blue"</span><span class="t">&gt;</span>
+  <span class="t">&lt;a</span> <span class="a">class</span>=<span class="v">"mc-navbar-brand"</span> <span class="a">href</span>=<span class="v">"#"</span><span class="t">&gt;</span><span class="tx">Brand</span><span class="t">&lt;/a&gt;</span>
+  <span class="t">&lt;button</span> <span class="a">class</span>=<span class="v">"mc-navbar-toggler"</span> <span class="a">aria-label</span>=<span class="v">"Toggle navigation"</span><span class="t">&gt;</span>
+    <span class="t">&lt;span</span> <span class="a">class</span>=<span class="v">"mc-navbar-toggler-icon"</span><span class="t">&gt;&lt;/span&gt;</span>
+  <span class="t">&lt;/button&gt;</span>
+  <span class="t">&lt;div</span> <span class="a">class</span>=<span class="v">"mc-navbar-collapse"</span><span class="t">&gt;</span>  <span class="cm">&lt;!-- add .show to expand --&gt;</span>
+    <span class="t">&lt;ul</span> <span class="a">class</span>=<span class="v">"mc-navbar-nav"</span><span class="t">&gt;</span>
+      <span class="t">&lt;li&gt;&lt;a</span> <span class="a">class</span>=<span class="v">"mc-nav-link active"</span> <span class="a">href</span>=<span class="v">"#"</span><span class="t">&gt;</span><span class="tx">Home</span><span class="t">&lt;/a&gt;&lt;/li&gt;</span>
+      <span class="t">&lt;li&gt;&lt;a</span> <span class="a">class</span>=<span class="v">"mc-nav-link"</span> <span class="a">href</span>=<span class="v">"#"</span><span class="t">&gt;</span><span class="tx">Features</span><span class="t">&lt;/a&gt;&lt;/li&gt;</span>
+    <span class="t">&lt;/ul&gt;</span>
+    <span class="t">&lt;span</span> <span class="a">class</span>=<span class="v">"mc-navbar-text"</span><span class="t">&gt;</span><span class="tx">Signed in as User</span><span class="t">&lt;/span&gt;</span>
+  <span class="t">&lt;/div&gt;</span>
+<span class="t">&lt;/nav&gt;</span>
+
+<span class="cm">&lt;!-- JS toggle --&gt;</span>
+<span class="t">&lt;script&gt;</span>
+<span class="tx">document.querySelectorAll('.mc-navbar-toggler').forEach(btn =&gt; {</span>
+<span class="tx">  btn.addEventListener('click', () =&gt; {</span>
+<span class="tx">    const collapse = btn.nextElementSibling;</span>
+<span class="tx">    if (collapse) collapse.classList.toggle('show');</span>
+<span class="tx">  });</span>
+<span class="tx">});</span>
+<span class="t">&lt;/script&gt;</span>
+            </div>
+        </section>
+
+        <!-- ====== 6. SEMANTIC MAPPING ====== -->
+        <section class="guide-section">
+            <h2 class="text-2xl font-bold mb-1 flex items-center">
+                <span class="section-number bg-p-yellow-500" style="color:#0A0A0A;">6</span>
+                Semantic Mapping
+            </h2>
+            <p class="text-p-neutral-400 text-sm mb-6 ml-10">Map hues to semantic roles: primary, success, danger, warning, info, premium.</p>
+
+            <div class="guide-card">
+                <div class="space-y-3">
+                    <!-- Primary = blue -->
+                    <div>
+                        <div class="flex items-center gap-2 mb-1">
+                            <span class="guide-label">Primary</span>
+                            <span class="text-[10px] text-p-neutral-500 font-mono">data-hue="blue"</span>
+                        </div>
+                        <div data-mode="2" style="background:#0A0A0A; border:1px solid #222222; border-radius:3px; padding:0.5rem;">
+                            <nav class="mc-navbar" data-hue="blue">
+                                <a class="mc-navbar-brand" href="#">Primary App</a>
+                                <div class="mc-navbar-collapse show">
+                                    <ul class="mc-navbar-nav">
+                                        <li><a class="mc-nav-link active" href="#">Dashboard</a></li>
+                                        <li><a class="mc-nav-link" href="#">Projects</a></li>
+                                        <li><a class="mc-nav-link" href="#">Settings</a></li>
+                                    </ul>
+                                </div>
+                            </nav>
+                        </div>
+                    </div>
+
+                    <!-- Success = green -->
+                    <div>
+                        <div class="flex items-center gap-2 mb-1">
+                            <span class="guide-label">Success</span>
+                            <span class="text-[10px] text-p-neutral-500 font-mono">data-hue="green"</span>
+                        </div>
+                        <div data-mode="2" style="background:#0A0A0A; border:1px solid #222222; border-radius:3px; padding:0.5rem;">
+                            <nav class="mc-navbar" data-hue="green">
+                                <a class="mc-navbar-brand" href="#">Health Portal</a>
+                                <div class="mc-navbar-collapse show">
+                                    <ul class="mc-navbar-nav">
+                                        <li><a class="mc-nav-link active" href="#">Overview</a></li>
+                                        <li><a class="mc-nav-link" href="#">Reports</a></li>
+                                        <li><a class="mc-nav-link" href="#">History</a></li>
+                                    </ul>
+                                </div>
+                            </nav>
+                        </div>
+                    </div>
+
+                    <!-- Danger = red -->
+                    <div>
+                        <div class="flex items-center gap-2 mb-1">
+                            <span class="guide-label">Danger</span>
+                            <span class="text-[10px] text-p-neutral-500 font-mono">data-hue="red"</span>
+                        </div>
+                        <div data-mode="2" style="background:#0A0A0A; border:1px solid #222222; border-radius:3px; padding:0.5rem;">
+                            <nav class="mc-navbar" data-hue="red">
+                                <a class="mc-navbar-brand" href="#">Admin Panel</a>
+                                <div class="mc-navbar-collapse show">
+                                    <ul class="mc-navbar-nav">
+                                        <li><a class="mc-nav-link active" href="#">Alerts</a></li>
+                                        <li><a class="mc-nav-link" href="#">Incidents</a></li>
+                                        <li><a class="mc-nav-link" href="#">Logs</a></li>
+                                    </ul>
+                                </div>
+                            </nav>
+                        </div>
+                    </div>
+
+                    <!-- Warning = yellow -->
+                    <div>
+                        <div class="flex items-center gap-2 mb-1">
+                            <span class="guide-label">Warning</span>
+                            <span class="text-[10px] text-p-neutral-500 font-mono">data-hue="yellow"</span>
+                        </div>
+                        <div data-mode="2" style="background:#0A0A0A; border:1px solid #222222; border-radius:3px; padding:0.5rem;">
+                            <nav class="mc-navbar" data-hue="yellow">
+                                <a class="mc-navbar-brand" href="#">Monitor</a>
+                                <div class="mc-navbar-collapse show">
+                                    <ul class="mc-navbar-nav">
+                                        <li><a class="mc-nav-link active" href="#">Status</a></li>
+                                        <li><a class="mc-nav-link" href="#">Warnings</a></li>
+                                        <li><a class="mc-nav-link" href="#">Queue</a></li>
+                                    </ul>
+                                </div>
+                            </nav>
+                        </div>
+                    </div>
+
+                    <!-- Info = teal -->
+                    <div>
+                        <div class="flex items-center gap-2 mb-1">
+                            <span class="guide-label">Info</span>
+                            <span class="text-[10px] text-p-neutral-500 font-mono">data-hue="teal"</span>
+                        </div>
+                        <div data-mode="2" style="background:#0A0A0A; border:1px solid #222222; border-radius:3px; padding:0.5rem;">
+                            <nav class="mc-navbar" data-hue="teal">
+                                <a class="mc-navbar-brand" href="#">Docs</a>
+                                <div class="mc-navbar-collapse show">
+                                    <ul class="mc-navbar-nav">
+                                        <li><a class="mc-nav-link active" href="#">Guides</a></li>
+                                        <li><a class="mc-nav-link" href="#">API</a></li>
+                                        <li><a class="mc-nav-link" href="#">FAQ</a></li>
+                                    </ul>
+                                </div>
+                            </nav>
+                        </div>
+                    </div>
+
+                    <!-- Premium = magenta -->
+                    <div>
+                        <div class="flex items-center gap-2 mb-1">
+                            <span class="guide-label">Premium</span>
+                            <span class="text-[10px] text-p-neutral-500 font-mono">data-hue="magenta"</span>
+                        </div>
+                        <div data-mode="2" style="background:#0A0A0A; border:1px solid #222222; border-radius:3px; padding:0.5rem;">
+                            <nav class="mc-navbar" data-hue="magenta">
+                                <a class="mc-navbar-brand" href="#">Premium</a>
+                                <div class="mc-navbar-collapse show">
+                                    <ul class="mc-navbar-nav">
+                                        <li><a class="mc-nav-link active" href="#">Exclusive</a></li>
+                                        <li><a class="mc-nav-link" href="#">Insights</a></li>
+                                        <li><a class="mc-nav-link" href="#">Rewards</a></li>
+                                    </ul>
+                                </div>
+                            </nav>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="code-block mt-4 text-[10px]">
+<span class="cm">&lt;!-- Semantic hue mapping --&gt;</span>
+<span class="t">&lt;nav</span> <span class="a">class</span>=<span class="v">"mc-navbar"</span> <span class="a">data-hue</span>=<span class="v">"blue"</span><span class="t">&gt;</span>     <span class="cm">&lt;!-- Primary --&gt;</span>
+<span class="t">&lt;nav</span> <span class="a">class</span>=<span class="v">"mc-navbar"</span> <span class="a">data-hue</span>=<span class="v">"green"</span><span class="t">&gt;</span>    <span class="cm">&lt;!-- Success --&gt;</span>
+<span class="t">&lt;nav</span> <span class="a">class</span>=<span class="v">"mc-navbar"</span> <span class="a">data-hue</span>=<span class="v">"red"</span><span class="t">&gt;</span>      <span class="cm">&lt;!-- Danger --&gt;</span>
+<span class="t">&lt;nav</span> <span class="a">class</span>=<span class="v">"mc-navbar"</span> <span class="a">data-hue</span>=<span class="v">"yellow"</span><span class="t">&gt;</span>   <span class="cm">&lt;!-- Warning --&gt;</span>
+<span class="t">&lt;nav</span> <span class="a">class</span>=<span class="v">"mc-navbar"</span> <span class="a">data-hue</span>=<span class="v">"teal"</span><span class="t">&gt;</span>     <span class="cm">&lt;!-- Info --&gt;</span>
+<span class="t">&lt;nav</span> <span class="a">class</span>=<span class="v">"mc-navbar"</span> <span class="a">data-hue</span>=<span class="v">"magenta"</span><span class="t">&gt;</span>  <span class="cm">&lt;!-- Premium --&gt;</span>
+                </div>
+            </div>
+        </section>
+
+        <footer class="docs-footer">
+            <p>MC Perception Design System &mdash; 7 hues &times; 5 modes &times; 6 sizes &mdash; WCAG AA compliant</p>
+            <p style="margin-top: 0.5rem;"><a href="https://github.com/anthropics/claude-code">Built with Claude Code</a></p>
+        </footer>
+
+            </div>
+        </main>
+    </div>
+
+    <script>
+    (function() {
+        /* Sidebar active page */
+        var page = location.pathname.split('/').pop().replace('.html','') || 'index';
+        var links = document.querySelectorAll('.docs-nav-link');
+        links.forEach(function(a) {
+            if (a.getAttribute('data-page') === page) a.classList.add('active');
+        });
+
+        /* Sidebar hamburger */
+        var hamburger = document.getElementById('docs-hamburger');
+        var sidebar = document.getElementById('docs-sidebar');
+        var overlay = document.getElementById('docs-overlay');
+        if (hamburger && sidebar && overlay) {
+            hamburger.addEventListener('click', function() {
+                sidebar.classList.toggle('open');
+                overlay.classList.toggle('open');
+            });
+            overlay.addEventListener('click', function() {
+                sidebar.classList.remove('open');
+                overlay.classList.remove('open');
+            });
+        }
+
+        /* Navbar toggler — clicking .mc-navbar-toggler toggles .show on adjacent .mc-navbar-collapse */
+        document.querySelectorAll('.mc-navbar-toggler').forEach(function(btn) {
+            btn.addEventListener('click', function() {
+                var targetId = btn.getAttribute('data-target');
+                var collapse;
+                if (targetId) {
+                    collapse = document.getElementById(targetId);
+                } else {
+                    /* Fall back to next sibling .mc-navbar-collapse */
+                    collapse = btn.parentElement.querySelector('.mc-navbar-collapse');
+                }
+                if (collapse) {
+                    collapse.classList.toggle('show');
+                }
+            });
+        });
+    })();
+    </script>
+
+</body>
+</html>
