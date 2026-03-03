@@ -1,0 +1,1044 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Breadcrumb Style Guide — MC Perception</title>
+    <link rel="stylesheet" href="../dist/mcperception.css">
+    <style>
+/* ── Docs Layout ── */
+.docs-layout {
+    display: flex;
+    min-height: 100vh;
+}
+.docs-sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 240px;
+    height: 100vh;
+    background: #222222;
+    border-right: 1px solid #222222;
+    overflow-y: auto;
+    z-index: 40;
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.2s ease;
+}
+.docs-sidebar-header {
+    padding: 1.25rem 1.25rem 0.75rem;
+    border-bottom: 1px solid #222222;
+    display: flex;
+    align-items: baseline;
+    gap: 0.5rem;
+}
+.docs-logo {
+    font-size: 0.875rem;
+    font-weight: 700;
+    color: #FFFFFF;
+    text-decoration: none;
+    letter-spacing: -0.01em;
+}
+.docs-logo:hover { color: #c3c3c3; }
+.docs-version {
+    font-size: 0.625rem;
+    color: #515151;
+    font-family: 'Roboto Mono', ui-monospace, monospace;
+}
+.docs-sidebar-nav {
+    padding: 0.75rem 0;
+    flex: 1;
+}
+.docs-nav-group {
+    margin-bottom: 0.25rem;
+}
+.docs-nav-group-label {
+    font-size: 0.625rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: #515151;
+    padding: 0.625rem 1.25rem 0.375rem;
+}
+.docs-nav-link {
+    display: block;
+    font-size: 0.8125rem;
+    color: #a0a0a0;
+    text-decoration: none;
+    padding: 0.375rem 1.25rem;
+    border-left: 2px solid transparent;
+    transition: color 0.15s, border-color 0.15s, background 0.15s;
+}
+.docs-nav-link:hover {
+    color: #c3c3c3;
+    background: #222222;
+}
+.docs-nav-link.active {
+    color: #5252ff;
+    border-left-color: #5252ff;
+    background: #222222;
+}
+.docs-content {
+    flex: 1;
+    margin-left: 240px;
+}
+
+/* ── Mobile: hamburger + overlay ── */
+#docs-hamburger {
+    display: none;
+    position: fixed;
+    top: 0.75rem;
+    left: 0.75rem;
+    z-index: 50;
+    background: #222222;
+    border: 1px solid #222222;
+    color: #a0a0a0;
+    font-size: 1.25rem;
+    width: 36px;
+    height: 36px;
+    border-radius: 6px;
+    cursor: pointer;
+    align-items: center;
+    justify-content: center;
+    line-height: 1;
+    padding: 0;
+}
+#docs-hamburger:hover { color: #FFFFFF; }
+#docs-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: #090909;
+    z-index: 35;
+}
+@media (max-width: 1023px) {
+    #docs-hamburger { display: flex; }
+    .docs-sidebar {
+        transform: translateX(-100%);
+    }
+    .docs-sidebar.open {
+        transform: translateX(0);
+    }
+    #docs-overlay.open {
+        display: block;
+    }
+    .docs-content {
+        margin-left: 0;
+    }
+}
+
+/* ── Guide Cards & Code Blocks ── */
+.guide-section { margin-bottom: 4rem; }
+.guide-card {
+    background: #090909;
+    border: 1px solid #222222;
+    border-radius: 6px;
+    padding: 1.5rem;
+}
+.guide-label {
+    min-width: 72px;
+    font-size: 0.6rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: #6c6c6c;
+    font-weight: 700;
+}
+.guide-row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.5rem;
+}
+.code-block {
+    background: #0A0A0A;
+    border: 1px solid #222222;
+    border-radius: 6px;
+    padding: 1rem 1.25rem;
+    font-family: 'Roboto Mono', ui-monospace, monospace;
+    font-size: 0.7rem;
+    line-height: 1.8;
+    color: #a0a0a0;
+    overflow-x: auto;
+    tab-size: 2;
+}
+.code-block .t  { color: #ff7474; }
+.code-block .a  { color: #9494ff; }
+.code-block .v  { color: #00ba00; }
+.code-block .c  { color: #6d6dff; }
+.code-block .cm { color: #515151; }
+.code-block .tx { color: #c3c3c3; }
+.surface-panel {
+    border-radius: 8px;
+    padding: 1.25rem 1.5rem;
+}
+.section-number {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    border-radius: 6px;
+    font-size: 0.75rem;
+    font-weight: 800;
+    margin-right: 0.5rem;
+}
+.grid-label {
+    font-size: 0.6rem;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    font-weight: 700;
+    color: #515151;
+    width: 64px;
+    flex-shrink: 0;
+}
+.white-label { color: #7f7f7f; }
+
+/* ── Mode Panel Helpers ── */
+.mode-panel {
+    padding: 1.5rem;
+    border-radius: 3px;
+    border: 1px solid #222222;
+}
+.mode-panel-m1 { background: #FFFFFF; border-color: #c3c3c3; border-radius: 8px; }
+.mode-panel-m2 { background: #0A0A0A; border-color: #222222; }
+.mode-panel-m3 { background: #dedeff; border-color: #bebeff; border-radius: 8px; }
+.mode-panel-m4 { background: #000081; border-color: #0000bf; }
+.mode-panel-m5 { background: #5252ff; border-color: #6d6dff; border-radius: 8px; }
+
+/* ── Size Table ── */
+.size-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+.size-table th {
+    text-align: left;
+    font-size: 0.65rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: #515151;
+    padding: 0.5rem 0.75rem;
+    border-bottom: 1px solid #222222;
+    font-weight: 700;
+}
+.size-table td {
+    padding: 0.75rem;
+    border-bottom: 1px solid #222222;
+    font-size: 0.8rem;
+    color: #c3c3c3;
+    vertical-align: middle;
+}
+.size-table .mono {
+    font-family: 'Roboto Mono', ui-monospace, monospace;
+    font-size: 0.7rem;
+    color: #9494ff;
+}
+
+/* ── Standard Footer ── */
+.docs-footer {
+    margin-top: 6rem;
+    padding: 2rem 0;
+    border-top: 1px solid #222222;
+    text-align: center;
+}
+.docs-footer p {
+    font-size: 0.75rem;
+    color: #515151;
+}
+.docs-footer a {
+    color: #6d6dff;
+    text-decoration: none;
+}
+.docs-footer a:hover {
+    color: #9494ff;
+}
+
+/* ── Demo-specific helpers ── */
+.hue-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 1rem;
+}
+.mode-label {
+    font-size: 0.65rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-bottom: 0.75rem;
+}
+.divider-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1rem;
+}
+    </style>
+</head>
+<body class="bg-p-black text-white min-h-screen font-sans">
+
+    <button id="docs-hamburger">&#9776;</button>
+    <div id="docs-overlay"></div>
+
+    <div class="docs-layout">
+        <aside class="docs-sidebar" id="docs-sidebar">
+            <div class="docs-sidebar-header">
+                <a href="index.html" class="docs-logo">MC Perception</a>
+                <span class="docs-version">v1.0</span>
+            </div>
+            <nav class="docs-sidebar-nav">
+                <div class="docs-nav-group">
+                    <div class="docs-nav-group-label">Getting Started</div>
+                    <a href="index.html" class="docs-nav-link" data-page="index">Home</a>
+                    <a href="getting-started.html" class="docs-nav-link" data-page="getting-started">Getting Started</a>
+                </div>
+                <div class="docs-nav-group">
+                    <div class="docs-nav-group-label">Foundation</div>
+                    <a href="color.html" class="docs-nav-link" data-page="color">Color Palette</a>
+                    <a href="surface-modes.html" class="docs-nav-link" data-page="surface-modes">Surface Modes</a>
+                    <a href="typography.html" class="docs-nav-link" data-page="typography">Typography</a>
+                </div>
+                <div class="docs-nav-group">
+                    <div class="docs-nav-group-label">Components</div>
+                    <a href="button.html" class="docs-nav-link" data-page="button">Buttons</a>
+                    <a href="badges.html" class="docs-nav-link" data-page="badges">Badges</a>
+                    <a href="alert.html" class="docs-nav-link" data-page="alert">Alerts</a>
+                    <a href="card.html" class="docs-nav-link" data-page="card">Card</a>
+                    <a href="button-group.html" class="docs-nav-link" data-page="button-group">Button Group</a>
+                    <a href="breadcrumb.html" class="docs-nav-link" data-page="breadcrumb">Breadcrumb</a>
+                    <a href="breadcrumb.html" class="docs-nav-link" data-page="breadcrumb">Breadcrumb</a>
+                    <a href="progress.html" class="docs-nav-link" data-page="progress">Progress</a>
+                    <a href="spinner.html" class="docs-nav-link" data-page="spinner">Spinners</a>
+                    <a href="pagination.html" class="docs-nav-link" data-page="pagination">Pagination</a>
+                    <a href="list-group.html" class="docs-nav-link" data-page="list-group">List Group</a>
+                    <a href="dropdown.html" class="docs-nav-link" data-page="dropdown">Dropdowns</a>
+                    <a href="navs-tabs.html" class="docs-nav-link" data-page="navs-tabs">Navs &amp; Tabs</a>
+                    <a href="navbar.html" class="docs-nav-link" data-page="navbar">Navbar</a>
+                    <a href="input.html" class="docs-nav-link" data-page="input">Form Inputs</a>
+                    <a href="selection.html" class="docs-nav-link" data-page="selection">Selection Controls</a>
+                    <a href="table.html" class="docs-nav-link" data-page="table">Tables</a>
+                    <a href="panel-system.html" class="docs-nav-link" data-page="panel-system">Panels</a>
+                </div>
+                <div class="docs-nav-group">
+                    <div class="docs-nav-group-label">Patterns</div>
+                    <a href="forms.html" class="docs-nav-link" data-page="forms">Form Layout</a>
+                    <a href="dark-surfaces.html" class="docs-nav-link" data-page="dark-surfaces">Dark Surface Depth</a>
+                </div>
+                <div class="docs-nav-group">
+                    <div class="docs-nav-group-label">Examples</div>
+                    <a href="trading-card.html" class="docs-nav-link" data-page="trading-card">Trading Card</a>
+                    <a href="orderbook.html" class="docs-nav-link" data-page="orderbook">Orderbook</a>
+                </div>
+            </nav>
+        </aside>
+
+        <main class="docs-content">
+            <div class="max-w-7xl mx-auto px-6 py-12">
+
+        <!-- ====== HERO ====== -->
+        <header class="mb-16">
+            <nav class="text-xs text-p-neutral-400 mb-6 flex gap-2 items-center">
+                <a href="index.html" class="hover:text-white transition-colors">Home</a>
+                <span class="text-p-neutral-600">/</span>
+                <a href="index.html" class="hover:text-white transition-colors">Components</a>
+                <span class="text-p-neutral-600">/</span>
+                <span class="text-white font-semibold">Breadcrumb</span>
+            </nav>
+
+            <div class="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-6 mb-8">
+                <div>
+                    <h1 class="text-5xl font-bold tracking-tight mb-3">Breadcrumb</h1>
+                    <p class="text-p-neutral-300 text-lg max-w-2xl">Navigation breadcrumbs showing the current page location within a hierarchy. 7 hues, 6 sizes, 5 surface modes, customizable dividers, and WCAG AA compliance.</p>
+                </div>
+                <div class="flex gap-2 flex-wrap">
+                    <span class="mc-badge mc-badge-filled mc-badge-pill" data-hue="blue">Navigation</span>
+                    <span class="mc-badge mc-badge-tonal mc-badge-pill" data-hue="green">WCAG AA</span>
+                    <span class="mc-badge mc-badge-outline mc-badge-pill" data-hue="magenta">7 Hues</span>
+                    <span class="mc-badge mc-badge-subtle mc-badge-pill" data-hue="teal">5 Modes</span>
+                </div>
+            </div>
+
+            <!-- Quick code example -->
+            <div class="guide-card">
+                <div class="flex items-center gap-2 mb-3">
+                    <span class="text-[10px] uppercase tracking-widest text-p-neutral-400 font-bold">Quick Start</span>
+                </div>
+                <div class="code-block">
+<span class="t">&lt;nav</span> <span class="a">aria-label</span>=<span class="v">"breadcrumb"</span><span class="t">&gt;</span>
+  <span class="t">&lt;ol</span> <span class="a">class</span>=<span class="v">"mc-breadcrumb"</span> <span class="a">data-hue</span>=<span class="v">"blue"</span><span class="t">&gt;</span>
+    <span class="t">&lt;li</span> <span class="a">class</span>=<span class="v">"mc-breadcrumb-item"</span><span class="t">&gt;</span><span class="t">&lt;a</span> <span class="a">href</span>=<span class="v">"#"</span><span class="t">&gt;</span><span class="tx">Home</span><span class="t">&lt;/a&gt;&lt;/li&gt;</span>
+    <span class="t">&lt;li</span> <span class="a">class</span>=<span class="v">"mc-breadcrumb-item"</span><span class="t">&gt;</span><span class="t">&lt;a</span> <span class="a">href</span>=<span class="v">"#"</span><span class="t">&gt;</span><span class="tx">Library</span><span class="t">&lt;/a&gt;&lt;/li&gt;</span>
+    <span class="t">&lt;li</span> <span class="a">class</span>=<span class="v">"mc-breadcrumb-item active"</span> <span class="a">aria-current</span>=<span class="v">"page"</span><span class="t">&gt;</span><span class="tx">Data</span><span class="t">&lt;/li&gt;</span>
+  <span class="t">&lt;/ol&gt;</span>
+<span class="t">&lt;/nav&gt;</span>
+                </div>
+            </div>
+        </header>
+
+        <!-- ====== 1. BASIC BREADCRUMB ====== -->
+        <section class="guide-section">
+            <h2 class="text-2xl font-bold mb-1 flex items-center">
+                <span class="section-number" style="background-color: #5252ff; color: #FFFFFF;">1</span>
+                Basic Breadcrumb
+            </h2>
+            <p class="text-p-neutral-400 text-sm mb-6 ml-10">Default breadcrumb on Mode 2 (dark), neutral hue. Three-level hierarchy: Home, Library, Data. The active item has no link and uses <code style="color: #9494ff;">aria-current="page"</code>.</p>
+
+            <div class="guide-card mb-4">
+                <div class="guide-label mb-3">Default (neutral, Mode 2)</div>
+                <div class="mode-panel mode-panel-m2" data-mode="2">
+                    <nav aria-label="breadcrumb">
+                        <ol class="mc-breadcrumb" data-hue="neutral">
+                            <li class="mc-breadcrumb-item"><a href="#">Home</a></li>
+                            <li class="mc-breadcrumb-item"><a href="#">Library</a></li>
+                            <li class="mc-breadcrumb-item active" aria-current="page">Data</li>
+                        </ol>
+                    </nav>
+                </div>
+            </div>
+
+            <!-- Code snippet -->
+            <div class="guide-card mt-4">
+                <div class="guide-label mb-2">Code</div>
+                <div class="code-block">
+<span class="t">&lt;nav</span> <span class="a">aria-label</span>=<span class="v">"breadcrumb"</span><span class="t">&gt;</span>
+  <span class="t">&lt;ol</span> <span class="a">class</span>=<span class="v">"mc-breadcrumb"</span> <span class="a">data-hue</span>=<span class="v">"neutral"</span><span class="t">&gt;</span>
+    <span class="t">&lt;li</span> <span class="a">class</span>=<span class="v">"mc-breadcrumb-item"</span><span class="t">&gt;</span><span class="t">&lt;a</span> <span class="a">href</span>=<span class="v">"#"</span><span class="t">&gt;</span><span class="tx">Home</span><span class="t">&lt;/a&gt;&lt;/li&gt;</span>
+    <span class="t">&lt;li</span> <span class="a">class</span>=<span class="v">"mc-breadcrumb-item"</span><span class="t">&gt;</span><span class="t">&lt;a</span> <span class="a">href</span>=<span class="v">"#"</span><span class="t">&gt;</span><span class="tx">Library</span><span class="t">&lt;/a&gt;&lt;/li&gt;</span>
+    <span class="t">&lt;li</span> <span class="a">class</span>=<span class="v">"mc-breadcrumb-item active"</span> <span class="a">aria-current</span>=<span class="v">"page"</span><span class="t">&gt;</span><span class="tx">Data</span><span class="t">&lt;/li&gt;</span>
+  <span class="t">&lt;/ol&gt;</span>
+<span class="t">&lt;/nav&gt;</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- ====== 2. ALL 7 HUES ====== -->
+        <section class="guide-section">
+            <h2 class="text-2xl font-bold mb-1 flex items-center">
+                <span class="section-number" style="background-color: #5252ff; color: #FFFFFF;">2</span>
+                All 7 Hues
+            </h2>
+            <p class="text-p-neutral-400 text-sm mb-6 ml-10">One breadcrumb per hue on Mode 2 (dark) background. Each hue applies its own accent and active colors.</p>
+
+            <div class="hue-grid">
+                <!-- Neutral -->
+                <div class="guide-card">
+                    <div class="guide-label mb-3">Neutral</div>
+                    <div class="mode-panel mode-panel-m2" data-mode="2">
+                        <nav aria-label="breadcrumb">
+                            <ol class="mc-breadcrumb" data-hue="neutral">
+                                <li class="mc-breadcrumb-item"><a href="#">Home</a></li>
+                                <li class="mc-breadcrumb-item"><a href="#">Library</a></li>
+                                <li class="mc-breadcrumb-item active" aria-current="page">Data</li>
+                            </ol>
+                        </nav>
+                    </div>
+                </div>
+
+                <!-- Red -->
+                <div class="guide-card">
+                    <div class="guide-label mb-3">Red</div>
+                    <div class="mode-panel mode-panel-m2" data-mode="2">
+                        <nav aria-label="breadcrumb">
+                            <ol class="mc-breadcrumb" data-hue="red">
+                                <li class="mc-breadcrumb-item"><a href="#">Home</a></li>
+                                <li class="mc-breadcrumb-item"><a href="#">Library</a></li>
+                                <li class="mc-breadcrumb-item active" aria-current="page">Data</li>
+                            </ol>
+                        </nav>
+                    </div>
+                </div>
+
+                <!-- Green -->
+                <div class="guide-card">
+                    <div class="guide-label mb-3">Green</div>
+                    <div class="mode-panel mode-panel-m2" data-mode="2">
+                        <nav aria-label="breadcrumb">
+                            <ol class="mc-breadcrumb" data-hue="green">
+                                <li class="mc-breadcrumb-item"><a href="#">Home</a></li>
+                                <li class="mc-breadcrumb-item"><a href="#">Library</a></li>
+                                <li class="mc-breadcrumb-item active" aria-current="page">Data</li>
+                            </ol>
+                        </nav>
+                    </div>
+                </div>
+
+                <!-- Blue -->
+                <div class="guide-card">
+                    <div class="guide-label mb-3">Blue</div>
+                    <div class="mode-panel mode-panel-m2" data-mode="2">
+                        <nav aria-label="breadcrumb">
+                            <ol class="mc-breadcrumb" data-hue="blue">
+                                <li class="mc-breadcrumb-item"><a href="#">Home</a></li>
+                                <li class="mc-breadcrumb-item"><a href="#">Library</a></li>
+                                <li class="mc-breadcrumb-item active" aria-current="page">Data</li>
+                            </ol>
+                        </nav>
+                    </div>
+                </div>
+
+                <!-- Yellow -->
+                <div class="guide-card">
+                    <div class="guide-label mb-3">Yellow</div>
+                    <div class="mode-panel mode-panel-m2" data-mode="2">
+                        <nav aria-label="breadcrumb">
+                            <ol class="mc-breadcrumb" data-hue="yellow">
+                                <li class="mc-breadcrumb-item"><a href="#">Home</a></li>
+                                <li class="mc-breadcrumb-item"><a href="#">Library</a></li>
+                                <li class="mc-breadcrumb-item active" aria-current="page">Data</li>
+                            </ol>
+                        </nav>
+                    </div>
+                </div>
+
+                <!-- Magenta -->
+                <div class="guide-card">
+                    <div class="guide-label mb-3">Magenta</div>
+                    <div class="mode-panel mode-panel-m2" data-mode="2">
+                        <nav aria-label="breadcrumb">
+                            <ol class="mc-breadcrumb" data-hue="magenta">
+                                <li class="mc-breadcrumb-item"><a href="#">Home</a></li>
+                                <li class="mc-breadcrumb-item"><a href="#">Library</a></li>
+                                <li class="mc-breadcrumb-item active" aria-current="page">Data</li>
+                            </ol>
+                        </nav>
+                    </div>
+                </div>
+
+                <!-- Teal -->
+                <div class="guide-card">
+                    <div class="guide-label mb-3">Teal</div>
+                    <div class="mode-panel mode-panel-m2" data-mode="2">
+                        <nav aria-label="breadcrumb">
+                            <ol class="mc-breadcrumb" data-hue="teal">
+                                <li class="mc-breadcrumb-item"><a href="#">Home</a></li>
+                                <li class="mc-breadcrumb-item"><a href="#">Library</a></li>
+                                <li class="mc-breadcrumb-item active" aria-current="page">Data</li>
+                            </ol>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Code snippet -->
+            <div class="guide-card mt-4">
+                <div class="guide-label mb-2">Code</div>
+                <div class="code-block">
+<span class="cm">&lt;!-- Change the data-hue attribute to switch hue --&gt;</span>
+<span class="t">&lt;ol</span> <span class="a">class</span>=<span class="v">"mc-breadcrumb"</span> <span class="a">data-hue</span>=<span class="v">"neutral"</span><span class="t">&gt;</span><span class="cm">...</span><span class="t">&lt;/ol&gt;</span>
+<span class="t">&lt;ol</span> <span class="a">class</span>=<span class="v">"mc-breadcrumb"</span> <span class="a">data-hue</span>=<span class="v">"red"</span><span class="t">&gt;</span><span class="cm">...</span><span class="t">&lt;/ol&gt;</span>
+<span class="t">&lt;ol</span> <span class="a">class</span>=<span class="v">"mc-breadcrumb"</span> <span class="a">data-hue</span>=<span class="v">"green"</span><span class="t">&gt;</span><span class="cm">...</span><span class="t">&lt;/ol&gt;</span>
+<span class="t">&lt;ol</span> <span class="a">class</span>=<span class="v">"mc-breadcrumb"</span> <span class="a">data-hue</span>=<span class="v">"blue"</span><span class="t">&gt;</span><span class="cm">...</span><span class="t">&lt;/ol&gt;</span>
+<span class="t">&lt;ol</span> <span class="a">class</span>=<span class="v">"mc-breadcrumb"</span> <span class="a">data-hue</span>=<span class="v">"yellow"</span><span class="t">&gt;</span><span class="cm">...</span><span class="t">&lt;/ol&gt;</span>
+<span class="t">&lt;ol</span> <span class="a">class</span>=<span class="v">"mc-breadcrumb"</span> <span class="a">data-hue</span>=<span class="v">"magenta"</span><span class="t">&gt;</span><span class="cm">...</span><span class="t">&lt;/ol&gt;</span>
+<span class="t">&lt;ol</span> <span class="a">class</span>=<span class="v">"mc-breadcrumb"</span> <span class="a">data-hue</span>=<span class="v">"teal"</span><span class="t">&gt;</span><span class="cm">...</span><span class="t">&lt;/ol&gt;</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- ====== 3. CUSTOM DIVIDERS ====== -->
+        <section class="guide-section">
+            <h2 class="text-2xl font-bold mb-1 flex items-center">
+                <span class="section-number" style="background-color: #5252ff; color: #FFFFFF;">3</span>
+                Custom Dividers
+            </h2>
+            <p class="text-p-neutral-400 text-sm mb-6 ml-10">Override the default "/" divider using the <code style="color: #9494ff;">--mc-breadcrumb-divider</code> CSS custom property. Set it on the <code style="color: #9494ff;">.mc-breadcrumb</code> element.</p>
+
+            <div class="divider-grid">
+                <!-- Default "/" -->
+                <div class="guide-card">
+                    <div class="guide-label mb-3">/ (default)</div>
+                    <div class="mode-panel mode-panel-m2" data-mode="2">
+                        <nav aria-label="breadcrumb">
+                            <ol class="mc-breadcrumb" data-hue="blue">
+                                <li class="mc-breadcrumb-item"><a href="#">Home</a></li>
+                                <li class="mc-breadcrumb-item"><a href="#">Library</a></li>
+                                <li class="mc-breadcrumb-item active" aria-current="page">Data</li>
+                            </ol>
+                        </nav>
+                    </div>
+                </div>
+
+                <!-- ">" -->
+                <div class="guide-card">
+                    <div class="guide-label mb-3">&gt; (chevron)</div>
+                    <div class="mode-panel mode-panel-m2" data-mode="2">
+                        <nav aria-label="breadcrumb">
+                            <ol class="mc-breadcrumb" data-hue="blue" style="--mc-breadcrumb-divider: '>';">
+                                <li class="mc-breadcrumb-item"><a href="#">Home</a></li>
+                                <li class="mc-breadcrumb-item"><a href="#">Library</a></li>
+                                <li class="mc-breadcrumb-item active" aria-current="page">Data</li>
+                            </ol>
+                        </nav>
+                    </div>
+                </div>
+
+                <!-- ">>" -->
+                <div class="guide-card">
+                    <div class="guide-label mb-3">&raquo; (guillemet)</div>
+                    <div class="mode-panel mode-panel-m2" data-mode="2">
+                        <nav aria-label="breadcrumb">
+                            <ol class="mc-breadcrumb" data-hue="blue" style="--mc-breadcrumb-divider: '\00bb';">
+                                <li class="mc-breadcrumb-item"><a href="#">Home</a></li>
+                                <li class="mc-breadcrumb-item"><a href="#">Library</a></li>
+                                <li class="mc-breadcrumb-item active" aria-current="page">Data</li>
+                            </ol>
+                        </nav>
+                    </div>
+                </div>
+
+                <!-- "|" -->
+                <div class="guide-card">
+                    <div class="guide-label mb-3">| (pipe)</div>
+                    <div class="mode-panel mode-panel-m2" data-mode="2">
+                        <nav aria-label="breadcrumb">
+                            <ol class="mc-breadcrumb" data-hue="blue" style="--mc-breadcrumb-divider: '|';">
+                                <li class="mc-breadcrumb-item"><a href="#">Home</a></li>
+                                <li class="mc-breadcrumb-item"><a href="#">Library</a></li>
+                                <li class="mc-breadcrumb-item active" aria-current="page">Data</li>
+                            </ol>
+                        </nav>
+                    </div>
+                </div>
+
+                <!-- "-" -->
+                <div class="guide-card">
+                    <div class="guide-label mb-3">- (dash)</div>
+                    <div class="mode-panel mode-panel-m2" data-mode="2">
+                        <nav aria-label="breadcrumb">
+                            <ol class="mc-breadcrumb" data-hue="blue" style="--mc-breadcrumb-divider: '-';">
+                                <li class="mc-breadcrumb-item"><a href="#">Home</a></li>
+                                <li class="mc-breadcrumb-item"><a href="#">Library</a></li>
+                                <li class="mc-breadcrumb-item active" aria-current="page">Data</li>
+                            </ol>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Code snippet -->
+            <div class="guide-card mt-4">
+                <div class="guide-label mb-2">Code</div>
+                <div class="code-block">
+<span class="cm">&lt;!-- Default divider: / --&gt;</span>
+<span class="t">&lt;ol</span> <span class="a">class</span>=<span class="v">"mc-breadcrumb"</span> <span class="a">data-hue</span>=<span class="v">"blue"</span><span class="t">&gt;</span><span class="cm">...</span><span class="t">&lt;/ol&gt;</span>
+
+<span class="cm">&lt;!-- Chevron &gt; --&gt;</span>
+<span class="t">&lt;ol</span> <span class="a">class</span>=<span class="v">"mc-breadcrumb"</span> <span class="a">data-hue</span>=<span class="v">"blue"</span>
+    <span class="a">style</span>=<span class="v">"--mc-breadcrumb-divider: '&gt;';"</span><span class="t">&gt;</span><span class="cm">...</span><span class="t">&lt;/ol&gt;</span>
+
+<span class="cm">&lt;!-- Guillemet &raquo; --&gt;</span>
+<span class="t">&lt;ol</span> <span class="a">class</span>=<span class="v">"mc-breadcrumb"</span> <span class="a">data-hue</span>=<span class="v">"blue"</span>
+    <span class="a">style</span>=<span class="v">"--mc-breadcrumb-divider: '\00bb';"</span><span class="t">&gt;</span><span class="cm">...</span><span class="t">&lt;/ol&gt;</span>
+
+<span class="cm">&lt;!-- Pipe | --&gt;</span>
+<span class="t">&lt;ol</span> <span class="a">class</span>=<span class="v">"mc-breadcrumb"</span> <span class="a">data-hue</span>=<span class="v">"blue"</span>
+    <span class="a">style</span>=<span class="v">"--mc-breadcrumb-divider: '|';"</span><span class="t">&gt;</span><span class="cm">...</span><span class="t">&lt;/ol&gt;</span>
+
+<span class="cm">&lt;!-- Dash - --&gt;</span>
+<span class="t">&lt;ol</span> <span class="a">class</span>=<span class="v">"mc-breadcrumb"</span> <span class="a">data-hue</span>=<span class="v">"blue"</span>
+    <span class="a">style</span>=<span class="v">"--mc-breadcrumb-divider: '-';"</span><span class="t">&gt;</span><span class="cm">...</span><span class="t">&lt;/ol&gt;</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- ====== 4. SIZE SCALE ====== -->
+        <section class="guide-section">
+            <h2 class="text-2xl font-bold mb-1 flex items-center">
+                <span class="section-number" style="background-color: #5252ff; color: #FFFFFF;">4</span>
+                Size Scale
+            </h2>
+            <p class="text-p-neutral-400 text-sm mb-6 ml-10">All 6 sizes from xs (11px) to xxl (20px). The default (no size class) renders at md.</p>
+
+            <div class="guide-card">
+                <table class="size-table">
+                    <thead>
+                        <tr>
+                            <th>Size</th>
+                            <th>Class</th>
+                            <th>Preview</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>xs (11px)</td>
+                            <td class="mono">.mc-breadcrumb-xs</td>
+                            <td>
+                                <div data-mode="2">
+                                    <nav aria-label="breadcrumb">
+                                        <ol class="mc-breadcrumb mc-breadcrumb-xs" data-hue="blue">
+                                            <li class="mc-breadcrumb-item"><a href="#">Home</a></li>
+                                            <li class="mc-breadcrumb-item"><a href="#">Library</a></li>
+                                            <li class="mc-breadcrumb-item active" aria-current="page">Data</li>
+                                        </ol>
+                                    </nav>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>sm (12px)</td>
+                            <td class="mono">.mc-breadcrumb-sm</td>
+                            <td>
+                                <div data-mode="2">
+                                    <nav aria-label="breadcrumb">
+                                        <ol class="mc-breadcrumb mc-breadcrumb-sm" data-hue="blue">
+                                            <li class="mc-breadcrumb-item"><a href="#">Home</a></li>
+                                            <li class="mc-breadcrumb-item"><a href="#">Library</a></li>
+                                            <li class="mc-breadcrumb-item active" aria-current="page">Data</li>
+                                        </ol>
+                                    </nav>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>md (14px)</td>
+                            <td class="mono">(default)</td>
+                            <td>
+                                <div data-mode="2">
+                                    <nav aria-label="breadcrumb">
+                                        <ol class="mc-breadcrumb" data-hue="blue">
+                                            <li class="mc-breadcrumb-item"><a href="#">Home</a></li>
+                                            <li class="mc-breadcrumb-item"><a href="#">Library</a></li>
+                                            <li class="mc-breadcrumb-item active" aria-current="page">Data</li>
+                                        </ol>
+                                    </nav>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>lg (16px)</td>
+                            <td class="mono">.mc-breadcrumb-lg</td>
+                            <td>
+                                <div data-mode="2">
+                                    <nav aria-label="breadcrumb">
+                                        <ol class="mc-breadcrumb mc-breadcrumb-lg" data-hue="blue">
+                                            <li class="mc-breadcrumb-item"><a href="#">Home</a></li>
+                                            <li class="mc-breadcrumb-item"><a href="#">Library</a></li>
+                                            <li class="mc-breadcrumb-item active" aria-current="page">Data</li>
+                                        </ol>
+                                    </nav>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>xl (18px)</td>
+                            <td class="mono">.mc-breadcrumb-xl</td>
+                            <td>
+                                <div data-mode="2">
+                                    <nav aria-label="breadcrumb">
+                                        <ol class="mc-breadcrumb mc-breadcrumb-xl" data-hue="blue">
+                                            <li class="mc-breadcrumb-item"><a href="#">Home</a></li>
+                                            <li class="mc-breadcrumb-item"><a href="#">Library</a></li>
+                                            <li class="mc-breadcrumb-item active" aria-current="page">Data</li>
+                                        </ol>
+                                    </nav>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>xxl (20px)</td>
+                            <td class="mono">.mc-breadcrumb-xxl</td>
+                            <td>
+                                <div data-mode="2">
+                                    <nav aria-label="breadcrumb">
+                                        <ol class="mc-breadcrumb mc-breadcrumb-xxl" data-hue="blue">
+                                            <li class="mc-breadcrumb-item"><a href="#">Home</a></li>
+                                            <li class="mc-breadcrumb-item"><a href="#">Library</a></li>
+                                            <li class="mc-breadcrumb-item active" aria-current="page">Data</li>
+                                        </ol>
+                                    </nav>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Code snippet -->
+            <div class="guide-card mt-4">
+                <div class="guide-label mb-2">Code</div>
+                <div class="code-block">
+<span class="t">&lt;ol</span> <span class="a">class</span>=<span class="v">"mc-breadcrumb mc-breadcrumb-xs"</span> <span class="a">data-hue</span>=<span class="v">"blue"</span><span class="t">&gt;</span><span class="cm">...</span><span class="t">&lt;/ol&gt;</span>
+<span class="t">&lt;ol</span> <span class="a">class</span>=<span class="v">"mc-breadcrumb mc-breadcrumb-sm"</span> <span class="a">data-hue</span>=<span class="v">"blue"</span><span class="t">&gt;</span><span class="cm">...</span><span class="t">&lt;/ol&gt;</span>
+<span class="t">&lt;ol</span> <span class="a">class</span>=<span class="v">"mc-breadcrumb"</span> <span class="a">data-hue</span>=<span class="v">"blue"</span><span class="t">&gt;</span><span class="cm">...</span><span class="t">&lt;/ol&gt;</span>  <span class="cm">&lt;!-- md is default --&gt;</span>
+<span class="t">&lt;ol</span> <span class="a">class</span>=<span class="v">"mc-breadcrumb mc-breadcrumb-lg"</span> <span class="a">data-hue</span>=<span class="v">"blue"</span><span class="t">&gt;</span><span class="cm">...</span><span class="t">&lt;/ol&gt;</span>
+<span class="t">&lt;ol</span> <span class="a">class</span>=<span class="v">"mc-breadcrumb mc-breadcrumb-xl"</span> <span class="a">data-hue</span>=<span class="v">"blue"</span><span class="t">&gt;</span><span class="cm">...</span><span class="t">&lt;/ol&gt;</span>
+<span class="t">&lt;ol</span> <span class="a">class</span>=<span class="v">"mc-breadcrumb mc-breadcrumb-xxl"</span> <span class="a">data-hue</span>=<span class="v">"blue"</span><span class="t">&gt;</span><span class="cm">...</span><span class="t">&lt;/ol&gt;</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- ====== 5. SURFACE MODES ====== -->
+        <section class="guide-section">
+            <h2 class="text-2xl font-bold mb-1 flex items-center">
+                <span class="section-number" style="background-color: #5252ff; color: #FFFFFF;">5</span>
+                Surface Modes
+            </h2>
+            <p class="text-p-neutral-400 text-sm mb-6 ml-10">All 5 surface modes demonstrated with the blue hue. Each mode uses the appropriate surface background and adjusts link/text colors for WCAG AA compliance.</p>
+
+            <!-- Mode 1 — White -->
+            <div class="guide-card mb-4">
+                <div class="mode-label" style="color: #6c6c6c;">Mode 1 &mdash; White surface (#FFFFFF)</div>
+                <div class="mode-panel mode-panel-m1" data-mode="1">
+                    <nav aria-label="breadcrumb">
+                        <ol class="mc-breadcrumb" data-hue="blue">
+                            <li class="mc-breadcrumb-item"><a href="#">Home</a></li>
+                            <li class="mc-breadcrumb-item"><a href="#">Library</a></li>
+                            <li class="mc-breadcrumb-item"><a href="#">Category</a></li>
+                            <li class="mc-breadcrumb-item active" aria-current="page">Data</li>
+                        </ol>
+                    </nav>
+                </div>
+            </div>
+
+            <!-- Mode 2 — Black -->
+            <div class="guide-card mb-4">
+                <div class="mode-label" style="color: #6c6c6c;">Mode 2 &mdash; Black surface (#0A0A0A)</div>
+                <div class="mode-panel mode-panel-m2" data-mode="2">
+                    <nav aria-label="breadcrumb">
+                        <ol class="mc-breadcrumb" data-hue="blue">
+                            <li class="mc-breadcrumb-item"><a href="#">Home</a></li>
+                            <li class="mc-breadcrumb-item"><a href="#">Library</a></li>
+                            <li class="mc-breadcrumb-item"><a href="#">Category</a></li>
+                            <li class="mc-breadcrumb-item active" aria-current="page">Data</li>
+                        </ol>
+                    </nav>
+                </div>
+            </div>
+
+            <!-- Mode 3 — Light Hue -->
+            <div class="guide-card mb-4">
+                <div class="mode-label" style="color: #6c6c6c;">Mode 3 &mdash; Light hue surface (blue.100 #dedeff)</div>
+                <div class="mode-panel mode-panel-m3" data-mode="3">
+                    <nav aria-label="breadcrumb">
+                        <ol class="mc-breadcrumb" data-hue="blue">
+                            <li class="mc-breadcrumb-item"><a href="#">Home</a></li>
+                            <li class="mc-breadcrumb-item"><a href="#">Library</a></li>
+                            <li class="mc-breadcrumb-item"><a href="#">Category</a></li>
+                            <li class="mc-breadcrumb-item active" aria-current="page">Data</li>
+                        </ol>
+                    </nav>
+                </div>
+            </div>
+
+            <!-- Mode 4 — Dark Hue -->
+            <div class="guide-card mb-4">
+                <div class="mode-label" style="color: #6c6c6c;">Mode 4 &mdash; Dark hue surface (blue.800 #000081)</div>
+                <div class="mode-panel mode-panel-m4" data-mode="4">
+                    <nav aria-label="breadcrumb">
+                        <ol class="mc-breadcrumb" data-hue="blue">
+                            <li class="mc-breadcrumb-item"><a href="#">Home</a></li>
+                            <li class="mc-breadcrumb-item"><a href="#">Library</a></li>
+                            <li class="mc-breadcrumb-item"><a href="#">Category</a></li>
+                            <li class="mc-breadcrumb-item active" aria-current="page">Data</li>
+                        </ol>
+                    </nav>
+                </div>
+            </div>
+
+            <!-- Mode 5 — Mid Hue -->
+            <div class="guide-card mb-4">
+                <div class="mode-label" style="color: #6c6c6c;">Mode 5 &mdash; Mid hue surface (blue.500 #5252ff)</div>
+                <div class="mode-panel mode-panel-m5" data-mode="5">
+                    <nav aria-label="breadcrumb">
+                        <ol class="mc-breadcrumb" data-hue="blue">
+                            <li class="mc-breadcrumb-item"><a href="#">Home</a></li>
+                            <li class="mc-breadcrumb-item"><a href="#">Library</a></li>
+                            <li class="mc-breadcrumb-item"><a href="#">Category</a></li>
+                            <li class="mc-breadcrumb-item active" aria-current="page">Data</li>
+                        </ol>
+                    </nav>
+                </div>
+            </div>
+
+            <!-- Code snippet -->
+            <div class="guide-card mt-4">
+                <div class="guide-label mb-2">Code</div>
+                <div class="code-block">
+<span class="cm">&lt;!-- Mode 1 — White surface --&gt;</span>
+<span class="t">&lt;div</span> <span class="a">data-mode</span>=<span class="v">"1"</span><span class="t">&gt;</span>
+  <span class="t">&lt;nav</span> <span class="a">aria-label</span>=<span class="v">"breadcrumb"</span><span class="t">&gt;</span>
+    <span class="t">&lt;ol</span> <span class="a">class</span>=<span class="v">"mc-breadcrumb"</span> <span class="a">data-hue</span>=<span class="v">"blue"</span><span class="t">&gt;</span><span class="cm">...</span><span class="t">&lt;/ol&gt;</span>
+  <span class="t">&lt;/nav&gt;</span>
+<span class="t">&lt;/div&gt;</span>
+
+<span class="cm">&lt;!-- Mode 2 — Black surface --&gt;</span>
+<span class="t">&lt;div</span> <span class="a">data-mode</span>=<span class="v">"2"</span><span class="t">&gt;</span>
+  <span class="t">&lt;nav</span> <span class="a">aria-label</span>=<span class="v">"breadcrumb"</span><span class="t">&gt;</span>
+    <span class="t">&lt;ol</span> <span class="a">class</span>=<span class="v">"mc-breadcrumb"</span> <span class="a">data-hue</span>=<span class="v">"blue"</span><span class="t">&gt;</span><span class="cm">...</span><span class="t">&lt;/ol&gt;</span>
+  <span class="t">&lt;/nav&gt;</span>
+<span class="t">&lt;/div&gt;</span>
+
+<span class="cm">&lt;!-- Mode 3 — Light hue surface --&gt;</span>
+<span class="t">&lt;div</span> <span class="a">data-mode</span>=<span class="v">"3"</span><span class="t">&gt;</span>
+  <span class="t">&lt;nav</span> <span class="a">aria-label</span>=<span class="v">"breadcrumb"</span><span class="t">&gt;</span>
+    <span class="t">&lt;ol</span> <span class="a">class</span>=<span class="v">"mc-breadcrumb"</span> <span class="a">data-hue</span>=<span class="v">"blue"</span><span class="t">&gt;</span><span class="cm">...</span><span class="t">&lt;/ol&gt;</span>
+  <span class="t">&lt;/nav&gt;</span>
+<span class="t">&lt;/div&gt;</span>
+
+<span class="cm">&lt;!-- Mode 4 — Dark hue surface --&gt;</span>
+<span class="t">&lt;div</span> <span class="a">data-mode</span>=<span class="v">"4"</span><span class="t">&gt;</span>
+  <span class="t">&lt;nav</span> <span class="a">aria-label</span>=<span class="v">"breadcrumb"</span><span class="t">&gt;</span>
+    <span class="t">&lt;ol</span> <span class="a">class</span>=<span class="v">"mc-breadcrumb"</span> <span class="a">data-hue</span>=<span class="v">"blue"</span><span class="t">&gt;</span><span class="cm">...</span><span class="t">&lt;/ol&gt;</span>
+  <span class="t">&lt;/nav&gt;</span>
+<span class="t">&lt;/div&gt;</span>
+
+<span class="cm">&lt;!-- Mode 5 — Mid hue surface --&gt;</span>
+<span class="t">&lt;div</span> <span class="a">data-mode</span>=<span class="v">"5"</span><span class="t">&gt;</span>
+  <span class="t">&lt;nav</span> <span class="a">aria-label</span>=<span class="v">"breadcrumb"</span><span class="t">&gt;</span>
+    <span class="t">&lt;ol</span> <span class="a">class</span>=<span class="v">"mc-breadcrumb"</span> <span class="a">data-hue</span>=<span class="v">"blue"</span><span class="t">&gt;</span><span class="cm">...</span><span class="t">&lt;/ol&gt;</span>
+  <span class="t">&lt;/nav&gt;</span>
+<span class="t">&lt;/div&gt;</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- ====== 6. SEMANTIC MAPPING ====== -->
+        <section class="guide-section">
+            <h2 class="text-2xl font-bold mb-1 flex items-center">
+                <span class="section-number" style="background-color: #5252ff; color: #FFFFFF;">6</span>
+                Semantic Mapping
+            </h2>
+            <p class="text-p-neutral-400 text-sm mb-6 ml-10">Breadcrumbs using semantic hue assignments for common UI patterns: primary, success, danger, warning, info, and premium.</p>
+
+            <div class="hue-grid">
+                <!-- Primary = blue -->
+                <div class="guide-card">
+                    <div class="guide-label mb-3">Primary (blue)</div>
+                    <div class="mode-panel mode-panel-m2" data-mode="2">
+                        <nav aria-label="breadcrumb">
+                            <ol class="mc-breadcrumb" data-hue="blue">
+                                <li class="mc-breadcrumb-item"><a href="#">Dashboard</a></li>
+                                <li class="mc-breadcrumb-item"><a href="#">Settings</a></li>
+                                <li class="mc-breadcrumb-item active" aria-current="page">Profile</li>
+                            </ol>
+                        </nav>
+                    </div>
+                </div>
+
+                <!-- Success = green -->
+                <div class="guide-card">
+                    <div class="guide-label mb-3">Success (green)</div>
+                    <div class="mode-panel mode-panel-m2" data-mode="2">
+                        <nav aria-label="breadcrumb">
+                            <ol class="mc-breadcrumb" data-hue="green">
+                                <li class="mc-breadcrumb-item"><a href="#">Orders</a></li>
+                                <li class="mc-breadcrumb-item"><a href="#">Completed</a></li>
+                                <li class="mc-breadcrumb-item active" aria-current="page">Order #1234</li>
+                            </ol>
+                        </nav>
+                    </div>
+                </div>
+
+                <!-- Danger = red -->
+                <div class="guide-card">
+                    <div class="guide-label mb-3">Danger (red)</div>
+                    <div class="mode-panel mode-panel-m2" data-mode="2">
+                        <nav aria-label="breadcrumb">
+                            <ol class="mc-breadcrumb" data-hue="red">
+                                <li class="mc-breadcrumb-item"><a href="#">Admin</a></li>
+                                <li class="mc-breadcrumb-item"><a href="#">Errors</a></li>
+                                <li class="mc-breadcrumb-item active" aria-current="page">Critical</li>
+                            </ol>
+                        </nav>
+                    </div>
+                </div>
+
+                <!-- Warning = yellow -->
+                <div class="guide-card">
+                    <div class="guide-label mb-3">Warning (yellow)</div>
+                    <div class="mode-panel mode-panel-m2" data-mode="2">
+                        <nav aria-label="breadcrumb">
+                            <ol class="mc-breadcrumb" data-hue="yellow">
+                                <li class="mc-breadcrumb-item"><a href="#">System</a></li>
+                                <li class="mc-breadcrumb-item"><a href="#">Alerts</a></li>
+                                <li class="mc-breadcrumb-item active" aria-current="page">Pending</li>
+                            </ol>
+                        </nav>
+                    </div>
+                </div>
+
+                <!-- Info = teal -->
+                <div class="guide-card">
+                    <div class="guide-label mb-3">Info (teal)</div>
+                    <div class="mode-panel mode-panel-m2" data-mode="2">
+                        <nav aria-label="breadcrumb">
+                            <ol class="mc-breadcrumb" data-hue="teal">
+                                <li class="mc-breadcrumb-item"><a href="#">Help</a></li>
+                                <li class="mc-breadcrumb-item"><a href="#">Docs</a></li>
+                                <li class="mc-breadcrumb-item active" aria-current="page">API Reference</li>
+                            </ol>
+                        </nav>
+                    </div>
+                </div>
+
+                <!-- Premium = magenta -->
+                <div class="guide-card">
+                    <div class="guide-label mb-3">Premium (magenta)</div>
+                    <div class="mode-panel mode-panel-m2" data-mode="2">
+                        <nav aria-label="breadcrumb">
+                            <ol class="mc-breadcrumb" data-hue="magenta">
+                                <li class="mc-breadcrumb-item"><a href="#">Account</a></li>
+                                <li class="mc-breadcrumb-item"><a href="#">Premium</a></li>
+                                <li class="mc-breadcrumb-item active" aria-current="page">Features</li>
+                            </ol>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Code snippet -->
+            <div class="guide-card mt-4">
+                <div class="guide-label mb-2">Code</div>
+                <div class="code-block">
+<span class="cm">&lt;!-- Primary / default actions --&gt;</span>
+<span class="t">&lt;ol</span> <span class="a">class</span>=<span class="v">"mc-breadcrumb"</span> <span class="a">data-hue</span>=<span class="v">"blue"</span><span class="t">&gt;</span><span class="cm">...</span><span class="t">&lt;/ol&gt;</span>
+
+<span class="cm">&lt;!-- Success / confirmations --&gt;</span>
+<span class="t">&lt;ol</span> <span class="a">class</span>=<span class="v">"mc-breadcrumb"</span> <span class="a">data-hue</span>=<span class="v">"green"</span><span class="t">&gt;</span><span class="cm">...</span><span class="t">&lt;/ol&gt;</span>
+
+<span class="cm">&lt;!-- Danger / errors --&gt;</span>
+<span class="t">&lt;ol</span> <span class="a">class</span>=<span class="v">"mc-breadcrumb"</span> <span class="a">data-hue</span>=<span class="v">"red"</span><span class="t">&gt;</span><span class="cm">...</span><span class="t">&lt;/ol&gt;</span>
+
+<span class="cm">&lt;!-- Warning / caution --&gt;</span>
+<span class="t">&lt;ol</span> <span class="a">class</span>=<span class="v">"mc-breadcrumb"</span> <span class="a">data-hue</span>=<span class="v">"yellow"</span><span class="t">&gt;</span><span class="cm">...</span><span class="t">&lt;/ol&gt;</span>
+
+<span class="cm">&lt;!-- Info / informational --&gt;</span>
+<span class="t">&lt;ol</span> <span class="a">class</span>=<span class="v">"mc-breadcrumb"</span> <span class="a">data-hue</span>=<span class="v">"teal"</span><span class="t">&gt;</span><span class="cm">...</span><span class="t">&lt;/ol&gt;</span>
+
+<span class="cm">&lt;!-- Premium / special features --&gt;</span>
+<span class="t">&lt;ol</span> <span class="a">class</span>=<span class="v">"mc-breadcrumb"</span> <span class="a">data-hue</span>=<span class="v">"magenta"</span><span class="t">&gt;</span><span class="cm">...</span><span class="t">&lt;/ol&gt;</span>
+                </div>
+            </div>
+        </section>
+
+        <footer class="docs-footer">
+            <p>MC Perception Design System &mdash; 7 hues &times; 5 modes &times; 6 sizes &mdash; WCAG AA compliant</p>
+            <p style="margin-top: 0.5rem;"><a href="https://github.com/anthropics/claude-code">Built with Claude Code</a></p>
+        </footer>
+
+            </div>
+        </main>
+    </div>
+
+    <script>
+    (function() {
+        var page = location.pathname.split('/').pop().replace('.html','') || 'index';
+        var links = document.querySelectorAll('.docs-nav-link');
+        links.forEach(function(a) {
+            if (a.getAttribute('data-page') === page) a.classList.add('active');
+        });
+        var hamburger = document.getElementById('docs-hamburger');
+        var sidebar = document.getElementById('docs-sidebar');
+        var overlay = document.getElementById('docs-overlay');
+        if (hamburger && sidebar && overlay) {
+            hamburger.addEventListener('click', function() {
+                sidebar.classList.toggle('open');
+                overlay.classList.toggle('open');
+            });
+            overlay.addEventListener('click', function() {
+                sidebar.classList.remove('open');
+                overlay.classList.remove('open');
+            });
+        }
+    })();
+    </script>
+
+</body>
+</html>

@@ -3908,6 +3908,200 @@
     }
 
     /* ======================================
+       BREADCRUMB — Surface-Mode-Aware
+       Navigation hierarchy indicator
+
+       Color: data-hue="neutral|red|green|blue|yellow|magenta|teal"
+       Size: mc-breadcrumb-xs | mc-breadcrumb-sm | (md default) | mc-breadcrumb-lg | mc-breadcrumb-xl | mc-breadcrumb-xxl
+       Divider: custom via --mc-breadcrumb-divider CSS variable
+       States: .active on .mc-breadcrumb-item (current page)
+
+       Surface mode: inherits data-mode from ancestor container.
+       Default (no data-mode) = dark surface (Mode 2).
+    ======================================= */
+
+    /* --- Hue Token Layer --- */
+    .mc-breadcrumb[data-hue="neutral"] {
+        --bc-50: var(--color-p-neutral-50); --bc-100: var(--color-p-neutral-100);
+        --bc-200: var(--color-p-neutral-200); --bc-300: var(--color-p-neutral-300);
+        --bc-400: var(--color-p-neutral-400); --bc-500: var(--color-p-neutral-500);
+        --bc-600: var(--color-p-neutral-600); --bc-700: var(--color-p-neutral-700);
+        --bc-800: var(--color-p-neutral-800); --bc-900: var(--color-p-neutral-900);
+    }
+    .mc-breadcrumb[data-hue="red"] {
+        --bc-50: var(--color-p-red-50); --bc-100: var(--color-p-red-100);
+        --bc-200: var(--color-p-red-200); --bc-300: var(--color-p-red-300);
+        --bc-400: var(--color-p-red-400); --bc-500: var(--color-p-red-500);
+        --bc-600: var(--color-p-red-600); --bc-700: var(--color-p-red-700);
+        --bc-800: var(--color-p-red-800); --bc-900: var(--color-p-red-900);
+    }
+    .mc-breadcrumb[data-hue="green"] {
+        --bc-50: var(--color-p-green-50); --bc-100: var(--color-p-green-100);
+        --bc-200: var(--color-p-green-200); --bc-300: var(--color-p-green-300);
+        --bc-400: var(--color-p-green-400); --bc-500: var(--color-p-green-500);
+        --bc-600: var(--color-p-green-600); --bc-700: var(--color-p-green-700);
+        --bc-800: var(--color-p-green-800); --bc-900: var(--color-p-green-900);
+    }
+    .mc-breadcrumb[data-hue="blue"] {
+        --bc-50: var(--color-p-blue-50); --bc-100: var(--color-p-blue-100);
+        --bc-200: var(--color-p-blue-200); --bc-300: var(--color-p-blue-300);
+        --bc-400: var(--color-p-blue-400); --bc-500: var(--color-p-blue-500);
+        --bc-600: var(--color-p-blue-600); --bc-700: var(--color-p-blue-700);
+        --bc-800: var(--color-p-blue-800); --bc-900: var(--color-p-blue-900);
+    }
+    .mc-breadcrumb[data-hue="yellow"] {
+        --bc-50: var(--color-p-yellow-50); --bc-100: var(--color-p-yellow-100);
+        --bc-200: var(--color-p-yellow-200); --bc-300: var(--color-p-yellow-300);
+        --bc-400: var(--color-p-yellow-400); --bc-500: var(--color-p-yellow-500);
+        --bc-600: var(--color-p-yellow-600); --bc-700: var(--color-p-yellow-700);
+        --bc-800: var(--color-p-yellow-800); --bc-900: var(--color-p-yellow-900);
+    }
+    .mc-breadcrumb[data-hue="magenta"] {
+        --bc-50: var(--color-p-magenta-50); --bc-100: var(--color-p-magenta-100);
+        --bc-200: var(--color-p-magenta-200); --bc-300: var(--color-p-magenta-300);
+        --bc-400: var(--color-p-magenta-400); --bc-500: var(--color-p-magenta-500);
+        --bc-600: var(--color-p-magenta-600); --bc-700: var(--color-p-magenta-700);
+        --bc-800: var(--color-p-magenta-800); --bc-900: var(--color-p-magenta-900);
+    }
+    .mc-breadcrumb[data-hue="teal"] {
+        --bc-50: var(--color-p-teal-50); --bc-100: var(--color-p-teal-100);
+        --bc-200: var(--color-p-teal-200); --bc-300: var(--color-p-teal-300);
+        --bc-400: var(--color-p-teal-400); --bc-500: var(--color-p-teal-500);
+        --bc-600: var(--color-p-teal-600); --bc-700: var(--color-p-teal-700);
+        --bc-800: var(--color-p-teal-800); --bc-900: var(--color-p-teal-900);
+    }
+
+    /* --- Base (M2 Dark Surface Default) --- */
+    .mc-breadcrumb {
+        --bc-50: var(--color-p-neutral-50); --bc-100: var(--color-p-neutral-100);
+        --bc-200: var(--color-p-neutral-200); --bc-300: var(--color-p-neutral-300);
+        --bc-400: var(--color-p-neutral-400); --bc-500: var(--color-p-neutral-500);
+        --bc-600: var(--color-p-neutral-600); --bc-700: var(--color-p-neutral-700);
+        --bc-800: var(--color-p-neutral-800); --bc-900: var(--color-p-neutral-900);
+        --mc-breadcrumb-divider: "/";
+        display: flex;
+        flex-wrap: wrap;
+        padding: 0;
+        margin: 0 0 8px 0;
+        font-size: 14px;
+        list-style: none;
+    }
+
+    .mc-breadcrumb-item {
+        display: flex;
+        align-items: center;
+    }
+
+    /* Divider between items */
+    .mc-breadcrumb-item + .mc-breadcrumb-item::before {
+        content: var(--mc-breadcrumb-divider);
+        display: inline-block;
+        padding: 0 8px;
+        color: var(--bc-500);
+    }
+
+    /* Link items */
+    .mc-breadcrumb-item a {
+        color: var(--bc-400);
+        text-decoration: none;
+        transition: color 0.15s ease;
+    }
+    .mc-breadcrumb-item a:hover {
+        color: #FFFFFF;
+        text-decoration: underline;
+    }
+
+    /* Active item (current page) */
+    .mc-breadcrumb-item.active {
+        color: #FFFFFF;
+    }
+
+    /* --- Mode 1: White Surface --- */
+    [data-mode="1"] .mc-breadcrumb-item + .mc-breadcrumb-item::before {
+        color: var(--bc-400);
+    }
+    [data-mode="1"] .mc-breadcrumb-item a {
+        color: var(--bc-500);
+    }
+    [data-mode="1"] .mc-breadcrumb-item a:hover {
+        color: var(--bc-900);
+    }
+    [data-mode="1"] .mc-breadcrumb-item.active {
+        color: var(--bc-600);
+    }
+
+    /* --- Mode 3: Light Hue Surface --- */
+    [data-mode="3"] .mc-breadcrumb-item + .mc-breadcrumb-item::before {
+        color: var(--bc-500);
+    }
+    [data-mode="3"] .mc-breadcrumb-item a {
+        color: var(--bc-600);
+    }
+    [data-mode="3"] .mc-breadcrumb-item a:hover {
+        color: var(--bc-900);
+    }
+    [data-mode="3"] .mc-breadcrumb-item.active {
+        color: var(--bc-800);
+    }
+
+    /* --- Mode 4: Dark Hue Surface --- */
+    [data-mode="4"] .mc-breadcrumb-item + .mc-breadcrumb-item::before {
+        color: var(--bc-400);
+    }
+    [data-mode="4"] .mc-breadcrumb-item a {
+        color: var(--bc-300);
+    }
+    [data-mode="4"] .mc-breadcrumb-item a:hover {
+        color: #FFFFFF;
+    }
+    [data-mode="4"] .mc-breadcrumb-item.active {
+        color: #FFFFFF;
+    }
+
+    /* --- Mode 5: Mid Hue Surface --- */
+    [data-mode="5"] .mc-breadcrumb-item + .mc-breadcrumb-item::before {
+        color: var(--bc-200);
+    }
+    [data-mode="5"] .mc-breadcrumb-item a {
+        color: var(--bc-100);
+    }
+    [data-mode="5"] .mc-breadcrumb-item a:hover {
+        color: #FFFFFF;
+    }
+    [data-mode="5"] .mc-breadcrumb-item.active {
+        color: #FFFFFF;
+    }
+
+    /* --- Size Variants --- */
+    .mc-breadcrumb-xs { font-size: 11px; }
+    .mc-breadcrumb-xs .mc-breadcrumb-item + .mc-breadcrumb-item::before { padding: 0 4px; }
+
+    .mc-breadcrumb-sm { font-size: 12px; }
+    .mc-breadcrumb-sm .mc-breadcrumb-item + .mc-breadcrumb-item::before { padding: 0 6px; }
+
+    /* md is default */
+
+    .mc-breadcrumb-lg { font-size: 16px; }
+    .mc-breadcrumb-lg .mc-breadcrumb-item + .mc-breadcrumb-item::before { padding: 0 10px; }
+
+    .mc-breadcrumb-xl { font-size: 18px; }
+    .mc-breadcrumb-xl .mc-breadcrumb-item + .mc-breadcrumb-item::before { padding: 0 12px; }
+
+    .mc-breadcrumb-xxl { font-size: 20px; }
+    .mc-breadcrumb-xxl .mc-breadcrumb-item + .mc-breadcrumb-item::before { padding: 0 14px; }
+
+    /* Focus ring on links */
+    .mc-breadcrumb-item a:focus-visible {
+        outline: none;
+        box-shadow: 0 0 0 1.5px var(--bc-400);
+        border-radius: 2px;
+    }
+    [data-mode="1"] .mc-breadcrumb-item a:focus-visible { box-shadow: 0 0 0 1.5px var(--bc-500); }
+    [data-mode="3"] .mc-breadcrumb-item a:focus-visible { box-shadow: 0 0 0 1.5px var(--bc-600); }
+    [data-mode="4"] .mc-breadcrumb-item a:focus-visible { box-shadow: 0 0 0 1.5px var(--bc-300); }
+    [data-mode="5"] .mc-breadcrumb-item a:focus-visible { box-shadow: 0 0 0 1.5px #FFFFFF; }
+
+    /* ======================================
        TABLE — Surface-Mode-Aware
        Bootstrap-compatible data table system
 
