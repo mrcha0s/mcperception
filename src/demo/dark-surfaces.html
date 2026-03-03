@@ -1,0 +1,918 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dark Surface Depth — MC Perception</title>
+    <link rel="stylesheet" href="../dist/mcperception.css">
+    <style>
+/* ── Docs Layout ── */
+.docs-layout {
+    display: flex;
+    min-height: 100vh;
+}
+.docs-sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 240px;
+    height: 100vh;
+    background: #222222;
+    border-right: 1px solid #222222;
+    overflow-y: auto;
+    z-index: 40;
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.2s ease;
+}
+.docs-sidebar-header {
+    padding: 1.25rem 1.25rem 0.75rem;
+    border-bottom: 1px solid #222222;
+    display: flex;
+    align-items: baseline;
+    gap: 0.5rem;
+}
+.docs-logo {
+    font-size: 0.875rem;
+    font-weight: 700;
+    color: #FFFFFF;
+    text-decoration: none;
+    letter-spacing: -0.01em;
+}
+.docs-logo:hover { color: #c3c3c3; }
+.docs-version {
+    font-size: 0.625rem;
+    color: #515151;
+    font-family: 'Roboto Mono', ui-monospace, monospace;
+}
+.docs-sidebar-nav {
+    padding: 0.75rem 0;
+    flex: 1;
+}
+.docs-nav-group {
+    margin-bottom: 0.25rem;
+}
+.docs-nav-group-label {
+    font-size: 0.625rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: #515151;
+    padding: 0.625rem 1.25rem 0.375rem;
+}
+.docs-nav-link {
+    display: block;
+    font-size: 0.8125rem;
+    color: #a0a0a0;
+    text-decoration: none;
+    padding: 0.375rem 1.25rem;
+    border-left: 2px solid transparent;
+    transition: color 0.15s, border-color 0.15s, background 0.15s;
+}
+.docs-nav-link:hover {
+    color: #c3c3c3;
+    background: #222222;
+}
+.docs-nav-link.active {
+    color: #5252ff;
+    border-left-color: #5252ff;
+    background: #222222;
+}
+.docs-content {
+    flex: 1;
+    margin-left: 240px;
+}
+
+/* ── Mobile: hamburger + overlay ── */
+#docs-hamburger {
+    display: none;
+    position: fixed;
+    top: 0.75rem;
+    left: 0.75rem;
+    z-index: 50;
+    background: #222222;
+    border: 1px solid #222222;
+    color: #a0a0a0;
+    font-size: 1.25rem;
+    width: 36px;
+    height: 36px;
+    border-radius: 6px;
+    cursor: pointer;
+    align-items: center;
+    justify-content: center;
+    line-height: 1;
+    padding: 0;
+}
+#docs-hamburger:hover { color: #FFFFFF; }
+#docs-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: #090909;
+    z-index: 35;
+}
+@media (max-width: 1023px) {
+    #docs-hamburger { display: flex; }
+    .docs-sidebar {
+        transform: translateX(-100%);
+    }
+    .docs-sidebar.open {
+        transform: translateX(0);
+    }
+    #docs-overlay.open {
+        display: block;
+    }
+    .docs-content {
+        margin-left: 0;
+    }
+}
+
+/* ── Guide Cards & Code Blocks ── */
+.guide-section { margin-bottom: 4rem; }
+.guide-card {
+    background: #090909;
+    border: 1px solid #222222;
+    border-radius: 6px;
+    padding: 1.5rem;
+}
+.guide-label {
+    min-width: 72px;
+    font-size: 0.6rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: #6c6c6c;
+    font-weight: 700;
+}
+.guide-row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.75rem;
+}
+.code-block {
+    background: #0a0a0a;
+    border: 1px solid #222222;
+    border-radius: 6px;
+    padding: 1rem 1.25rem;
+    font-family: 'Roboto Mono', ui-monospace, monospace;
+    font-size: 0.7rem;
+    line-height: 1.8;
+    color: #a0a0a0;
+    overflow-x: auto;
+    tab-size: 2;
+}
+.code-block .t  { color: #ff7474; }
+.code-block .a  { color: #9494ff; }
+.code-block .v  { color: #00ba00; }
+.code-block .c  { color: #6d6dff; }
+.code-block .cm { color: #515151; }
+.code-block .tx { color: #c3c3c3; }
+.surface-panel {
+    border-radius: 8px;
+    padding: 1.25rem 1.5rem;
+}
+.section-number {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    border-radius: 6px;
+    font-size: 0.75rem;
+    font-weight: 800;
+    margin-right: 0.5rem;
+}
+.grid-label {
+    font-size: 0.6rem;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    font-weight: 700;
+    color: #515151;
+    width: 64px;
+    flex-shrink: 0;
+}
+.white-label { color: #7f7f7f; }
+
+/* ── Standard Footer ── */
+.docs-footer {
+    margin-top: 6rem;
+    padding: 2rem 0;
+    border-top: 1px solid #222222;
+    text-align: center;
+}
+.docs-footer p {
+    font-size: 0.75rem;
+    color: #515151;
+}
+.docs-footer a {
+    color: #6d6dff;
+    text-decoration: none;
+}
+.docs-footer a:hover {
+    color: #9494ff;
+}
+
+/* ── Page-Specific Styles ── */
+.layer-stack {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    border-radius: 6px;
+    overflow: hidden;
+}
+.layer-block {
+    padding: 1rem 1.25rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 0.8125rem;
+}
+.layer-block .layer-name {
+    font-weight: 600;
+    letter-spacing: 0.01em;
+}
+.layer-block .layer-hex {
+    font-family: 'Roboto Mono', ui-monospace, monospace;
+    font-size: 0.7rem;
+    color: #a0a0a0;
+}
+.border-demo {
+    display: flex;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+}
+.border-demo-item {
+    padding: 0.75rem 1.25rem;
+    border-radius: 3px;
+    font-size: 0.8125rem;
+    min-width: 160px;
+    text-align: center;
+}
+.do-dont-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.25rem;
+}
+@media (max-width: 767px) {
+    .do-dont-grid {
+        grid-template-columns: 1fr;
+    }
+}
+.do-card {
+    background: #090909;
+    border: 1px solid #222222;
+    border-left: 3px solid #007f00;
+    border-radius: 6px;
+    padding: 1.25rem;
+}
+.dont-card {
+    background: #090909;
+    border: 1px solid #222222;
+    border-left: 3px solid #da0000;
+    border-radius: 6px;
+    padding: 1.25rem;
+}
+.do-card .card-label,
+.dont-card .card-label {
+    font-size: 0.625rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-bottom: 0.75rem;
+}
+.do-card .card-label { color: #00ba00; }
+.dont-card .card-label { color: #ff7474; }
+.example-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 8px 16px;
+    font-size: 14px;
+    font-family: inherit;
+    cursor: pointer;
+    transition: background 0.1s ease, border-color 0.1s ease;
+}
+.example-input {
+    display: block;
+    width: 100%;
+    padding: 8px 12px;
+    font-size: 12px;
+    font-family: inherit;
+    color: #e1e1e1;
+    outline: none;
+    transition: border-color 0.1s ease;
+}
+.example-input::placeholder {
+    font-style: italic;
+}
+.live-showcase {
+    border-radius: 6px;
+    padding: 2rem;
+    margin-bottom: 2rem;
+}
+.live-showcase h4 {
+    font-size: 0.625rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-bottom: 1rem;
+}
+.live-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+.live-row:last-child { margin-bottom: 0; }
+    </style>
+</head>
+<body class="bg-p-black text-white min-h-screen font-sans">
+
+    <button id="docs-hamburger">&#9776;</button>
+    <div id="docs-overlay"></div>
+
+    <div class="docs-layout">
+
+        <!-- ── Sidebar ── -->
+        <aside class="docs-sidebar" id="docs-sidebar">
+            <div class="docs-sidebar-header">
+                <a href="index.html" class="docs-logo">MC Perception</a>
+                <span class="docs-version">v1.0</span>
+            </div>
+            <nav class="docs-sidebar-nav">
+                <div class="docs-nav-group">
+                    <div class="docs-nav-group-label">Getting Started</div>
+                    <a href="index.html" class="docs-nav-link" data-page="index">Home</a>
+                    <a href="getting-started.html" class="docs-nav-link" data-page="getting-started">Getting Started</a>
+                </div>
+                <div class="docs-nav-group">
+                    <div class="docs-nav-group-label">Foundation</div>
+                    <a href="color.html" class="docs-nav-link" data-page="color">Color Palette</a>
+                    <a href="surface-modes.html" class="docs-nav-link" data-page="surface-modes">Surface Modes</a>
+                    <a href="typography.html" class="docs-nav-link" data-page="typography">Typography</a>
+                </div>
+                <div class="docs-nav-group">
+                    <div class="docs-nav-group-label">Components</div>
+                    <a href="button.html" class="docs-nav-link" data-page="button">Buttons</a>
+                    <a href="badges.html" class="docs-nav-link" data-page="badges">Badges</a>
+                    <a href="alert.html" class="docs-nav-link" data-page="alert">Alerts</a>
+                    <a href="input.html" class="docs-nav-link" data-page="input">Form Inputs</a>
+                    <a href="selection.html" class="docs-nav-link" data-page="selection">Selection Controls</a>
+                    <a href="table.html" class="docs-nav-link" data-page="table">Tables</a>
+            <a href="panel-system.html" class="docs-nav-link" data-page="panel-system">Panels</a>
+                </div>
+                <div class="docs-nav-group">
+                    <div class="docs-nav-group-label">Patterns</div>
+                    <a href="forms.html" class="docs-nav-link" data-page="forms">Form Layout</a>
+                    <a href="dark-surfaces.html" class="docs-nav-link" data-page="dark-surfaces">Dark Surface Depth</a>
+                </div>
+                <div class="docs-nav-group">
+                    <div class="docs-nav-group-label">Examples</div>
+                    <a href="trading-card.html" class="docs-nav-link" data-page="trading-card">Trading Card</a>
+                    <a href="orderbook.html" class="docs-nav-link" data-page="orderbook">Orderbook</a>
+                </div>
+            </nav>
+        </aside>
+
+        <!-- ── Main Content ── -->
+        <main class="docs-content">
+            <div class="max-w-7xl mx-auto px-6 py-12">
+
+                <!-- ====== BREADCRUMB ====== -->
+                <nav class="text-xs text-p-neutral-400 mb-6 flex gap-2 items-center">
+                    <a href="index.html" class="hover:text-white transition-colors">Home</a>
+                    <span class="text-p-neutral-600">/</span>
+                    <a href="dark-surfaces.html" class="hover:text-white transition-colors">Patterns</a>
+                    <span class="text-p-neutral-600">/</span>
+                    <span class="text-white font-semibold">Dark Surface Depth</span>
+                </nav>
+
+                <!-- ====== HERO ====== -->
+                <header class="mb-16">
+                    <h1 class="text-5xl font-bold tracking-tight mb-3">Dark Surface Depth</h1>
+                    <p class="text-p-neutral-300 text-lg max-w-3xl">Photoshop-inspired flat layered depth system for Mode 2 (black) and Mode 4 (dark hue) surfaces.</p>
+                </header>
+
+
+                <!-- ====================================================
+                     SECTION 1 — WHY FLAT DESIGN ON DARK SURFACES
+                     ==================================================== -->
+                <section class="guide-section">
+                    <h2 class="text-2xl font-bold mb-2 flex items-center">
+                        <span class="section-number" style="background: #5252ff; color: #FFFFFF;">1</span>
+                        Why Flat Design on Dark Surfaces
+                    </h2>
+                    <p class="text-p-neutral-300 mb-6 max-w-3xl">
+                        On dark backgrounds, gradients and box-shadows become invisible noise. They muddy the interface and destroy legibility. Professional creative tools like Photoshop, Figma, and VS Code achieve visual depth through a different mechanism: <strong style="color: #FFFFFF;">surface layering with flat solid colors and 1px borders only</strong>.
+                    </p>
+                    <p class="text-p-neutral-300 mb-8 max-w-3xl">
+                        This approach gives dark interfaces a clean, precise, tool-like quality. Every element has a clear boundary. Every surface sits at a distinct brightness level. Depth is structural, not decorative.
+                    </p>
+
+                    <div class="guide-card">
+                        <div class="flex items-center gap-2 mb-4">
+                            <span class="guide-label" style="color: #9494ff;">Core Rules</span>
+                        </div>
+                        <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 0.75rem;">
+                            <div style="padding: 0.625rem 0.875rem; background: #0A0A0A; border: 1px solid #222222; border-radius: 3px; font-size: 0.8125rem; color: #e1e1e1;">No gradients</div>
+                            <div style="padding: 0.625rem 0.875rem; background: #0A0A0A; border: 1px solid #222222; border-radius: 3px; font-size: 0.8125rem; color: #e1e1e1;">No box-shadows <span style="color: #515151; font-size: 0.7rem;">(except focus ring: 0 0 0 1.5px)</span></div>
+                            <div style="padding: 0.625rem 0.875rem; background: #0A0A0A; border: 1px solid #222222; border-radius: 3px; font-size: 0.8125rem; color: #e1e1e1;">All backgrounds are flat solid palette colors</div>
+                            <div style="padding: 0.625rem 0.875rem; background: #0A0A0A; border: 1px solid #222222; border-radius: 3px; font-size: 0.8125rem; color: #e1e1e1;">All borders are 1px solid</div>
+                            <div style="padding: 0.625rem 0.875rem; background: #0A0A0A; border: 1px solid #222222; border-radius: 3px; font-size: 0.8125rem; color: #e1e1e1;">Border-radius max 3px on controls</div>
+                            <div style="padding: 0.625rem 0.875rem; background: #0A0A0A; border: 1px solid #222222; border-radius: 3px; font-size: 0.8125rem; color: #e1e1e1;">Buttons: font-weight 400, sentence case</div>
+                        </div>
+                    </div>
+                </section>
+
+
+                <!-- ====================================================
+                     SECTION 2 — THE 4-LAYER SYSTEM
+                     ==================================================== -->
+                <section class="guide-section">
+                    <h2 class="text-2xl font-bold mb-2 flex items-center">
+                        <span class="section-number" style="background: #5252ff; color: #FFFFFF;">2</span>
+                        The 4-Layer System
+                    </h2>
+                    <p class="text-p-neutral-300 mb-6 max-w-3xl">
+                        Depth on dark surfaces is created by stacking 4 brightness levels. Each layer is exactly one palette step apart. Elements closer to the user are brighter; inset elements (inputs) are darker than the panel they sit on.
+                    </p>
+
+                    <!-- Visual stack diagram -->
+                    <div class="guide-card mb-4">
+                        <div class="flex items-center gap-2 mb-3">
+                            <span class="guide-label">Layer Stack</span>
+                        </div>
+                        <pre class="code-block" style="margin: 0;">
+<span class="tx">User's eye (closest)</span>
+    <span class="a">|</span>
+  <span class="v">Raised</span>  <span class="cm">(step 700)  -- brightest, closest to user</span>
+  <span class="c">Panel</span>   <span class="cm">(step 800)  -- standard working surface</span>
+  <span class="t">Deep</span>    <span class="cm">(step 900 or Black) -- page background, furthest away</span>
+  <span class="a">Input</span>   <span class="cm">(step 900)  -- pushed INTO the surface (darker than panel)</span></pre>
+                    </div>
+
+                    <!-- M2 Black layers -->
+                    <div style="margin-bottom: 1.5rem;">
+                        <h3 class="text-lg font-semibold mb-3" style="color: #e1e1e1;">Mode 2 — Black Surface</h3>
+                        <div class="layer-stack">
+                            <div class="layer-block" style="background: #373737; color: #e1e1e1;">
+                                <span class="layer-name">Raised</span>
+                                <span class="layer-hex">#373737 &middot; neutral.700</span>
+                            </div>
+                            <div class="layer-block" style="background: #222222; color: #e1e1e1;">
+                                <span class="layer-name">Panel</span>
+                                <span class="layer-hex">#222222 &middot; neutral.800</span>
+                            </div>
+                            <div class="layer-block" style="background: #0A0A0A; color: #e1e1e1;">
+                                <span class="layer-name">Deep</span>
+                                <span class="layer-hex">#0A0A0A &middot; Black</span>
+                            </div>
+                            <div class="layer-block" style="background: #090909; color: #a0a0a0; border: 1px solid #373737;">
+                                <span class="layer-name">Input</span>
+                                <span class="layer-hex">#090909 &middot; neutral.900</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- M4 Blue layers -->
+                    <div style="margin-bottom: 1.5rem;">
+                        <h3 class="text-lg font-semibold mb-3" style="color: #e1e1e1;">Mode 4 — Dark Hue (Blue example)</h3>
+                        <div class="layer-stack">
+                            <div class="layer-block" style="background: #0000bf; color: #e1e1e1;">
+                                <span class="layer-name">Raised</span>
+                                <span class="layer-hex">#0000bf &middot; blue.700</span>
+                            </div>
+                            <div class="layer-block" style="background: #000081; color: #e1e1e1;">
+                                <span class="layer-name">Panel</span>
+                                <span class="layer-hex">#000081 &middot; blue.800</span>
+                            </div>
+                            <div class="layer-block" style="background: #000035; color: #e1e1e1;">
+                                <span class="layer-name">Deep</span>
+                                <span class="layer-hex">#000035 &middot; blue.900</span>
+                            </div>
+                            <div class="layer-block" style="background: #000035; color: #a0a0a0; border: 1px solid #0000bf;">
+                                <span class="layer-name">Input</span>
+                                <span class="layer-hex">#000035 &middot; blue.900</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Code example -->
+                    <div class="guide-card">
+                        <div class="flex items-center gap-2 mb-3">
+                            <span class="guide-label">Usage</span>
+                        </div>
+                        <div class="code-block">
+<span class="cm">&lt;!-- M2: Page background (Deep) --&gt;</span>
+<span class="t">&lt;body</span> <span class="a">style</span>=<span class="v">"background: #0A0A0A"</span><span class="t">&gt;</span>
+
+  <span class="cm">&lt;!-- M2: Card (Panel) --&gt;</span>
+  <span class="t">&lt;div</span> <span class="a">style</span>=<span class="v">"background: #222222; border: 1px solid #373737"</span><span class="t">&gt;</span>
+
+    <span class="cm">&lt;!-- M2: Input (Input layer) --&gt;</span>
+    <span class="t">&lt;input</span> <span class="a">style</span>=<span class="v">"background: #090909; border: 1px solid #373737"</span> <span class="t">/&gt;</span>
+
+    <span class="cm">&lt;!-- M2: Active tab (Raised) --&gt;</span>
+    <span class="t">&lt;div</span> <span class="a">style</span>=<span class="v">"background: #373737"</span><span class="t">&gt;</span><span class="tx">Active Tab</span><span class="t">&lt;/div&gt;</span>
+
+  <span class="t">&lt;/div&gt;</span>
+<span class="t">&lt;/body&gt;</span>
+                        </div>
+                    </div>
+                </section>
+
+
+                <!-- ====================================================
+                     SECTION 3 — BORDER TIERS
+                     ==================================================== -->
+                <section class="guide-section">
+                    <h2 class="text-2xl font-bold mb-2 flex items-center">
+                        <span class="section-number" style="background: #5252ff; color: #FFFFFF;">3</span>
+                        Border Tiers
+                    </h2>
+                    <p class="text-p-neutral-300 mb-6 max-w-3xl">
+                        All borders are <code style="background: #090909; padding: 2px 6px; border-radius: 3px; font-size: 0.8rem; color: #a0a0a0; border: 1px solid #222222;">1px solid</code>. Three tiers of visibility serve different purposes, from the strongest interactive borders to the subtlest panel edges.
+                    </p>
+
+                    <!-- M2 Borders -->
+                    <div style="margin-bottom: 2rem;">
+                        <h3 class="text-lg font-semibold mb-4" style="color: #e1e1e1;">Mode 2 — Black Surface</h3>
+                        <div class="border-demo">
+                            <div class="border-demo-item" style="background: #222222; border: 1px solid #373737; color: #e1e1e1;">
+                                <div style="font-weight: 600; margin-bottom: 0.25rem;">Standard</div>
+                                <div style="font-family: 'Roboto Mono', monospace; font-size: 0.7rem; color: #a0a0a0;">#373737 &middot; neutral.600</div>
+                                <div style="font-size: 0.7rem; color: #515151; margin-top: 0.25rem;">Buttons, inputs, dropdowns</div>
+                            </div>
+                            <div class="border-demo-item" style="background: #222222; border: 1px solid #373737; color: #e1e1e1;">
+                                <div style="font-weight: 600; margin-bottom: 0.25rem;">Subtle</div>
+                                <div style="font-family: 'Roboto Mono', monospace; font-size: 0.7rem; color: #a0a0a0;">#373737 &middot; neutral.700</div>
+                                <div style="font-size: 0.7rem; color: #515151; margin-top: 0.25rem;">Panel edges, dividers</div>
+                            </div>
+                            <div class="border-demo-item" style="background: #222222; border: 1px solid #6d6dff; color: #e1e1e1;">
+                                <div style="font-weight: 600; margin-bottom: 0.25rem;">Focus</div>
+                                <div style="font-family: 'Roboto Mono', monospace; font-size: 0.7rem; color: #a0a0a0;">#6d6dff &middot; blue.400</div>
+                                <div style="font-size: 0.7rem; color: #515151; margin-top: 0.25rem;">Focus / active state</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- M4 Blue Borders -->
+                    <div>
+                        <h3 class="text-lg font-semibold mb-4" style="color: #e1e1e1;">Mode 4 — Dark Hue (Blue example)</h3>
+                        <div class="border-demo">
+                            <div class="border-demo-item" style="background: #000081; border: 1px solid #1919ff; color: #e1e1e1;">
+                                <div style="font-weight: 600; margin-bottom: 0.25rem;">Standard</div>
+                                <div style="font-family: 'Roboto Mono', monospace; font-size: 0.7rem; color: #a0a0a0;">#1919ff &middot; blue.600</div>
+                                <div style="font-size: 0.7rem; color: #515151; margin-top: 0.25rem;">Buttons, inputs, dropdowns</div>
+                            </div>
+                            <div class="border-demo-item" style="background: #000081; border: 1px solid #0000bf; color: #e1e1e1;">
+                                <div style="font-weight: 600; margin-bottom: 0.25rem;">Subtle</div>
+                                <div style="font-family: 'Roboto Mono', monospace; font-size: 0.7rem; color: #a0a0a0;">#0000bf &middot; blue.700</div>
+                                <div style="font-size: 0.7rem; color: #515151; margin-top: 0.25rem;">Panel edges, dividers</div>
+                            </div>
+                            <div class="border-demo-item" style="background: #000081; border: 1px solid #9494ff; color: #e1e1e1;">
+                                <div style="font-weight: 600; margin-bottom: 0.25rem;">Focus</div>
+                                <div style="font-family: 'Roboto Mono', monospace; font-size: 0.7rem; color: #a0a0a0;">#9494ff &middot; blue.300</div>
+                                <div style="font-size: 0.7rem; color: #515151; margin-top: 0.25rem;">Focus / active state</div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+
+                <!-- ====================================================
+                     SECTION 4 — COMPONENT RULES
+                     ==================================================== -->
+                <section class="guide-section">
+                    <h2 class="text-2xl font-bold mb-2 flex items-center">
+                        <span class="section-number" style="background: #5252ff; color: #FFFFFF;">4</span>
+                        Component Rules
+                    </h2>
+                    <p class="text-p-neutral-300 mb-6 max-w-3xl">
+                        Dark surface components follow strict rules that differ from Modes 1, 3, and 5. These ensure a clean, professional, tool-like appearance.
+                    </p>
+
+                    <!-- Buttons -->
+                    <div class="guide-card mb-4">
+                        <div class="flex items-center gap-2 mb-4">
+                            <span class="guide-label" style="color: #9494ff;">Buttons</span>
+                        </div>
+                        <p style="font-size: 0.8125rem; color: #a0a0a0; margin-bottom: 1rem;">Weight 400 (normal), sentence case, no uppercase, no bold, border-radius 3px max.</p>
+
+                        <div class="do-dont-grid">
+                            <div class="do-card">
+                                <div class="card-label">Do</div>
+                                <button class="example-btn" style="background: transparent; border: 1px solid #373737; color: #e1e1e1; border-radius: 3px; font-weight: 400;">Save changes</button>
+                                <p style="font-size: 0.7rem; color: #515151; margin-top: 0.75rem;">1px border, weight 400, sentence case, radius 3px</p>
+                            </div>
+                            <div class="dont-card">
+                                <div class="card-label">Don't</div>
+                                <button class="example-btn" style="background: linear-gradient(180deg, #373737, #222222); border: none; color: #e1e1e1; border-radius: 12px; font-weight: 700; text-transform: uppercase; box-shadow: 0 2px 8px rgba(0,0,0,0.4);">SAVE CHANGES</button>
+                                <p style="font-size: 0.7rem; color: #515151; margin-top: 0.75rem;">Gradient, bold, uppercase, large radius, box-shadow</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Inputs -->
+                    <div class="guide-card mb-4">
+                        <div class="flex items-center gap-2 mb-4">
+                            <span class="guide-label" style="color: #9494ff;">Inputs</span>
+                        </div>
+                        <p style="font-size: 0.8125rem; color: #a0a0a0; margin-bottom: 1rem;">Dark inset background (step 900), 1px border, no floating labels, no underline style.</p>
+
+                        <div class="do-dont-grid">
+                            <div class="do-card">
+                                <div class="card-label">Do</div>
+                                <label style="display: block; font-size: 10px; color: #a0a0a0; letter-spacing: 0.02em; margin-bottom: 4px;">Email address</label>
+                                <input type="text" class="example-input" placeholder="you@example.com" style="background: #090909; border: 1px solid #373737; border-radius: 2px; color: #e1e1e1;" readonly />
+                                <p style="font-size: 0.7rem; color: #515151; margin-top: 0.75rem;">Label above, dark inset bg, 1px border, 2px radius</p>
+                            </div>
+                            <div class="dont-card">
+                                <div class="card-label">Don't</div>
+                                <div style="position: relative; padding-top: 12px;">
+                                    <input type="text" class="example-input" value="you@example.com" style="background: transparent; border: none; border-bottom: 2px solid #373737; border-radius: 0; color: #e1e1e1; padding: 8px 0;" readonly />
+                                    <span style="position: absolute; top: 0; left: 0; font-size: 10px; color: #6d6dff;">Email address</span>
+                                </div>
+                                <p style="font-size: 0.7rem; color: #515151; margin-top: 0.75rem;">Floating label, underline style, transparent bg</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Border-radius -->
+                    <div class="guide-card">
+                        <div class="flex items-center gap-2 mb-4">
+                            <span class="guide-label" style="color: #9494ff;">Border Radius</span>
+                        </div>
+                        <p style="font-size: 0.8125rem; color: #a0a0a0; margin-bottom: 1rem;">Maximum 3px on all controls. Exceptions: circles for toggles, radios, and slider thumbs.</p>
+
+                        <div class="do-dont-grid">
+                            <div class="do-card">
+                                <div class="card-label">Do</div>
+                                <div style="display: flex; gap: 0.75rem; flex-wrap: wrap;">
+                                    <button class="example-btn" style="background: transparent; border: 1px solid #373737; color: #e1e1e1; border-radius: 3px; font-weight: 400; font-size: 12px;">3px radius</button>
+                                    <span style="display: inline-flex; align-items: center; padding: 2px 7px; background: #090909; border: 1px solid #373737; border-radius: 2px; font-size: 10px; color: #9494ff;">Badge</span>
+                                </div>
+                                <p style="font-size: 0.7rem; color: #515151; margin-top: 0.75rem;">Tight, square corners (2-3px)</p>
+                            </div>
+                            <div class="dont-card">
+                                <div class="card-label">Don't</div>
+                                <div style="display: flex; gap: 0.75rem; flex-wrap: wrap;">
+                                    <button class="example-btn" style="background: transparent; border: 1px solid #373737; color: #e1e1e1; border-radius: 12px; font-weight: 400; font-size: 12px;">12px radius</button>
+                                    <span style="display: inline-flex; align-items: center; padding: 2px 7px; background: #090909; border: 1px solid #2c2c2c; border-radius: 999px; font-size: 10px; color: #9494ff;">Pill Badge</span>
+                                </div>
+                                <p style="font-size: 0.7rem; color: #515151; margin-top: 0.75rem;">Rounded pill shapes on dark surfaces</p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+
+                <!-- ====================================================
+                     SECTION 5 — DO / DON'T GALLERY
+                     ==================================================== -->
+                <section class="guide-section">
+                    <h2 class="text-2xl font-bold mb-2 flex items-center">
+                        <span class="section-number" style="background: #5252ff; color: #FFFFFF;">5</span>
+                        Do / Don't Gallery
+                    </h2>
+                    <p class="text-p-neutral-300 mb-6 max-w-3xl">
+                        Quick reference for correct and incorrect patterns on dark surfaces.
+                    </p>
+
+                    <div class="do-dont-grid" style="margin-bottom: 1.25rem;">
+                        <!-- Flat vs Gradient -->
+                        <div class="do-card">
+                            <div class="card-label">Do &mdash; Flat Background</div>
+                            <div style="background: #222222; border: 1px solid #373737; border-radius: 3px; padding: 1rem; text-align: center; color: #e1e1e1; font-size: 0.8125rem;">
+                                Flat solid color panel
+                            </div>
+                        </div>
+                        <div class="dont-card">
+                            <div class="card-label">Don't &mdash; Gradient Background</div>
+                            <div style="background: linear-gradient(180deg, #2c2c2c, #090909); border: 1px solid #2c2c2c; border-radius: 3px; padding: 1rem; text-align: center; color: #e1e1e1; font-size: 0.8125rem;">
+                                Gradient panel
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="do-dont-grid" style="margin-bottom: 1.25rem;">
+                        <!-- 1px border vs box-shadow -->
+                        <div class="do-card">
+                            <div class="card-label">Do &mdash; 1px Border</div>
+                            <div style="background: #222222; border: 1px solid #373737; border-radius: 3px; padding: 1rem; text-align: center; color: #e1e1e1; font-size: 0.8125rem;">
+                                1px solid border
+                            </div>
+                        </div>
+                        <div class="dont-card">
+                            <div class="card-label">Don't &mdash; Box Shadow</div>
+                            <div style="background: #222222; border: none; border-radius: 3px; padding: 1rem; text-align: center; color: #e1e1e1; font-size: 0.8125rem; box-shadow: 0 4px 16px rgba(0,0,0,0.6);">
+                                Drop shadow elevation
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="do-dont-grid" style="margin-bottom: 1.25rem;">
+                        <!-- 3px vs 12px radius -->
+                        <div class="do-card">
+                            <div class="card-label">Do &mdash; 3px Radius</div>
+                            <button class="example-btn" style="background: #6d6dff; border: 1px solid #6d6dff; color: #FFFFFF; border-radius: 3px; font-weight: 400; width: 100%;">Submit form</button>
+                        </div>
+                        <div class="dont-card">
+                            <div class="card-label">Don't &mdash; 12px Radius</div>
+                            <button class="example-btn" style="background: #6d6dff; border: 1px solid #6d6dff; color: #FFFFFF; border-radius: 12px; font-weight: 400; width: 100%;">Submit form</button>
+                        </div>
+                    </div>
+
+                    <div class="do-dont-grid" style="margin-bottom: 1.25rem;">
+                        <!-- 400 weight vs 700 weight -->
+                        <div class="do-card">
+                            <div class="card-label">Do &mdash; Weight 400</div>
+                            <button class="example-btn" style="background: transparent; border: 1px solid #373737; color: #e1e1e1; border-radius: 3px; font-weight: 400; width: 100%;">Cancel action</button>
+                        </div>
+                        <div class="dont-card">
+                            <div class="card-label">Don't &mdash; Weight 700</div>
+                            <button class="example-btn" style="background: transparent; border: 1px solid #373737; color: #e1e1e1; border-radius: 3px; font-weight: 700; width: 100%;">Cancel action</button>
+                        </div>
+                    </div>
+
+                    <div class="do-dont-grid">
+                        <!-- sentence case vs UPPERCASE -->
+                        <div class="do-card">
+                            <div class="card-label">Do &mdash; Sentence Case</div>
+                            <button class="example-btn" style="background: transparent; border: 1px solid #373737; color: #e1e1e1; border-radius: 3px; font-weight: 400; width: 100%;">Save changes</button>
+                        </div>
+                        <div class="dont-card">
+                            <div class="card-label">Don't &mdash; Uppercase</div>
+                            <button class="example-btn" style="background: transparent; border: 1px solid #373737; color: #e1e1e1; border-radius: 3px; font-weight: 400; width: 100%; text-transform: uppercase;">Save changes</button>
+                        </div>
+                    </div>
+                </section>
+
+
+                <!-- ====================================================
+                     SECTION 6 — LIVE EXAMPLES
+                     ==================================================== -->
+                <section class="guide-section">
+                    <h2 class="text-2xl font-bold mb-2 flex items-center">
+                        <span class="section-number" style="background: #5252ff; color: #FFFFFF;">6</span>
+                        Live Examples
+                    </h2>
+                    <p class="text-p-neutral-300 mb-6 max-w-3xl">
+                        Full component showcase on Mode 2 and Mode 4 surfaces using actual MC Perception components.
+                    </p>
+
+                    <!-- M2 Black showcase -->
+                    <div class="live-showcase" style="background: #0A0A0A; border: 1px solid #222222;" data-hue="blue" data-mode="2">
+                        <h3 class="text-lg font-semibold mb-1" style="color: #e1e1e1;">Mode 2 — Black Surface</h3>
+                        <p style="font-size: 0.75rem; color: #515151; margin-bottom: 1.5rem;">Background: #0A0A0A (Black)</p>
+
+                        <!-- Buttons -->
+                        <h4 style="color: #6d6dff;">Buttons</h4>
+                        <div class="live-row">
+                            <button class="example-btn" style="background: #6d6dff; border: 1px solid #6d6dff; color: #FFFFFF; border-radius: 3px; font-weight: 400;">Primary</button>
+                            <button class="example-btn" style="background: transparent; border: 1px solid #373737; color: #e1e1e1; border-radius: 3px; font-weight: 400;">Outline</button>
+                            <button class="example-btn" style="background: transparent; border: 1px solid transparent; color: #6d6dff; border-radius: 3px; font-weight: 400;">Ghost</button>
+                            <button class="example-btn" style="background: transparent; border: 1px solid #373737; color: #515151; border-radius: 3px; font-weight: 400; opacity: 0.4; cursor: default;">Disabled</button>
+                        </div>
+
+                        <!-- Inputs -->
+                        <h4 style="color: #6d6dff;">Inputs</h4>
+                        <div style="max-width: 320px; margin-bottom: 1rem;">
+                            <label style="display: block; font-size: 10px; color: #a0a0a0; letter-spacing: 0.02em; margin-bottom: 4px;">Username</label>
+                            <input type="text" class="example-input" value="melik_design" style="background: #090909; border: 1px solid #373737; border-radius: 2px; color: #e1e1e1;" readonly />
+                        </div>
+                        <div style="max-width: 320px; margin-bottom: 1rem;">
+                            <label style="display: block; font-size: 10px; color: #a0a0a0; letter-spacing: 0.02em; margin-bottom: 4px;">Email</label>
+                            <input type="text" class="example-input" placeholder="Enter email..." style="background: #090909; border: 1px solid #373737; border-radius: 2px; color: #e1e1e1;" readonly />
+                        </div>
+
+                        <!-- Badges -->
+                        <h4 style="color: #6d6dff;">Badges</h4>
+                        <div class="live-row">
+                            <span style="display: inline-flex; align-items: center; gap: 5px; padding: 2px 7px; background: #090909; border: 1px solid #373737; border-radius: 2px; font-size: 10px; font-weight: 500; color: #9494ff; letter-spacing: 0.03em;">
+                                <span style="width: 4px; height: 4px; border-radius: 50%; background: #6d6dff;"></span>Active
+                            </span>
+                            <span style="display: inline-flex; align-items: center; gap: 5px; padding: 2px 7px; background: #090909; border: 1px solid #373737; border-radius: 2px; font-size: 10px; font-weight: 500; color: #00ba00; letter-spacing: 0.03em;">
+                                <span style="width: 4px; height: 4px; border-radius: 50%; background: #009400;"></span>Online
+                            </span>
+                            <span style="display: inline-flex; align-items: center; gap: 5px; padding: 2px 7px; background: #090909; border: 1px solid #373737; border-radius: 2px; font-size: 10px; font-weight: 500; color: #ff7474; letter-spacing: 0.03em;">
+                                <span style="width: 4px; height: 4px; border-radius: 50%; background: #ff0000;"></span>Error
+                            </span>
+                            <span style="display: inline-flex; align-items: center; gap: 5px; padding: 2px 7px; background: #090909; border: 1px solid #373737; border-radius: 2px; font-size: 10px; font-weight: 500; color: #a6a600; letter-spacing: 0.03em;">
+                                <span style="width: 4px; height: 4px; border-radius: 50%; background: #838300;"></span>Pending
+                            </span>
+                        </div>
+
+                        <!-- Checkboxes -->
+                        <h4 style="color: #6d6dff;">Checkboxes</h4>
+                        <div class="live-row">
+                            <label style="display: inline-flex; align-items: center; gap: 6px; font-size: 12px; color: #e1e1e1; cursor: pointer;">
+                                <span style="display: inline-flex; align-items: center; justify-content: center; width: 14px; height: 14px; background: #6d6dff; border: 1px solid #6d6dff; border-radius: 2px;">
+                                    <svg width="9" height="9" viewBox="0 0 12 12" fill="none"><path d="M2 6l3 3 5-5" stroke="#FFFFFF" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                                </span>
+                                Checked option
+                            </label>
+                            <label style="display: inline-flex; align-items: center; gap: 6px; font-size: 12px; color: #e1e1e1; cursor: pointer;">
+                                <span style="display: inline-block; width: 14px; height: 14px; background: #090909; border: 1px solid #373737; border-radius: 2px;"></span>
+                                Unchecked option
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- M4 Blue showcase -->
+                    <div class="live-showcase" style="background: #000081; border: 1px solid #0000bf;" data-hue="blue" data-mode="4">
+                        <h3 class="text-lg font-semibold mb-1" style="color: #e1e1e1;">Mode 4 — Dark Hue (Blue)</h3>
+                        <p style="font-size: 0.75rem; color: #5252ff; margin-bottom: 1.5rem;">Background: #000081 (blue.800)</p>
+
+                        <!-- Buttons -->
+                        <h4 style="color: #9494ff;">Buttons</h4>
+                        <div class="live-row">
+                            <button class="example-btn" style="background: #9494ff; border: 1px solid #9494ff; color: #0A0A0A; border-radius: 3px; font-weight: 400;">Primary</button>
+                            <button class="example-btn" style="background: transparent; border: 1px solid #1919ff; color: #e1e1e1; border-radius: 3px; font-weight: 400;">Outline</button>
+                            <button class="example-btn" style="background: transparent; border: 1px solid transparent; color: #9494ff; border-radius: 3px; font-weight: 400;">Ghost</button>
+                            <button class="example-btn" style="background: transparent; border: 1px solid #1919ff; color: #e1e1e1; border-radius: 3px; font-weight: 400; opacity: 0.4; cursor: default;">Disabled</button>
+                        </div>
+
+                        <!-- Inputs -->
+                        <h4 style="color: #9494ff;">Inputs</h4>
+                        <div style="max-width: 320px; margin-bottom: 1rem;">
+                            <label style="display: block; font-size: 10px; color: #a0a0a0; letter-spacing: 0.02em; margin-bottom: 4px;">Username</label>
+                            <input type="text" class="example-input" value="melik_design" style="background: #000035; border: 1px solid #0000bf; border-radius: 2px; color: #e1e1e1;" readonly />
+                        </div>
+                        <div style="max-width: 320px; margin-bottom: 1rem;">
+                            <label style="display: block; font-size: 10px; color: #a0a0a0; letter-spacing: 0.02em; margin-bottom: 4px;">Email</label>
+                            <input type="text" class="example-input" placeholder="Enter email..." style="background: #000035; border: 1px solid #0000bf; border-radius: 2px; color: #e1e1e1;" readonly />
+                        </div>
+
+                        <!-- Badges -->
+                        <h4 style="color: #9494ff;">Badges</h4>
+                        <div class="live-row">
+                            <span style="display: inline-flex; align-items: center; gap: 5px; padding: 2px 7px; background: #000035; border: 1px solid #0000bf; border-radius: 2px; font-size: 10px; font-weight: 500; color: #9494ff; letter-spacing: 0.03em;">
+                                <span style="width: 4px; height: 4px; border-radius: 50%; background: #6d6dff;"></span>Active
+                            </span>
+                            <span style="display: inline-flex; align-items: center; gap: 5px; padding: 2px 7px; background: #000035; border: 1px solid #0000bf; border-radius: 2px; font-size: 10px; font-weight: 500; color: #00ba00; letter-spacing: 0.03em;">
+                                <span style="width: 4px; height: 4px; border-radius: 50%; background: #009400;"></span>Online
+                            </span>
+                            <span style="display: inline-flex; align-items: center; gap: 5px; padding: 2px 7px; background: #000035; border: 1px solid #0000bf; border-radius: 2px; font-size: 10px; font-weight: 500; color: #ff7474; letter-spacing: 0.03em;">
+                                <span style="width: 4px; height: 4px; border-radius: 50%; background: #ff0000;"></span>Error
+                            </span>
+                            <span style="display: inline-flex; align-items: center; gap: 5px; padding: 2px 7px; background: #000035; border: 1px solid #0000bf; border-radius: 2px; font-size: 10px; font-weight: 500; color: #a6a600; letter-spacing: 0.03em;">
+                                <span style="width: 4px; height: 4px; border-radius: 50%; background: #838300;"></span>Pending
+                            </span>
+                        </div>
+
+                        <!-- Checkboxes -->
+                        <h4 style="color: #9494ff;">Checkboxes</h4>
+                        <div class="live-row">
+                            <label style="display: inline-flex; align-items: center; gap: 6px; font-size: 12px; color: #e1e1e1; cursor: pointer;">
+                                <span style="display: inline-flex; align-items: center; justify-content: center; width: 14px; height: 14px; background: #9494ff; border: 1px solid #9494ff; border-radius: 2px;">
+                                    <svg width="9" height="9" viewBox="0 0 12 12" fill="none"><path d="M2 6l3 3 5-5" stroke="#FFFFFF" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                                </span>
+                                Checked option
+                            </label>
+                            <label style="display: inline-flex; align-items: center; gap: 6px; font-size: 12px; color: #e1e1e1; cursor: pointer;">
+                                <span style="display: inline-block; width: 14px; height: 14px; background: #000035; border: 1px solid #1919ff; border-radius: 2px;"></span>
+                                Unchecked option
+                            </label>
+                        </div>
+                    </div>
+                </section>
+
+
+                <!-- ====== FOOTER ====== -->
+                <footer class="docs-footer">
+                    <p>MC Perception Design System &mdash; 7 hues &times; 5 modes &times; 6 sizes &mdash; WCAG AA compliant</p>
+                    <p style="margin-top: 0.5rem;"><a href="https://github.com/anthropics/claude-code">Built with Claude Code</a></p>
+                </footer>
+
+            </div>
+        </main>
+    </div>
+
+    <script>
+    // Auto-mark active sidebar link based on current filename
+    (function() {
+        var page = location.pathname.split('/').pop().replace('.html','') || 'index';
+        var links = document.querySelectorAll('.docs-nav-link');
+        links.forEach(function(a) {
+            if (a.getAttribute('data-page') === page) a.classList.add('active');
+        });
+        // Mobile hamburger toggle
+        var hamburger = document.getElementById('docs-hamburger');
+        var sidebar = document.getElementById('docs-sidebar');
+        var overlay = document.getElementById('docs-overlay');
+        if (hamburger && sidebar && overlay) {
+            hamburger.addEventListener('click', function() {
+                sidebar.classList.toggle('open');
+                overlay.classList.toggle('open');
+            });
+            overlay.addEventListener('click', function() {
+                sidebar.classList.remove('open');
+                overlay.classList.remove('open');
+            });
+        }
+    })();
+    </script>
+</body>
+</html>

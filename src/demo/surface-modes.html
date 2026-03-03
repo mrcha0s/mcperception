@@ -6,110 +6,344 @@
     <title>Surface Mode Explorer — MC Perception</title>
     <link rel="stylesheet" href="../dist/mcperception.css">
     <style>
-        .guide-card { background: #111; border: 1px solid #222; border-radius: 8px; padding: 1.25rem; }
+/* ── Docs Layout ── */
+.docs-layout {
+    display: flex;
+    min-height: 100vh;
+}
+.docs-sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 240px;
+    height: 100vh;
+    background: #222222;
+    border-right: 1px solid #222222;
+    overflow-y: auto;
+    z-index: 40;
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.2s ease;
+}
+.docs-sidebar-header {
+    padding: 1.25rem 1.25rem 0.75rem;
+    border-bottom: 1px solid #222222;
+    display: flex;
+    align-items: baseline;
+    gap: 0.5rem;
+}
+.docs-logo {
+    font-size: 0.875rem;
+    font-weight: 700;
+    color: #FFFFFF;
+    text-decoration: none;
+    letter-spacing: -0.01em;
+}
+.docs-logo:hover { color: #c3c3c3; }
+.docs-version {
+    font-size: 0.625rem;
+    color: #515151;
+    font-family: 'Roboto Mono', ui-monospace, monospace;
+}
+.docs-sidebar-nav {
+    padding: 0.75rem 0;
+    flex: 1;
+}
+.docs-nav-group {
+    margin-bottom: 0.25rem;
+}
+.docs-nav-group-label {
+    font-size: 0.625rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: #515151;
+    padding: 0.625rem 1.25rem 0.375rem;
+}
+.docs-nav-link {
+    display: block;
+    font-size: 0.8125rem;
+    color: #a0a0a0;
+    text-decoration: none;
+    padding: 0.375rem 1.25rem;
+    border-left: 2px solid transparent;
+    transition: color 0.15s, border-color 0.15s, background 0.15s;
+}
+.docs-nav-link:hover {
+    color: #c3c3c3;
+    background: #222222;
+}
+.docs-nav-link.active {
+    color: #5252ff;
+    border-left-color: #5252ff;
+    background: #222222;
+}
+.docs-content {
+    flex: 1;
+    margin-left: 240px;
+}
 
-        .mode-panel { border: 1px solid #222; border-radius: 10px; overflow: hidden; margin-bottom: 12px; }
-        .mode-panel:hover { border-color: #333; }
-        .mode-header { display: flex; align-items: center; gap: 8px; padding: 10px 16px; background: #0f0f0f; cursor: pointer; user-select: none; }
-        .mode-header:hover { background: #141414; }
-        .mode-body { padding: 16px; }
-        .mode-chevron { transition: transform 0.15s; color: #555; font-size: 11px; margin-left: auto; }
-        .mode-chevron.open { transform: rotate(180deg); }
+/* ── Mobile: hamburger + overlay ── */
+#docs-hamburger {
+    display: none;
+    position: fixed;
+    top: 0.75rem;
+    left: 0.75rem;
+    z-index: 50;
+    background: #222222;
+    border: 1px solid #222222;
+    color: #a0a0a0;
+    font-size: 1.25rem;
+    width: 36px;
+    height: 36px;
+    border-radius: 6px;
+    cursor: pointer;
+    align-items: center;
+    justify-content: center;
+    line-height: 1;
+    padding: 0;
+}
+#docs-hamburger:hover { color: #FFFFFF; }
+#docs-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: #090909;
+    z-index: 35;
+}
+@media (max-width: 1023px) {
+    #docs-hamburger { display: flex; }
+    .docs-sidebar {
+        transform: translateX(-100%);
+    }
+    .docs-sidebar.open {
+        transform: translateX(0);
+    }
+    #docs-overlay.open {
+        display: block;
+    }
+    .docs-content {
+        margin-left: 0;
+    }
+}
 
-        .preview-card { border-radius: 10px; padding: 18px; width: 240px; flex-shrink: 0; }
+/* ── Guide Cards & Code Blocks ── */
+.guide-section { margin-bottom: 4rem; }
+.guide-card {
+    background: #090909;
+    border: 1px solid #222222;
+    border-radius: 6px;
+    padding: 1.5rem;
+}
+.guide-label {
+    min-width: 72px;
+    font-size: 0.6rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: #6c6c6c;
+    font-weight: 700;
+}
+.section-number {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    border-radius: 6px;
+    font-size: 0.75rem;
+    font-weight: 800;
+    margin-right: 0.5rem;
+}
 
-        .pair-table { width: 100%; border-collapse: collapse; }
-        .pair-table th { text-align: left; padding: 4px 6px; font-weight: 700; font-size: 10px; color: #666; border-bottom: 2px solid #333; text-transform: uppercase; letter-spacing: 0.05em; }
-        .pair-table td { padding: 5px 6px; border-bottom: 1px solid #1a1a1a; font-size: 11px; }
-        .pair-table .role { font-weight: 600; color: #ccc; }
-        .pair-table .note { font-size: 8px; color: #666; margin-top: 1px; }
-        .pair-table .step { font-family: 'Roboto Mono', ui-monospace, monospace; font-size: 10px; color: #888; }
-        .pair-table .on-label { color: #555; }
+/* ── Standard Footer ── */
+.docs-footer {
+    margin-top: 6rem;
+    padding: 2rem 0;
+    border-top: 1px solid #222222;
+    text-align: center;
+}
+.docs-footer p {
+    font-size: 0.75rem;
+    color: #515151;
+}
+.docs-footer a {
+    color: #6d6dff;
+    text-decoration: none;
+}
+.docs-footer a:hover {
+    color: #9494ff;
+}
 
-        .swatch { display: inline-block; border-radius: 3px; flex-shrink: 0; vertical-align: middle; }
-        .ratio-num { font-family: 'Roboto Mono', ui-monospace, monospace; font-weight: 700; font-size: 11px; }
-        .ratio-tag { font-size: 9px; font-weight: 700; padding: 1px 5px; border-radius: 3px; display: inline-block; }
-        .pass { color: #2E7D32; }
-        .fail { color: #C62828; }
-        .tag-pass { background: rgba(46,125,50,0.15); color: #2E7D32; }
-        .tag-fail { background: rgba(198,40,40,0.15); color: #C62828; }
+/* ── Page-specific styles ── */
+.mode-panel { border: 1px solid #222222; border-radius: 10px; overflow: hidden; margin-bottom: 12px; }
+.mode-panel:hover { border-color: #373737; }
+.mode-header { display: flex; align-items: center; gap: 8px; padding: 10px 16px; background: #090909; cursor: pointer; user-select: none; }
+.mode-header:hover { background: #222222; }
+.mode-body { padding: 16px; }
+.mode-chevron { transition: transform 0.15s; color: #515151; font-size: 11px; margin-left: auto; }
+.mode-chevron.open { transform: rotate(180deg); }
 
-        .avoid-box { margin-top: 8px; padding: 8px 12px; background: rgba(255,0,0,0.04); border-radius: 6px; border: 1px solid rgba(255,60,60,0.12); }
+.preview-card { border-radius: 10px; padding: 18px; width: 240px; flex-shrink: 0; }
 
-        .summary-table { width: 100%; border-collapse: collapse; }
-        .summary-table th { padding: 5px 6px; font-weight: 700; font-size: 9px; text-transform: uppercase; letter-spacing: 0.04em; }
-        .summary-table td { padding: 4px 5px; text-align: center; }
-        .summary-table tbody tr { border-bottom: 1px solid #1a1a1a; }
-        .summary-table thead tr:first-child th { border-bottom: 2px solid #333; }
-        .summary-table thead tr:last-child th { border-bottom: 1px solid #222; font-size: 7px; text-transform: none; letter-spacing: 0; }
-        .summary-table .bl { border-left: 1px solid #222; }
-        .summary-table .hue-name { text-align: left; font-weight: 700; font-size: 11px; }
+.pair-table { width: 100%; border-collapse: collapse; }
+.pair-table th { text-align: left; padding: 4px 6px; font-weight: 700; font-size: 10px; color: #6c6c6c; border-bottom: 2px solid #373737; text-transform: uppercase; letter-spacing: 0.05em; }
+.pair-table td { padding: 5px 6px; border-bottom: 1px solid #090909; font-size: 11px; }
+.pair-table .role { font-weight: 600; color: #c3c3c3; }
+.pair-table .note { font-size: 8px; color: #6c6c6c; margin-top: 1px; }
+.pair-table .step { font-family: 'Roboto Mono', ui-monospace, monospace; font-size: 10px; color: #7f7f7f; }
+.pair-table .on-label { color: #515151; }
 
-        .finding-box { padding: 10px 14px; border-radius: 8px; border: 1px solid; margin-top: 8px; font-size: 11px; line-height: 1.6; }
+.swatch { display: inline-block; border-radius: 3px; flex-shrink: 0; vertical-align: middle; }
+.ratio-num { font-family: 'Roboto Mono', ui-monospace, monospace; font-weight: 700; font-size: 11px; }
+.ratio-tag { font-size: 9px; font-weight: 700; padding: 1px 5px; border-radius: 3px; display: inline-block; }
+.pass { color: #005f00; }
+.fail { color: #a70000; }
+.tag-pass { background: #002900; color: #005f00; }
+.tag-fail { background: #4d0000; color: #a70000; }
 
-        .strip-step { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; }
-        .strip-step-label { font-size: 7px; font-weight: 800; }
-        .strip-step-hex { font-size: 5px; }
+.avoid-box { margin-top: 8px; padding: 8px 12px; background: #4d0000; border-radius: 6px; border: 1px solid #4d0000; }
+
+.summary-table { width: 100%; border-collapse: collapse; }
+.summary-table th { padding: 5px 6px; font-weight: 700; font-size: 9px; text-transform: uppercase; letter-spacing: 0.04em; }
+.summary-table td { padding: 4px 5px; text-align: center; }
+.summary-table tbody tr { border-bottom: 1px solid #090909; }
+.summary-table thead tr:first-child th { border-bottom: 2px solid #373737; }
+.summary-table thead tr:last-child th { border-bottom: 1px solid #222222; font-size: 7px; text-transform: none; letter-spacing: 0; }
+.summary-table .bl { border-left: 1px solid #222222; }
+.summary-table .hue-name { text-align: left; font-weight: 700; font-size: 11px; }
+
+.finding-box { padding: 10px 14px; border-radius: 8px; border: 1px solid; margin-top: 8px; font-size: 11px; line-height: 1.6; }
+
+.strip-step { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+.strip-step-label { font-size: 7px; font-weight: 800; }
+.strip-step-hex { font-size: 5px; }
     </style>
 </head>
 <body class="bg-p-black text-white min-h-screen font-sans">
-    <div class="max-w-7xl mx-auto px-6 py-12">
-
-        <!-- Header -->
-        <header class="mb-10">
-            <nav class="text-xs text-p-neutral-400 mb-6 flex gap-2 items-center">
-                <a href="index.html" class="hover:text-white transition-colors">Components</a>
-                <span class="text-p-neutral-600">/</span>
-                <span class="text-white font-semibold">Surface Mode Explorer</span>
-            </nav>
-            <h1 class="text-4xl font-bold tracking-tight mb-2">5 Surface Modes × 7 Hues</h1>
-            <p class="text-p-neutral-400 text-sm mb-1">WCAG AA Verified Color Pairings — computed from palette</p>
-            <p class="text-p-neutral-500 text-xs">
-                Text: <strong class="text-p-neutral-300">AA small ≥ 4.5:1</strong> ·
-                Large text: <strong class="text-p-neutral-300">AA large ≥ 3.0:1</strong> ·
-                Non-text UI: <strong class="text-p-neutral-300">≥ 3.0:1</strong>
-            </p>
-        </header>
-
-        <!-- Hue Tabs -->
-        <div id="hue-tabs" class="flex gap-2 flex-wrap mb-4"></div>
-
-        <!-- Palette Strip -->
-        <div id="palette-strip" class="flex rounded-lg overflow-hidden mb-4" style="height:36px;"></div>
-
-        <!-- Expand / Collapse -->
-        <div class="flex justify-end mb-3">
-            <button class="mc-button mc-button-ghost mc-button-xs" data-hue="neutral" onclick="toggleAll()" id="btn-toggle-all">Expand all</button>
-        </div>
-
-        <!-- Mode Sections -->
-        <div id="mode-sections"></div>
-
-        <!-- Cross-Hue Summary -->
-        <section class="mt-16 mb-10">
-            <h2 class="text-xl font-bold mb-1">Cross-Hue Summary Matrix</h2>
-            <p class="text-xs text-p-neutral-500 mb-4">Primary text + accent contrast ratios across every hue × mode</p>
-            <div id="summary-matrix" class="overflow-x-auto"></div>
-        </section>
-
-        <!-- Key Findings -->
-        <div id="findings"></div>
-
-        <!-- Footer -->
-        <footer class="border-t border-p-neutral-800 pt-8 mt-16 pb-12">
-            <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
-                <div class="text-xs text-p-neutral-500">MC Perception Design System — Surface Mode Explorer</div>
-                <nav class="flex gap-4 text-xs">
-                    <a href="index.html" class="text-p-neutral-400 hover:text-white transition-colors">Overview</a>
-                    <a href="button.html" class="text-p-neutral-400 hover:text-white transition-colors">Buttons</a>
-                    <a href="badges.html" class="text-p-neutral-400 hover:text-white transition-colors">Badges</a>
-                    <a href="forms.html" class="text-p-neutral-400 hover:text-white transition-colors">Forms</a>
-                    <a href="color.html" class="text-p-neutral-400 hover:text-white transition-colors">Palette</a>
-                    <a href="components.html" class="text-p-neutral-400 hover:text-white transition-colors">Components</a>
-                </nav>
+    <button id="docs-hamburger">&#9776;</button>
+    <div id="docs-overlay"></div>
+    <div class="docs-layout">
+        <aside class="docs-sidebar" id="docs-sidebar">
+            <div class="docs-sidebar-header">
+                <a href="index.html" class="docs-logo">MC Perception</a>
+                <span class="docs-version">v1.0</span>
             </div>
-        </footer>
+            <nav class="docs-sidebar-nav">
+                <!-- Getting Started -->
+                <div class="docs-nav-group">
+                    <div class="docs-nav-group-label">Getting Started</div>
+                    <a href="index.html" class="docs-nav-link" data-page="index">Home</a>
+                    <a href="getting-started.html" class="docs-nav-link" data-page="getting-started">Getting Started</a>
+                </div>
+                <!-- Foundation -->
+                <div class="docs-nav-group">
+                    <div class="docs-nav-group-label">Foundation</div>
+                    <a href="color.html" class="docs-nav-link" data-page="color">Color Palette</a>
+                    <a href="surface-modes.html" class="docs-nav-link" data-page="surface-modes">Surface Modes</a>
+                    <a href="typography.html" class="docs-nav-link" data-page="typography">Typography</a>
+                </div>
+                <!-- Components -->
+                <div class="docs-nav-group">
+                    <div class="docs-nav-group-label">Components</div>
+                    <a href="button.html" class="docs-nav-link" data-page="button">Buttons</a>
+                    <a href="badges.html" class="docs-nav-link" data-page="badges">Badges</a>
+                    <a href="alert.html" class="docs-nav-link" data-page="alert">Alerts</a>
+                    <a href="input.html" class="docs-nav-link" data-page="input">Form Inputs</a>
+                    <a href="selection.html" class="docs-nav-link" data-page="selection">Selection Controls</a>
+                    <a href="table.html" class="docs-nav-link" data-page="table">Tables</a>
+            <a href="panel-system.html" class="docs-nav-link" data-page="panel-system">Panels</a>
+                </div>
+                <!-- Patterns & Tutorials -->
+                <div class="docs-nav-group">
+                    <div class="docs-nav-group-label">Patterns</div>
+                    <a href="forms.html" class="docs-nav-link" data-page="forms">Form Layout</a>
+                    <a href="dark-surfaces.html" class="docs-nav-link" data-page="dark-surfaces">Dark Surface Depth</a>
+                </div>
+                <!-- Examples -->
+                <div class="docs-nav-group">
+                    <div class="docs-nav-group-label">Examples</div>
+                    <a href="trading-card.html" class="docs-nav-link" data-page="trading-card">Trading Card</a>
+                    <a href="orderbook.html" class="docs-nav-link" data-page="orderbook">Orderbook</a>
+                </div>
+            </nav>
+        </aside>
+        <main class="docs-content">
+            <div class="max-w-7xl mx-auto px-6 py-12">
+                <nav class="text-xs text-p-neutral-400 mb-6 flex gap-2 items-center">
+                    <a href="index.html" class="hover:text-white transition-colors">Home</a>
+                    <span class="text-p-neutral-600">/</span>
+                    <a href="index.html" class="hover:text-white transition-colors">Foundation</a>
+                    <span class="text-p-neutral-600">/</span>
+                    <span class="text-white font-semibold">Surface Modes</span>
+                </nav>
+
+                <!-- Header -->
+                <header class="mb-10">
+                    <h1 class="text-4xl font-bold tracking-tight mb-2">5 Surface Modes &times; 7 Hues</h1>
+                    <p class="text-p-neutral-400 text-sm mb-1">WCAG AA Verified Color Pairings — computed from palette</p>
+                    <p class="text-p-neutral-500 text-xs">
+                        Text: <strong class="text-p-neutral-300">AA small &ge; 4.5:1</strong> &middot;
+                        Large text: <strong class="text-p-neutral-300">AA large &ge; 3.0:1</strong> &middot;
+                        Non-text UI: <strong class="text-p-neutral-300">&ge; 3.0:1</strong>
+                    </p>
+                </header>
+
+                <!-- Hue Tabs -->
+                <div id="hue-tabs" class="flex gap-2 flex-wrap mb-4"></div>
+
+                <!-- Palette Strip -->
+                <div id="palette-strip" class="flex rounded-lg overflow-hidden mb-4" style="height:36px;"></div>
+
+                <!-- Expand / Collapse -->
+                <div class="flex justify-end mb-3">
+                    <button class="mc-button mc-button-ghost mc-button-xs" data-hue="neutral" onclick="toggleAll()" id="btn-toggle-all">Expand all</button>
+                </div>
+
+                <!-- Mode Sections -->
+                <div id="mode-sections"></div>
+
+                <!-- Cross-Hue Summary -->
+                <section class="mt-16 mb-10">
+                    <h2 class="text-xl font-bold mb-1">Cross-Hue Summary Matrix</h2>
+                    <p class="text-xs text-p-neutral-500 mb-4">Primary text + accent contrast ratios across every hue &times; mode</p>
+                    <div id="summary-matrix" class="overflow-x-auto"></div>
+                </section>
+
+                <!-- Key Findings -->
+                <div id="findings"></div>
+
+                <footer class="docs-footer">
+                    <p>MC Perception Design System &mdash; 7 hues &times; 5 modes &times; 6 sizes &mdash; WCAG AA compliant</p>
+                    <p style="margin-top: 0.5rem;"><a href="https://github.com/anthropics/claude-code">Built with Claude Code</a></p>
+                </footer>
+            </div>
+        </main>
     </div>
+
+<script>
+// Auto-mark active sidebar link based on current filename
+(function() {
+    var page = location.pathname.split('/').pop().replace('.html','') || 'index';
+    var links = document.querySelectorAll('.docs-nav-link');
+    links.forEach(function(a) {
+        if (a.getAttribute('data-page') === page) a.classList.add('active');
+    });
+    // Mobile hamburger toggle
+    var hamburger = document.getElementById('docs-hamburger');
+    var sidebar = document.getElementById('docs-sidebar');
+    var overlay = document.getElementById('docs-overlay');
+    if (hamburger && sidebar && overlay) {
+        hamburger.addEventListener('click', function() {
+            sidebar.classList.toggle('open');
+            overlay.classList.toggle('open');
+        });
+        overlay.addEventListener('click', function() {
+            sidebar.classList.remove('open');
+            overlay.classList.remove('open');
+        });
+    }
+})();
+</script>
 
 <script>
 /* ================================================================
@@ -241,7 +475,7 @@ for (var name in PALETTES) allData[name] = buildModes(PALETTES[name]);
    ================================================================ */
 function sw(color, size) {
     size = size || 14;
-    var border = lum(color) > 0.85 ? '1px solid #555' : '1px solid rgba(255,255,255,0.06)';
+    var border = lum(color) > 0.85 ? '1px solid #515151' : '1px solid #222222';
     return '<span class="swatch" style="width:' + size + 'px;height:' + size + 'px;background:' + color + ';border:' + border + ';margin-right:4px"></span>';
 }
 
@@ -251,8 +485,8 @@ function rb(ratio, isUI) {
     var cls = ok ? 'pass' : 'fail';
     var tagCls = ok ? 'tag-pass' : 'tag-fail';
     var label;
-    if (isUI) label = ok ? 'UI ✓' : 'UI ✗';
-    else label = ok ? 'AA ✓' : (ratio >= 3.0 ? 'Lg' : '✗');
+    if (isUI) label = ok ? 'UI &#10003;' : 'UI &#10007;';
+    else label = ok ? 'AA &#10003;' : (ratio >= 3.0 ? 'Lg' : '&#10007;');
     return '<span style="display:inline-flex;align-items:center;gap:3px">' +
         '<span class="ratio-num ' + cls + '">' + ratio.toFixed(1) + ':1</span>' +
         '<span class="ratio-tag ' + tagCls + '">' + label + '</span></span>';
@@ -286,8 +520,8 @@ function renderStrip() {
         var s = steps[i];
         var c = P[s];
         var isLight = lum(c) > 0.18;
-        var textColor = isLight ? '#000' : '#fff';
-        var subColor = isLight ? 'rgba(0,0,0,0.45)' : 'rgba(255,255,255,0.45)';
+        var textColor = isLight ? '#0A0A0A' : '#FFFFFF';
+        var subColor = isLight ? '#0A0A0A' : '#FFFFFF';
         html += '<div class="strip-step" style="background:' + c + '">' +
             '<span class="strip-step-label" style="color:' + textColor + '">' + s + '</span>' +
             '<span class="strip-step-hex" style="color:' + subColor + '">' + c + '</span></div>';
@@ -304,25 +538,24 @@ function renderPreview(mode) {
     var pr = g('Primary Text'), se = g('Secondary Text'), ac = g('Accent / Link');
     var bf = g('Btn Fill BG'), bt = g('Btn Fill Text'), bo = g('Btn Outline'), ic = g('Icons'), dv = g('Divider');
     var isLight = lum(mode.bg) > 0.3;
-    var border = isLight ? '1px solid #ddd' : '1px solid rgba(255,255,255,0.08)';
-    var shadow = 'box-shadow:0 2px 8px rgba(0,0,0,0.15)';
-    var modeLabel = isLight ? 'rgba(0,0,0,0.15)' : 'rgba(255,255,255,0.15)';
+    var border = isLight ? '1px solid #e1e1e1' : '1px solid #373737';
+    var modeLabel = isLight ? '#090909' : '#373737';
 
-    var html = '<div class="preview-card" style="background:' + mode.bg + ';border:' + border + ';' + shadow + '">';
+    var html = '<div class="preview-card" style="background:' + mode.bg + ';border:' + border + '">';
     html += '<div style="font-size:7px;font-weight:700;color:' + modeLabel + ';text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">Mode ' + mode.id + '</div>';
-    html += '<div style="font-size:20px;font-weight:800;color:' + (pr ? pr.hex : '#fff') + ';margin-bottom:3px">Heading</div>';
-    html += '<div style="font-size:11px;color:' + (se ? se.hex : '#aaa') + ';margin-bottom:3px;line-height:1.4">Body text shown here</div>';
-    html += '<div style="font-size:10px;font-weight:600;color:' + (ac ? ac.hex : '#66f') + ';text-decoration:underline;text-underline-offset:2px;margin-bottom:14px">Accent link</div>';
+    html += '<div style="font-size:20px;font-weight:800;color:' + (pr ? pr.hex : '#FFFFFF') + ';margin-bottom:3px">Heading</div>';
+    html += '<div style="font-size:11px;color:' + (se ? se.hex : '#a0a0a0') + ';margin-bottom:3px;line-height:1.4">Body text shown here</div>';
+    html += '<div style="font-size:10px;font-weight:600;color:' + (ac ? ac.hex : '#5252ff') + ';text-decoration:underline;text-underline-offset:2px;margin-bottom:14px">Accent link</div>';
 
     if (dv) html += '<div style="height:1px;background:' + dv.hex + ';margin-bottom:14px"></div>';
 
     html += '<div style="display:flex;gap:6px;margin-bottom:12px">';
-    html += '<button style="background:' + (bf ? bf.hex : '#555') + ';color:' + (bt ? bt.hex : '#fff') + ';border:none;border-radius:5px;padding:5px 14px;font-size:10px;font-weight:700;cursor:pointer;font-family:inherit;letter-spacing:0.04em">Button</button>';
-    html += '<button style="background:transparent;color:' + (bo ? bo.hex : '#66f') + ';border:1.5px solid ' + (bo ? bo.hex : '#66f') + ';border-radius:5px;padding:5px 14px;font-size:10px;font-weight:700;cursor:pointer;font-family:inherit;letter-spacing:0.04em">Outline</button>';
+    html += '<button style="background:' + (bf ? bf.hex : '#515151') + ';color:' + (bt ? bt.hex : '#FFFFFF') + ';border:none;border-radius:5px;padding:5px 14px;font-size:10px;font-weight:700;cursor:pointer;font-family:inherit;letter-spacing:0.04em">Button</button>';
+    html += '<button style="background:transparent;color:' + (bo ? bo.hex : '#5252ff') + ';border:1.5px solid ' + (bo ? bo.hex : '#5252ff') + ';border-radius:5px;padding:5px 14px;font-size:10px;font-weight:700;cursor:pointer;font-family:inherit;letter-spacing:0.04em">Outline</button>';
     html += '</div>';
 
     /* Icons */
-    var iconColor = ic ? ic.hex : '#66f';
+    var iconColor = ic ? ic.hex : '#5252ff';
     html += '<div style="display:flex;gap:8px">';
     html += '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="' + iconColor + '" stroke-width="2.5" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>';
     html += '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="' + iconColor + '" stroke-width="2.5" stroke-linecap="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>';
@@ -335,7 +568,7 @@ function renderPreview(mode) {
    Render — Pairing Table
    ================================================================ */
 function renderPairTable(mode) {
-    if (!mode.pairs) return '<div style="padding:10px;color:#C62828;font-size:11px">No valid pairings for this mode.</div>';
+    if (!mode.pairs) return '<div style="padding:10px;color:#a70000;font-size:11px">No valid pairings for this mode.</div>';
 
     var html = '<table class="pair-table"><thead><tr>';
     html += '<th>Role</th><th>Color</th><th>Step</th><th>Contrast</th>';
@@ -360,15 +593,15 @@ function renderPairTable(mode) {
     /* Avoid section */
     if (mode.avoid && mode.avoid.length > 0) {
         html += '<div class="avoid-box">';
-        html += '<div style="font-size:9px;font-weight:700;color:#C62828;margin-bottom:4px">⚠ DO NOT USE as small text on this surface</div>';
+        html += '<div style="font-size:9px;font-weight:700;color:#a70000;margin-bottom:4px">&#9888; DO NOT USE as small text on this surface</div>';
         html += '<div style="display:flex;flex-wrap:wrap;gap:2px 10px">';
         for (var j = 0; j < mode.avoid.length; j++) {
             var a = mode.avoid[j];
             html += '<span style="display:inline-flex;align-items:center;gap:3px;font-size:9px">';
             html += sw(a.hex, 8);
-            html += '<span style="font-weight:600;color:#aaa">' + a.step + '</span>';
-            html += '<span style="font-family:monospace;font-size:8px;color:#C62828">' + a.ratio.toFixed(1) + '</span>';
-            if (a.lgOnly) html += '<span style="font-size:7px;color:#666">(lg)</span>';
+            html += '<span style="font-weight:600;color:#a0a0a0">' + a.step + '</span>';
+            html += '<span style="font-family:monospace;font-size:8px;color:#a70000">' + a.ratio.toFixed(1) + '</span>';
+            if (a.lgOnly) html += '<span style="font-size:7px;color:#6c6c6c">(lg)</span>';
             html += '</span>';
         }
         html += '</div></div>';
@@ -388,18 +621,18 @@ function renderModes() {
     for (var i = 0; i < modes.length; i++) {
         var m = modes[i];
         var isOpen = !!openModes[currentHue + '-' + m.id];
-        var borderLight = lum(m.bg) > 0.85 ? '1px solid #999' : '1px solid #555';
+        var borderLight = lum(m.bg) > 0.85 ? '1px solid #a0a0a0' : '1px solid #515151';
 
         html += '<div class="mode-panel">';
 
         /* Header */
         html += '<div class="mode-header" onclick="toggleMode(' + m.id + ')">';
         html += '<span style="width:20px;height:20px;border-radius:4px;background:' + m.bg + ';border:' + borderLight + ';flex-shrink:0"></span>';
-        html += '<span style="font-weight:700;font-size:12px;color:#e0e0e0">M' + m.id + ': ' + m.name + '</span>';
+        html += '<span style="font-weight:700;font-size:12px;color:#e1e1e1">M' + m.id + ': ' + m.name + '</span>';
         html += '<span class="mc-badge mc-badge-filled mc-badge-xs" data-hue="neutral" style="font-size:9px">' + m.tag + '</span>';
-        html += '<span style="font-size:10px;color:#666;margin-left:4px">' + m.desc + '</span>';
-        html += '<span style="font-family:monospace;font-size:9px;color:#555;margin-left:auto;margin-right:8px">BG: ' + m.bg + '</span>';
-        html += '<span class="mode-chevron ' + (isOpen ? 'open' : '') + '">▼</span>';
+        html += '<span style="font-size:10px;color:#6c6c6c;margin-left:4px">' + m.desc + '</span>';
+        html += '<span style="font-family:monospace;font-size:9px;color:#515151;margin-left:auto;margin-right:8px">BG: ' + m.bg + '</span>';
+        html += '<span class="mode-chevron ' + (isOpen ? 'open' : '') + '">&#9660;</span>';
         html += '</div>';
 
         /* Body */
@@ -448,7 +681,7 @@ function renderSummary() {
         for (var i = 0; i < modes.length; i++) {
             var mode = modes[i];
             if (!mode.pairs) {
-                html += '<td class="bl" style="color:#555">—</td><td style="color:#555">—</td>';
+                html += '<td class="bl" style="color:#515151">&mdash;</td><td style="color:#515151">&mdash;</td>';
                 continue;
             }
             var pr = mode.pairs.find(function(p) { return p.role === 'Primary Text'; });
@@ -476,26 +709,26 @@ function renderSummary() {
    ================================================================ */
 function renderFindings() {
     var html = '<div class="guide-card">';
-    html += '<h3 style="font-size:14px;font-weight:800;color:#e0e0e0;margin:0 0 8px">Universal Pattern Across All Hues</h3>';
-    html += '<p style="font-size:11px;color:#999;margin:0 0 10px;line-height:1.6">Your palette is engineered with identical luminance curves per hue. Every hue follows the same pairing logic:</p>';
+    html += '<h3 style="font-size:14px;font-weight:800;color:#e1e1e1;margin:0 0 8px">Universal Pattern Across All Hues</h3>';
+    html += '<p style="font-size:11px;color:#a0a0a0;margin:0 0 10px;line-height:1.6">Your palette is engineered with identical luminance curves per hue. Every hue follows the same pairing logic:</p>';
 
-    html += '<div style="display:grid;grid-template-columns:1fr 1fr;gap:6px 16px;font-size:11px;color:#aaa;line-height:1.5">';
-    html += '<div><strong class="text-white">M1 White BG:</strong> Steps 500–900 pass AA small. 500 for accent/links/buttons.</div>';
-    html += '<div><strong class="text-white">M2 Black BG:</strong> Steps 50–400 pass AA small. 400 for accent/links.</div>';
-    html += '<div><strong class="text-white">M3 Light (100) BG:</strong> Steps 600–900 + Black pass. 600 for accent.</div>';
-    html += '<div><strong class="text-white">M4 Dark (800) BG:</strong> Steps 50–300 + White pass. 300 for accent.</div>';
+    html += '<div style="display:grid;grid-template-columns:1fr 1fr;gap:6px 16px;font-size:11px;color:#a0a0a0;line-height:1.5">';
+    html += '<div><strong class="text-white">M1 White BG:</strong> Steps 500-900 pass AA small. 500 for accent/links/buttons.</div>';
+    html += '<div><strong class="text-white">M2 Black BG:</strong> Steps 50-400 pass AA small. 400 for accent/links.</div>';
+    html += '<div><strong class="text-white">M3 Light (100) BG:</strong> Steps 600-900 + Black pass. 600 for accent.</div>';
+    html += '<div><strong class="text-white">M4 Dark (800) BG:</strong> Steps 50-300 + White pass. 300 for accent.</div>';
     html += '</div>';
 
-    html += '<div class="finding-box" style="background:rgba(198,40,40,0.06);border-color:rgba(198,40,40,0.15)">';
-    html += '<strong style="color:#ff7474">M5 Mid (500) — Most Constrained:</strong> <span style="color:#aaa">500 is the darker mid-tone (~5.2:1 vs white), so light text (White/50) achieves strong contrast. Use this surface for CTAs, badges, hero banners.</span>';
+    html += '<div class="finding-box" style="background:#4d0000;border-color:#a70000">';
+    html += '<strong style="color:#ff7474">M5 Mid (500) -- Most Constrained:</strong> <span style="color:#a0a0a0">500 is the darker mid-tone (~5.2:1 vs white), so light text (White/50) achieves strong contrast. Use this surface for CTAs, badges, hero banners.</span>';
     html += '</div>';
 
-    html += '<div class="finding-box" style="background:rgba(255,200,0,0.04);border-color:rgba(255,200,0,0.12)">';
-    html += '<strong style="color:#e8e800">Dividers:</strong> <span style="color:#aaa">All modes achieve ≥3.0:1 for dividers (WCAG 1.4.11 non-text UI). This is correct behavior — dividers are decorative, not text.</span>';
+    html += '<div class="finding-box" style="background:#242400;border-color:#6f6f00">';
+    html += '<strong style="color:#e8e800">Dividers:</strong> <span style="color:#a0a0a0">All modes achieve &ge;3.0:1 for dividers (WCAG 1.4.11 non-text UI). This is correct behavior -- dividers are decorative, not text.</span>';
     html += '</div>';
 
-    html += '<div class="finding-box" style="background:rgba(0,180,0,0.06);border-color:rgba(0,180,0,0.12)">';
-    html += '<strong style="color:#00ba00">400↔500 Fix Applied:</strong> <span style="color:#aaa">Steps 400 and 500 were ordered so luminance decreases monotonically from 50→900. Step 400 (~4.0:1 vs white) is the mid-bright transition shade; Step 500 (~5.2:1 vs white) is the mid-dark shade that passes AA small on white.</span>';
+    html += '<div class="finding-box" style="background:#002900;border-color:#007f00">';
+    html += '<strong style="color:#00ba00">400/500 Fix Applied:</strong> <span style="color:#a0a0a0">Steps 400 and 500 were ordered so luminance decreases monotonically from 50-900. Step 400 (~4.0:1 vs white) is the mid-bright transition shade; Step 500 (~5.2:1 vs white) is the mid-dark shade that passes AA small on white.</span>';
     html += '</div>';
 
     html += '</div>';

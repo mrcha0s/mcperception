@@ -6,172 +6,387 @@
     <title>Typography Text Tiers — MC Perception</title>
     <link rel="stylesheet" href="../dist/mcperception.css">
     <style>
-        .guide-card { background: var(--p-surface); border: 1px solid var(--p-divider); border-radius: 8px; padding: 1.25rem; }
-        .tier-preview { border-radius: 10px; padding: 20px 24px; min-width: 280px; }
-        .tier-row { display: flex; align-items: baseline; gap: 12px; padding: 6px 0; }
-        .tier-label { font-family: 'Roboto Mono', ui-monospace, monospace; font-size: 10px; min-width: 70px; flex-shrink: 0; }
-        .tier-text { font-size: 16px; font-weight: 500; }
-        .tier-sm { font-size: 13px; font-weight: 400; }
-        .ratio-badge { font-family: 'Roboto Mono', ui-monospace, monospace; font-size: 9px; padding: 1px 5px; border-radius: 3px; margin-left: auto; flex-shrink: 0; }
-        .ratio-pass { background: rgba(46,125,50,0.15); color: #4CAF50; }
-        .ratio-fail { background: rgba(198,40,40,0.15); color: #EF5350; }
-        .mode-label { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 6px; }
-        .grid-modes { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 16px; }
-        .summary-table { width: 100%; border-collapse: collapse; font-size: 11px; }
-        .summary-table th { padding: 6px 8px; font-weight: 700; font-size: 9px; text-transform: uppercase; letter-spacing: 0.05em; border-bottom: 2px solid var(--p-divider); text-align: left; }
-        .summary-table td { padding: 5px 8px; border-bottom: 1px solid var(--p-divider); font-family: 'Roboto Mono', ui-monospace, monospace; font-size: 10px; }
-        .swatch { display: inline-block; width: 14px; height: 14px; border-radius: 3px; vertical-align: middle; margin-right: 4px; border: 1px solid rgba(255,255,255,0.1); }
+/* ── Docs Layout ── */
+.docs-layout {
+    display: flex;
+    min-height: 100vh;
+}
+.docs-sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 240px;
+    height: 100vh;
+    background: #222222;
+    border-right: 1px solid #222222;
+    overflow-y: auto;
+    z-index: 40;
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.2s ease;
+}
+.docs-sidebar-header {
+    padding: 1.25rem 1.25rem 0.75rem;
+    border-bottom: 1px solid #222222;
+    display: flex;
+    align-items: baseline;
+    gap: 0.5rem;
+}
+.docs-logo {
+    font-size: 0.875rem;
+    font-weight: 700;
+    color: #FFFFFF;
+    text-decoration: none;
+    letter-spacing: -0.01em;
+}
+.docs-logo:hover { color: #c3c3c3; }
+.docs-version {
+    font-size: 0.625rem;
+    color: #515151;
+    font-family: 'Roboto Mono', ui-monospace, monospace;
+}
+.docs-sidebar-nav {
+    padding: 0.75rem 0;
+    flex: 1;
+}
+.docs-nav-group {
+    margin-bottom: 0.25rem;
+}
+.docs-nav-group-label {
+    font-size: 0.625rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: #515151;
+    padding: 0.625rem 1.25rem 0.375rem;
+}
+.docs-nav-link {
+    display: block;
+    font-size: 0.8125rem;
+    color: #a0a0a0;
+    text-decoration: none;
+    padding: 0.375rem 1.25rem;
+    border-left: 2px solid transparent;
+    transition: color 0.15s, border-color 0.15s, background 0.15s;
+}
+.docs-nav-link:hover {
+    color: #c3c3c3;
+    background: #222222;
+}
+.docs-nav-link.active {
+    color: #5252ff;
+    border-left-color: #5252ff;
+    background: #222222;
+}
+.docs-content {
+    flex: 1;
+    margin-left: 240px;
+}
+
+/* ── Mobile: hamburger + overlay ── */
+#docs-hamburger {
+    display: none;
+    position: fixed;
+    top: 0.75rem;
+    left: 0.75rem;
+    z-index: 50;
+    background: #222222;
+    border: 1px solid #222222;
+    color: #a0a0a0;
+    font-size: 1.25rem;
+    width: 36px;
+    height: 36px;
+    border-radius: 6px;
+    cursor: pointer;
+    align-items: center;
+    justify-content: center;
+    line-height: 1;
+    padding: 0;
+}
+#docs-hamburger:hover { color: #FFFFFF; }
+#docs-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: #090909;
+    z-index: 35;
+}
+@media (max-width: 1023px) {
+    #docs-hamburger { display: flex; }
+    .docs-sidebar {
+        transform: translateX(-100%);
+    }
+    .docs-sidebar.open {
+        transform: translateX(0);
+    }
+    #docs-overlay.open {
+        display: block;
+    }
+    .docs-content {
+        margin-left: 0;
+    }
+}
+
+/* ── Guide Cards & Code Blocks ── */
+.guide-section { margin-bottom: 4rem; }
+.guide-card {
+    background: #090909;
+    border: 1px solid #222222;
+    border-radius: 6px;
+    padding: 1.5rem;
+}
+.section-number {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    border-radius: 6px;
+    font-size: 0.75rem;
+    font-weight: 800;
+    margin-right: 0.5rem;
+}
+
+/* ── Standard Footer ── */
+.docs-footer {
+    margin-top: 6rem;
+    padding: 2rem 0;
+    border-top: 1px solid #222222;
+    text-align: center;
+}
+.docs-footer p {
+    font-size: 0.75rem;
+    color: #515151;
+}
+.docs-footer a {
+    color: #6d6dff;
+    text-decoration: none;
+}
+.docs-footer a:hover {
+    color: #9494ff;
+}
+
+/* ── Page-specific styles ── */
+.tier-preview { border-radius: 10px; padding: 20px 24px; min-width: 280px; }
+.tier-row { display: flex; align-items: baseline; gap: 12px; padding: 6px 0; }
+.tier-label { font-family: 'Roboto Mono', ui-monospace, monospace; font-size: 10px; min-width: 70px; flex-shrink: 0; }
+.tier-text { font-size: 16px; font-weight: 500; }
+.tier-sm { font-size: 13px; font-weight: 400; }
+.ratio-badge { font-family: 'Roboto Mono', ui-monospace, monospace; font-size: 9px; padding: 1px 5px; border-radius: 3px; margin-left: auto; flex-shrink: 0; }
+.ratio-pass { background: #002900; color: #007f00; }
+.ratio-fail { background: #4d0000; color: #ff7474; }
+.mode-label { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 6px; }
+.grid-modes { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 16px; }
+.summary-table { width: 100%; border-collapse: collapse; font-size: 11px; }
+.summary-table th { padding: 6px 8px; font-weight: 700; font-size: 9px; text-transform: uppercase; letter-spacing: 0.05em; border-bottom: 2px solid var(--p-divider); text-align: left; }
+.summary-table td { padding: 5px 8px; border-bottom: 1px solid var(--p-divider); font-family: 'Roboto Mono', ui-monospace, monospace; font-size: 10px; }
+.swatch { display: inline-block; width: 14px; height: 14px; border-radius: 3px; vertical-align: middle; margin-right: 4px; border: 1px solid #222222; }
+
+/* Font specimens */
+.font-specimen { margin-bottom: 0.5rem; }
+.font-specimen p { margin: 0.25rem 0; color: #c3c3c3; }
     </style>
 </head>
-<body class="min-h-screen" data-hue="neutral" data-mode="2">
-
-    <div class="max-w-6xl mx-auto p-6" style="background: var(--p-surface);">
-
-        <!-- Header -->
-        <header class="mb-8">
-            <div class="flex items-center gap-3 mb-2">
-                <a href="index.html" class="mc-text-n3 hover:mc-text-n1 text-sm">&larr; Home</a>
+<body class="bg-p-black text-white min-h-screen font-sans" data-hue="neutral" data-mode="2">
+    <button id="docs-hamburger">&#9776;</button>
+    <div id="docs-overlay"></div>
+    <div class="docs-layout">
+        <aside class="docs-sidebar" id="docs-sidebar">
+            <div class="docs-sidebar-header">
+                <a href="index.html" class="docs-logo">MC Perception</a>
+                <span class="docs-version">v1.0</span>
             </div>
-            <h1 class="mc-text-n1 text-3xl font-bold mb-2">Typography Text Tiers</h1>
-            <p class="mc-text-n3 text-sm mb-4">
-                Surface-mode-aware text colors — 3 neutral tiers + 3 hue tiers per mode, all WCAG AA &ge; 4.5:1
-            </p>
-            <div class="mc-divider"></div>
-        </header>
+            <nav class="docs-sidebar-nav">
+                <!-- Getting Started -->
+                <div class="docs-nav-group">
+                    <div class="docs-nav-group-label">Getting Started</div>
+                    <a href="index.html" class="docs-nav-link" data-page="index">Home</a>
+                    <a href="getting-started.html" class="docs-nav-link" data-page="getting-started">Getting Started</a>
+                </div>
+                <!-- Foundation -->
+                <div class="docs-nav-group">
+                    <div class="docs-nav-group-label">Foundation</div>
+                    <a href="color.html" class="docs-nav-link" data-page="color">Color Palette</a>
+                    <a href="surface-modes.html" class="docs-nav-link" data-page="surface-modes">Surface Modes</a>
+                    <a href="typography.html" class="docs-nav-link" data-page="typography">Typography</a>
+                </div>
+                <!-- Components -->
+                <div class="docs-nav-group">
+                    <div class="docs-nav-group-label">Components</div>
+                    <a href="button.html" class="docs-nav-link" data-page="button">Buttons</a>
+                    <a href="badges.html" class="docs-nav-link" data-page="badges">Badges</a>
+                    <a href="alert.html" class="docs-nav-link" data-page="alert">Alerts</a>
+                    <a href="input.html" class="docs-nav-link" data-page="input">Form Inputs</a>
+                    <a href="selection.html" class="docs-nav-link" data-page="selection">Selection Controls</a>
+                    <a href="table.html" class="docs-nav-link" data-page="table">Tables</a>
+            <a href="panel-system.html" class="docs-nav-link" data-page="panel-system">Panels</a>
+                </div>
+                <!-- Patterns & Tutorials -->
+                <div class="docs-nav-group">
+                    <div class="docs-nav-group-label">Patterns</div>
+                    <a href="forms.html" class="docs-nav-link" data-page="forms">Form Layout</a>
+                    <a href="dark-surfaces.html" class="docs-nav-link" data-page="dark-surfaces">Dark Surface Depth</a>
+                </div>
+                <!-- Examples -->
+                <div class="docs-nav-group">
+                    <div class="docs-nav-group-label">Examples</div>
+                    <a href="trading-card.html" class="docs-nav-link" data-page="trading-card">Trading Card</a>
+                    <a href="orderbook.html" class="docs-nav-link" data-page="orderbook">Orderbook</a>
+                </div>
+            </nav>
+        </aside>
+        <main class="docs-content">
+            <div class="max-w-7xl mx-auto px-6 py-12">
+                <nav class="text-xs text-p-neutral-400 mb-6 flex gap-2 items-center">
+                    <a href="index.html" class="hover:text-white transition-colors">Home</a>
+                    <span class="text-p-neutral-600">/</span>
+                    <a href="index.html" class="hover:text-white transition-colors">Foundation</a>
+                    <span class="text-p-neutral-600">/</span>
+                    <span class="text-white font-semibold">Typography</span>
+                </nav>
 
-        <!-- Section 1: Overview -->
-        <section class="mb-10">
-            <h2 class="mc-text-n1 text-xl font-bold mb-4">How It Works</h2>
-            <div class="guide-card mb-4">
-                <p class="mc-text-n2 text-sm mb-3">
-                    Each <code class="mc-text-h1 font-mono">data-hue</code> + <code class="mc-text-h1 font-mono">data-mode</code> surface block defines 6 text color CSS variables.
-                    Use the utility classes inside any surface container — colors auto-adapt to guarantee WCAG AA contrast.
-                </p>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
-                    <div>
-                        <h4 class="mc-text-n1 font-semibold mb-2">Neutral Tiers</h4>
-                        <div class="space-y-1 font-mono text-xs">
-                            <div><span class="mc-text-h1">.mc-text-n1</span> <span class="mc-text-n3">— Primary (headings, key text)</span></div>
-                            <div><span class="mc-text-h1">.mc-text-n2</span> <span class="mc-text-n3">— Secondary (body, descriptions)</span></div>
-                            <div><span class="mc-text-h1">.mc-text-n3</span> <span class="mc-text-n3">— Tertiary (captions, subtle)</span></div>
+                <!-- Header -->
+                <header class="mb-8">
+                    <h1 class="mc-text-n1 text-3xl font-bold mb-2">Typography Text Tiers</h1>
+                    <p class="mc-text-n3 text-sm mb-4">
+                        Surface-mode-aware text colors &mdash; 3 neutral tiers + 3 hue tiers per mode, all WCAG AA &ge; 4.5:1
+                    </p>
+                    <div class="mc-divider"></div>
+                </header>
+
+                <!-- Section 1: Overview -->
+                <section class="mb-10">
+                    <h2 class="mc-text-n1 text-xl font-bold mb-4">How It Works</h2>
+                    <div class="guide-card mb-4">
+                        <p class="mc-text-n2 text-sm mb-3">
+                            Each <code class="mc-text-h1 font-mono">data-hue</code> + <code class="mc-text-h1 font-mono">data-mode</code> surface block defines 6 text color CSS variables.
+                            Use the utility classes inside any surface container &mdash; colors auto-adapt to guarantee WCAG AA contrast.
+                        </p>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
+                            <div>
+                                <h4 class="mc-text-n1 font-semibold mb-2">Neutral Tiers</h4>
+                                <div class="space-y-1 font-mono text-xs">
+                                    <div><span class="mc-text-h1">.mc-text-n1</span> <span class="mc-text-n3">&mdash; Primary (headings, key text)</span></div>
+                                    <div><span class="mc-text-h1">.mc-text-n2</span> <span class="mc-text-n3">&mdash; Secondary (body, descriptions)</span></div>
+                                    <div><span class="mc-text-h1">.mc-text-n3</span> <span class="mc-text-n3">&mdash; Tertiary (captions, subtle)</span></div>
+                                </div>
+                            </div>
+                            <div>
+                                <h4 class="mc-text-n1 font-semibold mb-2">Hue Tiers</h4>
+                                <div class="space-y-1 font-mono text-xs">
+                                    <div><span class="mc-text-h1">.mc-text-h1</span> <span class="mc-text-n3">&mdash; Vivid hue (links, accents)</span></div>
+                                    <div><span class="mc-text-h1">.mc-text-h2</span> <span class="mc-text-n3">&mdash; Medium hue (labels, tags)</span></div>
+                                    <div><span class="mc-text-h1">.mc-text-h3</span> <span class="mc-text-n3">&mdash; Subtle hue (hints, borders)</span></div>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                    <div>
-                        <h4 class="mc-text-n1 font-semibold mb-2">Hue Tiers</h4>
-                        <div class="space-y-1 font-mono text-xs">
-                            <div><span class="mc-text-h1">.mc-text-h1</span> <span class="mc-text-n3">— Vivid hue (links, accents)</span></div>
-                            <div><span class="mc-text-h1">.mc-text-h2</span> <span class="mc-text-n3">— Medium hue (labels, tags)</span></div>
-                            <div><span class="mc-text-h1">.mc-text-h3</span> <span class="mc-text-n3">— Subtle hue (hints, borders)</span></div>
+                </section>
+
+                <!-- Section 2: Hue Selector -->
+                <section class="mb-10">
+                    <h2 class="mc-text-n1 text-xl font-bold mb-4">Live Preview</h2>
+                    <p class="mc-text-n3 text-sm mb-4">Select a hue to see all 5 surface modes with their text tiers.</p>
+
+                    <!-- Hue tabs -->
+                    <div class="flex flex-wrap gap-2 mb-6" id="hue-tabs">
+                        <button class="mc-button mc-button-filled mc-button-sm" data-hue="neutral" data-tab="neutral">Neutral</button>
+                        <button class="mc-button mc-button-outline mc-button-sm" data-hue="red" data-tab="red">Red</button>
+                        <button class="mc-button mc-button-outline mc-button-sm" data-hue="green" data-tab="green">Green</button>
+                        <button class="mc-button mc-button-outline mc-button-sm" data-hue="blue" data-tab="blue">Blue</button>
+                        <button class="mc-button mc-button-outline mc-button-sm" data-hue="yellow" data-tab="yellow">Yellow</button>
+                        <button class="mc-button mc-button-outline mc-button-sm" data-hue="magenta" data-tab="magenta">Magenta</button>
+                        <button class="mc-button mc-button-outline mc-button-sm" data-hue="teal" data-tab="teal">Teal</button>
+                    </div>
+
+                    <!-- Mode previews grid -->
+                    <div class="grid-modes" id="mode-grid"></div>
+                </section>
+
+                <!-- Section 3: Contrast Ratio Table -->
+                <section class="mb-10">
+                    <h2 class="mc-text-n1 text-xl font-bold mb-4">WCAG AA Contrast Ratios</h2>
+                    <p class="mc-text-n3 text-sm mb-4">Every tier &ge; 4.5:1. <span id="hue-label" class="mc-text-h1 font-semibold">neutral</span> hue selected.</p>
+                    <div class="guide-card overflow-x-auto">
+                        <table class="summary-table" id="ratio-table">
+                            <thead>
+                                <tr>
+                                    <th class="mc-text-n3">Mode</th>
+                                    <th class="mc-text-n3">Surface</th>
+                                    <th class="mc-text-n3">n1</th>
+                                    <th class="mc-text-n3">n2</th>
+                                    <th class="mc-text-n3">n3</th>
+                                    <th class="mc-text-n3">h1</th>
+                                    <th class="mc-text-n3">h2</th>
+                                    <th class="mc-text-n3">h3</th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
+                </section>
+
+                <!-- Section 4: Usage Examples -->
+                <section class="mb-10">
+                    <h2 class="mc-text-n1 text-xl font-bold mb-4">Usage Examples</h2>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <!-- Dark card example -->
+                        <div class="guide-card">
+                            <div class="mode-label mc-text-n3">Card on dark surface</div>
+                            <div data-hue="blue" data-mode="2" style="background: var(--p-surface); border-radius: 8px; padding: 16px;">
+                                <h3 class="mc-text-n1 text-lg font-bold mb-1">Account Overview</h3>
+                                <p class="mc-text-n2 text-sm mb-2">Your portfolio performance this quarter</p>
+                                <p class="mc-text-n3 text-xs mb-3">Last updated 5 minutes ago</p>
+                                <a class="mc-text-h1 text-sm font-semibold">View Details &rarr;</a>
+                                <span class="mc-text-h2 text-xs ml-3">12 assets</span>
+                                <span class="mc-text-h3 text-xs ml-2">managed</span>
+                            </div>
+                        </div>
+
+                        <!-- Light card example -->
+                        <div class="guide-card">
+                            <div class="mode-label mc-text-n3">Card on light surface</div>
+                            <div data-hue="green" data-mode="1" style="background: var(--p-surface); border-radius: 8px; padding: 16px;">
+                                <h3 class="mc-text-n1 text-lg font-bold mb-1">Transaction Complete</h3>
+                                <p class="mc-text-n2 text-sm mb-2">Your payment has been processed successfully</p>
+                                <p class="mc-text-n3 text-xs mb-3">Confirmation #TXN-2024-0847</p>
+                                <a class="mc-text-h1 text-sm font-semibold">Download Receipt &rarr;</a>
+                                <span class="mc-text-h2 text-xs ml-3">$1,250.00</span>
+                                <span class="mc-text-h3 text-xs ml-2">processed</span>
+                            </div>
+                        </div>
+
+                        <!-- Hue surface example -->
+                        <div class="guide-card">
+                            <div class="mode-label mc-text-n3">Card on hue-tinted dark surface</div>
+                            <div data-hue="magenta" data-mode="4" style="background: var(--p-surface); border-radius: 8px; padding: 16px;">
+                                <h3 class="mc-text-n1 text-lg font-bold mb-1">Premium Features</h3>
+                                <p class="mc-text-n2 text-sm mb-2">Unlock advanced analytics and insights</p>
+                                <p class="mc-text-n3 text-xs mb-3">Available with Pro plan</p>
+                                <a class="mc-text-h1 text-sm font-semibold">Upgrade Now &rarr;</a>
+                                <span class="mc-text-h2 text-xs ml-3">Save 20%</span>
+                                <span class="mc-text-h3 text-xs ml-2">annual</span>
+                            </div>
+                        </div>
+
+                        <!-- Mid surface example -->
+                        <div class="guide-card">
+                            <div class="mode-label mc-text-n3">Card on mid-tone surface (M5)</div>
+                            <div data-hue="red" data-mode="5" style="background: var(--p-surface); border-radius: 8px; padding: 16px;">
+                                <h3 class="mc-text-n1 text-lg font-bold mb-1">Critical Alert</h3>
+                                <p class="mc-text-n2 text-sm mb-2">System requires immediate attention</p>
+                                <p class="mc-text-n3 text-xs mb-3">Note: M5 has limited tier range</p>
+                                <a class="mc-text-h1 text-sm font-semibold">Resolve Issue &rarr;</a>
+                            </div>
                         </div>
                     </div>
-                </div>
-            </div>
-        </section>
+                </section>
 
-        <!-- Section 2: Hue Selector -->
-        <section class="mb-10">
-            <h2 class="mc-text-n1 text-xl font-bold mb-4">Live Preview</h2>
-            <p class="mc-text-n3 text-sm mb-4">Select a hue to see all 5 surface modes with their text tiers.</p>
-
-            <!-- Hue tabs -->
-            <div class="flex flex-wrap gap-2 mb-6" id="hue-tabs">
-                <button class="mc-button mc-button-filled mc-button-sm" data-hue="neutral" data-tab="neutral">Neutral</button>
-                <button class="mc-button mc-button-outline mc-button-sm" data-hue="red" data-tab="red">Red</button>
-                <button class="mc-button mc-button-outline mc-button-sm" data-hue="green" data-tab="green">Green</button>
-                <button class="mc-button mc-button-outline mc-button-sm" data-hue="blue" data-tab="blue">Blue</button>
-                <button class="mc-button mc-button-outline mc-button-sm" data-hue="yellow" data-tab="yellow">Yellow</button>
-                <button class="mc-button mc-button-outline mc-button-sm" data-hue="magenta" data-tab="magenta">Magenta</button>
-                <button class="mc-button mc-button-outline mc-button-sm" data-hue="teal" data-tab="teal">Teal</button>
-            </div>
-
-            <!-- Mode previews grid -->
-            <div class="grid-modes" id="mode-grid"></div>
-        </section>
-
-        <!-- Section 3: Contrast Ratio Table -->
-        <section class="mb-10">
-            <h2 class="mc-text-n1 text-xl font-bold mb-4">WCAG AA Contrast Ratios</h2>
-            <p class="mc-text-n3 text-sm mb-4">Every tier &ge; 4.5:1. <span id="hue-label" class="mc-text-h1 font-semibold">neutral</span> hue selected.</p>
-            <div class="guide-card overflow-x-auto">
-                <table class="summary-table" id="ratio-table">
-                    <thead>
-                        <tr>
-                            <th class="mc-text-n3">Mode</th>
-                            <th class="mc-text-n3">Surface</th>
-                            <th class="mc-text-n3">n1</th>
-                            <th class="mc-text-n3">n2</th>
-                            <th class="mc-text-n3">n3</th>
-                            <th class="mc-text-n3">h1</th>
-                            <th class="mc-text-n3">h2</th>
-                            <th class="mc-text-n3">h3</th>
-                        </tr>
-                    </thead>
-                    <tbody></tbody>
-                </table>
-            </div>
-        </section>
-
-        <!-- Section 4: Usage Examples -->
-        <section class="mb-10">
-            <h2 class="mc-text-n1 text-xl font-bold mb-4">Usage Examples</h2>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <!-- Dark card example -->
-                <div class="guide-card">
-                    <div class="mode-label mc-text-n3">Card on dark surface</div>
-                    <div data-hue="blue" data-mode="2" style="background: var(--p-surface); border-radius: 8px; padding: 16px;">
-                        <h3 class="mc-text-n1 text-lg font-bold mb-1">Account Overview</h3>
-                        <p class="mc-text-n2 text-sm mb-2">Your portfolio performance this quarter</p>
-                        <p class="mc-text-n3 text-xs mb-3">Last updated 5 minutes ago</p>
-                        <a class="mc-text-h1 text-sm font-semibold">View Details &rarr;</a>
-                        <span class="mc-text-h2 text-xs ml-3">12 assets</span>
-                        <span class="mc-text-h3 text-xs ml-2">managed</span>
-                    </div>
-                </div>
-
-                <!-- Light card example -->
-                <div class="guide-card">
-                    <div class="mode-label mc-text-n3">Card on light surface</div>
-                    <div data-hue="green" data-mode="1" style="background: var(--p-surface); border-radius: 8px; padding: 16px;">
-                        <h3 class="mc-text-n1 text-lg font-bold mb-1">Transaction Complete</h3>
-                        <p class="mc-text-n2 text-sm mb-2">Your payment has been processed successfully</p>
-                        <p class="mc-text-n3 text-xs mb-3">Confirmation #TXN-2024-0847</p>
-                        <a class="mc-text-h1 text-sm font-semibold">Download Receipt &rarr;</a>
-                        <span class="mc-text-h2 text-xs ml-3">$1,250.00</span>
-                        <span class="mc-text-h3 text-xs ml-2">processed</span>
-                    </div>
-                </div>
-
-                <!-- Hue surface example -->
-                <div class="guide-card">
-                    <div class="mode-label mc-text-n3">Card on hue-tinted dark surface</div>
-                    <div data-hue="magenta" data-mode="4" style="background: var(--p-surface); border-radius: 8px; padding: 16px;">
-                        <h3 class="mc-text-n1 text-lg font-bold mb-1">Premium Features</h3>
-                        <p class="mc-text-n2 text-sm mb-2">Unlock advanced analytics and insights</p>
-                        <p class="mc-text-n3 text-xs mb-3">Available with Pro plan</p>
-                        <a class="mc-text-h1 text-sm font-semibold">Upgrade Now &rarr;</a>
-                        <span class="mc-text-h2 text-xs ml-3">Save 20%</span>
-                        <span class="mc-text-h3 text-xs ml-2">annual</span>
-                    </div>
-                </div>
-
-                <!-- Mid surface example -->
-                <div class="guide-card">
-                    <div class="mode-label mc-text-n3">Card on mid-tone surface (M5)</div>
-                    <div data-hue="red" data-mode="5" style="background: var(--p-surface); border-radius: 8px; padding: 16px;">
-                        <h3 class="mc-text-n1 text-lg font-bold mb-1">Critical Alert</h3>
-                        <p class="mc-text-n2 text-sm mb-2">System requires immediate attention</p>
-                        <p class="mc-text-n3 text-xs mb-3">Note: M5 has limited tier range</p>
-                        <a class="mc-text-h1 text-sm font-semibold">Resolve Issue &rarr;</a>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Section 5: Code Reference -->
-        <section class="mb-10">
-            <h2 class="mc-text-n1 text-xl font-bold mb-4">Code Reference</h2>
-            <div class="guide-card">
-                <pre class="text-xs mc-text-n2 overflow-x-auto"><code>&lt;!-- Wrap content in a surface mode container --&gt;
+                <!-- Section 5: Code Reference -->
+                <section class="mb-10">
+                    <h2 class="mc-text-n1 text-xl font-bold mb-4">Code Reference</h2>
+                    <div class="guide-card">
+                        <pre class="text-xs mc-text-n2 overflow-x-auto"><code>&lt;!-- Wrap content in a surface mode container --&gt;
 &lt;div data-hue="blue" data-mode="2"&gt;
     &lt;h2 class="mc-text-n1"&gt;Heading&lt;/h2&gt;
     &lt;p class="mc-text-n2"&gt;Body text&lt;/p&gt;
@@ -187,12 +402,124 @@
     color: var(--p-text-n1);     /* primary neutral */
     border-color: var(--p-text-h3);  /* subtle hue */
 }</code></pre>
-            </div>
-        </section>
+                    </div>
+                </section>
 
+                <!-- ============================================================
+                     Section 6: Font Families (merged from font.html)
+                     ============================================================ -->
+                <section class="mb-10">
+                    <h2 class="mc-text-n1 text-xl font-bold mb-6">
+                        <span class="section-number bg-p-teal-500 text-white">6</span>
+                        Font Families
+                    </h2>
+                    <p class="mc-text-n3 text-sm mb-6">All MC Perception font families displayed in multiple sizes. Each font is available through Tailwind utility classes.</p>
+
+                    <!-- Roboto (Sans) -->
+                    <div class="guide-card mb-4">
+                        <h3 class="mc-text-n1 text-lg font-bold mb-4 font-sans">Roboto (Sans)</h3>
+                        <p class="mc-text-n3 text-xs mb-3 font-mono">Class: <span class="mc-text-h1">font-sans</span></p>
+                        <div class="font-specimen font-sans">
+                            <p class="text-xs">text-xs &mdash; The quick brown fox jumps over the lazy dog. 0123456789</p>
+                            <p class="text-sm">text-sm &mdash; The quick brown fox jumps over the lazy dog. 0123456789</p>
+                            <p class="text-base">text-base &mdash; The quick brown fox jumps over the lazy dog. 0123456789</p>
+                            <p class="text-lg">text-lg &mdash; The quick brown fox jumps over the lazy dog. 0123456789</p>
+                            <p class="text-xl">text-xl &mdash; The quick brown fox jumps over the lazy dog. 0123456789</p>
+                            <p class="text-2xl">text-2xl &mdash; The quick brown fox jumps over the lazy dog. 0123456789</p>
+                        </div>
+                    </div>
+
+                    <!-- Roboto (Serif) -->
+                    <div class="guide-card mb-4">
+                        <h3 class="mc-text-n1 text-lg font-bold mb-4 font-serif">Roboto (Serif)</h3>
+                        <p class="mc-text-n3 text-xs mb-3 font-mono">Class: <span class="mc-text-h1">font-serif</span></p>
+                        <div class="font-specimen font-serif">
+                            <p class="text-xs">text-xs &mdash; The quick brown fox jumps over the lazy dog. 0123456789</p>
+                            <p class="text-sm">text-sm &mdash; The quick brown fox jumps over the lazy dog. 0123456789</p>
+                            <p class="text-base">text-base &mdash; The quick brown fox jumps over the lazy dog. 0123456789</p>
+                            <p class="text-lg">text-lg &mdash; The quick brown fox jumps over the lazy dog. 0123456789</p>
+                            <p class="text-xl">text-xl &mdash; The quick brown fox jumps over the lazy dog. 0123456789</p>
+                            <p class="text-2xl">text-2xl &mdash; The quick brown fox jumps over the lazy dog. 0123456789</p>
+                        </div>
+                    </div>
+
+                    <!-- Roboto Condensed -->
+                    <div class="guide-card mb-4">
+                        <h3 class="mc-text-n1 text-lg font-bold mb-4 font-condensed">Roboto Condensed</h3>
+                        <p class="mc-text-n3 text-xs mb-3 font-mono">Class: <span class="mc-text-h1">font-condensed</span></p>
+                        <div class="font-specimen font-condensed">
+                            <p class="text-xs">text-xs &mdash; The quick brown fox jumps over the lazy dog. 0123456789</p>
+                            <p class="text-sm">text-sm &mdash; The quick brown fox jumps over the lazy dog. 0123456789</p>
+                            <p class="text-base">text-base &mdash; The quick brown fox jumps over the lazy dog. 0123456789</p>
+                            <p class="text-lg">text-lg &mdash; The quick brown fox jumps over the lazy dog. 0123456789</p>
+                            <p class="text-xl">text-xl &mdash; The quick brown fox jumps over the lazy dog. 0123456789</p>
+                            <p class="text-2xl">text-2xl &mdash; The quick brown fox jumps over the lazy dog. 0123456789</p>
+                        </div>
+                    </div>
+
+                    <!-- Roboto Mono -->
+                    <div class="guide-card mb-4">
+                        <h3 class="mc-text-n1 text-lg font-bold mb-4 font-mono">Roboto Mono</h3>
+                        <p class="mc-text-n3 text-xs mb-3 font-mono">Class: <span class="mc-text-h1">font-mono</span></p>
+                        <div class="font-specimen font-mono">
+                            <p class="text-xs">text-xs &mdash; The quick brown fox jumps over the lazy dog. 0123456789</p>
+                            <p class="text-sm">text-sm &mdash; The quick brown fox jumps over the lazy dog. 0123456789</p>
+                            <p class="text-base">text-base &mdash; The quick brown fox jumps over the lazy dog. 0123456789</p>
+                            <p class="text-lg">text-lg &mdash; The quick brown fox jumps over the lazy dog. 0123456789</p>
+                            <p class="text-xl">text-xl &mdash; The quick brown fox jumps over the lazy dog. 0123456789</p>
+                            <p class="text-2xl">text-2xl &mdash; The quick brown fox jumps over the lazy dog. 0123456789</p>
+                        </div>
+                    </div>
+
+                    <!-- Roboto Slab -->
+                    <div class="guide-card mb-4">
+                        <h3 class="mc-text-n1 text-lg font-bold mb-4 font-slab">Roboto Slab</h3>
+                        <p class="mc-text-n3 text-xs mb-3 font-mono">Class: <span class="mc-text-h1">font-slab</span></p>
+                        <div class="font-specimen font-slab">
+                            <p class="text-xs">text-xs &mdash; The quick brown fox jumps over the lazy dog. 0123456789</p>
+                            <p class="text-sm">text-sm &mdash; The quick brown fox jumps over the lazy dog. 0123456789</p>
+                            <p class="text-base">text-base &mdash; The quick brown fox jumps over the lazy dog. 0123456789</p>
+                            <p class="text-lg">text-lg &mdash; The quick brown fox jumps over the lazy dog. 0123456789</p>
+                            <p class="text-xl">text-xl &mdash; The quick brown fox jumps over the lazy dog. 0123456789</p>
+                            <p class="text-2xl">text-2xl &mdash; The quick brown fox jumps over the lazy dog. 0123456789</p>
+                        </div>
+                    </div>
+                </section>
+
+                <footer class="docs-footer">
+                    <p>MC Perception Design System &mdash; 7 hues &times; 5 modes &times; 6 sizes &mdash; WCAG AA compliant</p>
+                    <p style="margin-top: 0.5rem;"><a href="https://github.com/anthropics/claude-code">Built with Claude Code</a></p>
+                </footer>
+            </div>
+        </main>
     </div>
 
-    <script>
+<script>
+// Auto-mark active sidebar link based on current filename
+(function() {
+    var page = location.pathname.split('/').pop().replace('.html','') || 'index';
+    var links = document.querySelectorAll('.docs-nav-link');
+    links.forEach(function(a) {
+        if (a.getAttribute('data-page') === page) a.classList.add('active');
+    });
+    // Mobile hamburger toggle
+    var hamburger = document.getElementById('docs-hamburger');
+    var sidebar = document.getElementById('docs-sidebar');
+    var overlay = document.getElementById('docs-overlay');
+    if (hamburger && sidebar && overlay) {
+        hamburger.addEventListener('click', function() {
+            sidebar.classList.toggle('open');
+            overlay.classList.toggle('open');
+        });
+        overlay.addEventListener('click', function() {
+            sidebar.classList.remove('open');
+            overlay.classList.remove('open');
+        });
+    }
+})();
+</script>
+
+<script>
     // ── Palette data ──
     const PALETTE = {
         neutral: { 50:'#fafafa',100:'#e1e1e1',200:'#c3c3c3',300:'#a0a0a0',400:'#7f7f7f',500:'#6c6c6c',600:'#515151',700:'#373737',800:'#222222',900:'#090909' },
@@ -233,7 +560,7 @@
         };
     }
 
-    const MODE_NAMES = { 1:'White (#FFF)', 2:'Black (#0A0A0A)', 3:'Light (step-100)', 4:'Dark (step-800)', 5:'Mid (step-500)' };
+    const MODE_NAMES = { 1:'White (#FFFFFF)', 2:'Black (#0A0A0A)', 3:'Light (step-100)', 4:'Dark (step-800)', 5:'Mid (step-500)' };
     const TIER_NAMES = { n1:'Primary Neutral', n2:'Secondary Neutral', n3:'Tertiary Neutral', h1:'Vivid Hue', h2:'Medium Hue', h3:'Subtle Hue' };
     const TIER_CLASSES = { n1:'mc-text-n1', n2:'mc-text-n2', n3:'mc-text-n3', h1:'mc-text-h1', h2:'mc-text-h2', h3:'mc-text-h3' };
 
@@ -253,14 +580,14 @@
 
             html += `<div>
                 <div class="mode-label mc-text-n3">Mode ${m} — ${MODE_NAMES[m]}</div>
-                <div class="tier-preview" data-hue="${activeHue}" data-mode="${m}" style="background:${t.surface}; border:1px solid ${isDark?'#333':'#ccc'}">`;
+                <div class="tier-preview" data-hue="${activeHue}" data-mode="${m}" style="background:${t.surface}; border:1px solid ${isDark?'#373737':'#c3c3c3'}">`;
 
             for (const tier of ['n1','n2','n3','h1','h2','h3']) {
                 const color = t[tier];
                 const ratio = cr(color, t.surface);
                 const pass = ratio >= 4.5;
                 const isHue = tier.startsWith('h');
-                const sep = tier === 'h1' ? `<div style="border-top:1px solid ${isDark?'rgba(255,255,255,0.08)':'rgba(0,0,0,0.08)'}; margin: 4px 0;"></div>` : '';
+                const sep = tier === 'h1' ? `<div style="border-top:1px solid ${isDark?'#222222':'#090909'}; margin: 4px 0;"></div>` : '';
 
                 html += `${sep}<div class="tier-row">
                     <span class="tier-label mc-text-n3">${tier}</span>
@@ -285,7 +612,7 @@
                 const pass = ratio >= 4.5;
                 rows += `<td>
                     <span class="swatch" style="background:${t[tier]}"></span>
-                    <span style="color:${pass?'#4CAF50':'#EF5350'}">${ratio.toFixed(1)}:1</span>
+                    <span style="color:${pass?'#007f00':'#ff7474'}">${ratio.toFixed(1)}:1</span>
                 </td>`;
             }
             rows += '</tr>';
@@ -307,7 +634,6 @@
     });
 
     render();
-    </script>
-
+</script>
 </body>
 </html>

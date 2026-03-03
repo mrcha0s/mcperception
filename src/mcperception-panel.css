@@ -1,214 +1,335 @@
 @layer components {
     /* ======================================
-       BASE PANEL
-       Flat design matching components.html style
+       PANEL — Surface-Mode-Aware
+       Nestable containers with bevel/emboss depth
+
+       Color: data-hue="neutral|red|green|blue|yellow|magenta|teal"
+       Variant: mc-panel-bevel | mc-panel-emboss | (flat default)
+       Size: mc-panel-xs | mc-panel-sm | (md default) | mc-panel-lg | mc-panel-xl | mc-panel-xxl
+       Nesting: .mc-panel > .mc-panel (child uses different depth layer)
+
+       Surface mode: inherits data-mode from ancestor container.
+       Default (no data-mode) = dark surface (Mode 2).
     ======================================= */
+
+
+    /* ─────────────────────────────────────
+       Section 1: HUE TOKEN LAYER
+       Maps data-hue to generic --pnl-{step} variables.
+       All variant/mode rules reference --pnl-* so ONE set of rules covers all 7 hues.
+    ───────────────────────────────────── */
+    .mc-panel[data-hue="neutral"] {
+        --pnl-50:  var(--color-p-neutral-50);  --pnl-100: var(--color-p-neutral-100);
+        --pnl-200: var(--color-p-neutral-200); --pnl-300: var(--color-p-neutral-300);
+        --pnl-400: var(--color-p-neutral-400); --pnl-500: var(--color-p-neutral-500);
+        --pnl-600: var(--color-p-neutral-600); --pnl-700: var(--color-p-neutral-700);
+        --pnl-800: var(--color-p-neutral-800); --pnl-900: var(--color-p-neutral-900);
+    }
+    .mc-panel[data-hue="red"] {
+        --pnl-50:  var(--color-p-red-50);  --pnl-100: var(--color-p-red-100);
+        --pnl-200: var(--color-p-red-200); --pnl-300: var(--color-p-red-300);
+        --pnl-400: var(--color-p-red-400); --pnl-500: var(--color-p-red-500);
+        --pnl-600: var(--color-p-red-600); --pnl-700: var(--color-p-red-700);
+        --pnl-800: var(--color-p-red-800); --pnl-900: var(--color-p-red-900);
+    }
+    .mc-panel[data-hue="green"] {
+        --pnl-50:  var(--color-p-green-50);  --pnl-100: var(--color-p-green-100);
+        --pnl-200: var(--color-p-green-200); --pnl-300: var(--color-p-green-300);
+        --pnl-400: var(--color-p-green-400); --pnl-500: var(--color-p-green-500);
+        --pnl-600: var(--color-p-green-600); --pnl-700: var(--color-p-green-700);
+        --pnl-800: var(--color-p-green-800); --pnl-900: var(--color-p-green-900);
+    }
+    .mc-panel[data-hue="blue"] {
+        --pnl-50:  var(--color-p-blue-50);  --pnl-100: var(--color-p-blue-100);
+        --pnl-200: var(--color-p-blue-200); --pnl-300: var(--color-p-blue-300);
+        --pnl-400: var(--color-p-blue-400); --pnl-500: var(--color-p-blue-500);
+        --pnl-600: var(--color-p-blue-600); --pnl-700: var(--color-p-blue-700);
+        --pnl-800: var(--color-p-blue-800); --pnl-900: var(--color-p-blue-900);
+    }
+    .mc-panel[data-hue="yellow"] {
+        --pnl-50:  var(--color-p-yellow-50);  --pnl-100: var(--color-p-yellow-100);
+        --pnl-200: var(--color-p-yellow-200); --pnl-300: var(--color-p-yellow-300);
+        --pnl-400: var(--color-p-yellow-400); --pnl-500: var(--color-p-yellow-500);
+        --pnl-600: var(--color-p-yellow-600); --pnl-700: var(--color-p-yellow-700);
+        --pnl-800: var(--color-p-yellow-800); --pnl-900: var(--color-p-yellow-900);
+    }
+    .mc-panel[data-hue="magenta"] {
+        --pnl-50:  var(--color-p-magenta-50);  --pnl-100: var(--color-p-magenta-100);
+        --pnl-200: var(--color-p-magenta-200); --pnl-300: var(--color-p-magenta-300);
+        --pnl-400: var(--color-p-magenta-400); --pnl-500: var(--color-p-magenta-500);
+        --pnl-600: var(--color-p-magenta-600); --pnl-700: var(--color-p-magenta-700);
+        --pnl-800: var(--color-p-magenta-800); --pnl-900: var(--color-p-magenta-900);
+    }
+    .mc-panel[data-hue="teal"] {
+        --pnl-50:  var(--color-p-teal-50);  --pnl-100: var(--color-p-teal-100);
+        --pnl-200: var(--color-p-teal-200); --pnl-300: var(--color-p-teal-300);
+        --pnl-400: var(--color-p-teal-400); --pnl-500: var(--color-p-teal-500);
+        --pnl-600: var(--color-p-teal-600); --pnl-700: var(--color-p-teal-700);
+        --pnl-800: var(--color-p-teal-800); --pnl-900: var(--color-p-teal-900);
+    }
+
+
+    /* ─────────────────────────────────────
+       Section 2: BASE STYLES (M2 Default — Dark Surface)
+       Panel layer = neutral.800, border = neutral.600
+    ───────────────────────────────────── */
     .mc-panel {
-        @apply bg-p-neutral-800 border border-p-neutral-800 rounded;
+        background: var(--color-p-neutral-800);
+        border: 1px solid var(--color-p-neutral-600);
+        border-radius: 3px;
+        padding: 14px 16px;
+        color: #FFFFFF;
+        /* Expose input bg for child inputs */
+        --mc-panel-input-bg: var(--color-p-neutral-900);
     }
 
-    .mc-panel-title {
-        @apply text-sm font-semibold tracking-wider uppercase;
+    /* Nested panel: Child layer = neutral.700 */
+    .mc-panel .mc-panel {
+        background: var(--color-p-neutral-700);
+        border-color: var(--color-p-neutral-600);
+        --mc-panel-input-bg: var(--color-p-neutral-800);
     }
 
-    .mc-panel-subtitle {
-        @apply text-xs text-p-neutral-400;
+
+    /* ─────────────────────────────────────
+       Section 3: BEVEL & EMBOSS VARIANTS (M2 Default)
+       Photoshop-inspired directional borders
+    ───────────────────────────────────── */
+
+    /* Bevel: raised — light top/left, dark bottom/right */
+    .mc-panel-bevel {
+        border-top-color: var(--color-p-neutral-600);
+        border-left-color: var(--color-p-neutral-600);
+        border-bottom-color: var(--color-p-neutral-900);
+        border-right-color: var(--color-p-neutral-900);
     }
 
-    /* ======================================
-       PANEL HEADER & BODY
-    ======================================= */
+    /* Emboss: inset — dark top/left, light bottom/right */
+    .mc-panel-emboss {
+        border-top-color: var(--color-p-neutral-900);
+        border-left-color: var(--color-p-neutral-900);
+        border-bottom-color: var(--color-p-neutral-600);
+        border-right-color: var(--color-p-neutral-600);
+    }
+
+
+    /* ─────────────────────────────────────
+       Section 4: MODE OVERRIDES
+    ───────────────────────────────────── */
+
+    /* --- Mode 1: White surface --- */
+    [data-mode="1"] .mc-panel {
+        background: var(--pnl-50);
+        border-color: var(--pnl-200);
+        border-radius: 6px;
+        color: var(--pnl-900);
+        --mc-panel-input-bg: var(--pnl-100);
+    }
+    [data-mode="1"] .mc-panel .mc-panel {
+        background: #FFFFFF;
+        border-color: var(--pnl-200);
+        --mc-panel-input-bg: var(--pnl-50);
+    }
+    [data-mode="1"] .mc-panel-bevel {
+        border-top-color: #FFFFFF;
+        border-left-color: #FFFFFF;
+        border-bottom-color: var(--pnl-300);
+        border-right-color: var(--pnl-300);
+    }
+    [data-mode="1"] .mc-panel-emboss {
+        border-top-color: var(--pnl-300);
+        border-left-color: var(--pnl-300);
+        border-bottom-color: #FFFFFF;
+        border-right-color: #FFFFFF;
+    }
+
+    /* --- Mode 3: Light Hue surface --- */
+    [data-mode="3"] .mc-panel {
+        background: var(--pnl-100);
+        border-color: var(--pnl-300);
+        border-radius: 6px;
+        color: var(--pnl-900);
+        --mc-panel-input-bg: var(--pnl-200);
+    }
+    [data-mode="3"] .mc-panel .mc-panel {
+        background: var(--pnl-50);
+        border-color: var(--pnl-300);
+        --mc-panel-input-bg: var(--pnl-100);
+    }
+    [data-mode="3"] .mc-panel-bevel {
+        border-top-color: var(--pnl-50);
+        border-left-color: var(--pnl-50);
+        border-bottom-color: var(--pnl-300);
+        border-right-color: var(--pnl-300);
+    }
+    [data-mode="3"] .mc-panel-emboss {
+        border-top-color: var(--pnl-300);
+        border-left-color: var(--pnl-300);
+        border-bottom-color: var(--pnl-50);
+        border-right-color: var(--pnl-50);
+    }
+
+    /* --- Mode 4: Dark Hue surface --- */
+    [data-mode="4"] .mc-panel {
+        background: var(--pnl-800);
+        border-color: var(--pnl-600);
+        border-radius: 3px;
+        color: #FFFFFF;
+        --mc-panel-input-bg: var(--pnl-900);
+    }
+    [data-mode="4"] .mc-panel .mc-panel {
+        background: var(--pnl-700);
+        border-color: var(--pnl-600);
+        --mc-panel-input-bg: var(--pnl-800);
+    }
+    [data-mode="4"] .mc-panel-bevel {
+        border-top-color: var(--pnl-600);
+        border-left-color: var(--pnl-600);
+        border-bottom-color: var(--pnl-900);
+        border-right-color: var(--pnl-900);
+    }
+    [data-mode="4"] .mc-panel-emboss {
+        border-top-color: var(--pnl-900);
+        border-left-color: var(--pnl-900);
+        border-bottom-color: var(--pnl-600);
+        border-right-color: var(--pnl-600);
+    }
+
+    /* --- Mode 5: Mid Hue surface --- */
+    [data-mode="5"] .mc-panel {
+        background: var(--pnl-500);
+        border-color: var(--pnl-300);
+        border-radius: 6px;
+        color: #FFFFFF;
+        --mc-panel-input-bg: var(--pnl-700);
+    }
+    [data-mode="5"] .mc-panel .mc-panel {
+        background: var(--pnl-400);
+        border-color: var(--pnl-300);
+        --mc-panel-input-bg: var(--pnl-600);
+    }
+    [data-mode="5"] .mc-panel-bevel {
+        border-top-color: var(--pnl-300);
+        border-left-color: var(--pnl-300);
+        border-bottom-color: var(--pnl-700);
+        border-right-color: var(--pnl-700);
+    }
+    [data-mode="5"] .mc-panel-emboss {
+        border-top-color: var(--pnl-700);
+        border-left-color: var(--pnl-700);
+        border-bottom-color: var(--pnl-300);
+        border-right-color: var(--pnl-300);
+    }
+
+
+    /* ─────────────────────────────────────
+       Section 5: PANEL SUB-ELEMENTS
+    ───────────────────────────────────── */
+
+    /* --- Panel Label (uppercase category text) --- */
+    .mc-panel-label {
+        font-size: 10px;
+        font-weight: 600;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        margin-bottom: 10px;
+        color: var(--color-p-neutral-400);
+    }
+    [data-mode="1"] .mc-panel-label { color: var(--pnl-500); }
+    [data-mode="3"] .mc-panel-label { color: var(--pnl-500); }
+    [data-mode="4"] .mc-panel-label { color: var(--pnl-400); }
+    [data-mode="5"] .mc-panel-label { color: var(--pnl-200); }
+
+    /* --- Panel Header (title bar with optional actions) --- */
     .mc-panel-header {
-        @apply py-3 px-4 border-b border-p-neutral-800 flex items-center justify-between;
+        padding-bottom: 10px;
+        margin-bottom: 12px;
+        border-bottom: 1px solid var(--color-p-neutral-600);
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+    [data-mode="1"] .mc-panel-header { border-bottom-color: var(--pnl-200); }
+    [data-mode="3"] .mc-panel-header { border-bottom-color: var(--pnl-300); }
+    [data-mode="4"] .mc-panel-header { border-bottom-color: var(--pnl-600); }
+    [data-mode="5"] .mc-panel-header { border-bottom-color: var(--pnl-300); }
+
+    /* --- Panel Body --- */
+    .mc-panel-body { }
+
+    /* --- Panel Title --- */
+    .mc-panel-title {
+        font-weight: 600;
+        font-size: 13px;
     }
 
-    .mc-panel-body {
-        @apply p-4;
+    /* --- Panel Subtitle --- */
+    .mc-panel-subtitle {
+        font-size: 0.85em;
     }
+    /* M2 default */
+    .mc-panel-subtitle { color: var(--color-p-neutral-400); }
+    [data-mode="1"] .mc-panel-subtitle { color: var(--pnl-500); }
+    [data-mode="3"] .mc-panel-subtitle { color: var(--pnl-500); }
+    [data-mode="4"] .mc-panel-subtitle { color: var(--pnl-400); }
+    [data-mode="5"] .mc-panel-subtitle { color: var(--pnl-200); }
 
-    /* ======================================
-       DARK GRAY PANEL VARIANTS
-       Flat style (default) - matches your strict color guide
-    ======================================= */
-    .mc-panel-dark-gray {
-        @apply bg-p-neutral-800 text-white border border-p-neutral-800;
+
+    /* ─────────────────────────────────────
+       Section 6: SIZE VARIANTS
+       xs=8×10  sm=10×12  md=14×16(default)  lg=18×20  xl=22×24  xxl=26×28
+    ───────────────────────────────────── */
+    .mc-panel-xs {
+        padding: 8px 10px;
     }
+    .mc-panel-xs .mc-panel-label { font-size: 8px; }
+    .mc-panel-xs .mc-panel-title { font-size: 11px; }
 
-    /* Legacy bevel/emboss styles kept for backwards compatibility */
-    .mc-panel-dark-gray-bevel {
-        @apply bg-p-neutral-800 text-white border border-t-p-neutral-900 border-l-p-neutral-900 border-b-p-neutral-800 border-r-p-neutral-800;
+    .mc-panel-sm {
+        padding: 10px 12px;
     }
+    .mc-panel-sm .mc-panel-label { font-size: 9px; }
+    .mc-panel-sm .mc-panel-title { font-size: 12px; }
 
-    .mc-panel-dark-gray-emboss {
-        @apply bg-p-neutral-800 text-white border border-t-p-neutral-800 border-l-p-neutral-800 border-b-p-neutral-900 border-r-p-neutral-900;
+    /* md is the base — no override needed */
+
+    .mc-panel-lg {
+        padding: 18px 20px;
     }
+    .mc-panel-lg .mc-panel-label { font-size: 11px; }
+    .mc-panel-lg .mc-panel-title { font-size: 15px; }
 
-    /* ========= DARK RED ========= */
-    .mc-panel-dark-red {
-        @apply bg-p-red-800 text-white border border-p-red-200;
+    .mc-panel-xl {
+        padding: 22px 24px;
     }
+    .mc-panel-xl .mc-panel-label { font-size: 12px; }
+    .mc-panel-xl .mc-panel-title { font-size: 16px; }
 
-    .mc-panel-dark-red-bevel {
-        @apply bg-p-red-600 text-white border border-t-p-red-700 border-l-p-red-700 border-b-p-red-500 border-r-p-red-500;
+    .mc-panel-xxl {
+        padding: 26px 28px;
     }
+    .mc-panel-xxl .mc-panel-label { font-size: 13px; }
+    .mc-panel-xxl .mc-panel-title { font-size: 18px; }
 
-    .mc-panel-dark-red-emboss {
-        @apply bg-p-red-600 text-white border border-t-p-red-500 border-l-p-red-500 border-b-p-red-700 border-r-p-red-700;
-    }
+    /* Size-specific radius for M1/M3/M5 (light surfaces use larger radius) */
+    [data-mode="1"] .mc-panel-xs, [data-mode="3"] .mc-panel-xs, [data-mode="5"] .mc-panel-xs { border-radius: 4px; }
+    [data-mode="1"] .mc-panel-sm, [data-mode="3"] .mc-panel-sm, [data-mode="5"] .mc-panel-sm { border-radius: 5px; }
+    /* md default = 6px already set in mode override */
+    [data-mode="1"] .mc-panel-lg, [data-mode="3"] .mc-panel-lg, [data-mode="5"] .mc-panel-lg { border-radius: 7px; }
+    [data-mode="1"] .mc-panel-xl, [data-mode="3"] .mc-panel-xl, [data-mode="5"] .mc-panel-xl { border-radius: 8px; }
+    [data-mode="1"] .mc-panel-xxl, [data-mode="3"] .mc-panel-xxl, [data-mode="5"] .mc-panel-xxl { border-radius: 10px; }
 
-    /* ========= DARK GREEN ========= */
-    .mc-panel-dark-green {
-        @apply bg-p-green-800 text-white border border-p-green-200;
-    }
+    /* M2/M4 radius is always capped at 3px — already set in base + mode 4 override */
 
-    .mc-panel-dark-green-bevel {
-        @apply bg-p-green-600 text-white border border-t-p-green-700 border-l-p-green-700 border-b-p-green-500 border-r-p-green-500;
-    }
 
-    .mc-panel-dark-green-emboss {
-        @apply bg-p-green-600 text-white border border-t-p-green-500 border-l-p-green-500 border-b-p-green-700 border-r-p-green-700;
-    }
-
-    /* ========= DARK BLUE ========= */
-    .mc-panel-dark-blue {
-        @apply bg-p-blue-800 text-white border border-p-blue-800;
-    }
-
-    .mc-panel-dark-blue-bevel {
-        @apply bg-p-blue-600 text-white border border-t-p-blue-200 border-l-p-blue-200 border-b-p-blue-600 border-r-p-blue-600;
-    }
-
-    .mc-panel-dark-blue-emboss {
-        @apply bg-p-blue-600 text-white border border-t-p-blue-600 border-l-p-blue-600 border-b-p-blue-200 border-r-p-blue-200;
-    }
-
-    /* ========= DARK YELLOW ========= */
-    .mc-panel-dark-yellow {
-        @apply bg-p-yellow-800 text-white border border-p-yellow-200;
-    }
-
-    .mc-panel-dark-yellow-bevel {
-        @apply bg-p-yellow-600 text-white border border-t-p-yellow-700 border-l-p-yellow-700 border-b-p-yellow-500 border-r-p-yellow-500;
-    }
-
-    .mc-panel-dark-yellow-emboss {
-        @apply bg-p-yellow-600 text-white border border-t-p-yellow-500 border-l-p-yellow-500 border-b-p-yellow-700 border-r-p-yellow-700;
-    }
-
-    /* ========= DARK PURPLE ========= */
-    .mc-panel-dark-purple {
-        @apply bg-p-magenta-800 text-white border border-p-magenta-200;
-    }
-
-    .mc-panel-dark-purple-bevel {
-        @apply bg-p-magenta-600 text-white border border-t-p-magenta-700 border-l-p-magenta-700 border-b-p-magenta-500 border-r-p-magenta-500;
-    }
-
-    .mc-panel-dark-purple-emboss {
-        @apply bg-p-magenta-600 text-white border border-t-p-magenta-500 border-l-p-magenta-500 border-b-p-magenta-700 border-r-p-magenta-700;
-    }
-
-    /* ========= DARK CYAN ========= */
-    .mc-panel-dark-cyan {
-        @apply bg-p-teal-800 text-white border border-p-teal-200;
-    }
-
-    .mc-panel-dark-cyan-bevel {
-        @apply bg-p-teal-600 text-white border border-t-p-teal-700 border-l-p-teal-700 border-b-p-teal-500 border-r-p-teal-500;
-    }
-
-    .mc-panel-dark-cyan-emboss {
-        @apply bg-p-teal-600 text-white border border-t-p-teal-500 border-l-p-teal-500 border-b-p-teal-700 border-r-p-teal-700;
-    }
-
-    /* ========= LIGHT GRAY ========= */
-    .mc-panel-light-gray {
-        @apply bg-p-neutral-100 text-black border border-p-neutral-200;
-    }
-
-    .mc-panel-light-gray-bevel {
-        @apply bg-p-neutral-200 text-black border border-t-p-neutral-200 border-l-p-neutral-200 border-b-p-neutral-100 border-r-p-neutral-100;
-    }
-
-    .mc-panel-light-gray-emboss {
-        @apply bg-p-neutral-200 text-black border border-t-p-neutral-100 border-l-p-neutral-100 border-b-p-neutral-200 border-r-p-neutral-200;
-    }
-
-    /* ========= LIGHT RED ========= */
-    .mc-panel-light-red {
-        @apply bg-p-red-100 text-black border border-p-red-200;
-    }
-
-    .mc-panel-light-red-bevel {
-        @apply bg-p-red-200 text-black border border-t-p-red-200 border-l-p-red-200 border-b-p-red-100 border-r-p-red-100;
-    }
-
-    .mc-panel-light-red-emboss {
-        @apply bg-p-red-200 text-black border border-t-p-red-100 border-l-p-red-100 border-b-p-red-200 border-r-p-red-200;
-    }
-
-    /* ========= LIGHT GREEN ========= */
-    .mc-panel-light-green {
-        @apply bg-p-green-100 text-black border border-p-green-200;
-    }
-
-    .mc-panel-light-green-bevel {
-        @apply bg-p-green-200 text-black border border-t-p-green-200 border-l-p-green-200 border-b-p-green-100 border-r-p-green-100;
-    }
-
-    .mc-panel-light-green-emboss {
-        @apply bg-p-green-200 text-black border border-t-p-green-100 border-l-p-green-100 border-b-p-green-200 border-r-p-green-200;
-    }
-
-    /* ========= LIGHT BLUE ========= */
-    .mc-panel-light-blue {
-        @apply bg-p-blue-100 text-black border border-p-blue-200;
-    }
-
-    .mc-panel-light-blue-bevel {
-        @apply bg-p-blue-200 text-black border border-t-p-blue-200 border-l-p-blue-200 border-b-p-blue-100 border-r-p-blue-100;
-    }
-
-    .mc-panel-light-blue-emboss {
-        @apply bg-p-blue-200 text-black border border-t-p-blue-100 border-l-p-blue-100 border-b-p-blue-200 border-r-p-blue-200;
-    }
-
-    /* ========= LIGHT YELLOW ========= */
-    .mc-panel-light-yellow {
-        @apply bg-p-yellow-100 text-black border border-p-yellow-200;
-    }
-
-    .mc-panel-light-yellow-bevel {
-        @apply bg-p-yellow-200 text-black border border-t-p-yellow-200 border-l-p-yellow-200 border-b-p-yellow-100 border-r-p-yellow-100;
-    }
-
-    .mc-panel-light-yellow-emboss {
-        @apply bg-p-yellow-200 text-black border border-t-p-yellow-100 border-l-p-yellow-100 border-b-p-yellow-200 border-r-p-yellow-200;
-    }
-
-    /* ========= LIGHT PURPLE ========= */
-    .mc-panel-light-purple {
-        @apply bg-p-magenta-100 text-black border border-p-magenta-200;
-    }
-
-    .mc-panel-light-purple-bevel {
-        @apply bg-p-magenta-200 text-black border border-t-p-magenta-200 border-l-p-magenta-200 border-b-p-magenta-100 border-r-p-magenta-100;
-    }
-
-    .mc-panel-light-purple-emboss {
-        @apply bg-p-magenta-200 text-black border border-t-p-magenta-100 border-l-p-magenta-100 border-b-p-magenta-200 border-r-p-magenta-200;
-    }
-
-    /* ========= LIGHT CYAN ========= */
-    .mc-panel-light-cyan {
-        @apply bg-p-teal-100 text-black border border-p-teal-200;
-    }
-
-    .mc-panel-light-cyan-bevel {
-        @apply bg-p-teal-200 text-black border border-t-p-teal-200 border-l-p-teal-200 border-b-p-teal-100 border-r-p-teal-100;
-    }
-
-    .mc-panel-light-cyan-emboss {
-        @apply bg-p-teal-200 text-black border border-t-p-teal-100 border-l-p-teal-100 border-b-p-teal-200 border-r-p-teal-200;
+    /* ─────────────────────────────────────
+       Section 7: PANEL-AWARE INPUT OVERRIDE
+       Inputs inside panels use the panel's --mc-panel-input-bg token.
+       Nested panels automatically update the token, preventing bg collision.
+    ───────────────────────────────────── */
+    .mc-panel .mc-input,
+    .mc-panel .mc-textarea,
+    .mc-panel .mc-select {
+        background-color: var(--mc-panel-input-bg);
     }
 }

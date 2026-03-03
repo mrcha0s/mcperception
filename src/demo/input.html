@@ -1,1180 +1,838 @@
-<!doctype html>
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="../dist/mcperception.css" rel="stylesheet">
+    <title>Form & Input Controls — Perception Bootstrap (All 210 Variants)</title>
+    <link rel="stylesheet" href="../dist/mcperception.css">
+    <style>
+        /* ── Docs Layout ── */
+        .docs-layout {
+            display: flex;
+            min-height: 100vh;
+        }
+        .docs-sidebar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 240px;
+            height: 100vh;
+            background: #222222;
+            border-right: 1px solid #222222;
+            overflow-y: auto;
+            z-index: 40;
+            display: flex;
+            flex-direction: column;
+            transition: transform 0.2s ease;
+        }
+        .docs-sidebar-header {
+            padding: 1.25rem 1.25rem 0.75rem;
+            border-bottom: 1px solid #222222;
+            display: flex;
+            align-items: baseline;
+            gap: 0.5rem;
+        }
+        .docs-logo {
+            font-size: 0.875rem;
+            font-weight: 700;
+            color: #FFFFFF;
+            text-decoration: none;
+            letter-spacing: -0.01em;
+        }
+        .docs-logo:hover { color: #c3c3c3; }
+        .docs-version {
+            font-size: 0.625rem;
+            color: #515151;
+            font-family: 'Roboto Mono', ui-monospace, monospace;
+        }
+        .docs-sidebar-nav {
+            padding: 0.75rem 0;
+            flex: 1;
+        }
+        .docs-nav-group {
+            margin-bottom: 0.25rem;
+        }
+        .docs-nav-group-label {
+            font-size: 0.625rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: #515151;
+            padding: 0.625rem 1.25rem 0.375rem;
+        }
+        .docs-nav-link {
+            display: block;
+            font-size: 0.8125rem;
+            color: #a0a0a0;
+            text-decoration: none;
+            padding: 0.375rem 1.25rem;
+            border-left: 2px solid transparent;
+            transition: color 0.15s, border-color 0.15s, background 0.15s;
+        }
+        .docs-nav-link:hover {
+            color: #c3c3c3;
+            background: #222222;
+        }
+        .docs-nav-link.active {
+            color: #5252ff;
+            border-left-color: #5252ff;
+            background: #222222;
+        }
+        .docs-content {
+            flex: 1;
+            margin-left: 240px;
+        }
+
+        /* ── Mobile: hamburger + overlay ── */
+        #docs-hamburger {
+            display: none;
+            position: fixed;
+            top: 0.75rem;
+            left: 0.75rem;
+            z-index: 50;
+            background: #222222;
+            border: 1px solid #222222;
+            color: #a0a0a0;
+            font-size: 1.25rem;
+            width: 36px;
+            height: 36px;
+            border-radius: 6px;
+            cursor: pointer;
+            align-items: center;
+            justify-content: center;
+            line-height: 1;
+            padding: 0;
+        }
+        #docs-hamburger:hover { color: #FFFFFF; }
+        #docs-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: #090909;
+            z-index: 35;
+        }
+        @media (max-width: 1023px) {
+            #docs-hamburger { display: flex; }
+            .docs-sidebar {
+                transform: translateX(-100%);
+            }
+            .docs-sidebar.open {
+                transform: translateX(0);
+            }
+            #docs-overlay.open {
+                display: block;
+            }
+            .docs-content {
+                margin-left: 0;
+            }
+        }
+
+        /* ── Standard Footer ── */
+        .docs-footer {
+            margin-top: 6rem;
+            padding: 2rem 0;
+            border-top: 1px solid #222222;
+            text-align: center;
+        }
+        .docs-footer p {
+            font-size: 0.75rem;
+            color: #515151;
+        }
+        .docs-footer a {
+            color: #6d6dff;
+            text-decoration: none;
+        }
+        .docs-footer a:hover {
+            color: #9494ff;
+        }
+
+        /* ── Page-specific styles ── */
+        body { margin: 0; font-family: 'Inter', 'Segoe UI', system-ui, sans-serif; background: #0A0A0A; color: #FFFFFF; }
+        h1 { font-size: 24px; font-weight: 700; margin: 0 0 8px; }
+        h2 { font-size: 18px; font-weight: 600; margin: 32px 0 16px; border-bottom: 1px solid #373737; padding-bottom: 8px; }
+        h3 { font-size: 14px; font-weight: 600; margin: 24px 0 12px; color: #a0a0a0; }
+        h4 { font-size: 12px; font-weight: 600; margin: 16px 0 8px; color: #7f7f7f; text-transform: uppercase; letter-spacing: 0.06em; }
+        .subtitle { font-size: 13px; color: #7f7f7f; margin-bottom: 24px; }
+        .surface-panel { border-radius: 4px; padding: 24px; margin-bottom: 16px; }
+        .surface-label { font-size: 10px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; margin-bottom: 12px; }
+        .hue-row { margin-bottom: 16px; }
+        .hue-label { font-size: 10px; font-weight: 500; letter-spacing: 0.04em; margin-bottom: 6px; display: block; }
+        .field-row { display: flex; flex-wrap: wrap; gap: 12px; margin-bottom: 12px; align-items: flex-start; }
+        .field-col { flex: 1; min-width: 180px; max-width: 300px; }
+        .size-row { display: flex; flex-wrap: wrap; align-items: flex-start; gap: 12px; margin-bottom: 8px; }
+        .size-label { font-size: 9px; color: #7f7f7f; min-width: 28px; }
+        .grid-2col { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+        .grid-3col { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; }
+        .m3-grid, .m4-grid, .m5-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 12px; }
+        .code-block { background: #090909; border: 1px solid #222222; border-radius: 3px; padding: 12px; font-family: 'Roboto Mono', monospace; font-size: 11px; color: #a0a0a0; overflow-x: auto; margin-top: 8px; white-space: pre; }
+        .code-tag { color: #ff7474; }
+        .code-attr { color: #00ba00; }
+        .code-val { color: #9494ff; }
+    </style>
 </head>
-<body>
-    <h1>MC Perception Input Demo</h1>
-    <p>mc-button mc-button-xs mc-button-filled data-hue="neutral"</p>
+<body class="bg-p-black text-white min-h-screen font-sans">
 
-    <div class="grid grid-cols-10 gap-4 m-4 p-4">
-        <div>
-            <button class="mc-button mc-button-xs mc-button-filled" data-hue="neutral">
-                Dark Gray
-            </button>
+    <button id="docs-hamburger">&#9776;</button>
+    <div id="docs-overlay"></div>
+
+    <div class="docs-layout">
+        <aside class="docs-sidebar" id="docs-sidebar">
+            <div class="docs-sidebar-header">
+                <a href="index.html" class="docs-logo">MC Perception</a>
+                <span class="docs-version">v1.0</span>
+            </div>
+            <nav class="docs-sidebar-nav">
+                <div class="docs-nav-group">
+                    <div class="docs-nav-group-label">Getting Started</div>
+                    <a href="index.html" class="docs-nav-link" data-page="index">Home</a>
+                    <a href="getting-started.html" class="docs-nav-link" data-page="getting-started">Getting Started</a>
+                </div>
+                <div class="docs-nav-group">
+                    <div class="docs-nav-group-label">Foundation</div>
+                    <a href="color.html" class="docs-nav-link" data-page="color">Color Palette</a>
+                    <a href="surface-modes.html" class="docs-nav-link" data-page="surface-modes">Surface Modes</a>
+                    <a href="typography.html" class="docs-nav-link" data-page="typography">Typography</a>
+                </div>
+                <div class="docs-nav-group">
+                    <div class="docs-nav-group-label">Components</div>
+                    <a href="button.html" class="docs-nav-link" data-page="button">Buttons</a>
+                    <a href="badges.html" class="docs-nav-link" data-page="badges">Badges</a>
+                    <a href="alert.html" class="docs-nav-link" data-page="alert">Alerts</a>
+                    <a href="input.html" class="docs-nav-link" data-page="input">Form Inputs</a>
+                    <a href="selection.html" class="docs-nav-link" data-page="selection">Selection Controls</a>
+                    <a href="table.html" class="docs-nav-link" data-page="table">Tables</a>
+            <a href="panel-system.html" class="docs-nav-link" data-page="panel-system">Panels</a>
+                </div>
+                <div class="docs-nav-group">
+                    <div class="docs-nav-group-label">Patterns</div>
+                    <a href="forms.html" class="docs-nav-link" data-page="forms">Form Layout</a>
+                    <a href="dark-surfaces.html" class="docs-nav-link" data-page="dark-surfaces">Dark Surface Depth</a>
+                </div>
+                <div class="docs-nav-group">
+                    <div class="docs-nav-group-label">Examples</div>
+                    <a href="trading-card.html" class="docs-nav-link" data-page="trading-card">Trading Card</a>
+                    <a href="orderbook.html" class="docs-nav-link" data-page="orderbook">Orderbook</a>
+                </div>
+            </nav>
+        </aside>
+
+        <main class="docs-content">
+            <div class="max-w-7xl mx-auto px-6 py-12">
+
+                <nav class="text-xs text-p-neutral-400 mb-6 flex gap-2 items-center">
+                    <a href="index.html" class="hover:text-white transition-colors">Home</a>
+                    <span class="text-p-neutral-600">/</span>
+                    <a href="index.html" class="hover:text-white transition-colors">Components</a>
+                    <span class="text-p-neutral-600">/</span>
+                    <span class="text-white font-semibold">Form Inputs</span>
+                </nav>
+
+<h1>Form & Input Controls — Perception Bootstrap</h1>
+<p class="subtitle">Surface-mode-aware text inputs, textareas, and selects.<br>
+7 hues &times; 5 modes &times; 6 sizes = 210 variants per control type.</p>
+
+<!-- ═══════════════════════════════════════════════════════
+     SECTION 1: TEXT INPUT
+     ═══════════════════════════════════════════════════════ -->
+<h2>1. Text Input</h2>
+
+<!-- M1: White -->
+<div class="surface-panel" data-mode="1" style="background:#FFFFFF; border:1px solid #e1e1e1;">
+    <div class="surface-label" style="color:#0A0A0A;">Mode 1 — White Surface</div>
+    <div class="field-row">
+        <div class="field-col"><label class="mc-label">Neutral</label><input type="text" class="mc-input" data-hue="neutral" placeholder="Type here..."></div>
+        <div class="field-col"><label class="mc-label">Red</label><input type="text" class="mc-input" data-hue="red" placeholder="Type here..."></div>
+        <div class="field-col"><label class="mc-label">Green</label><input type="text" class="mc-input" data-hue="green" placeholder="Type here..."></div>
+        <div class="field-col"><label class="mc-label">Blue</label><input type="text" class="mc-input" data-hue="blue" placeholder="Type here..."></div>
+    </div>
+    <div class="field-row">
+        <div class="field-col"><label class="mc-label">Yellow</label><input type="text" class="mc-input" data-hue="yellow" placeholder="Type here..."></div>
+        <div class="field-col"><label class="mc-label">Magenta</label><input type="text" class="mc-input" data-hue="magenta" placeholder="Type here..."></div>
+        <div class="field-col"><label class="mc-label">Teal</label><input type="text" class="mc-input" data-hue="teal" placeholder="Type here..."></div>
+    </div>
+    <h4 style="color:#515151;">Sizes (blue)</h4>
+    <div class="field-row">
+        <div class="field-col"><span class="size-label" style="color:#515151;">xs</span><input type="text" class="mc-input mc-input-xs" data-hue="blue" placeholder="xs"></div>
+        <div class="field-col"><span class="size-label" style="color:#515151;">sm</span><input type="text" class="mc-input mc-input-sm" data-hue="blue" placeholder="sm"></div>
+        <div class="field-col"><span class="size-label" style="color:#515151;">md</span><input type="text" class="mc-input" data-hue="blue" placeholder="md (default)"></div>
+    </div>
+    <div class="field-row">
+        <div class="field-col"><span class="size-label" style="color:#515151;">lg</span><input type="text" class="mc-input mc-input-lg" data-hue="blue" placeholder="lg"></div>
+        <div class="field-col"><span class="size-label" style="color:#515151;">xl</span><input type="text" class="mc-input mc-input-xl" data-hue="blue" placeholder="xl"></div>
+        <div class="field-col"><span class="size-label" style="color:#515151;">xxl</span><input type="text" class="mc-input mc-input-xxl" data-hue="blue" placeholder="xxl"></div>
+    </div>
+    <h4 style="color:#515151;">States</h4>
+    <div class="field-row">
+        <div class="field-col"><input type="text" class="mc-input" data-hue="blue" value="Filled value"></div>
+        <div class="field-col"><input type="text" class="mc-input" data-hue="blue" disabled placeholder="Disabled"></div>
+        <div class="field-col"><input type="text" class="mc-input" data-hue="blue" readonly value="Read-only"></div>
+    </div>
+    <h4 style="color:#515151;">Validation</h4>
+    <div class="field-row">
+        <div class="field-col">
+            <input type="text" class="mc-input mc-input-error" data-hue="blue" value="Invalid email">
+            <div class="mc-error-text">Please enter a valid email address</div>
+        </div>
+        <div class="field-col">
+            <input type="text" class="mc-input mc-input-success" data-hue="green" value="john@example.com">
+            <div class="mc-success-text">Email verified successfully</div>
         </div>
-        <div>
-            <button class="mc-button mc-button-xs mc-button-tonal" data-hue="neutral">
-                Light Gray
-            </button>
-        </div>
-        <div>
-            <button class="mc-button mc-button-sm mc-button-filled" data-hue="neutral">
-                Dark Gray
-            </button>
-        </div>
-        <div>
-            <button class="mc-button mc-button-sm mc-button-tonal" data-hue="neutral">
-                Light Gray
-            </button>
-        </div>
-        <div>
-            <button class="mc-button mc-button-md mc-button-filled" data-hue="neutral">
-                Dark Gray
-            </button>
-        </div>
-        <div>
-            <button class="mc-button mc-button-md mc-button-tonal" data-hue="neutral">
-                Light Gray
-            </button>
-        </div>
-        <div>
-            <button class="mc-button mc-button-lg mc-button-filled" data-hue="neutral">
-                Dark Gray
-            </button>
-        </div>
-        <div>
-            <button class="mc-button mc-button-lg mc-button-tonal" data-hue="neutral">
-                Light Gray
-            </button>
-        </div>
-        <div>
-            <button class="mc-button mc-button-xl mc-button-filled" data-hue="neutral">
-                Dark Gray
-            </button>
-        </div>
-        <div>
-            <button class="mc-button mc-button-xl mc-button-tonal" data-hue="neutral">
-                Light Gray
-            </button>
-        </div>
-        <div>
-            <button class="mc-button mc-button-xs mc-button-filled" data-hue="red">
-                Dark Red
-            </button>
-        </div>
-        <div>
-            <button class="mc-button mc-button-xs mc-button-tonal" data-hue="red">
-                Light Red
-            </button>
-        </div>
-        <div>
-            <button class="mc-button mc-button-sm mc-button-filled" data-hue="red">
-                Dark Red
-            </button>
-        </div>
-        <div>
-            <button class="mc-button mc-button-sm mc-button-tonal" data-hue="red">
-                Light Red
-            </button>
-        </div>
-        <div>
-            <button class="mc-button mc-button-md mc-button-filled" data-hue="red">
-                Dark Red
-            </button>
-        </div>
-        <div>
-            <button class="mc-button mc-button-md mc-button-tonal" data-hue="red">
-                Light Red
-            </button>
-        </div>
-        <div>
-            <button class="mc-button mc-button-lg mc-button-filled" data-hue="red">
-                Dark Red
-            </button>
-        </div>
-        <div>
-            <button class="mc-button mc-button-lg mc-button-tonal" data-hue="red">
-                Light Red
-            </button>
-        </div>
-        <div>
-            <button class="mc-button mc-button-xl mc-button-filled" data-hue="red">
-                Dark Red
-            </button>
-        </div>
-        <div>
-            <button class="mc-button mc-button-xl mc-button-tonal" data-hue="red">
-                Light Red
-            </button>
-        </div>
-        <div>
-            <button class="mc-button mc-button-xs mc-button-filled" data-hue="green">
-                Dark Green
-            </button>
-        </div>
-        <div>
-            <button class="mc-button mc-button-xs mc-button-tonal" data-hue="green">
-                Light Green
-            </button>
-        </div>
-        <div>
-            <button class="mc-button mc-button-sm mc-button-filled" data-hue="green">
-                Dark Green
-            </button>
-        </div>
-        <div>
-            <button class="mc-button mc-button-sm mc-button-tonal" data-hue="green">
-                Light Green
-            </button>
-        </div>
-        <div>
-            <button class="mc-button mc-button-md mc-button-filled" data-hue="green">
-                Dark Green
-            </button>
-        </div>
-        <div>
-            <button class="mc-button mc-button-md mc-button-tonal" data-hue="green">
-                Light Green
-            </button>
-        </div>
-        <div>
-            <button class="mc-button mc-button-lg mc-button-filled" data-hue="green">
-                Dark Green
-            </button>
-        </div>
-        <div>
-            <button class="mc-button mc-button-lg mc-button-tonal" data-hue="green">
-                Light Green
-            </button>
-        </div>
-        <div>
-            <button class="mc-button mc-button-xl mc-button-filled" data-hue="green">
-                Dark Green
-            </button>
-        </div>
-        <div>
-            <button class="mc-button mc-button-xl mc-button-tonal" data-hue="green">
-                Light Green
-            </button>
-        </div>
-        <div>
-            <button class="mc-button mc-button-xs mc-button-filled" data-hue="blue">
-                Dark Blue
-            </button>
-        </div>
-        <div>
-            <button class="mc-button mc-button-xs mc-button-tonal" data-hue="blue">
-                Light Blue
-            </button>
-        </div>
-        <div>
-            <button class="mc-button mc-button-sm mc-button-filled" data-hue="blue">
-                Dark Blue
-            </button>
-        </div>
-        <div>
-            <button class="mc-button mc-button-sm mc-button-tonal" data-hue="blue">
-                Light Blue
-            </button>
-        </div>
-        <div>
-            <button class="mc-button mc-button-md mc-button-filled" data-hue="blue">
-                Dark Blue
-            </button>
-        </div>
-        <div>
-            <button class="mc-button mc-button-md mc-button-tonal" data-hue="blue">
-                Light Blue
-            </button>
-        </div>
-        <div>
-            <button class="mc-button mc-button-lg mc-button-filled" data-hue="blue">
-                Dark Blue
-            </button>
-        </div>
-        <div>
-            <button class="mc-button mc-button-lg mc-button-tonal" data-hue="blue">
-                Light Blue
-            </button>
-        </div>
-        <div>
-            <button class="mc-button mc-button-xl mc-button-filled" data-hue="blue">
-                Dark Blue
-            </button>
-        </div>
-        <div>
-            <button class="mc-button mc-button-xl mc-button-tonal" data-hue="blue">
-                Light Blue
-            </button>
-        </div>
-        <div>
-            <button class="mc-button mc-button-xs mc-button-filled" data-hue="yellow">
-                Dark Yellow
-            </button>
-        </div>
-        <div>
-            <button class="mc-button mc-button-xs mc-button-tonal" data-hue="yellow">
-                Light Yellow
-            </button>
-        </div>
-        <div>
-            <button class="mc-button mc-button-sm mc-button-filled" data-hue="yellow">
-                Dark Yellow
-            </button>
-        </div>
-        <div>
-            <button class="mc-button mc-button-sm mc-button-tonal" data-hue="yellow">
-                Light Yellow
-            </button>
-        </div>
-        <div>
-            <button class="mc-button mc-button-md mc-button-filled" data-hue="yellow">
-                Dark Yellow
-            </button>
-        </div>
-        <div>
-            <button class="mc-button mc-button-md mc-button-tonal" data-hue="yellow">
-                Light Yellow
-            </button>
-        </div>
-        <div>
-            <button class="mc-button mc-button-lg mc-button-filled" data-hue="yellow">
-                Dark Yellow
-            </button>
-        </div>
-        <div>
-            <button class="mc-button mc-button-lg mc-button-tonal" data-hue="yellow">
-                Light Yellow
-            </button>
-        </div>
-        <div>
-            <button class="mc-button mc-button-xl mc-button-filled" data-hue="yellow">
-                Dark Yellow
-            </button>
-        </div>
-        <div>
-            <button class="mc-button mc-button-xl mc-button-tonal" data-hue="yellow">
-                Light Yellow
-            </button>
-        </div>
-        <div>
-            <button class="mc-button mc-button-xs mc-button-filled" data-hue="magenta">
-                Dark Purple
-            </button>
-        </div>
-        <div>
-            <button class="mc-button mc-button-xs mc-button-tonal" data-hue="magenta">
-                Light Purple
-            </button>
-        </div>
-        <div>
-            <button class="mc-button mc-button-sm mc-button-filled" data-hue="magenta">
-                Dark Purple
-            </button>
-        </div>
-        <div>
-            <button class="mc-button mc-button-sm mc-button-tonal" data-hue="magenta">
-                Light Purple
-            </button>
-        </div>
-        <div>
-            <button class="mc-button mc-button-md mc-button-filled" data-hue="magenta">
-                Dark Purple
-            </button>
-        </div>
-        <div>
-            <button class="mc-button mc-button-md mc-button-tonal" data-hue="magenta">
-                Light Purple
-            </button>
-        </div>
-        <div>
-            <button class="mc-button mc-button-lg mc-button-filled" data-hue="magenta">
-                Dark Purple
-            </button>
-        </div>
-        <div>
-            <button class="mc-button mc-button-lg mc-button-tonal" data-hue="magenta">
-                Light Purple
-            </button>
-        </div>
-        <div>
-            <button class="mc-button mc-button-xl mc-button-filled" data-hue="magenta">
-                Dark Purple
-            </button>
-        </div>
-        <div>
-            <button class="mc-button mc-button-xl mc-button-tonal" data-hue="magenta">
-                Light Purple
-            </button>
-        </div>
-        <div>
-            <button class="mc-button mc-button-xs mc-button-filled" data-hue="teal">
-                Dark Cyan
-            </button>
-        </div>
-        <div>
-            <button class="mc-button mc-button-xs mc-button-tonal" data-hue="teal">
-                Light Cyan
-            </button>
-        </div>
-        <div>
-            <button class="mc-button mc-button-sm mc-button-filled" data-hue="teal">
-                Dark Cyan
-            </button>
-        </div>
-        <div>
-            <button class="mc-button mc-button-sm mc-button-tonal" data-hue="teal">
-                Light Cyan
-            </button>
-        </div>
-        <div>
-            <button class="mc-button mc-button-md mc-button-filled" data-hue="teal">
-                Dark Cyan
-            </button>
-        </div>
-        <div>
-            <button class="mc-button mc-button-md mc-button-tonal" data-hue="teal">
-                Light Cyan
-            </button>
-        </div>
-        <div>
-            <button class="mc-button mc-button-lg mc-button-filled" data-hue="teal">
-                Dark Cyan
-            </button>
-        </div>
-        <div>
-            <button class="mc-button mc-button-lg mc-button-tonal" data-hue="teal">
-                Light Cyan
-            </button>
-        </div>
-        <div>
-            <button class="mc-button mc-button-xl mc-button-filled" data-hue="teal">
-                Dark Cyan
-            </button>
-        </div>
-        <div>
-            <button class="mc-button mc-button-xl mc-button-tonal" data-hue="teal">
-                Light Cyan
-            </button>
+        <div class="field-col">
+            <input type="text" class="mc-input mc-input-warning" data-hue="yellow" value="weak">
+            <div class="mc-warning-text">Password is too weak</div>
         </div>
     </div>
+</div>
 
-
-
-    <div class="grid grid-cols-10 gap-4 m-4 bg-p-neutral-800 p-4">
-        <div>
-            <button class="mc-button mc-button-xs mc-button-filled" data-hue="neutral">
-                Dark Gray
-            </button>
-        </div>
-        <div>
-            <button class="mc-button mc-button-xs mc-button-tonal" data-hue="neutral">
-                Light Gray
-            </button>
-        </div>
-        <div>
-            <button class="mc-button mc-button-sm mc-button-filled" data-hue="neutral">
-                Dark Gray
-            </button>
-        </div>
-        <div>
-            <button class="mc-button mc-button-sm mc-button-tonal" data-hue="neutral">
-                Light Gray
-            </button>
-        </div>
-        <div>
-            <button class="mc-button mc-button-md mc-button-filled" data-hue="neutral">
-                Dark Gray
-            </button>
-        </div>
-        <div>
-            <button class="mc-button mc-button-md mc-button-tonal" data-hue="neutral">
-                Light Gray
-            </button>
-        </div>
-        <div>
-            <button class="mc-button mc-button-lg mc-button-filled" data-hue="neutral">
-                Dark Gray
-            </button>
-        </div>
-        <div>
-            <button class="mc-button mc-button-lg mc-button-tonal" data-hue="neutral">
-                Light Gray
-            </button>
-        </div>
-        <div>
-            <button class="mc-button mc-button-xl mc-button-filled" data-hue="neutral">
-                Dark Gray
-            </button>
-        </div>
-        <div>
-            <button class="mc-button mc-button-xl mc-button-tonal" data-hue="neutral">
-                Light Gray
-            </button>
-        </div>
-        <div>
-            <button class="mc-button mc-button-xs mc-button-filled" data-hue="red">
-                Dark Red
-            </button>
-        </div>
-        <div>
-            <button class="mc-button mc-button-xs mc-button-tonal" data-hue="red">
-                Light Red
-            </button>
-        </div>
-        <div>
-            <button class="mc-button mc-button-sm mc-button-filled" data-hue="red">
-                Dark Red
-            </button>
-        </div>
-        <div>
-            <button class="mc-button mc-button-sm mc-button-tonal" data-hue="red">
-                Light Red
-            </button>
-        </div>
-        <div>
-            <button class="mc-button mc-button-md mc-button-filled" data-hue="red">
-                Dark Red
-            </button>
-        </div>
-        <div>
-            <button class="mc-button mc-button-md mc-button-tonal" data-hue="red">
-                Light Red
-            </button>
-        </div>
-        <div>
-            <button class="mc-button mc-button-lg mc-button-filled" data-hue="red">
-                Dark Red
-            </button>
-        </div>
-        <div>
-            <button class="mc-button mc-button-lg mc-button-tonal" data-hue="red">
-                Light Red
-            </button>
-        </div>
-        <div>
-            <button class="mc-button mc-button-xl mc-button-filled" data-hue="red">
-                Dark Red
-            </button>
-        </div>
-        <div>
-            <button class="mc-button mc-button-xl mc-button-tonal" data-hue="red">
-                Light Red
-            </button>
-        </div>
-        <div>
-            <button class="mc-button mc-button-xs mc-button-filled" data-hue="green">
-                Dark Green
-            </button>
-        </div>
-        <div>
-            <button class="mc-button mc-button-xs mc-button-tonal" data-hue="green">
-                Light Green
-            </button>
-        </div>
-        <div>
-            <button class="mc-button mc-button-sm mc-button-filled" data-hue="green">
-                Dark Green
-            </button>
-        </div>
-        <div>
-            <button class="mc-button mc-button-sm mc-button-tonal" data-hue="green">
-                Light Green
-            </button>
-        </div>
-        <div>
-            <button class="mc-button mc-button-md mc-button-filled" data-hue="green">
-                Dark Green
-            </button>
-        </div>
-        <div>
-            <button class="mc-button mc-button-md mc-button-tonal" data-hue="green">
-                Light Green
-            </button>
-        </div>
-        <div>
-            <button class="mc-button mc-button-lg mc-button-filled" data-hue="green">
-                Dark Green
-            </button>
-        </div>
-        <div>
-            <button class="mc-button mc-button-lg mc-button-tonal" data-hue="green">
-                Light Green
-            </button>
-        </div>
-        <div>
-            <button class="mc-button mc-button-xl mc-button-filled" data-hue="green">
-                Dark Green
-            </button>
-        </div>
-        <div>
-            <button class="mc-button mc-button-xl mc-button-tonal" data-hue="green">
-                Light Green
-            </button>
-        </div>
-        <div>
-            <button class="mc-button mc-button-xs mc-button-filled" data-hue="blue">
-                Dark Blue
-            </button>
-        </div>
-        <div>
-            <button class="mc-button mc-button-xs mc-button-tonal" data-hue="blue">
-                Light Blue
-            </button>
-        </div>
-        <div>
-            <button class="mc-button mc-button-sm mc-button-filled" data-hue="blue">
-                Dark Blue
-            </button>
-        </div>
-        <div>
-            <button class="mc-button mc-button-sm mc-button-tonal" data-hue="blue">
-                Light Blue
-            </button>
-        </div>
-        <div>
-            <button class="mc-button mc-button-md mc-button-filled" data-hue="blue">
-                Dark Blue
-            </button>
-        </div>
-        <div>
-            <button class="mc-button mc-button-md mc-button-tonal" data-hue="blue">
-                Light Blue
-            </button>
-        </div>
-        <div>
-            <button class="mc-button mc-button-lg mc-button-filled" data-hue="blue">
-                Dark Blue
-            </button>
-        </div>
-        <div>
-            <button class="mc-button mc-button-lg mc-button-tonal" data-hue="blue">
-                Light Blue
-            </button>
-        </div>
-        <div>
-            <button class="mc-button mc-button-xl mc-button-filled" data-hue="blue">
-                Dark Blue
-            </button>
-        </div>
-        <div>
-            <button class="mc-button mc-button-xl mc-button-tonal" data-hue="blue">
-                Light Blue
-            </button>
-        </div>
-        <div>
-            <button class="mc-button mc-button-xs mc-button-filled" data-hue="yellow">
-                Dark Yellow
-            </button>
-        </div>
-        <div>
-            <button class="mc-button mc-button-xs mc-button-tonal" data-hue="yellow">
-                Light Yellow
-            </button>
-        </div>
-        <div>
-            <button class="mc-button mc-button-sm mc-button-filled" data-hue="yellow">
-                Dark Yellow
-            </button>
-        </div>
-        <div>
-            <button class="mc-button mc-button-sm mc-button-tonal" data-hue="yellow">
-                Light Yellow
-            </button>
-        </div>
-        <div>
-            <button class="mc-button mc-button-md mc-button-filled" data-hue="yellow">
-                Dark Yellow
-            </button>
-        </div>
-        <div>
-            <button class="mc-button mc-button-md mc-button-tonal" data-hue="yellow">
-                Light Yellow
-            </button>
-        </div>
-        <div>
-            <button class="mc-button mc-button-lg mc-button-filled" data-hue="yellow">
-                Dark Yellow
-            </button>
-        </div>
-        <div>
-            <button class="mc-button mc-button-lg mc-button-tonal" data-hue="yellow">
-                Light Yellow
-            </button>
-        </div>
-        <div>
-            <button class="mc-button mc-button-xl mc-button-filled" data-hue="yellow">
-                Dark Yellow
-            </button>
-        </div>
-        <div>
-            <button class="mc-button mc-button-xl mc-button-tonal" data-hue="yellow">
-                Light Yellow
-            </button>
-        </div>
-        <div>
-            <button class="mc-button mc-button-xs mc-button-filled" data-hue="magenta">
-                Dark Purple
-            </button>
-        </div>
-        <div>
-            <button class="mc-button mc-button-xs mc-button-tonal" data-hue="magenta">
-                Light Purple
-            </button>
-        </div>
-        <div>
-            <button class="mc-button mc-button-sm mc-button-filled" data-hue="magenta">
-                Dark Purple
-            </button>
-        </div>
-        <div>
-            <button class="mc-button mc-button-sm mc-button-tonal" data-hue="magenta">
-                Light Purple
-            </button>
-        </div>
-        <div>
-            <button class="mc-button mc-button-md mc-button-filled" data-hue="magenta">
-                Dark Purple
-            </button>
-        </div>
-        <div>
-            <button class="mc-button mc-button-md mc-button-tonal" data-hue="magenta">
-                Light Purple
-            </button>
-        </div>
-        <div>
-            <button class="mc-button mc-button-lg mc-button-filled" data-hue="magenta">
-                Dark Purple
-            </button>
-        </div>
-        <div>
-            <button class="mc-button mc-button-lg mc-button-tonal" data-hue="magenta">
-                Light Purple
-            </button>
-        </div>
-        <div>
-            <button class="mc-button mc-button-xl mc-button-filled" data-hue="magenta">
-                Dark Purple
-            </button>
-        </div>
-        <div>
-            <button class="mc-button mc-button-xl mc-button-tonal" data-hue="magenta">
-                Light Purple
-            </button>
-        </div>
-        <div>
-            <button class="mc-button mc-button-xs mc-button-filled" data-hue="teal">
-                Dark Cyan
-            </button>
-        </div>
-        <div>
-            <button class="mc-button mc-button-xs mc-button-tonal" data-hue="teal">
-                Light Cyan
-            </button>
-        </div>
-        <div>
-            <button class="mc-button mc-button-sm mc-button-filled" data-hue="teal">
-                Dark Cyan
-            </button>
-        </div>
-        <div>
-            <button class="mc-button mc-button-sm mc-button-tonal" data-hue="teal">
-                Light Cyan
-            </button>
-        </div>
-        <div>
-            <button class="mc-button mc-button-md mc-button-filled" data-hue="teal">
-                Dark Cyan
-            </button>
-        </div>
-        <div>
-            <button class="mc-button mc-button-md mc-button-tonal" data-hue="teal">
-                Light Cyan
-            </button>
-        </div>
-        <div>
-            <button class="mc-button mc-button-lg mc-button-filled" data-hue="teal">
-                Dark Cyan
-            </button>
-        </div>
-        <div>
-            <button class="mc-button mc-button-lg mc-button-tonal" data-hue="teal">
-                Light Cyan
-            </button>
-        </div>
-        <div>
-            <button class="mc-button mc-button-xl mc-button-filled" data-hue="teal">
-                Dark Cyan
-            </button>
-        </div>
-        <div>
-            <button class="mc-button mc-button-xl mc-button-tonal" data-hue="teal">
-                Light Cyan
-            </button>
+<!-- M2: Black (default) -->
+<div class="surface-panel" data-mode="2" style="background:#0A0A0A; border:1px solid #222222;">
+    <div class="surface-label" style="color:#FFFFFF;">Mode 2 — Black Surface</div>
+    <div class="field-row">
+        <div class="field-col"><label class="mc-label">Neutral</label><input type="text" class="mc-input" data-hue="neutral" placeholder="Type here..."></div>
+        <div class="field-col"><label class="mc-label">Red</label><input type="text" class="mc-input" data-hue="red" placeholder="Type here..."></div>
+        <div class="field-col"><label class="mc-label">Green</label><input type="text" class="mc-input" data-hue="green" placeholder="Type here..."></div>
+        <div class="field-col"><label class="mc-label">Blue</label><input type="text" class="mc-input" data-hue="blue" placeholder="Type here..."></div>
+    </div>
+    <div class="field-row">
+        <div class="field-col"><label class="mc-label">Yellow</label><input type="text" class="mc-input" data-hue="yellow" placeholder="Type here..."></div>
+        <div class="field-col"><label class="mc-label">Magenta</label><input type="text" class="mc-input" data-hue="magenta" placeholder="Type here..."></div>
+        <div class="field-col"><label class="mc-label">Teal</label><input type="text" class="mc-input" data-hue="teal" placeholder="Type here..."></div>
+    </div>
+    <h4>Sizes (blue)</h4>
+    <div class="field-row">
+        <div class="field-col"><span class="size-label">xs</span><input type="text" class="mc-input mc-input-xs" data-hue="blue" placeholder="xs"></div>
+        <div class="field-col"><span class="size-label">sm</span><input type="text" class="mc-input mc-input-sm" data-hue="blue" placeholder="sm"></div>
+        <div class="field-col"><span class="size-label">md</span><input type="text" class="mc-input" data-hue="blue" placeholder="md (default)"></div>
+    </div>
+    <div class="field-row">
+        <div class="field-col"><span class="size-label">lg</span><input type="text" class="mc-input mc-input-lg" data-hue="blue" placeholder="lg"></div>
+        <div class="field-col"><span class="size-label">xl</span><input type="text" class="mc-input mc-input-xl" data-hue="blue" placeholder="xl"></div>
+        <div class="field-col"><span class="size-label">xxl</span><input type="text" class="mc-input mc-input-xxl" data-hue="blue" placeholder="xxl"></div>
+    </div>
+    <h4>States</h4>
+    <div class="field-row">
+        <div class="field-col"><input type="text" class="mc-input" data-hue="blue" value="Filled value"></div>
+        <div class="field-col"><input type="text" class="mc-input" data-hue="blue" disabled placeholder="Disabled"></div>
+        <div class="field-col"><input type="text" class="mc-input" data-hue="blue" readonly value="Read-only"></div>
+    </div>
+    <h4>Validation</h4>
+    <div class="field-row">
+        <div class="field-col">
+            <input type="text" class="mc-input mc-input-error" data-hue="blue" value="Invalid">
+            <div class="mc-error-text">Error message</div>
+        </div>
+        <div class="field-col">
+            <input type="text" class="mc-input mc-input-success" data-hue="green" value="Valid">
+            <div class="mc-success-text">Success message</div>
+        </div>
+        <div class="field-col">
+            <input type="text" class="mc-input mc-input-warning" data-hue="yellow" value="Caution">
+            <div class="mc-warning-text">Warning message</div>
         </div>
     </div>
+</div>
 
-
-    <h1>MC Perception Input Demo</h1>
-    <p>mc-input mc-input-xs mc-input-dark-gray</p>
-
-    <!-- LIGHT BACKGROUND -->
-    <div class="grid grid-cols-10 gap-4 m-4 p-4">
-        <!-- GRAY -->
-        <div>
-            <input class="mc-input mc-input-xs mc-input-dark-gray" placeholder="Dark Gray xs" />
-        </div>
-        <div>
-            <input class="mc-input mc-input-xs mc-input-light-gray" placeholder="Light Gray xs" />
-        </div>
-        <div>
-            <input class="mc-input mc-input-sm mc-input-dark-gray" placeholder="Dark Gray sm" />
-        </div>
-        <div>
-            <input class="mc-input mc-input-sm mc-input-light-gray" placeholder="Light Gray sm" />
-        </div>
-        <div>
-            <input class="mc-input mc-input-md mc-input-dark-gray" placeholder="Dark Gray md" />
-        </div>
-        <div>
-            <input class="mc-input mc-input-md mc-input-light-gray" placeholder="Light Gray md" />
-        </div>
-        <div>
-            <input class="mc-input mc-input-lg mc-input-dark-gray" placeholder="Dark Gray lg" />
-        </div>
-        <div>
-            <input class="mc-input mc-input-lg mc-input-light-gray" placeholder="Light Gray lg" />
-        </div>
-        <div>
-            <input class="mc-input mc-input-xl mc-input-dark-gray" placeholder="Dark Gray xl" />
-        </div>
-        <div>
-            <input class="mc-input mc-input-xl mc-input-light-gray" placeholder="Light Gray xl" />
-        </div>
-
-        <!-- RED -->
-        <div>
-            <input class="mc-input mc-input-xs mc-input-dark-red" placeholder="Dark Red xs" />
-        </div>
-        <div>
-            <input class="mc-input mc-input-xs mc-input-light-red" placeholder="Light Red xs" />
-        </div>
-        <div>
-            <input class="mc-input mc-input-sm mc-input-dark-red" placeholder="Dark Red sm" />
-        </div>
-        <div>
-            <input class="mc-input mc-input-sm mc-input-light-red" placeholder="Light Red sm" />
-        </div>
-        <div>
-            <input class="mc-input mc-input-md mc-input-dark-red" placeholder="Dark Red md" />
-        </div>
-        <div>
-            <input class="mc-input mc-input-md mc-input-light-red" placeholder="Light Red md" />
-        </div>
-        <div>
-            <input class="mc-input mc-input-lg mc-input-dark-red" placeholder="Dark Red lg" />
-        </div>
-        <div>
-            <input class="mc-input mc-input-lg mc-input-light-red" placeholder="Light Red lg" />
-        </div>
-        <div>
-            <input class="mc-input mc-input-xl mc-input-dark-red" placeholder="Dark Red xl" />
-        </div>
-        <div>
-            <input class="mc-input mc-input-xl mc-input-light-red" placeholder="Light Red xl" />
-        </div>
-
-        <!-- GREEN -->
-        <div>
-            <input class="mc-input mc-input-xs mc-input-dark-green" placeholder="Dark Green xs" />
-        </div>
-        <div>
-            <input class="mc-input mc-input-xs mc-input-light-green" placeholder="Light Green xs" />
-        </div>
-        <div>
-            <input class="mc-input mc-input-sm mc-input-dark-green" placeholder="Dark Green sm" />
-        </div>
-        <div>
-            <input class="mc-input mc-input-sm mc-input-light-green" placeholder="Light Green sm" />
-        </div>
-        <div>
-            <input class="mc-input mc-input-md mc-input-dark-green" placeholder="Dark Green md" />
-        </div>
-        <div>
-            <input class="mc-input mc-input-md mc-input-light-green" placeholder="Light Green md" />
-        </div>
-        <div>
-            <input class="mc-input mc-input-lg mc-input-dark-green" placeholder="Dark Green lg" />
-        </div>
-        <div>
-            <input class="mc-input mc-input-lg mc-input-light-green" placeholder="Light Green lg" />
-        </div>
-        <div>
-            <input class="mc-input mc-input-xl mc-input-dark-green" placeholder="Dark Green xl" />
-        </div>
-        <div>
-            <input class="mc-input mc-input-xl mc-input-light-green" placeholder="Light Green xl" />
-        </div>
-
-        <!-- BLUE -->
-        <div>
-            <input class="mc-input mc-input-xs mc-input-dark-blue" placeholder="Dark Blue xs" />
-        </div>
-        <div>
-            <input class="mc-input mc-input-xs mc-input-light-blue" placeholder="Light Blue xs" />
-        </div>
-        <div>
-            <input class="mc-input mc-input-sm mc-input-dark-blue" placeholder="Dark Blue sm" />
-        </div>
-        <div>
-            <input class="mc-input mc-input-sm mc-input-light-blue" placeholder="Light Blue sm" />
-        </div>
-        <div>
-            <input class="mc-input mc-input-md mc-input-dark-blue" placeholder="Dark Blue md" />
-        </div>
-        <div>
-            <input class="mc-input mc-input-md mc-input-light-blue" placeholder="Light Blue md" />
-        </div>
-        <div>
-            <input class="mc-input mc-input-lg mc-input-dark-blue" placeholder="Dark Blue lg" />
-        </div>
-        <div>
-            <input class="mc-input mc-input-lg mc-input-light-blue" placeholder="Light Blue lg" />
-        </div>
-        <div>
-            <input class="mc-input mc-input-xl mc-input-dark-blue" placeholder="Dark Blue xl" />
-        </div>
-        <div>
-            <input class="mc-input mc-input-xl mc-input-light-blue" placeholder="Light Blue xl" />
-        </div>
-
-        <!-- YELLOW -->
-        <div>
-            <input class="mc-input mc-input-xs mc-input-dark-yellow" placeholder="Dark Yellow xs" />
-        </div>
-        <div>
-            <input class="mc-input mc-input-xs mc-input-light-yellow" placeholder="Light Yellow xs" />
-        </div>
-        <div>
-            <input class="mc-input mc-input-sm mc-input-dark-yellow" placeholder="Dark Yellow sm" />
-        </div>
-        <div>
-            <input class="mc-input mc-input-sm mc-input-light-yellow" placeholder="Light Yellow sm" />
-        </div>
-        <div>
-            <input class="mc-input mc-input-md mc-input-dark-yellow" placeholder="Dark Yellow md" />
-        </div>
-        <div>
-            <input class="mc-input mc-input-md mc-input-light-yellow" placeholder="Light Yellow md" />
-        </div>
-        <div>
-            <input class="mc-input mc-input-lg mc-input-dark-yellow" placeholder="Dark Yellow lg" />
-        </div>
-        <div>
-            <input class="mc-input mc-input-lg mc-input-light-yellow" placeholder="Light Yellow lg" />
-        </div>
-        <div>
-            <input class="mc-input mc-input-xl mc-input-dark-yellow" placeholder="Dark Yellow xl" />
-        </div>
-        <div>
-            <input class="mc-input mc-input-xl mc-input-light-yellow" placeholder="Light Yellow xl" />
-        </div>
-
-        <!-- PURPLE -->
-        <div>
-            <input class="mc-input mc-input-xs mc-input-dark-purple" placeholder="Dark Purple xs" />
-        </div>
-        <div>
-            <input class="mc-input mc-input-xs mc-input-light-purple" placeholder="Light Purple xs" />
-        </div>
-        <div>
-            <input class="mc-input mc-input-sm mc-input-dark-purple" placeholder="Dark Purple sm" />
-        </div>
-        <div>
-            <input class="mc-input mc-input-sm mc-input-light-purple" placeholder="Light Purple sm" />
-        </div>
-        <div>
-            <input class="mc-input mc-input-md mc-input-dark-purple" placeholder="Dark Purple md" />
-        </div>
-        <div>
-            <input class="mc-input mc-input-md mc-input-light-purple" placeholder="Light Purple md" />
-        </div>
-        <div>
-            <input class="mc-input mc-input-lg mc-input-dark-purple" placeholder="Dark Purple lg" />
-        </div>
-        <div>
-            <input class="mc-input mc-input-lg mc-input-light-purple" placeholder="Light Purple lg" />
-        </div>
-        <div>
-            <input class="mc-input mc-input-xl mc-input-dark-purple" placeholder="Dark Purple xl" />
-        </div>
-        <div>
-            <input class="mc-input mc-input-xl mc-input-light-purple" placeholder="Light Purple xl" />
-        </div>
-
-        <!-- CYAN -->
-        <div>
-            <input class="mc-input mc-input-xs mc-input-dark-cyan" placeholder="Dark Cyan xs" />
-        </div>
-        <div>
-            <input class="mc-input mc-input-xs mc-input-light-cyan" placeholder="Light Cyan xs" />
-        </div>
-        <div>
-            <input class="mc-input mc-input-sm mc-input-dark-cyan" placeholder="Dark Cyan sm" />
-        </div>
-        <div>
-            <input class="mc-input mc-input-sm mc-input-light-cyan" placeholder="Light Cyan sm" />
-        </div>
-        <div>
-            <input class="mc-input mc-input-md mc-input-dark-cyan" placeholder="Dark Cyan md" />
-        </div>
-        <div>
-            <input class="mc-input mc-input-md mc-input-light-cyan" placeholder="Light Cyan md" />
-        </div>
-        <div>
-            <input class="mc-input mc-input-lg mc-input-dark-cyan" placeholder="Dark Cyan lg" />
-        </div>
-        <div>
-            <input class="mc-input mc-input-lg mc-input-light-cyan" placeholder="Light Cyan lg" />
-        </div>
-        <div>
-            <input class="mc-input mc-input-xl mc-input-dark-cyan" placeholder="Dark Cyan xl" />
-        </div>
-        <div>
-            <input class="mc-input mc-input-xl mc-input-light-cyan" placeholder="Light Cyan xl" />
+<!-- M3: Light hue panels -->
+<h3>Mode 3 — Light Hue Surfaces (hue.100)</h3>
+<div class="m3-grid">
+    <div class="surface-panel" data-mode="3" style="background:var(--color-p-neutral-100); border:1px solid var(--color-p-neutral-200);">
+        <div class="surface-label" style="color:#0A0A0A;">Neutral</div>
+        <label class="mc-label">Label</label>
+        <input type="text" class="mc-input" data-hue="neutral" placeholder="Neutral input">
+        <div class="mc-help-text">Helper text</div>
+    </div>
+    <div class="surface-panel" data-mode="3" style="background:var(--color-p-red-100);">
+        <div class="surface-label" style="color:#0A0A0A;">Red</div>
+        <label class="mc-label">Label</label>
+        <input type="text" class="mc-input" data-hue="red" placeholder="Red input">
+        <div class="mc-help-text">Helper text</div>
+    </div>
+    <div class="surface-panel" data-mode="3" style="background:var(--color-p-green-100);">
+        <div class="surface-label" style="color:#0A0A0A;">Green</div>
+        <label class="mc-label">Label</label>
+        <input type="text" class="mc-input" data-hue="green" placeholder="Green input">
+        <div class="mc-help-text">Helper text</div>
+    </div>
+    <div class="surface-panel" data-mode="3" style="background:var(--color-p-blue-100);">
+        <div class="surface-label" style="color:#0A0A0A;">Blue</div>
+        <label class="mc-label">Label</label>
+        <input type="text" class="mc-input" data-hue="blue" placeholder="Blue input">
+        <div class="mc-help-text">Helper text</div>
+    </div>
+    <div class="surface-panel" data-mode="3" style="background:var(--color-p-yellow-100);">
+        <div class="surface-label" style="color:#0A0A0A;">Yellow</div>
+        <label class="mc-label">Label</label>
+        <input type="text" class="mc-input" data-hue="yellow" placeholder="Yellow input">
+        <div class="mc-help-text">Helper text</div>
+    </div>
+    <div class="surface-panel" data-mode="3" style="background:var(--color-p-magenta-100);">
+        <div class="surface-label" style="color:#0A0A0A;">Magenta</div>
+        <label class="mc-label">Label</label>
+        <input type="text" class="mc-input" data-hue="magenta" placeholder="Magenta input">
+        <div class="mc-help-text">Helper text</div>
+    </div>
+    <div class="surface-panel" data-mode="3" style="background:var(--color-p-teal-100);">
+        <div class="surface-label" style="color:#0A0A0A;">Teal</div>
+        <label class="mc-label">Label</label>
+        <input type="text" class="mc-input" data-hue="teal" placeholder="Teal input">
+        <div class="mc-help-text">Helper text</div>
+    </div>
+</div>
+<div class="surface-panel" data-mode="3" style="background:var(--color-p-blue-100);">
+    <div class="surface-label" style="color:#0A0A0A;">M3 Validation (Blue surface)</div>
+    <div class="field-row">
+        <div class="field-col">
+            <input type="text" class="mc-input mc-input-error" data-hue="blue" value="Bad value">
+            <div class="mc-error-text">Error on light hue surface</div>
+        </div>
+        <div class="field-col">
+            <input type="text" class="mc-input mc-input-success" data-hue="blue" value="Good value">
+            <div class="mc-success-text">Success on light hue surface</div>
         </div>
     </div>
+</div>
 
-
-    <!-- DARK BACKGROUND -->
-    <div class="grid grid-cols-10 gap-4 m-4 bg-p-neutral-800 p-4">
-        <!-- GRAY -->
-        <div>
-            <input class="mc-input mc-input-xs mc-input-dark-gray" placeholder="Dark Gray xs" />
-        </div>
-        <div>
-            <input class="mc-input mc-input-xs mc-input-light-gray" placeholder="Light Gray xs" />
-        </div>
-        <div>
-            <input class="mc-input mc-input-sm mc-input-dark-gray" placeholder="Dark Gray sm" />
-        </div>
-        <div>
-            <input class="mc-input mc-input-sm mc-input-light-gray" placeholder="Light Gray sm" />
-        </div>
-        <div>
-            <input class="mc-input mc-input-md mc-input-dark-gray" placeholder="Dark Gray md" />
-        </div>
-        <div>
-            <input class="mc-input mc-input-md mc-input-light-gray" placeholder="Light Gray md" />
-        </div>
-        <div>
-            <input class="mc-input mc-input-lg mc-input-dark-gray" placeholder="Dark Gray lg" />
-        </div>
-        <div>
-            <input class="mc-input mc-input-lg mc-input-light-gray" placeholder="Light Gray lg" />
-        </div>
-        <div>
-            <input class="mc-input mc-input-xl mc-input-dark-gray" placeholder="Dark Gray xl" />
-        </div>
-        <div>
-            <input class="mc-input mc-input-xl mc-input-light-gray" placeholder="Light Gray xl" />
-        </div>
-
-        <!-- RED -->
-        <div>
-            <input class="mc-input mc-input-xs mc-input-dark-red" placeholder="Dark Red xs" />
-        </div>
-        <div>
-            <input class="mc-input mc-input-xs mc-input-light-red" placeholder="Light Red xs" />
-        </div>
-        <div>
-            <input class="mc-input mc-input-sm mc-input-dark-red" placeholder="Dark Red sm" />
-        </div>
-        <div>
-            <input class="mc-input mc-input-sm mc-input-light-red" placeholder="Light Red sm" />
-        </div>
-        <div>
-            <input class="mc-input mc-input-md mc-input-dark-red" placeholder="Dark Red md" />
-        </div>
-        <div>
-            <input class="mc-input mc-input-md mc-input-light-red" placeholder="Light Red md" />
-        </div>
-        <div>
-            <input class="mc-input mc-input-lg mc-input-dark-red" placeholder="Dark Red lg" />
-        </div>
-        <div>
-            <input class="mc-input mc-input-lg mc-input-light-red" placeholder="Light Red lg" />
-        </div>
-        <div>
-            <input class="mc-input mc-input-xl mc-input-dark-red" placeholder="Dark Red xl" />
-        </div>
-        <div>
-            <input class="mc-input mc-input-xl mc-input-light-red" placeholder="Light Red xl" />
-        </div>
-
-        <!-- GREEN -->
-        <div>
-            <input class="mc-input mc-input-xs mc-input-dark-green" placeholder="Dark Green xs" />
-        </div>
-        <div>
-            <input class="mc-input mc-input-xs mc-input-light-green" placeholder="Light Green xs" />
-        </div>
-        <div>
-            <input class="mc-input mc-input-sm mc-input-dark-green" placeholder="Dark Green sm" />
-        </div>
-        <div>
-            <input class="mc-input mc-input-sm mc-input-light-green" placeholder="Light Green sm" />
-        </div>
-        <div>
-            <input class="mc-input mc-input-md mc-input-dark-green" placeholder="Dark Green md" />
-        </div>
-        <div>
-            <input class="mc-input mc-input-md mc-input-light-green" placeholder="Light Green md" />
-        </div>
-        <div>
-            <input class="mc-input mc-input-lg mc-input-dark-green" placeholder="Dark Green lg" />
-        </div>
-        <div>
-            <input class="mc-input mc-input-lg mc-input-light-green" placeholder="Light Green lg" />
-        </div>
-        <div>
-            <input class="mc-input mc-input-xl mc-input-dark-green" placeholder="Dark Green xl" />
-        </div>
-        <div>
-            <input class="mc-input mc-input-xl mc-input-light-green" placeholder="Light Green xl" />
-        </div>
-
-        <!-- BLUE -->
-        <div>
-            <input class="mc-input mc-input-xs mc-input-dark-blue" placeholder="Dark Blue xs" />
-        </div>
-        <div>
-            <input class="mc-input mc-input-xs mc-input-light-blue" placeholder="Light Blue xs" />
-        </div>
-        <div>
-            <input class="mc-input mc-input-sm mc-input-dark-blue" placeholder="Dark Blue sm" />
-        </div>
-        <div>
-            <input class="mc-input mc-input-sm mc-input-light-blue" placeholder="Light Blue sm" />
-        </div>
-        <div>
-            <input class="mc-input mc-input-md mc-input-dark-blue" placeholder="Dark Blue md" />
-        </div>
-        <div>
-            <input class="mc-input mc-input-md mc-input-light-blue" placeholder="Light Blue md" />
-        </div>
-        <div>
-            <input class="mc-input mc-input-lg mc-input-dark-blue" placeholder="Dark Blue lg" />
-        </div>
-        <div>
-            <input class="mc-input mc-input-lg mc-input-light-blue" placeholder="Light Blue lg" />
-        </div>
-        <div>
-            <input class="mc-input mc-input-xl mc-input-dark-blue" placeholder="Dark Blue xl" />
-        </div>
-        <div>
-            <input class="mc-input mc-input-xl mc-input-light-blue" placeholder="Light Blue xl" />
-        </div>
-
-        <!-- YELLOW -->
-        <div>
-            <input class="mc-input mc-input-xs mc-input-dark-yellow" placeholder="Dark Yellow xs" />
-        </div>
-        <div>
-            <input class="mc-input mc-input-xs mc-input-light-yellow" placeholder="Light Yellow xs" />
-        </div>
-        <div>
-            <input class="mc-input mc-input-sm mc-input-dark-yellow" placeholder="Dark Yellow sm" />
-        </div>
-        <div>
-            <input class="mc-input mc-input-sm mc-input-light-yellow" placeholder="Light Yellow sm" />
-        </div>
-        <div>
-            <input class="mc-input mc-input-md mc-input-dark-yellow" placeholder="Dark Yellow md" />
-        </div>
-        <div>
-            <input class="mc-input mc-input-md mc-input-light-yellow" placeholder="Light Yellow md" />
-        </div>
-        <div>
-            <input class="mc-input mc-input-lg mc-input-dark-yellow" placeholder="Dark Yellow lg" />
-        </div>
-        <div>
-            <input class="mc-input mc-input-lg mc-input-light-yellow" placeholder="Light Yellow lg" />
-        </div>
-        <div>
-            <input class="mc-input mc-input-xl mc-input-dark-yellow" placeholder="Dark Yellow xl" />
-        </div>
-        <div>
-            <input class="mc-input mc-input-xl mc-input-light-yellow" placeholder="Light Yellow xl" />
-        </div>
-
-        <!-- PURPLE -->
-        <div>
-            <input class="mc-input mc-input-xs mc-input-dark-purple" placeholder="Dark Purple xs" />
-        </div>
-        <div>
-            <input class="mc-input mc-input-xs mc-input-light-purple" placeholder="Light Purple xs" />
-        </div>
-        <div>
-            <input class="mc-input mc-input-sm mc-input-dark-purple" placeholder="Dark Purple sm" />
-        </div>
-        <div>
-            <input class="mc-input mc-input-sm mc-input-light-purple" placeholder="Light Purple sm" />
-        </div>
-        <div>
-            <input class="mc-input mc-input-md mc-input-dark-purple" placeholder="Dark Purple md" />
-        </div>
-        <div>
-            <input class="mc-input mc-input-md mc-input-light-purple" placeholder="Light Purple md" />
-        </div>
-        <div>
-            <input class="mc-input mc-input-lg mc-input-dark-purple" placeholder="Dark Purple lg" />
-        </div>
-        <div>
-            <input class="mc-input mc-input-lg mc-input-light-purple" placeholder="Light Purple lg" />
-        </div>
-        <div>
-            <input class="mc-input mc-input-xl mc-input-dark-purple" placeholder="Dark Purple xl" />
-        </div>
-        <div>
-            <input class="mc-input mc-input-xl mc-input-light-purple" placeholder="Light Purple xl" />
-        </div>
-
-        <!-- CYAN -->
-        <div>
-            <input class="mc-input mc-input-xs mc-input-dark-cyan" placeholder="Dark Cyan xs" />
-        </div>
-        <div>
-            <input class="mc-input mc-input-xs mc-input-light-cyan" placeholder="Light Cyan xs" />
-        </div>
-        <div>
-            <input class="mc-input mc-input-sm mc-input-dark-cyan" placeholder="Dark Cyan sm" />
-        </div>
-        <div>
-            <input class="mc-input mc-input-sm mc-input-light-cyan" placeholder="Light Cyan sm" />
-        </div>
-        <div>
-            <input class="mc-input mc-input-md mc-input-dark-cyan" placeholder="Dark Cyan md" />
-        </div>
-        <div>
-            <input class="mc-input mc-input-md mc-input-light-cyan" placeholder="Light Cyan md" />
-        </div>
-        <div>
-            <input class="mc-input mc-input-lg mc-input-dark-cyan" placeholder="Dark Cyan lg" />
-        </div>
-        <div>
-            <input class="mc-input mc-input-lg mc-input-light-cyan" placeholder="Light Cyan lg" />
-        </div>
-        <div>
-            <input class="mc-input mc-input-xl mc-input-dark-cyan" placeholder="Dark Cyan xl" />
-        </div>
-        <div>
-            <input class="mc-input mc-input-xl mc-input-light-cyan" placeholder="Light Cyan xl" />
+<!-- M4: Dark hue panels -->
+<h3>Mode 4 — Dark Hue Surfaces (hue.800)</h3>
+<div class="m4-grid">
+    <div class="surface-panel" data-mode="4" style="background:var(--color-p-neutral-800);">
+        <div class="surface-label" style="color:#FFFFFF;">Neutral</div>
+        <label class="mc-label">Label</label>
+        <input type="text" class="mc-input" data-hue="neutral" placeholder="Neutral input">
+        <div class="mc-help-text">Helper text</div>
+    </div>
+    <div class="surface-panel" data-mode="4" style="background:var(--color-p-red-800);">
+        <div class="surface-label" style="color:#FFFFFF;">Red</div>
+        <label class="mc-label">Label</label>
+        <input type="text" class="mc-input" data-hue="red" placeholder="Red input">
+        <div class="mc-help-text">Helper text</div>
+    </div>
+    <div class="surface-panel" data-mode="4" style="background:var(--color-p-green-800);">
+        <div class="surface-label" style="color:#FFFFFF;">Green</div>
+        <label class="mc-label">Label</label>
+        <input type="text" class="mc-input" data-hue="green" placeholder="Green input">
+        <div class="mc-help-text">Helper text</div>
+    </div>
+    <div class="surface-panel" data-mode="4" style="background:var(--color-p-blue-800);">
+        <div class="surface-label" style="color:#FFFFFF;">Blue</div>
+        <label class="mc-label">Label</label>
+        <input type="text" class="mc-input" data-hue="blue" placeholder="Blue input">
+        <div class="mc-help-text">Helper text</div>
+    </div>
+    <div class="surface-panel" data-mode="4" style="background:var(--color-p-yellow-800);">
+        <div class="surface-label" style="color:#FFFFFF;">Yellow</div>
+        <label class="mc-label">Label</label>
+        <input type="text" class="mc-input" data-hue="yellow" placeholder="Yellow input">
+        <div class="mc-help-text">Helper text</div>
+    </div>
+    <div class="surface-panel" data-mode="4" style="background:var(--color-p-magenta-800);">
+        <div class="surface-label" style="color:#FFFFFF;">Magenta</div>
+        <label class="mc-label">Label</label>
+        <input type="text" class="mc-input" data-hue="magenta" placeholder="Magenta input">
+        <div class="mc-help-text">Helper text</div>
+    </div>
+    <div class="surface-panel" data-mode="4" style="background:var(--color-p-teal-800);">
+        <div class="surface-label" style="color:#FFFFFF;">Teal</div>
+        <label class="mc-label">Label</label>
+        <input type="text" class="mc-input" data-hue="teal" placeholder="Teal input">
+        <div class="mc-help-text">Helper text</div>
+    </div>
+</div>
+<div class="surface-panel" data-mode="4" style="background:var(--color-p-blue-800);">
+    <div class="surface-label" style="color:#FFFFFF;">M4 Validation (Blue dark surface)</div>
+    <div class="field-row">
+        <div class="field-col">
+            <input type="text" class="mc-input mc-input-error" data-hue="blue" value="Bad value">
+            <div class="mc-error-text">Error on dark hue surface</div>
+        </div>
+        <div class="field-col">
+            <input type="text" class="mc-input mc-input-success" data-hue="blue" value="Good value">
+            <div class="mc-success-text">Success on dark hue surface</div>
         </div>
     </div>
+</div>
 
+<!-- M5: Mid hue panels -->
+<h3>Mode 5 — Mid Hue Surfaces (hue.500)</h3>
+<div class="m5-grid">
+    <div class="surface-panel" data-mode="5" style="background:var(--color-p-neutral-500);">
+        <div class="surface-label" style="color:#FFFFFF;">Neutral</div>
+        <label class="mc-label">Label</label>
+        <input type="text" class="mc-input" data-hue="neutral" placeholder="Neutral input">
+        <div class="mc-help-text">Helper text</div>
+    </div>
+    <div class="surface-panel" data-mode="5" style="background:var(--color-p-red-500);">
+        <div class="surface-label" style="color:#FFFFFF;">Red</div>
+        <label class="mc-label">Label</label>
+        <input type="text" class="mc-input" data-hue="red" placeholder="Red input">
+        <div class="mc-help-text">Helper text</div>
+    </div>
+    <div class="surface-panel" data-mode="5" style="background:var(--color-p-green-500);">
+        <div class="surface-label" style="color:#FFFFFF;">Green</div>
+        <label class="mc-label">Label</label>
+        <input type="text" class="mc-input" data-hue="green" placeholder="Green input">
+        <div class="mc-help-text">Helper text</div>
+    </div>
+    <div class="surface-panel" data-mode="5" style="background:var(--color-p-blue-500);">
+        <div class="surface-label" style="color:#FFFFFF;">Blue</div>
+        <label class="mc-label">Label</label>
+        <input type="text" class="mc-input" data-hue="blue" placeholder="Blue input">
+        <div class="mc-help-text">Helper text</div>
+    </div>
+    <div class="surface-panel" data-mode="5" style="background:var(--color-p-yellow-500);">
+        <div class="surface-label" style="color:#FFFFFF;">Yellow</div>
+        <label class="mc-label">Label</label>
+        <input type="text" class="mc-input" data-hue="yellow" placeholder="Yellow input">
+        <div class="mc-help-text">Helper text</div>
+    </div>
+    <div class="surface-panel" data-mode="5" style="background:var(--color-p-magenta-500);">
+        <div class="surface-label" style="color:#FFFFFF;">Magenta</div>
+        <label class="mc-label">Label</label>
+        <input type="text" class="mc-input" data-hue="magenta" placeholder="Magenta input">
+        <div class="mc-help-text">Helper text</div>
+    </div>
+    <div class="surface-panel" data-mode="5" style="background:var(--color-p-teal-500);">
+        <div class="surface-label" style="color:#FFFFFF;">Teal</div>
+        <label class="mc-label">Label</label>
+        <input type="text" class="mc-input" data-hue="teal" placeholder="Teal input">
+        <div class="mc-help-text">Helper text</div>
+    </div>
+</div>
+<div class="surface-panel" data-mode="5" style="background:var(--color-p-blue-500);">
+    <div class="surface-label" style="color:#FFFFFF;">M5 Validation (Blue mid surface)</div>
+    <div class="field-row">
+        <div class="field-col">
+            <input type="text" class="mc-input mc-input-error" data-hue="blue" value="Bad value">
+            <div class="mc-error-text">Error on mid hue surface</div>
+        </div>
+        <div class="field-col">
+            <input type="text" class="mc-input mc-input-success" data-hue="blue" value="Good value">
+            <div class="mc-success-text">Success on mid hue surface</div>
+        </div>
+    </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════
+     SECTION 2: TEXTAREA
+     ═══════════════════════════════════════════════════════ -->
+<h2>2. Textarea</h2>
+
+<!-- M1 -->
+<div class="surface-panel" data-mode="1" style="background:#FFFFFF; border:1px solid #e1e1e1;">
+    <div class="surface-label" style="color:#0A0A0A;">Mode 1 — White Surface</div>
+    <div class="field-row">
+        <div class="field-col"><label class="mc-label">Neutral</label><textarea class="mc-textarea" data-hue="neutral" placeholder="Write something..."></textarea></div>
+        <div class="field-col"><label class="mc-label">Blue</label><textarea class="mc-textarea" data-hue="blue" placeholder="Write something..."></textarea></div>
+        <div class="field-col"><label class="mc-label">Green</label><textarea class="mc-textarea" data-hue="green" placeholder="Write something..."></textarea></div>
+    </div>
+</div>
+
+<!-- M2 -->
+<div class="surface-panel" data-mode="2" style="background:#0A0A0A; border:1px solid #222222;">
+    <div class="surface-label" style="color:#FFFFFF;">Mode 2 — Black Surface</div>
+    <div class="field-row">
+        <div class="field-col"><label class="mc-label">Neutral</label><textarea class="mc-textarea" data-hue="neutral" placeholder="Write something..."></textarea></div>
+        <div class="field-col"><label class="mc-label">Blue</label><textarea class="mc-textarea" data-hue="blue" placeholder="Write something..."></textarea></div>
+        <div class="field-col"><label class="mc-label">Red</label><textarea class="mc-textarea" data-hue="red" placeholder="Write something..."></textarea></div>
+    </div>
+</div>
+
+<!-- M3-M5 textareas -->
+<h3>Textarea on M3/M4/M5</h3>
+<div class="grid-3col">
+    <div class="surface-panel" data-mode="3" style="background:var(--color-p-blue-100);">
+        <div class="surface-label" style="color:#0A0A0A;">M3 Blue</div>
+        <textarea class="mc-textarea" data-hue="blue" placeholder="M3 textarea..."></textarea>
+    </div>
+    <div class="surface-panel" data-mode="4" style="background:var(--color-p-blue-800);">
+        <div class="surface-label" style="color:#FFFFFF;">M4 Blue</div>
+        <textarea class="mc-textarea" data-hue="blue" placeholder="M4 textarea..."></textarea>
+    </div>
+    <div class="surface-panel" data-mode="5" style="background:var(--color-p-blue-500);">
+        <div class="surface-label" style="color:#FFFFFF;">M5 Blue</div>
+        <textarea class="mc-textarea" data-hue="blue" placeholder="M5 textarea..."></textarea>
+    </div>
+</div>
+<div class="grid-3col" style="margin-top:12px;">
+    <div class="surface-panel" data-mode="3" style="background:var(--color-p-green-100);">
+        <div class="surface-label" style="color:#0A0A0A;">M3 Green</div>
+        <textarea class="mc-textarea" data-hue="green" placeholder="M3 textarea..."></textarea>
+    </div>
+    <div class="surface-panel" data-mode="4" style="background:var(--color-p-red-800);">
+        <div class="surface-label" style="color:#FFFFFF;">M4 Red</div>
+        <textarea class="mc-textarea" data-hue="red" placeholder="M4 textarea..."></textarea>
+    </div>
+    <div class="surface-panel" data-mode="5" style="background:var(--color-p-magenta-500);">
+        <div class="surface-label" style="color:#FFFFFF;">M5 Magenta</div>
+        <textarea class="mc-textarea" data-hue="magenta" placeholder="M5 textarea..."></textarea>
+    </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════
+     SECTION 3: SELECT
+     ═══════════════════════════════════════════════════════ -->
+<h2>3. Select</h2>
+
+<!-- M1 -->
+<div class="surface-panel" data-mode="1" style="background:#FFFFFF; border:1px solid #e1e1e1;">
+    <div class="surface-label" style="color:#0A0A0A;">Mode 1 — White Surface</div>
+    <div class="field-row">
+        <div class="field-col">
+            <label class="mc-label">Neutral</label>
+            <select class="mc-select" data-hue="neutral"><option>Choose option</option><option>Option A</option><option>Option B</option></select>
+        </div>
+        <div class="field-col">
+            <label class="mc-label">Blue</label>
+            <select class="mc-select" data-hue="blue"><option>Choose option</option><option>Option A</option><option>Option B</option></select>
+        </div>
+        <div class="field-col">
+            <label class="mc-label">Red</label>
+            <select class="mc-select" data-hue="red"><option>Choose option</option><option>Option A</option><option>Option B</option></select>
+        </div>
+    </div>
+    <h4 style="color:#515151;">Sizes (blue)</h4>
+    <div class="field-row">
+        <div class="field-col"><select class="mc-select mc-select-xs" data-hue="blue"><option>xs select</option></select></div>
+        <div class="field-col"><select class="mc-select mc-select-sm" data-hue="blue"><option>sm select</option></select></div>
+        <div class="field-col"><select class="mc-select" data-hue="blue"><option>md select (default)</option></select></div>
+    </div>
+    <div class="field-row">
+        <div class="field-col"><select class="mc-select mc-select-lg" data-hue="blue"><option>lg select</option></select></div>
+        <div class="field-col"><select class="mc-select mc-select-xl" data-hue="blue"><option>xl select</option></select></div>
+        <div class="field-col"><select class="mc-select mc-select-xxl" data-hue="blue"><option>xxl select</option></select></div>
+    </div>
+</div>
+
+<!-- M2 -->
+<div class="surface-panel" data-mode="2" style="background:#0A0A0A; border:1px solid #222222;">
+    <div class="surface-label" style="color:#FFFFFF;">Mode 2 — Black Surface</div>
+    <div class="field-row">
+        <div class="field-col">
+            <label class="mc-label">Neutral</label>
+            <select class="mc-select" data-hue="neutral"><option>Choose option</option><option>Option A</option></select>
+        </div>
+        <div class="field-col">
+            <label class="mc-label">Blue</label>
+            <select class="mc-select" data-hue="blue"><option>Choose option</option><option>Option A</option></select>
+        </div>
+        <div class="field-col">
+            <label class="mc-label">Teal</label>
+            <select class="mc-select" data-hue="teal"><option>Choose option</option><option>Option A</option></select>
+        </div>
+    </div>
+    <div class="field-row">
+        <div class="field-col"><select class="mc-select" data-hue="blue" disabled><option>Disabled</option></select></div>
+    </div>
+</div>
+
+<!-- M3-M5 selects -->
+<h3>Select on M3/M4/M5</h3>
+<div class="grid-3col">
+    <div class="surface-panel" data-mode="3" style="background:var(--color-p-blue-100);">
+        <div class="surface-label" style="color:#0A0A0A;">M3 Blue</div>
+        <select class="mc-select" data-hue="blue"><option>M3 select</option><option>Option A</option></select>
+    </div>
+    <div class="surface-panel" data-mode="4" style="background:var(--color-p-blue-800);">
+        <div class="surface-label" style="color:#FFFFFF;">M4 Blue</div>
+        <select class="mc-select" data-hue="blue"><option>M4 select</option><option>Option A</option></select>
+    </div>
+    <div class="surface-panel" data-mode="5" style="background:var(--color-p-blue-500);">
+        <div class="surface-label" style="color:#FFFFFF;">M5 Blue</div>
+        <select class="mc-select" data-hue="blue"><option>M5 select</option><option>Option A</option></select>
+    </div>
+</div>
+<div class="m5-grid" style="margin-top:12px;">
+    <div class="surface-panel" data-mode="5" style="background:var(--color-p-red-500);">
+        <div class="surface-label" style="color:#FFFFFF;">M5 Red</div>
+        <select class="mc-select" data-hue="red"><option>Red option</option></select>
+    </div>
+    <div class="surface-panel" data-mode="5" style="background:var(--color-p-green-500);">
+        <div class="surface-label" style="color:#FFFFFF;">M5 Green</div>
+        <select class="mc-select" data-hue="green"><option>Green option</option></select>
+    </div>
+    <div class="surface-panel" data-mode="5" style="background:var(--color-p-yellow-500);">
+        <div class="surface-label" style="color:#FFFFFF;">M5 Yellow</div>
+        <select class="mc-select" data-hue="yellow"><option>Yellow option</option></select>
+    </div>
+    <div class="surface-panel" data-mode="5" style="background:var(--color-p-magenta-500);">
+        <div class="surface-label" style="color:#FFFFFF;">M5 Magenta</div>
+        <select class="mc-select" data-hue="magenta"><option>Magenta option</option></select>
+    </div>
+    <div class="surface-panel" data-mode="5" style="background:var(--color-p-teal-500);">
+        <div class="surface-label" style="color:#FFFFFF;">M5 Teal</div>
+        <select class="mc-select" data-hue="teal"><option>Teal option</option></select>
+    </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════
+     SECTION 4: FORM PATTERNS
+     ═══════════════════════════════════════════════════════ -->
+<h2>4. Form Patterns</h2>
+
+<!-- Form Group + Labels + Help Text -->
+<div class="grid-2col">
+    <div class="surface-panel" data-mode="1" style="background:#FFFFFF; border:1px solid #e1e1e1;">
+        <div class="surface-label" style="color:#0A0A0A;">Form Group (M1)</div>
+        <div class="mc-form-group">
+            <label class="mc-label mc-required">Email address</label>
+            <input type="email" class="mc-input" data-hue="blue" placeholder="john@example.com">
+            <div class="mc-help-text">We'll never share your email.</div>
+        </div>
+        <div class="mc-form-group">
+            <label class="mc-label mc-required">Password</label>
+            <input type="password" class="mc-input" data-hue="blue" placeholder="Enter password">
+        </div>
+    </div>
+    <div class="surface-panel" data-mode="2" style="background:#0A0A0A; border:1px solid #222222;">
+        <div class="surface-label" style="color:#FFFFFF;">Form Group (M2)</div>
+        <div class="mc-form-group">
+            <label class="mc-label mc-required">Email address</label>
+            <input type="email" class="mc-input" data-hue="blue" placeholder="john@example.com">
+            <div class="mc-help-text">We'll never share your email.</div>
+        </div>
+        <div class="mc-form-group">
+            <label class="mc-label mc-required">Password</label>
+            <input type="password" class="mc-input" data-hue="blue" placeholder="Enter password">
+        </div>
+    </div>
+</div>
+
+<!-- Input with Icons -->
+<h3>Input with Icons</h3>
+<div class="grid-2col">
+    <div class="surface-panel" data-mode="1" style="background:#FFFFFF; border:1px solid #e1e1e1;">
+        <div class="surface-label" style="color:#0A0A0A;">Icons (M1)</div>
+        <div class="mc-input-icon-wrapper">
+            <span class="mc-input-icon-left">&#128269;</span>
+            <input type="text" class="mc-input mc-input-has-icon-left" data-hue="blue" placeholder="Search...">
+        </div>
+    </div>
+    <div class="surface-panel" data-mode="2" style="background:#0A0A0A; border:1px solid #222222;">
+        <div class="surface-label" style="color:#FFFFFF;">Icons (M2)</div>
+        <div class="mc-input-icon-wrapper">
+            <span class="mc-input-icon-left">&#128269;</span>
+            <input type="text" class="mc-input mc-input-has-icon-left" data-hue="blue" placeholder="Search...">
+        </div>
+    </div>
+</div>
+
+<!-- Input Group (prefix/suffix) -->
+<h3>Input Group (Addon)</h3>
+<div class="grid-2col">
+    <div class="surface-panel" data-mode="1" style="background:#FFFFFF; border:1px solid #e1e1e1;">
+        <div class="surface-label" style="color:#0A0A0A;">Addons (M1)</div>
+        <div class="mc-input-group">
+            <span class="mc-input-addon">https://</span>
+            <input type="text" class="mc-input" data-hue="blue" placeholder="example.com">
+        </div>
+    </div>
+    <div class="surface-panel" data-mode="2" style="background:#0A0A0A; border:1px solid #222222;">
+        <div class="surface-label" style="color:#FFFFFF;">Addons (M2)</div>
+        <div class="mc-input-group">
+            <span class="mc-input-addon">https://</span>
+            <input type="text" class="mc-input" data-hue="blue" placeholder="example.com">
+        </div>
+    </div>
+</div>
+
+<!-- Character Count -->
+<h3>Character Count</h3>
+<div class="grid-2col">
+    <div class="surface-panel" data-mode="1" style="background:#FFFFFF; border:1px solid #e1e1e1;">
+        <div class="surface-label" style="color:#0A0A0A;">Char count (M1)</div>
+        <textarea class="mc-textarea" data-hue="blue" placeholder="Write a bio..." maxlength="200"></textarea>
+        <div class="mc-char-count">0 / 200</div>
+    </div>
+    <div class="surface-panel" data-mode="2" style="background:#0A0A0A; border:1px solid #222222;">
+        <div class="surface-label" style="color:#FFFFFF;">Char count (M2)</div>
+        <textarea class="mc-textarea" data-hue="blue" placeholder="Write a bio..." maxlength="200"></textarea>
+        <div class="mc-char-count">0 / 200</div>
+    </div>
+</div>
+
+<!-- Mono Input -->
+<h3>Monospace Input</h3>
+<div class="grid-2col">
+    <div class="surface-panel" data-mode="1" style="background:#FFFFFF; border:1px solid #e1e1e1;">
+        <div class="surface-label" style="color:#0A0A0A;">Mono (M1)</div>
+        <input type="text" class="mc-input mc-input-mono" data-hue="neutral" placeholder="api-key-xxxx-xxxx" value="sk_live_abc123def456">
+    </div>
+    <div class="surface-panel" data-mode="2" style="background:#0A0A0A; border:1px solid #222222;">
+        <div class="surface-label" style="color:#FFFFFF;">Mono (M2)</div>
+        <input type="text" class="mc-input mc-input-mono" data-hue="neutral" placeholder="api-key-xxxx-xxxx" value="sk_live_abc123def456">
+    </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════
+     SECTION 5: CODE SNIPPETS
+     ═══════════════════════════════════════════════════════ -->
+<h2>5. Code Snippets</h2>
+
+<h3>Basic Input</h3>
+<div class="code-block"><span class="code-tag">&lt;div</span> <span class="code-attr">data-mode</span>=<span class="code-val">"1"</span><span class="code-tag">&gt;</span>
+  <span class="code-tag">&lt;div</span> <span class="code-attr">class</span>=<span class="code-val">"mc-form-group"</span><span class="code-tag">&gt;</span>
+    <span class="code-tag">&lt;label</span> <span class="code-attr">class</span>=<span class="code-val">"mc-label mc-required"</span><span class="code-tag">&gt;</span>Email<span class="code-tag">&lt;/label&gt;</span>
+    <span class="code-tag">&lt;input</span> <span class="code-attr">type</span>=<span class="code-val">"email"</span> <span class="code-attr">class</span>=<span class="code-val">"mc-input"</span> <span class="code-attr">data-hue</span>=<span class="code-val">"blue"</span> <span class="code-attr">placeholder</span>=<span class="code-val">"you@example.com"</span><span class="code-tag">&gt;</span>
+    <span class="code-tag">&lt;div</span> <span class="code-attr">class</span>=<span class="code-val">"mc-help-text"</span><span class="code-tag">&gt;</span>We'll never share your email.<span class="code-tag">&lt;/div&gt;</span>
+  <span class="code-tag">&lt;/div&gt;</span>
+<span class="code-tag">&lt;/div&gt;</span></div>
+
+<h3>Select with Sizes</h3>
+<div class="code-block"><span class="code-tag">&lt;select</span> <span class="code-attr">class</span>=<span class="code-val">"mc-select mc-select-lg"</span> <span class="code-attr">data-hue</span>=<span class="code-val">"green"</span><span class="code-tag">&gt;</span>
+  <span class="code-tag">&lt;option&gt;</span>Choose...<span class="code-tag">&lt;/option&gt;</span>
+  <span class="code-tag">&lt;option&gt;</span>Option A<span class="code-tag">&lt;/option&gt;</span>
+<span class="code-tag">&lt;/select&gt;</span></div>
+
+<h3>Validation States</h3>
+<div class="code-block"><span class="code-tag">&lt;input</span> <span class="code-attr">class</span>=<span class="code-val">"mc-input mc-input-error"</span> <span class="code-attr">data-hue</span>=<span class="code-val">"blue"</span> <span class="code-attr">value</span>=<span class="code-val">"bad"</span><span class="code-tag">&gt;</span>
+<span class="code-tag">&lt;div</span> <span class="code-attr">class</span>=<span class="code-val">"mc-error-text"</span><span class="code-tag">&gt;</span>Invalid input<span class="code-tag">&lt;/div&gt;</span>
+
+<span class="code-tag">&lt;input</span> <span class="code-attr">class</span>=<span class="code-val">"mc-input mc-input-success"</span> <span class="code-attr">data-hue</span>=<span class="code-val">"green"</span> <span class="code-attr">value</span>=<span class="code-val">"ok"</span><span class="code-tag">&gt;</span>
+<span class="code-tag">&lt;div</span> <span class="code-attr">class</span>=<span class="code-val">"mc-success-text"</span><span class="code-tag">&gt;</span>Looks good!<span class="code-tag">&lt;/div&gt;</span></div>
+
+<h3>Input Group with Addon</h3>
+<div class="code-block"><span class="code-tag">&lt;div</span> <span class="code-attr">class</span>=<span class="code-val">"mc-input-group"</span><span class="code-tag">&gt;</span>
+  <span class="code-tag">&lt;span</span> <span class="code-attr">class</span>=<span class="code-val">"mc-input-addon"</span><span class="code-tag">&gt;</span>$<span class="code-tag">&lt;/span&gt;</span>
+  <span class="code-tag">&lt;input</span> <span class="code-attr">class</span>=<span class="code-val">"mc-input"</span> <span class="code-attr">data-hue</span>=<span class="code-val">"green"</span> <span class="code-attr">placeholder</span>=<span class="code-val">"0.00"</span><span class="code-tag">&gt;</span>
+<span class="code-tag">&lt;/div&gt;</span></div>
+
+<h3>Dark Surface Input (M2/M4)</h3>
+<div class="code-block"><span class="code-tag">&lt;div</span> <span class="code-attr">data-mode</span>=<span class="code-val">"4"</span> <span class="code-attr">style</span>=<span class="code-val">"background:var(--color-p-blue-800)"</span><span class="code-tag">&gt;</span>
+  <span class="code-tag">&lt;label</span> <span class="code-attr">class</span>=<span class="code-val">"mc-label"</span><span class="code-tag">&gt;</span>Search<span class="code-tag">&lt;/label&gt;</span>
+  <span class="code-tag">&lt;input</span> <span class="code-attr">class</span>=<span class="code-val">"mc-input"</span> <span class="code-attr">data-hue</span>=<span class="code-val">"blue"</span> <span class="code-attr">placeholder</span>=<span class="code-val">"Type to search..."</span><span class="code-tag">&gt;</span>
+  <span class="code-tag">&lt;div</span> <span class="code-attr">class</span>=<span class="code-val">"mc-help-text"</span><span class="code-tag">&gt;</span>Results update as you type.<span class="code-tag">&lt;/div&gt;</span>
+<span class="code-tag">&lt;/div&gt;</span></div>
+
+                <footer class="docs-footer">
+                    <p>MC Perception Design System &mdash; 7 hues &times; 5 modes &times; 6 sizes &mdash; WCAG AA compliant</p>
+                    <p style="margin-top: 0.5rem;"><a href="https://github.com/anthropics/claude-code">Built with Claude Code</a></p>
+                </footer>
+
+            </div>
+        </main>
+    </div>
+
+    <script>
+    (function() {
+        var page = location.pathname.split('/').pop().replace('.html','') || 'index';
+        var links = document.querySelectorAll('.docs-nav-link');
+        links.forEach(function(a) {
+            if (a.getAttribute('data-page') === page) a.classList.add('active');
+        });
+        var hamburger = document.getElementById('docs-hamburger');
+        var sidebar = document.getElementById('docs-sidebar');
+        var overlay = document.getElementById('docs-overlay');
+        if (hamburger && sidebar && overlay) {
+            hamburger.addEventListener('click', function() {
+                sidebar.classList.toggle('open');
+                overlay.classList.toggle('open');
+            });
+            overlay.addEventListener('click', function() {
+                sidebar.classList.remove('open');
+                overlay.classList.remove('open');
+            });
+        }
+    })();
+    </script>
 </body>
 </html>

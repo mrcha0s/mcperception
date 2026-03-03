@@ -1,0 +1,1154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Alert Style Guide — MC Perception</title>
+    <link rel="stylesheet" href="../dist/mcperception.css">
+    <style>
+/* ── Docs Layout ── */
+.docs-layout {
+    display: flex;
+    min-height: 100vh;
+}
+.docs-sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 240px;
+    height: 100vh;
+    background: #222222;
+    border-right: 1px solid #222222;
+    overflow-y: auto;
+    z-index: 40;
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.2s ease;
+}
+.docs-sidebar-header {
+    padding: 1.25rem 1.25rem 0.75rem;
+    border-bottom: 1px solid #222222;
+    display: flex;
+    align-items: baseline;
+    gap: 0.5rem;
+}
+.docs-logo {
+    font-size: 0.875rem;
+    font-weight: 700;
+    color: #FFFFFF;
+    text-decoration: none;
+    letter-spacing: -0.01em;
+}
+.docs-logo:hover { color: #c3c3c3; }
+.docs-version {
+    font-size: 0.625rem;
+    color: #515151;
+    font-family: 'Roboto Mono', ui-monospace, monospace;
+}
+.docs-sidebar-nav {
+    padding: 0.75rem 0;
+    flex: 1;
+}
+.docs-nav-group {
+    margin-bottom: 0.25rem;
+}
+.docs-nav-group-label {
+    font-size: 0.625rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: #515151;
+    padding: 0.625rem 1.25rem 0.375rem;
+}
+.docs-nav-link {
+    display: block;
+    font-size: 0.8125rem;
+    color: #a0a0a0;
+    text-decoration: none;
+    padding: 0.375rem 1.25rem;
+    border-left: 2px solid transparent;
+    transition: color 0.15s, border-color 0.15s, background 0.15s;
+}
+.docs-nav-link:hover {
+    color: #c3c3c3;
+    background: #222222;
+}
+.docs-nav-link.active {
+    color: #5252ff;
+    border-left-color: #5252ff;
+    background: #222222;
+}
+.docs-content {
+    flex: 1;
+    margin-left: 240px;
+}
+
+/* ── Mobile: hamburger + overlay ── */
+#docs-hamburger {
+    display: none;
+    position: fixed;
+    top: 0.75rem;
+    left: 0.75rem;
+    z-index: 50;
+    background: #222222;
+    border: 1px solid #222222;
+    color: #a0a0a0;
+    font-size: 1.25rem;
+    width: 36px;
+    height: 36px;
+    border-radius: 6px;
+    cursor: pointer;
+    align-items: center;
+    justify-content: center;
+    line-height: 1;
+    padding: 0;
+}
+#docs-hamburger:hover { color: #FFFFFF; }
+#docs-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: #090909;
+    z-index: 35;
+}
+@media (max-width: 1023px) {
+    #docs-hamburger { display: flex; }
+    .docs-sidebar {
+        transform: translateX(-100%);
+    }
+    .docs-sidebar.open {
+        transform: translateX(0);
+    }
+    #docs-overlay.open {
+        display: block;
+    }
+    .docs-content {
+        margin-left: 0;
+    }
+}
+
+/* ── Guide Cards & Code Blocks ── */
+.guide-section { margin-bottom: 4rem; }
+.guide-card {
+    background: #090909;
+    border: 1px solid #222222;
+    border-radius: 6px;
+    padding: 1.5rem;
+}
+.guide-label {
+    min-width: 72px;
+    font-size: 0.6rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: #6c6c6c;
+    font-weight: 700;
+}
+.guide-row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.5rem;
+}
+.code-block {
+    background: #0a0a0a;
+    border: 1px solid #222222;
+    border-radius: 6px;
+    padding: 1rem 1.25rem;
+    font-family: 'Roboto Mono', ui-monospace, monospace;
+    font-size: 0.7rem;
+    line-height: 1.8;
+    color: #a0a0a0;
+    overflow-x: auto;
+    tab-size: 2;
+}
+.code-block .t  { color: #ff7474; }
+.code-block .a  { color: #9494ff; }
+.code-block .v  { color: #00ba00; }
+.code-block .c  { color: #6d6dff; }
+.code-block .cm { color: #515151; }
+.code-block .tx { color: #c3c3c3; }
+.surface-panel {
+    border-radius: 8px;
+    padding: 1.25rem 1.5rem;
+}
+.section-number {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    border-radius: 6px;
+    font-size: 0.75rem;
+    font-weight: 800;
+    margin-right: 0.5rem;
+}
+.grid-label {
+    font-size: 0.6rem;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    font-weight: 700;
+    color: #515151;
+    width: 64px;
+    flex-shrink: 0;
+}
+.white-label { color: #7f7f7f; }
+
+/* ── Standard Footer ── */
+.docs-footer {
+    margin-top: 6rem;
+    padding: 2rem 0;
+    border-top: 1px solid #222222;
+    text-align: center;
+}
+.docs-footer p {
+    font-size: 0.75rem;
+    color: #515151;
+}
+.docs-footer a {
+    color: #6d6dff;
+    text-decoration: none;
+}
+.docs-footer a:hover {
+    color: #9494ff;
+}
+    </style>
+</head>
+<body class="bg-p-black text-white min-h-screen font-sans">
+
+    <button id="docs-hamburger">&#9776;</button>
+    <div id="docs-overlay"></div>
+
+    <div class="docs-layout">
+        <aside class="docs-sidebar" id="docs-sidebar">
+            <div class="docs-sidebar-header">
+                <a href="index.html" class="docs-logo">MC Perception</a>
+                <span class="docs-version">v1.0</span>
+            </div>
+            <nav class="docs-sidebar-nav">
+                <div class="docs-nav-group">
+                    <div class="docs-nav-group-label">Getting Started</div>
+                    <a href="index.html" class="docs-nav-link" data-page="index">Home</a>
+                    <a href="getting-started.html" class="docs-nav-link" data-page="getting-started">Getting Started</a>
+                </div>
+                <div class="docs-nav-group">
+                    <div class="docs-nav-group-label">Foundation</div>
+                    <a href="color.html" class="docs-nav-link" data-page="color">Color Palette</a>
+                    <a href="surface-modes.html" class="docs-nav-link" data-page="surface-modes">Surface Modes</a>
+                    <a href="typography.html" class="docs-nav-link" data-page="typography">Typography</a>
+                </div>
+                <div class="docs-nav-group">
+                    <div class="docs-nav-group-label">Components</div>
+                    <a href="button.html" class="docs-nav-link" data-page="button">Buttons</a>
+                    <a href="badges.html" class="docs-nav-link" data-page="badges">Badges</a>
+                    <a href="alert.html" class="docs-nav-link" data-page="alert">Alerts</a>
+                    <a href="input.html" class="docs-nav-link" data-page="input">Form Inputs</a>
+                    <a href="selection.html" class="docs-nav-link" data-page="selection">Selection Controls</a>
+                    <a href="table.html" class="docs-nav-link" data-page="table">Tables</a>
+                    <a href="panel-system.html" class="docs-nav-link" data-page="panel-system">Panels</a>
+                </div>
+                <div class="docs-nav-group">
+                    <div class="docs-nav-group-label">Patterns</div>
+                    <a href="forms.html" class="docs-nav-link" data-page="forms">Form Layout</a>
+                    <a href="dark-surfaces.html" class="docs-nav-link" data-page="dark-surfaces">Dark Surface Depth</a>
+                </div>
+                <div class="docs-nav-group">
+                    <div class="docs-nav-group-label">Examples</div>
+                    <a href="trading-card.html" class="docs-nav-link" data-page="trading-card">Trading Card</a>
+                    <a href="orderbook.html" class="docs-nav-link" data-page="orderbook">Orderbook</a>
+                </div>
+            </nav>
+        </aside>
+
+        <main class="docs-content">
+            <div class="max-w-7xl mx-auto px-6 py-12">
+
+        <!-- ====== HERO ====== -->
+        <header class="mb-16">
+            <nav class="text-xs text-p-neutral-400 mb-6 flex gap-2 items-center">
+                <a href="index.html" class="hover:text-white transition-colors">Home</a>
+                <span class="text-p-neutral-600">/</span>
+                <a href="index.html" class="hover:text-white transition-colors">Components</a>
+                <span class="text-p-neutral-600">/</span>
+                <span class="text-white font-semibold">Alert</span>
+            </nav>
+
+            <div class="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-6 mb-8">
+                <div>
+                    <h1 class="text-5xl font-bold tracking-tight mb-3">Alert</h1>
+                    <p class="text-p-neutral-300 text-lg max-w-2xl">Surface-mode-aware notification banners, callouts, and inline messages. 7 hues, 3 variants, 6 sizes, 5 surface modes.</p>
+                </div>
+                <div class="flex gap-2 flex-wrap">
+                    <span class="mc-badge mc-badge-filled mc-badge-pill" data-hue="blue">New API</span>
+                    <span class="mc-badge mc-badge-tonal mc-badge-pill" data-hue="green">WCAG AA</span>
+                    <span class="mc-badge mc-badge-outline mc-badge-pill" data-hue="magenta">7 Hues</span>
+                    <span class="mc-badge mc-badge-subtle mc-badge-pill" data-hue="teal">5 Modes</span>
+                </div>
+            </div>
+
+            <!-- Quick code example -->
+            <div class="guide-card">
+                <div class="flex items-center gap-2 mb-3">
+                    <span class="text-[10px] uppercase tracking-widest text-p-neutral-400 font-bold">Quick Start</span>
+                </div>
+                <div class="code-block">
+<span class="cm">&lt;!-- Basic alert (soft) --&gt;</span>
+<span class="t">&lt;div</span> <span class="a">class</span>=<span class="v">"mc-alert"</span> <span class="a">data-hue</span>=<span class="v">"blue"</span><span class="t">&gt;</span>
+  <span class="t">&lt;div</span> <span class="a">class</span>=<span class="v">"mc-alert-content"</span><span class="t">&gt;</span><span class="tx">This is a blue alert.</span><span class="t">&lt;/div&gt;</span>
+<span class="t">&lt;/div&gt;</span>
+
+<span class="cm">&lt;!-- Filled variant --&gt;</span>
+<span class="t">&lt;div</span> <span class="a">class</span>=<span class="v">"mc-alert mc-alert-filled"</span> <span class="a">data-hue</span>=<span class="v">"green"</span><span class="t">&gt;</span>
+  <span class="t">&lt;div</span> <span class="a">class</span>=<span class="v">"mc-alert-content"</span><span class="t">&gt;</span><span class="tx">Success! Your changes have been saved.</span><span class="t">&lt;/div&gt;</span>
+<span class="t">&lt;/div&gt;</span>
+
+<span class="cm">&lt;!-- On a white surface --&gt;</span>
+<span class="t">&lt;div</span> <span class="a">data-mode</span>=<span class="v">"1"</span><span class="t">&gt;</span>
+  <span class="t">&lt;div</span> <span class="a">class</span>=<span class="v">"mc-alert mc-alert-outline"</span> <span class="a">data-hue</span>=<span class="v">"red"</span><span class="t">&gt;</span>
+    <span class="t">&lt;div</span> <span class="a">class</span>=<span class="v">"mc-alert-content"</span><span class="t">&gt;</span><span class="tx">Error: Something went wrong.</span><span class="t">&lt;/div&gt;</span>
+  <span class="t">&lt;/div&gt;</span>
+<span class="t">&lt;/div&gt;</span>
+                </div>
+            </div>
+        </header>
+
+        <!-- ====== 1. VARIANTS ====== -->
+        <section class="guide-section">
+            <h2 class="text-2xl font-bold mb-1 flex items-center">
+                <span class="section-number bg-p-blue-500 text-white">1</span>
+                Variants
+            </h2>
+            <p class="text-p-neutral-400 text-sm mb-6 ml-10">3 emphasis levels. All 7 hues shown per variant.</p>
+
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-4">
+
+                <!-- Soft (default) -->
+                <div class="guide-card">
+                    <div class="flex items-center justify-between mb-4">
+                        <div>
+                            <h3 class="text-sm font-bold text-white">Soft</h3>
+                            <p class="text-[10px] text-p-neutral-500 uppercase tracking-wider">Standard Emphasis</p>
+                        </div>
+                        <div class="text-[10px] text-p-neutral-600 font-mono">default</div>
+                    </div>
+                    <div class="space-y-2 mb-4">
+                        <div class="mc-alert" data-hue="neutral"><div class="mc-alert-content">Neutral</div></div>
+                        <div class="mc-alert" data-hue="red"><div class="mc-alert-content">Red</div></div>
+                        <div class="mc-alert" data-hue="green"><div class="mc-alert-content">Green</div></div>
+                        <div class="mc-alert" data-hue="blue"><div class="mc-alert-content">Blue</div></div>
+                        <div class="mc-alert" data-hue="yellow"><div class="mc-alert-content">Yellow</div></div>
+                        <div class="mc-alert" data-hue="magenta"><div class="mc-alert-content">Magenta</div></div>
+                        <div class="mc-alert" data-hue="teal"><div class="mc-alert-content">Teal</div></div>
+                    </div>
+                    <div class="code-block text-[10px]"><span class="t">&lt;div</span> <span class="a">class</span>=<span class="v">"mc-alert"</span> <span class="a">data-hue</span>=<span class="v">"blue"</span><span class="t">&gt;</span>
+  <span class="t">&lt;div</span> <span class="a">class</span>=<span class="v">"mc-alert-content"</span><span class="t">&gt;</span><span class="tx">...</span><span class="t">&lt;/div&gt;</span>
+<span class="t">&lt;/div&gt;</span></div>
+                </div>
+
+                <!-- Filled -->
+                <div class="guide-card">
+                    <div class="flex items-center justify-between mb-4">
+                        <div>
+                            <h3 class="text-sm font-bold text-white">Filled</h3>
+                            <p class="text-[10px] text-p-neutral-500 uppercase tracking-wider">High Emphasis</p>
+                        </div>
+                        <div class="text-[10px] text-p-neutral-600 font-mono">mc-alert-filled</div>
+                    </div>
+                    <div class="space-y-2 mb-4">
+                        <div class="mc-alert mc-alert-filled" data-hue="neutral"><div class="mc-alert-content">Neutral</div></div>
+                        <div class="mc-alert mc-alert-filled" data-hue="red"><div class="mc-alert-content">Red</div></div>
+                        <div class="mc-alert mc-alert-filled" data-hue="green"><div class="mc-alert-content">Green</div></div>
+                        <div class="mc-alert mc-alert-filled" data-hue="blue"><div class="mc-alert-content">Blue</div></div>
+                        <div class="mc-alert mc-alert-filled" data-hue="yellow"><div class="mc-alert-content">Yellow</div></div>
+                        <div class="mc-alert mc-alert-filled" data-hue="magenta"><div class="mc-alert-content">Magenta</div></div>
+                        <div class="mc-alert mc-alert-filled" data-hue="teal"><div class="mc-alert-content">Teal</div></div>
+                    </div>
+                    <div class="code-block text-[10px]"><span class="t">&lt;div</span> <span class="a">class</span>=<span class="v">"mc-alert mc-alert-filled"</span> <span class="a">data-hue</span>=<span class="v">"green"</span><span class="t">&gt;</span>
+  <span class="t">&lt;div</span> <span class="a">class</span>=<span class="v">"mc-alert-content"</span><span class="t">&gt;</span><span class="tx">...</span><span class="t">&lt;/div&gt;</span>
+<span class="t">&lt;/div&gt;</span></div>
+                </div>
+
+                <!-- Outline -->
+                <div class="guide-card">
+                    <div class="flex items-center justify-between mb-4">
+                        <div>
+                            <h3 class="text-sm font-bold text-white">Outline</h3>
+                            <p class="text-[10px] text-p-neutral-500 uppercase tracking-wider">Minimal Emphasis</p>
+                        </div>
+                        <div class="text-[10px] text-p-neutral-600 font-mono">mc-alert-outline</div>
+                    </div>
+                    <div class="space-y-2 mb-4">
+                        <div class="mc-alert mc-alert-outline" data-hue="neutral"><div class="mc-alert-content">Neutral</div></div>
+                        <div class="mc-alert mc-alert-outline" data-hue="red"><div class="mc-alert-content">Red</div></div>
+                        <div class="mc-alert mc-alert-outline" data-hue="green"><div class="mc-alert-content">Green</div></div>
+                        <div class="mc-alert mc-alert-outline" data-hue="blue"><div class="mc-alert-content">Blue</div></div>
+                        <div class="mc-alert mc-alert-outline" data-hue="yellow"><div class="mc-alert-content">Yellow</div></div>
+                        <div class="mc-alert mc-alert-outline" data-hue="magenta"><div class="mc-alert-content">Magenta</div></div>
+                        <div class="mc-alert mc-alert-outline" data-hue="teal"><div class="mc-alert-content">Teal</div></div>
+                    </div>
+                    <div class="code-block text-[10px]"><span class="t">&lt;div</span> <span class="a">class</span>=<span class="v">"mc-alert mc-alert-outline"</span> <span class="a">data-hue</span>=<span class="v">"red"</span><span class="t">&gt;</span>
+  <span class="t">&lt;div</span> <span class="a">class</span>=<span class="v">"mc-alert-content"</span><span class="t">&gt;</span><span class="tx">...</span><span class="t">&lt;/div&gt;</span>
+<span class="t">&lt;/div&gt;</span></div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- ====== 2. SIZE SCALE ====== -->
+        <section class="guide-section">
+            <h2 class="text-2xl font-bold mb-1 flex items-center">
+                <span class="section-number bg-p-green-500 text-white">2</span>
+                Size Scale
+            </h2>
+            <p class="text-p-neutral-400 text-sm mb-6 ml-10">6 sizes from xs (11px) to xxl (20px). Default is md (14px).</p>
+
+            <div class="guide-card mb-4">
+                <table class="w-full text-xs">
+                    <thead>
+                        <tr class="border-b border-p-neutral-800">
+                            <th class="text-left py-2 pr-4 text-[10px] text-p-neutral-400 uppercase tracking-widest font-bold">Size</th>
+                            <th class="text-left py-2 pr-4 text-[10px] text-p-neutral-400 uppercase tracking-widest font-bold">Class</th>
+                            <th class="text-left py-2 pr-4 text-[10px] text-p-neutral-400 uppercase tracking-widest font-bold">Font</th>
+                            <th class="text-left py-2 pr-4 text-[10px] text-p-neutral-400 uppercase tracking-widest font-bold">Padding</th>
+                            <th class="text-left py-2 text-[10px] text-p-neutral-400 uppercase tracking-widest font-bold">Preview</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="border-b border-p-neutral-800/50"><td class="py-2.5 pr-4 text-white font-semibold">XS</td><td class="py-2.5 pr-4 text-p-neutral-400 font-mono">mc-alert-xs</td><td class="py-2.5 pr-4 text-p-neutral-400">11px</td><td class="py-2.5 pr-4 text-p-neutral-400">4 &times; 8</td><td class="py-2.5"><div class="mc-alert mc-alert-xs" data-hue="blue"><div class="mc-alert-content">Extra small alert</div></div></td></tr>
+                        <tr class="border-b border-p-neutral-800/50"><td class="py-2.5 pr-4 text-white font-semibold">SM</td><td class="py-2.5 pr-4 text-p-neutral-400 font-mono">mc-alert-sm</td><td class="py-2.5 pr-4 text-p-neutral-400">12px</td><td class="py-2.5 pr-4 text-p-neutral-400">6 &times; 12</td><td class="py-2.5"><div class="mc-alert mc-alert-sm" data-hue="blue"><div class="mc-alert-content">Small alert</div></div></td></tr>
+                        <tr class="border-b border-p-neutral-800/50"><td class="py-2.5 pr-4 text-white font-semibold">MD</td><td class="py-2.5 pr-4 text-p-neutral-300 font-mono italic">default</td><td class="py-2.5 pr-4 text-p-neutral-400">14px</td><td class="py-2.5 pr-4 text-p-neutral-400">8 &times; 16</td><td class="py-2.5"><div class="mc-alert" data-hue="blue"><div class="mc-alert-content">Medium alert (default)</div></div></td></tr>
+                        <tr class="border-b border-p-neutral-800/50"><td class="py-2.5 pr-4 text-white font-semibold">LG</td><td class="py-2.5 pr-4 text-p-neutral-400 font-mono">mc-alert-lg</td><td class="py-2.5 pr-4 text-p-neutral-400">16px</td><td class="py-2.5 pr-4 text-p-neutral-400">10 &times; 20</td><td class="py-2.5"><div class="mc-alert mc-alert-lg" data-hue="blue"><div class="mc-alert-content">Large alert</div></div></td></tr>
+                        <tr class="border-b border-p-neutral-800/50"><td class="py-2.5 pr-4 text-white font-semibold">XL</td><td class="py-2.5 pr-4 text-p-neutral-400 font-mono">mc-alert-xl</td><td class="py-2.5 pr-4 text-p-neutral-400">18px</td><td class="py-2.5 pr-4 text-p-neutral-400">12 &times; 24</td><td class="py-2.5"><div class="mc-alert mc-alert-xl" data-hue="blue"><div class="mc-alert-content">Extra large alert</div></div></td></tr>
+                        <tr><td class="py-2.5 pr-4 text-white font-semibold">XXL</td><td class="py-2.5 pr-4 text-p-neutral-400 font-mono">mc-alert-xxl</td><td class="py-2.5 pr-4 text-p-neutral-400">20px</td><td class="py-2.5 pr-4 text-p-neutral-400">14 &times; 28</td><td class="py-2.5"><div class="mc-alert mc-alert-xxl" data-hue="blue"><div class="mc-alert-content">XXL alert</div></div></td></tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- All variants at each size -->
+            <div class="guide-card">
+                <h3 class="text-xs font-bold uppercase tracking-widest text-p-neutral-400 mb-4">All Variants at Each Size</h3>
+                <div class="space-y-4">
+                    <div>
+                        <span class="guide-label mb-2 block">xs</span>
+                        <div class="space-y-1">
+                            <div class="mc-alert mc-alert-xs" data-hue="red"><div class="mc-alert-content">Soft xs</div></div>
+                            <div class="mc-alert mc-alert-filled mc-alert-xs" data-hue="red"><div class="mc-alert-content">Filled xs</div></div>
+                            <div class="mc-alert mc-alert-outline mc-alert-xs" data-hue="red"><div class="mc-alert-content">Outline xs</div></div>
+                        </div>
+                    </div>
+                    <div>
+                        <span class="guide-label mb-2 block">sm</span>
+                        <div class="space-y-1">
+                            <div class="mc-alert mc-alert-sm" data-hue="green"><div class="mc-alert-content">Soft sm</div></div>
+                            <div class="mc-alert mc-alert-filled mc-alert-sm" data-hue="green"><div class="mc-alert-content">Filled sm</div></div>
+                            <div class="mc-alert mc-alert-outline mc-alert-sm" data-hue="green"><div class="mc-alert-content">Outline sm</div></div>
+                        </div>
+                    </div>
+                    <div>
+                        <span class="guide-label mb-2 block">md</span>
+                        <div class="space-y-1">
+                            <div class="mc-alert" data-hue="blue"><div class="mc-alert-content">Soft md (default)</div></div>
+                            <div class="mc-alert mc-alert-filled" data-hue="blue"><div class="mc-alert-content">Filled md (default)</div></div>
+                            <div class="mc-alert mc-alert-outline" data-hue="blue"><div class="mc-alert-content">Outline md (default)</div></div>
+                        </div>
+                    </div>
+                    <div>
+                        <span class="guide-label mb-2 block">lg</span>
+                        <div class="space-y-1">
+                            <div class="mc-alert mc-alert-lg" data-hue="yellow"><div class="mc-alert-content">Soft lg</div></div>
+                            <div class="mc-alert mc-alert-filled mc-alert-lg" data-hue="yellow"><div class="mc-alert-content">Filled lg</div></div>
+                            <div class="mc-alert mc-alert-outline mc-alert-lg" data-hue="yellow"><div class="mc-alert-content">Outline lg</div></div>
+                        </div>
+                    </div>
+                    <div>
+                        <span class="guide-label mb-2 block">xl</span>
+                        <div class="space-y-1">
+                            <div class="mc-alert mc-alert-xl" data-hue="magenta"><div class="mc-alert-content">Soft xl</div></div>
+                            <div class="mc-alert mc-alert-filled mc-alert-xl" data-hue="magenta"><div class="mc-alert-content">Filled xl</div></div>
+                            <div class="mc-alert mc-alert-outline mc-alert-xl" data-hue="magenta"><div class="mc-alert-content">Outline xl</div></div>
+                        </div>
+                    </div>
+                    <div>
+                        <span class="guide-label mb-2 block">xxl</span>
+                        <div class="space-y-1">
+                            <div class="mc-alert mc-alert-xxl" data-hue="teal"><div class="mc-alert-content">Soft xxl</div></div>
+                            <div class="mc-alert mc-alert-filled mc-alert-xxl" data-hue="teal"><div class="mc-alert-content">Filled xxl</div></div>
+                            <div class="mc-alert mc-alert-outline mc-alert-xxl" data-hue="teal"><div class="mc-alert-content">Outline xxl</div></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ====== 3. SURFACE MODE ADAPTATION ====== -->
+        <section class="guide-section">
+            <h2 class="text-2xl font-bold mb-1 flex items-center">
+                <span class="section-number bg-p-red-500 text-white">3</span>
+                Surface Mode Adaptation
+            </h2>
+            <p class="text-p-neutral-400 text-sm mb-6 ml-10">Alerts inherit <code class="text-p-blue-300 text-xs">data-mode</code> from ancestor containers. All 7 hues &times; 3 variants shown per mode.</p>
+
+            <!-- M1 — White -->
+            <h3 class="text-xs font-bold uppercase tracking-widest text-p-neutral-400 mb-3">Mode 1 &mdash; White Surface (#FFFFFF)</h3>
+            <div class="surface-panel border mb-6" data-mode="1" style="background:#FFFFFF; border-color:#c3c3c3;">
+                <p class="text-[9px] uppercase tracking-[0.15em] font-bold mb-3 white-label">Soft</p>
+                <div class="space-y-2 mb-4">
+                    <div class="mc-alert" data-hue="neutral"><div class="mc-alert-content">Neutral alert</div></div>
+                    <div class="mc-alert" data-hue="red"><div class="mc-alert-content">Red alert</div></div>
+                    <div class="mc-alert" data-hue="green"><div class="mc-alert-content">Green alert</div></div>
+                    <div class="mc-alert" data-hue="blue"><div class="mc-alert-content">Blue alert</div></div>
+                    <div class="mc-alert" data-hue="yellow"><div class="mc-alert-content">Yellow alert</div></div>
+                    <div class="mc-alert" data-hue="magenta"><div class="mc-alert-content">Magenta alert</div></div>
+                    <div class="mc-alert" data-hue="teal"><div class="mc-alert-content">Teal alert</div></div>
+                </div>
+                <p class="text-[9px] uppercase tracking-[0.15em] font-bold mb-3 white-label">Filled</p>
+                <div class="space-y-2 mb-4">
+                    <div class="mc-alert mc-alert-filled" data-hue="neutral"><div class="mc-alert-content">Neutral filled</div></div>
+                    <div class="mc-alert mc-alert-filled" data-hue="red"><div class="mc-alert-content">Red filled</div></div>
+                    <div class="mc-alert mc-alert-filled" data-hue="green"><div class="mc-alert-content">Green filled</div></div>
+                    <div class="mc-alert mc-alert-filled" data-hue="blue"><div class="mc-alert-content">Blue filled</div></div>
+                    <div class="mc-alert mc-alert-filled" data-hue="yellow"><div class="mc-alert-content">Yellow filled</div></div>
+                    <div class="mc-alert mc-alert-filled" data-hue="magenta"><div class="mc-alert-content">Magenta filled</div></div>
+                    <div class="mc-alert mc-alert-filled" data-hue="teal"><div class="mc-alert-content">Teal filled</div></div>
+                </div>
+                <p class="text-[9px] uppercase tracking-[0.15em] font-bold mb-3 white-label">Outline</p>
+                <div class="space-y-2">
+                    <div class="mc-alert mc-alert-outline" data-hue="neutral"><div class="mc-alert-content">Neutral outline</div></div>
+                    <div class="mc-alert mc-alert-outline" data-hue="red"><div class="mc-alert-content">Red outline</div></div>
+                    <div class="mc-alert mc-alert-outline" data-hue="green"><div class="mc-alert-content">Green outline</div></div>
+                    <div class="mc-alert mc-alert-outline" data-hue="blue"><div class="mc-alert-content">Blue outline</div></div>
+                    <div class="mc-alert mc-alert-outline" data-hue="yellow"><div class="mc-alert-content">Yellow outline</div></div>
+                    <div class="mc-alert mc-alert-outline" data-hue="magenta"><div class="mc-alert-content">Magenta outline</div></div>
+                    <div class="mc-alert mc-alert-outline" data-hue="teal"><div class="mc-alert-content">Teal outline</div></div>
+                </div>
+            </div>
+
+            <!-- M2 — Black -->
+            <h3 class="text-xs font-bold uppercase tracking-widest text-p-neutral-400 mb-3">Mode 2 &mdash; Black Surface (#0A0A0A)</h3>
+            <div class="surface-panel border mb-6" data-mode="2" style="background:#0A0A0A; border-color:#222222;">
+                <p class="text-[9px] uppercase tracking-[0.15em] text-p-neutral-500 font-bold mb-3">Soft</p>
+                <div class="space-y-2 mb-4">
+                    <div class="mc-alert" data-hue="neutral"><div class="mc-alert-content">Neutral alert</div></div>
+                    <div class="mc-alert" data-hue="red"><div class="mc-alert-content">Red alert</div></div>
+                    <div class="mc-alert" data-hue="green"><div class="mc-alert-content">Green alert</div></div>
+                    <div class="mc-alert" data-hue="blue"><div class="mc-alert-content">Blue alert</div></div>
+                    <div class="mc-alert" data-hue="yellow"><div class="mc-alert-content">Yellow alert</div></div>
+                    <div class="mc-alert" data-hue="magenta"><div class="mc-alert-content">Magenta alert</div></div>
+                    <div class="mc-alert" data-hue="teal"><div class="mc-alert-content">Teal alert</div></div>
+                </div>
+                <p class="text-[9px] uppercase tracking-[0.15em] text-p-neutral-500 font-bold mb-3">Filled</p>
+                <div class="space-y-2 mb-4">
+                    <div class="mc-alert mc-alert-filled" data-hue="neutral"><div class="mc-alert-content">Neutral filled</div></div>
+                    <div class="mc-alert mc-alert-filled" data-hue="red"><div class="mc-alert-content">Red filled</div></div>
+                    <div class="mc-alert mc-alert-filled" data-hue="green"><div class="mc-alert-content">Green filled</div></div>
+                    <div class="mc-alert mc-alert-filled" data-hue="blue"><div class="mc-alert-content">Blue filled</div></div>
+                    <div class="mc-alert mc-alert-filled" data-hue="yellow"><div class="mc-alert-content">Yellow filled</div></div>
+                    <div class="mc-alert mc-alert-filled" data-hue="magenta"><div class="mc-alert-content">Magenta filled</div></div>
+                    <div class="mc-alert mc-alert-filled" data-hue="teal"><div class="mc-alert-content">Teal filled</div></div>
+                </div>
+                <p class="text-[9px] uppercase tracking-[0.15em] text-p-neutral-500 font-bold mb-3">Outline</p>
+                <div class="space-y-2">
+                    <div class="mc-alert mc-alert-outline" data-hue="neutral"><div class="mc-alert-content">Neutral outline</div></div>
+                    <div class="mc-alert mc-alert-outline" data-hue="red"><div class="mc-alert-content">Red outline</div></div>
+                    <div class="mc-alert mc-alert-outline" data-hue="green"><div class="mc-alert-content">Green outline</div></div>
+                    <div class="mc-alert mc-alert-outline" data-hue="blue"><div class="mc-alert-content">Blue outline</div></div>
+                    <div class="mc-alert mc-alert-outline" data-hue="yellow"><div class="mc-alert-content">Yellow outline</div></div>
+                    <div class="mc-alert mc-alert-outline" data-hue="magenta"><div class="mc-alert-content">Magenta outline</div></div>
+                    <div class="mc-alert mc-alert-outline" data-hue="teal"><div class="mc-alert-content">Teal outline</div></div>
+                </div>
+            </div>
+
+            <!-- M3 — Light Hue (blue) -->
+            <h3 class="text-xs font-bold uppercase tracking-widest text-p-neutral-400 mb-3">Mode 3 &mdash; Light Hue Surface (blue.100 = #dedeff)</h3>
+            <div class="surface-panel border mb-6" data-mode="3" data-hue="blue" style="background:#dedeff; border-color:#bebeff;">
+                <p class="text-[9px] uppercase tracking-[0.15em] font-bold mb-3 white-label">Soft</p>
+                <div class="space-y-2 mb-4">
+                    <div class="mc-alert" data-hue="neutral"><div class="mc-alert-content">Neutral alert</div></div>
+                    <div class="mc-alert" data-hue="red"><div class="mc-alert-content">Red alert</div></div>
+                    <div class="mc-alert" data-hue="green"><div class="mc-alert-content">Green alert</div></div>
+                    <div class="mc-alert" data-hue="blue"><div class="mc-alert-content">Blue alert</div></div>
+                    <div class="mc-alert" data-hue="yellow"><div class="mc-alert-content">Yellow alert</div></div>
+                    <div class="mc-alert" data-hue="magenta"><div class="mc-alert-content">Magenta alert</div></div>
+                    <div class="mc-alert" data-hue="teal"><div class="mc-alert-content">Teal alert</div></div>
+                </div>
+                <p class="text-[9px] uppercase tracking-[0.15em] font-bold mb-3 white-label">Filled</p>
+                <div class="space-y-2 mb-4">
+                    <div class="mc-alert mc-alert-filled" data-hue="neutral"><div class="mc-alert-content">Neutral filled</div></div>
+                    <div class="mc-alert mc-alert-filled" data-hue="red"><div class="mc-alert-content">Red filled</div></div>
+                    <div class="mc-alert mc-alert-filled" data-hue="green"><div class="mc-alert-content">Green filled</div></div>
+                    <div class="mc-alert mc-alert-filled" data-hue="blue"><div class="mc-alert-content">Blue filled</div></div>
+                    <div class="mc-alert mc-alert-filled" data-hue="yellow"><div class="mc-alert-content">Yellow filled</div></div>
+                    <div class="mc-alert mc-alert-filled" data-hue="magenta"><div class="mc-alert-content">Magenta filled</div></div>
+                    <div class="mc-alert mc-alert-filled" data-hue="teal"><div class="mc-alert-content">Teal filled</div></div>
+                </div>
+                <p class="text-[9px] uppercase tracking-[0.15em] font-bold mb-3 white-label">Outline</p>
+                <div class="space-y-2">
+                    <div class="mc-alert mc-alert-outline" data-hue="neutral"><div class="mc-alert-content">Neutral outline</div></div>
+                    <div class="mc-alert mc-alert-outline" data-hue="red"><div class="mc-alert-content">Red outline</div></div>
+                    <div class="mc-alert mc-alert-outline" data-hue="green"><div class="mc-alert-content">Green outline</div></div>
+                    <div class="mc-alert mc-alert-outline" data-hue="blue"><div class="mc-alert-content">Blue outline</div></div>
+                    <div class="mc-alert mc-alert-outline" data-hue="yellow"><div class="mc-alert-content">Yellow outline</div></div>
+                    <div class="mc-alert mc-alert-outline" data-hue="magenta"><div class="mc-alert-content">Magenta outline</div></div>
+                    <div class="mc-alert mc-alert-outline" data-hue="teal"><div class="mc-alert-content">Teal outline</div></div>
+                </div>
+            </div>
+
+            <!-- M4 — Dark Hue (blue) -->
+            <h3 class="text-xs font-bold uppercase tracking-widest text-p-neutral-400 mb-3">Mode 4 &mdash; Dark Hue Surface (blue.800 = #000081)</h3>
+            <div class="surface-panel border mb-6" data-mode="4" data-hue="blue" style="background:#000081; border-color:#0000bf;">
+                <p class="text-[9px] uppercase tracking-[0.15em] text-white font-bold mb-3">Soft</p>
+                <div class="space-y-2 mb-4">
+                    <div class="mc-alert" data-hue="neutral"><div class="mc-alert-content">Neutral alert</div></div>
+                    <div class="mc-alert" data-hue="red"><div class="mc-alert-content">Red alert</div></div>
+                    <div class="mc-alert" data-hue="green"><div class="mc-alert-content">Green alert</div></div>
+                    <div class="mc-alert" data-hue="blue"><div class="mc-alert-content">Blue alert</div></div>
+                    <div class="mc-alert" data-hue="yellow"><div class="mc-alert-content">Yellow alert</div></div>
+                    <div class="mc-alert" data-hue="magenta"><div class="mc-alert-content">Magenta alert</div></div>
+                    <div class="mc-alert" data-hue="teal"><div class="mc-alert-content">Teal alert</div></div>
+                </div>
+                <p class="text-[9px] uppercase tracking-[0.15em] text-white font-bold mb-3">Filled</p>
+                <div class="space-y-2 mb-4">
+                    <div class="mc-alert mc-alert-filled" data-hue="neutral"><div class="mc-alert-content">Neutral filled</div></div>
+                    <div class="mc-alert mc-alert-filled" data-hue="red"><div class="mc-alert-content">Red filled</div></div>
+                    <div class="mc-alert mc-alert-filled" data-hue="green"><div class="mc-alert-content">Green filled</div></div>
+                    <div class="mc-alert mc-alert-filled" data-hue="blue"><div class="mc-alert-content">Blue filled</div></div>
+                    <div class="mc-alert mc-alert-filled" data-hue="yellow"><div class="mc-alert-content">Yellow filled</div></div>
+                    <div class="mc-alert mc-alert-filled" data-hue="magenta"><div class="mc-alert-content">Magenta filled</div></div>
+                    <div class="mc-alert mc-alert-filled" data-hue="teal"><div class="mc-alert-content">Teal filled</div></div>
+                </div>
+                <p class="text-[9px] uppercase tracking-[0.15em] text-white font-bold mb-3">Outline</p>
+                <div class="space-y-2">
+                    <div class="mc-alert mc-alert-outline" data-hue="neutral"><div class="mc-alert-content">Neutral outline</div></div>
+                    <div class="mc-alert mc-alert-outline" data-hue="red"><div class="mc-alert-content">Red outline</div></div>
+                    <div class="mc-alert mc-alert-outline" data-hue="green"><div class="mc-alert-content">Green outline</div></div>
+                    <div class="mc-alert mc-alert-outline" data-hue="blue"><div class="mc-alert-content">Blue outline</div></div>
+                    <div class="mc-alert mc-alert-outline" data-hue="yellow"><div class="mc-alert-content">Yellow outline</div></div>
+                    <div class="mc-alert mc-alert-outline" data-hue="magenta"><div class="mc-alert-content">Magenta outline</div></div>
+                    <div class="mc-alert mc-alert-outline" data-hue="teal"><div class="mc-alert-content">Teal outline</div></div>
+                </div>
+            </div>
+
+            <!-- M5 — Mid Hue (blue) -->
+            <h3 class="text-xs font-bold uppercase tracking-widest text-p-neutral-400 mb-3">Mode 5 &mdash; Mid Hue Surface (blue.500 = #5252ff)</h3>
+            <div class="surface-panel border mb-6" data-mode="5" data-hue="blue" style="background:#5252ff; border-color:#9494ff;">
+                <p class="text-[9px] uppercase tracking-[0.15em] text-white font-bold mb-3">Soft</p>
+                <div class="space-y-2 mb-4">
+                    <div class="mc-alert" data-hue="neutral"><div class="mc-alert-content">Neutral alert</div></div>
+                    <div class="mc-alert" data-hue="red"><div class="mc-alert-content">Red alert</div></div>
+                    <div class="mc-alert" data-hue="green"><div class="mc-alert-content">Green alert</div></div>
+                    <div class="mc-alert" data-hue="blue"><div class="mc-alert-content">Blue alert</div></div>
+                    <div class="mc-alert" data-hue="yellow"><div class="mc-alert-content">Yellow alert</div></div>
+                    <div class="mc-alert" data-hue="magenta"><div class="mc-alert-content">Magenta alert</div></div>
+                    <div class="mc-alert" data-hue="teal"><div class="mc-alert-content">Teal alert</div></div>
+                </div>
+                <p class="text-[9px] uppercase tracking-[0.15em] text-white font-bold mb-3">Filled</p>
+                <div class="space-y-2 mb-4">
+                    <div class="mc-alert mc-alert-filled" data-hue="neutral"><div class="mc-alert-content">Neutral filled</div></div>
+                    <div class="mc-alert mc-alert-filled" data-hue="red"><div class="mc-alert-content">Red filled</div></div>
+                    <div class="mc-alert mc-alert-filled" data-hue="green"><div class="mc-alert-content">Green filled</div></div>
+                    <div class="mc-alert mc-alert-filled" data-hue="blue"><div class="mc-alert-content">Blue filled</div></div>
+                    <div class="mc-alert mc-alert-filled" data-hue="yellow"><div class="mc-alert-content">Yellow filled</div></div>
+                    <div class="mc-alert mc-alert-filled" data-hue="magenta"><div class="mc-alert-content">Magenta filled</div></div>
+                    <div class="mc-alert mc-alert-filled" data-hue="teal"><div class="mc-alert-content">Teal filled</div></div>
+                </div>
+                <p class="text-[9px] uppercase tracking-[0.15em] text-white font-bold mb-3">Outline</p>
+                <div class="space-y-2">
+                    <div class="mc-alert mc-alert-outline" data-hue="neutral"><div class="mc-alert-content">Neutral outline</div></div>
+                    <div class="mc-alert mc-alert-outline" data-hue="red"><div class="mc-alert-content">Red outline</div></div>
+                    <div class="mc-alert mc-alert-outline" data-hue="green"><div class="mc-alert-content">Green outline</div></div>
+                    <div class="mc-alert mc-alert-outline" data-hue="blue"><div class="mc-alert-content">Blue outline</div></div>
+                    <div class="mc-alert mc-alert-outline" data-hue="yellow"><div class="mc-alert-content">Yellow outline</div></div>
+                    <div class="mc-alert mc-alert-outline" data-hue="magenta"><div class="mc-alert-content">Magenta outline</div></div>
+                    <div class="mc-alert mc-alert-outline" data-hue="teal"><div class="mc-alert-content">Teal outline</div></div>
+                </div>
+            </div>
+
+            <div class="code-block">
+<span class="cm">&lt;!-- Alerts adapt to parent surface mode --&gt;</span>
+<span class="t">&lt;div</span> <span class="a">data-mode</span>=<span class="v">"1"</span> <span class="a">style</span>=<span class="v">"background:#FFFFFF"</span><span class="t">&gt;</span>
+  <span class="t">&lt;div</span> <span class="a">class</span>=<span class="v">"mc-alert"</span> <span class="a">data-hue</span>=<span class="v">"red"</span><span class="t">&gt;</span>
+    <span class="t">&lt;div</span> <span class="a">class</span>=<span class="v">"mc-alert-content"</span><span class="t">&gt;</span><span class="tx">Adapts to M1</span><span class="t">&lt;/div&gt;</span>
+  <span class="t">&lt;/div&gt;</span>
+<span class="t">&lt;/div&gt;</span>
+
+<span class="cm">&lt;!-- M4 dark surface: radius &le; 3px, no shadows --&gt;</span>
+<span class="t">&lt;div</span> <span class="a">data-mode</span>=<span class="v">"4"</span> <span class="a">data-hue</span>=<span class="v">"blue"</span> <span class="a">style</span>=<span class="v">"background:#000081"</span><span class="t">&gt;</span>
+  <span class="t">&lt;div</span> <span class="a">class</span>=<span class="v">"mc-alert mc-alert-filled"</span> <span class="a">data-hue</span>=<span class="v">"blue"</span><span class="t">&gt;</span>
+    <span class="t">&lt;div</span> <span class="a">class</span>=<span class="v">"mc-alert-content"</span><span class="t">&gt;</span><span class="tx">Flat depth style</span><span class="t">&lt;/div&gt;</span>
+  <span class="t">&lt;/div&gt;</span>
+<span class="t">&lt;/div&gt;</span>
+            </div>
+        </section>
+
+        <!-- ====== 4. DISMISSIBLE ====== -->
+        <section class="guide-section">
+            <h2 class="text-2xl font-bold mb-1 flex items-center">
+                <span class="section-number bg-p-yellow-500 text-white">4</span>
+                Dismissible
+            </h2>
+            <p class="text-p-neutral-400 text-sm mb-6 ml-10">Alerts with a close button. Click the &times; to dismiss.</p>
+
+            <div class="guide-card mb-4">
+                <div class="space-y-3 mb-4">
+                    <div class="mc-alert mc-alert-dismissible" data-hue="red">
+                        <div class="mc-alert-content">
+                            <div class="mc-alert-heading">Error!</div>
+                            Something went wrong. Please try again.
+                        </div>
+                        <button class="mc-alert-close" onclick="this.parentElement.style.display='none'">&times;</button>
+                    </div>
+                    <div class="mc-alert mc-alert-filled mc-alert-dismissible" data-hue="green">
+                        <div class="mc-alert-content">
+                            <div class="mc-alert-heading">Success!</div>
+                            Your changes have been saved successfully.
+                        </div>
+                        <button class="mc-alert-close" onclick="this.parentElement.style.display='none'">&times;</button>
+                    </div>
+                    <div class="mc-alert mc-alert-outline mc-alert-dismissible" data-hue="yellow">
+                        <div class="mc-alert-content">
+                            <div class="mc-alert-heading">Warning</div>
+                            Your session will expire in 5 minutes.
+                        </div>
+                        <button class="mc-alert-close" onclick="this.parentElement.style.display='none'">&times;</button>
+                    </div>
+                    <div class="mc-alert mc-alert-dismissible" data-hue="blue">
+                        <div class="mc-alert-content">
+                            <div class="mc-alert-heading">Info</div>
+                            A new version is available. Refresh to update.
+                        </div>
+                        <button class="mc-alert-close" onclick="this.parentElement.style.display='none'">&times;</button>
+                    </div>
+                    <div class="mc-alert mc-alert-filled mc-alert-dismissible" data-hue="magenta">
+                        <div class="mc-alert-content">
+                            <div class="mc-alert-heading">Premium</div>
+                            Upgrade now to unlock all features.
+                        </div>
+                        <button class="mc-alert-close" onclick="this.parentElement.style.display='none'">&times;</button>
+                    </div>
+                    <div class="mc-alert mc-alert-outline mc-alert-dismissible" data-hue="teal">
+                        <div class="mc-alert-content">
+                            Dismissible alert without a heading. Click the close button to remove.
+                        </div>
+                        <button class="mc-alert-close" onclick="this.parentElement.style.display='none'">&times;</button>
+                    </div>
+                </div>
+                <div class="code-block text-[10px]"><span class="t">&lt;div</span> <span class="a">class</span>=<span class="v">"mc-alert mc-alert-dismissible"</span> <span class="a">data-hue</span>=<span class="v">"red"</span><span class="t">&gt;</span>
+  <span class="t">&lt;div</span> <span class="a">class</span>=<span class="v">"mc-alert-content"</span><span class="t">&gt;</span>
+    <span class="t">&lt;div</span> <span class="a">class</span>=<span class="v">"mc-alert-heading"</span><span class="t">&gt;</span><span class="tx">Error!</span><span class="t">&lt;/div&gt;</span>
+    <span class="tx">Something went wrong. Please try again.</span>
+  <span class="t">&lt;/div&gt;</span>
+  <span class="t">&lt;button</span> <span class="a">class</span>=<span class="v">"mc-alert-close"</span> <span class="a">onclick</span>=<span class="v">"this.parentElement.style.display='none'"</span><span class="t">&gt;</span><span class="tx">&amp;times;</span><span class="t">&lt;/button&gt;</span>
+<span class="t">&lt;/div&gt;</span></div>
+            </div>
+        </section>
+
+        <!-- ====== 5. WITH ICONS ====== -->
+        <section class="guide-section">
+            <h2 class="text-2xl font-bold mb-1 flex items-center">
+                <span class="section-number bg-p-magenta-500 text-white">5</span>
+                With Icons
+            </h2>
+            <p class="text-p-neutral-400 text-sm mb-6 ml-10">Alerts with leading SVG icons for quick visual identification.</p>
+
+            <div class="guide-card mb-4">
+                <div class="space-y-3 mb-4">
+                    <!-- Info -->
+                    <div class="mc-alert" data-hue="teal">
+                        <div class="mc-alert-icon">
+                            <svg viewBox="0 0 16 16" width="16" height="16"><circle cx="8" cy="8" r="7" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M8 7v4M8 5v.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+                        </div>
+                        <div class="mc-alert-content">This is an informational message with helpful details.</div>
+                    </div>
+                    <!-- Success -->
+                    <div class="mc-alert mc-alert-filled" data-hue="green">
+                        <div class="mc-alert-icon">
+                            <svg viewBox="0 0 16 16" width="16" height="16"><circle cx="8" cy="8" r="7" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M5 8l2 2 4-4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                        </div>
+                        <div class="mc-alert-content">
+                            <div class="mc-alert-heading">Success!</div>
+                            Your payment was processed successfully.
+                        </div>
+                    </div>
+                    <!-- Warning -->
+                    <div class="mc-alert mc-alert-outline" data-hue="yellow">
+                        <div class="mc-alert-icon">
+                            <svg viewBox="0 0 16 16" width="16" height="16"><path d="M8 1.5L1 14h14L8 1.5z" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round"/><path d="M8 6v4M8 11.5v.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+                        </div>
+                        <div class="mc-alert-content">
+                            <div class="mc-alert-heading">Warning</div>
+                            Your storage is almost full. Consider deleting old files.
+                        </div>
+                    </div>
+                    <!-- Error -->
+                    <div class="mc-alert mc-alert-filled" data-hue="red">
+                        <div class="mc-alert-icon">
+                            <svg viewBox="0 0 16 16" width="16" height="16"><circle cx="8" cy="8" r="7" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M5.5 5.5l5 5M10.5 5.5l-5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+                        </div>
+                        <div class="mc-alert-content">
+                            <div class="mc-alert-heading">Error</div>
+                            Failed to connect to the server. Check your network and retry.
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Icons on different surfaces -->
+                <h3 class="text-xs font-bold uppercase tracking-widest text-p-neutral-400 mb-3 mt-6">Icons on White Surface</h3>
+                <div class="surface-panel border mb-4" data-mode="1" style="background:#FFFFFF; border-color:#c3c3c3;">
+                    <div class="space-y-3">
+                        <div class="mc-alert" data-hue="teal">
+                            <div class="mc-alert-icon">
+                                <svg viewBox="0 0 16 16" width="16" height="16"><circle cx="8" cy="8" r="7" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M8 7v4M8 5v.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+                            </div>
+                            <div class="mc-alert-content">Info alert with icon on white surface.</div>
+                        </div>
+                        <div class="mc-alert mc-alert-filled" data-hue="green">
+                            <div class="mc-alert-icon">
+                                <svg viewBox="0 0 16 16" width="16" height="16"><circle cx="8" cy="8" r="7" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M5 8l2 2 4-4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                            </div>
+                            <div class="mc-alert-content">Success alert with icon on white surface.</div>
+                        </div>
+                        <div class="mc-alert mc-alert-outline" data-hue="red">
+                            <div class="mc-alert-icon">
+                                <svg viewBox="0 0 16 16" width="16" height="16"><circle cx="8" cy="8" r="7" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M5.5 5.5l5 5M10.5 5.5l-5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+                            </div>
+                            <div class="mc-alert-content">Error alert with icon on white surface.</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="code-block text-[10px]"><span class="t">&lt;div</span> <span class="a">class</span>=<span class="v">"mc-alert"</span> <span class="a">data-hue</span>=<span class="v">"teal"</span><span class="t">&gt;</span>
+  <span class="t">&lt;div</span> <span class="a">class</span>=<span class="v">"mc-alert-icon"</span><span class="t">&gt;</span>
+    <span class="t">&lt;svg</span> <span class="a">viewBox</span>=<span class="v">"0 0 16 16"</span> <span class="a">width</span>=<span class="v">"16"</span> <span class="a">height</span>=<span class="v">"16"</span><span class="t">&gt;</span><span class="tx">...</span><span class="t">&lt;/svg&gt;</span>
+  <span class="t">&lt;/div&gt;</span>
+  <span class="t">&lt;div</span> <span class="a">class</span>=<span class="v">"mc-alert-content"</span><span class="t">&gt;</span><span class="tx">Info message.</span><span class="t">&lt;/div&gt;</span>
+<span class="t">&lt;/div&gt;</span></div>
+            </div>
+        </section>
+
+        <!-- ====== 6. ADDITIONAL CONTENT ====== -->
+        <section class="guide-section">
+            <h2 class="text-2xl font-bold mb-1 flex items-center">
+                <span class="section-number bg-p-teal-500 text-white">6</span>
+                Additional Content
+            </h2>
+            <p class="text-p-neutral-400 text-sm mb-6 ml-10">Alerts with headings, paragraphs, horizontal rules, and multi-line body content.</p>
+
+            <div class="guide-card mb-4">
+                <div class="space-y-4 mb-4">
+                    <div class="mc-alert" data-hue="blue">
+                        <div class="mc-alert-content">
+                            <div class="mc-alert-heading">Well done!</div>
+                            <p>You successfully completed the task. This alert also demonstrates the use of additional HTML elements.</p>
+                            <hr>
+                            <p>Use the <a href="#" class="mc-alert-link">alert link</a> class for matching styled links.</p>
+                        </div>
+                    </div>
+                    <div class="mc-alert mc-alert-filled" data-hue="green">
+                        <div class="mc-alert-content">
+                            <div class="mc-alert-heading">Deployment Complete</div>
+                            <p>Your application has been deployed to production. All health checks are passing.</p>
+                            <hr>
+                            <p>View the <a href="#" class="mc-alert-link">deployment logs</a> for more details.</p>
+                        </div>
+                    </div>
+                    <div class="mc-alert mc-alert-outline" data-hue="red">
+                        <div class="mc-alert-content">
+                            <div class="mc-alert-heading">Validation Failed</div>
+                            <p>The following fields contain errors:</p>
+                            <ul style="margin: 0.5rem 0; padding-left: 1.25rem; list-style: disc;">
+                                <li>Email address is required</li>
+                                <li>Password must be at least 8 characters</li>
+                                <li>Phone number format is invalid</li>
+                            </ul>
+                            <hr>
+                            <p>Please correct the errors and <a href="#" class="mc-alert-link">try again</a>.</p>
+                        </div>
+                    </div>
+                    <div class="mc-alert" data-hue="yellow">
+                        <div class="mc-alert-content">
+                            <div class="mc-alert-heading">Maintenance Scheduled</div>
+                            <p>System maintenance is planned for Saturday, March 7th from 2:00 AM to 6:00 AM UTC.</p>
+                            <hr>
+                            <p>Read the full <a href="#" class="mc-alert-link">maintenance notice</a>.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Additional content on white surface -->
+                <h3 class="text-xs font-bold uppercase tracking-widest text-p-neutral-400 mb-3 mt-6">On White Surface</h3>
+                <div class="surface-panel border mb-4" data-mode="1" style="background:#FFFFFF; border-color:#c3c3c3;">
+                    <div class="space-y-3">
+                        <div class="mc-alert" data-hue="blue">
+                            <div class="mc-alert-content">
+                                <div class="mc-alert-heading">Well done!</div>
+                                <p>You successfully completed the task.</p>
+                                <hr>
+                                <p>Use the <a href="#" class="mc-alert-link">alert link</a> class for matching styled links.</p>
+                            </div>
+                        </div>
+                        <div class="mc-alert mc-alert-filled" data-hue="red">
+                            <div class="mc-alert-content">
+                                <div class="mc-alert-heading">Critical Error</div>
+                                <p>A critical system error has occurred. Contact support immediately.</p>
+                                <hr>
+                                <p>Reference ID: <a href="#" class="mc-alert-link">ERR-2026-0303</a></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="code-block text-[10px]"><span class="t">&lt;div</span> <span class="a">class</span>=<span class="v">"mc-alert"</span> <span class="a">data-hue</span>=<span class="v">"blue"</span><span class="t">&gt;</span>
+  <span class="t">&lt;div</span> <span class="a">class</span>=<span class="v">"mc-alert-content"</span><span class="t">&gt;</span>
+    <span class="t">&lt;div</span> <span class="a">class</span>=<span class="v">"mc-alert-heading"</span><span class="t">&gt;</span><span class="tx">Well done!</span><span class="t">&lt;/div&gt;</span>
+    <span class="t">&lt;p&gt;</span><span class="tx">You successfully completed the task.</span><span class="t">&lt;/p&gt;</span>
+    <span class="t">&lt;hr&gt;</span>
+    <span class="t">&lt;p&gt;</span><span class="tx">Use the </span><span class="t">&lt;a</span> <span class="a">href</span>=<span class="v">"#"</span> <span class="a">class</span>=<span class="v">"mc-alert-link"</span><span class="t">&gt;</span><span class="tx">alert link</span><span class="t">&lt;/a&gt;</span><span class="tx"> class.</span><span class="t">&lt;/p&gt;</span>
+  <span class="t">&lt;/div&gt;</span>
+<span class="t">&lt;/div&gt;</span></div>
+            </div>
+        </section>
+
+        <!-- ====== 7. ALERT LINKS ====== -->
+        <section class="guide-section">
+            <h2 class="text-2xl font-bold mb-1 flex items-center">
+                <span class="section-number bg-p-neutral-500 text-white">7</span>
+                Alert Links
+            </h2>
+            <p class="text-p-neutral-400 text-sm mb-6 ml-10">The <code class="text-p-blue-300 text-xs">.mc-alert-link</code> class styles links to match the alert hue.</p>
+
+            <div class="guide-card mb-4">
+                <h3 class="text-xs font-bold uppercase tracking-widest text-p-neutral-400 mb-3">Soft Alerts with Links</h3>
+                <div class="space-y-3 mb-6">
+                    <div class="mc-alert" data-hue="neutral">
+                        <div class="mc-alert-content">Neutral alert with an <a href="#" class="mc-alert-link">inline link</a> styled to match.</div>
+                    </div>
+                    <div class="mc-alert" data-hue="red">
+                        <div class="mc-alert-content">Red alert with an <a href="#" class="mc-alert-link">inline link</a> styled to match.</div>
+                    </div>
+                    <div class="mc-alert" data-hue="green">
+                        <div class="mc-alert-content">Green alert with an <a href="#" class="mc-alert-link">inline link</a> styled to match.</div>
+                    </div>
+                    <div class="mc-alert" data-hue="blue">
+                        <div class="mc-alert-content">Blue alert with an <a href="#" class="mc-alert-link">inline link</a> styled to match.</div>
+                    </div>
+                    <div class="mc-alert" data-hue="yellow">
+                        <div class="mc-alert-content">Yellow alert with an <a href="#" class="mc-alert-link">inline link</a> styled to match.</div>
+                    </div>
+                    <div class="mc-alert" data-hue="magenta">
+                        <div class="mc-alert-content">Magenta alert with an <a href="#" class="mc-alert-link">inline link</a> styled to match.</div>
+                    </div>
+                    <div class="mc-alert" data-hue="teal">
+                        <div class="mc-alert-content">Teal alert with an <a href="#" class="mc-alert-link">inline link</a> styled to match.</div>
+                    </div>
+                </div>
+
+                <!-- Links in filled variant -->
+                <h3 class="text-xs font-bold uppercase tracking-widest text-p-neutral-400 mb-3">Links in Filled Alerts</h3>
+                <div class="space-y-3 mb-6">
+                    <div class="mc-alert mc-alert-filled" data-hue="red">
+                        <div class="mc-alert-content">Filled red alert with an <a href="#" class="mc-alert-link">inline link</a>.</div>
+                    </div>
+                    <div class="mc-alert mc-alert-filled" data-hue="green">
+                        <div class="mc-alert-content">Filled green alert with an <a href="#" class="mc-alert-link">inline link</a>.</div>
+                    </div>
+                    <div class="mc-alert mc-alert-filled" data-hue="blue">
+                        <div class="mc-alert-content">Filled blue alert with an <a href="#" class="mc-alert-link">inline link</a>.</div>
+                    </div>
+                </div>
+
+                <!-- Links in outline variant -->
+                <h3 class="text-xs font-bold uppercase tracking-widest text-p-neutral-400 mb-3">Links in Outline Alerts</h3>
+                <div class="space-y-3 mb-4">
+                    <div class="mc-alert mc-alert-outline" data-hue="red">
+                        <div class="mc-alert-content">Outline red alert with an <a href="#" class="mc-alert-link">inline link</a>.</div>
+                    </div>
+                    <div class="mc-alert mc-alert-outline" data-hue="green">
+                        <div class="mc-alert-content">Outline green alert with an <a href="#" class="mc-alert-link">inline link</a>.</div>
+                    </div>
+                    <div class="mc-alert mc-alert-outline" data-hue="blue">
+                        <div class="mc-alert-content">Outline blue alert with an <a href="#" class="mc-alert-link">inline link</a>.</div>
+                    </div>
+                </div>
+
+                <div class="code-block text-[10px]"><span class="t">&lt;div</span> <span class="a">class</span>=<span class="v">"mc-alert"</span> <span class="a">data-hue</span>=<span class="v">"blue"</span><span class="t">&gt;</span>
+  <span class="t">&lt;div</span> <span class="a">class</span>=<span class="v">"mc-alert-content"</span><span class="t">&gt;</span>
+    <span class="tx">Alert with an </span><span class="t">&lt;a</span> <span class="a">href</span>=<span class="v">"#"</span> <span class="a">class</span>=<span class="v">"mc-alert-link"</span><span class="t">&gt;</span><span class="tx">inline link</span><span class="t">&lt;/a&gt;</span><span class="tx">.</span>
+  <span class="t">&lt;/div&gt;</span>
+<span class="t">&lt;/div&gt;</span></div>
+            </div>
+        </section>
+
+        <!-- ====== 8. SEMANTIC HUE MAPPING ====== -->
+        <section class="guide-section">
+            <h2 class="text-2xl font-bold mb-1 flex items-center">
+                <span class="section-number bg-p-blue-500 text-white">8</span>
+                Semantic Hue Mapping
+            </h2>
+            <p class="text-p-neutral-400 text-sm mb-6 ml-10">Recommended hue assignments for common UI meanings.</p>
+
+            <div class="guide-card mb-4">
+                <table class="w-full text-xs">
+                    <thead>
+                        <tr class="border-b border-p-neutral-700">
+                            <th class="text-left py-2.5 pr-4 text-[10px] text-p-neutral-400 uppercase tracking-widest font-bold">Meaning</th>
+                            <th class="text-left py-2.5 pr-4 text-[10px] text-p-neutral-400 uppercase tracking-widest font-bold">Hue</th>
+                            <th class="text-left py-2.5 pr-4 text-[10px] text-p-neutral-400 uppercase tracking-widest font-bold">Soft</th>
+                            <th class="text-left py-2.5 pr-4 text-[10px] text-p-neutral-400 uppercase tracking-widest font-bold">Filled</th>
+                            <th class="text-left py-2.5 text-[10px] text-p-neutral-400 uppercase tracking-widest font-bold">Outline</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="border-b border-p-neutral-800/50">
+                            <td class="py-2.5 pr-4 text-white font-semibold">Success</td>
+                            <td class="py-2.5 pr-4 text-p-neutral-400 font-mono">green</td>
+                            <td class="py-2.5 pr-4"><div class="mc-alert mc-alert-sm" data-hue="green"><div class="mc-alert-content">Changes saved</div></div></td>
+                            <td class="py-2.5 pr-4"><div class="mc-alert mc-alert-filled mc-alert-sm" data-hue="green"><div class="mc-alert-content">Changes saved</div></div></td>
+                            <td class="py-2.5"><div class="mc-alert mc-alert-outline mc-alert-sm" data-hue="green"><div class="mc-alert-content">Changes saved</div></div></td>
+                        </tr>
+                        <tr class="border-b border-p-neutral-800/50">
+                            <td class="py-2.5 pr-4 text-white font-semibold">Danger</td>
+                            <td class="py-2.5 pr-4 text-p-neutral-400 font-mono">red</td>
+                            <td class="py-2.5 pr-4"><div class="mc-alert mc-alert-sm" data-hue="red"><div class="mc-alert-content">Delete failed</div></div></td>
+                            <td class="py-2.5 pr-4"><div class="mc-alert mc-alert-filled mc-alert-sm" data-hue="red"><div class="mc-alert-content">Delete failed</div></div></td>
+                            <td class="py-2.5"><div class="mc-alert mc-alert-outline mc-alert-sm" data-hue="red"><div class="mc-alert-content">Delete failed</div></div></td>
+                        </tr>
+                        <tr class="border-b border-p-neutral-800/50">
+                            <td class="py-2.5 pr-4 text-white font-semibold">Warning</td>
+                            <td class="py-2.5 pr-4 text-p-neutral-400 font-mono">yellow</td>
+                            <td class="py-2.5 pr-4"><div class="mc-alert mc-alert-sm" data-hue="yellow"><div class="mc-alert-content">Low storage</div></div></td>
+                            <td class="py-2.5 pr-4"><div class="mc-alert mc-alert-filled mc-alert-sm" data-hue="yellow"><div class="mc-alert-content">Low storage</div></div></td>
+                            <td class="py-2.5"><div class="mc-alert mc-alert-outline mc-alert-sm" data-hue="yellow"><div class="mc-alert-content">Low storage</div></div></td>
+                        </tr>
+                        <tr class="border-b border-p-neutral-800/50">
+                            <td class="py-2.5 pr-4 text-white font-semibold">Info</td>
+                            <td class="py-2.5 pr-4 text-p-neutral-400 font-mono">teal</td>
+                            <td class="py-2.5 pr-4"><div class="mc-alert mc-alert-sm" data-hue="teal"><div class="mc-alert-content">Tip available</div></div></td>
+                            <td class="py-2.5 pr-4"><div class="mc-alert mc-alert-filled mc-alert-sm" data-hue="teal"><div class="mc-alert-content">Tip available</div></div></td>
+                            <td class="py-2.5"><div class="mc-alert mc-alert-outline mc-alert-sm" data-hue="teal"><div class="mc-alert-content">Tip available</div></div></td>
+                        </tr>
+                        <tr class="border-b border-p-neutral-800/50">
+                            <td class="py-2.5 pr-4 text-white font-semibold">Primary</td>
+                            <td class="py-2.5 pr-4 text-p-neutral-400 font-mono">blue</td>
+                            <td class="py-2.5 pr-4"><div class="mc-alert mc-alert-sm" data-hue="blue"><div class="mc-alert-content">New update</div></div></td>
+                            <td class="py-2.5 pr-4"><div class="mc-alert mc-alert-filled mc-alert-sm" data-hue="blue"><div class="mc-alert-content">New update</div></div></td>
+                            <td class="py-2.5"><div class="mc-alert mc-alert-outline mc-alert-sm" data-hue="blue"><div class="mc-alert-content">New update</div></div></td>
+                        </tr>
+                        <tr class="border-b border-p-neutral-800/50">
+                            <td class="py-2.5 pr-4 text-white font-semibold">Premium</td>
+                            <td class="py-2.5 pr-4 text-p-neutral-400 font-mono">magenta</td>
+                            <td class="py-2.5 pr-4"><div class="mc-alert mc-alert-sm" data-hue="magenta"><div class="mc-alert-content">Upgrade now</div></div></td>
+                            <td class="py-2.5 pr-4"><div class="mc-alert mc-alert-filled mc-alert-sm" data-hue="magenta"><div class="mc-alert-content">Upgrade now</div></div></td>
+                            <td class="py-2.5"><div class="mc-alert mc-alert-outline mc-alert-sm" data-hue="magenta"><div class="mc-alert-content">Upgrade now</div></div></td>
+                        </tr>
+                        <tr>
+                            <td class="py-2.5 pr-4 text-white font-semibold">Default</td>
+                            <td class="py-2.5 pr-4 text-p-neutral-400 font-mono">neutral</td>
+                            <td class="py-2.5 pr-4"><div class="mc-alert mc-alert-sm" data-hue="neutral"><div class="mc-alert-content">System notice</div></div></td>
+                            <td class="py-2.5 pr-4"><div class="mc-alert mc-alert-filled mc-alert-sm" data-hue="neutral"><div class="mc-alert-content">System notice</div></div></td>
+                            <td class="py-2.5"><div class="mc-alert mc-alert-outline mc-alert-sm" data-hue="neutral"><div class="mc-alert-content">System notice</div></div></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Live semantic examples -->
+            <div class="guide-card">
+                <h3 class="text-xs font-bold uppercase tracking-widest text-p-neutral-400 mb-4">Live Semantic Examples</h3>
+                <div class="space-y-3">
+                    <div class="mc-alert mc-alert-filled" data-hue="green">
+                        <div class="mc-alert-icon">
+                            <svg viewBox="0 0 16 16" width="16" height="16"><circle cx="8" cy="8" r="7" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M5 8l2 2 4-4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                        </div>
+                        <div class="mc-alert-content">
+                            <div class="mc-alert-heading">Success</div>
+                            Your order has been placed successfully. Confirmation email sent.
+                        </div>
+                    </div>
+                    <div class="mc-alert mc-alert-filled" data-hue="red">
+                        <div class="mc-alert-icon">
+                            <svg viewBox="0 0 16 16" width="16" height="16"><circle cx="8" cy="8" r="7" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M5.5 5.5l5 5M10.5 5.5l-5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+                        </div>
+                        <div class="mc-alert-content">
+                            <div class="mc-alert-heading">Danger</div>
+                            This action will permanently delete your account and all associated data.
+                        </div>
+                    </div>
+                    <div class="mc-alert" data-hue="yellow">
+                        <div class="mc-alert-icon">
+                            <svg viewBox="0 0 16 16" width="16" height="16"><path d="M8 1.5L1 14h14L8 1.5z" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round"/><path d="M8 6v4M8 11.5v.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+                        </div>
+                        <div class="mc-alert-content">
+                            <div class="mc-alert-heading">Warning</div>
+                            Your free trial expires in 3 days. <a href="#" class="mc-alert-link">Upgrade now</a> to keep access.
+                        </div>
+                    </div>
+                    <div class="mc-alert mc-alert-outline" data-hue="teal">
+                        <div class="mc-alert-icon">
+                            <svg viewBox="0 0 16 16" width="16" height="16"><circle cx="8" cy="8" r="7" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M8 7v4M8 5v.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+                        </div>
+                        <div class="mc-alert-content">
+                            <div class="mc-alert-heading">Info</div>
+                            Scheduled maintenance will occur this weekend. <a href="#" class="mc-alert-link">Learn more</a>.
+                        </div>
+                    </div>
+                    <div class="mc-alert" data-hue="blue">
+                        <div class="mc-alert-icon">
+                            <svg viewBox="0 0 16 16" width="16" height="16"><circle cx="8" cy="8" r="7" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M8 7v4M8 5v.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+                        </div>
+                        <div class="mc-alert-content">
+                            <div class="mc-alert-heading">Primary</div>
+                            A new version of the application is available. <a href="#" class="mc-alert-link">Update now</a>.
+                        </div>
+                    </div>
+                    <div class="mc-alert mc-alert-filled" data-hue="magenta">
+                        <div class="mc-alert-icon">
+                            <svg viewBox="0 0 16 16" width="16" height="16"><circle cx="8" cy="8" r="7" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M8 7v4M8 5v.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+                        </div>
+                        <div class="mc-alert-content">
+                            <div class="mc-alert-heading">Premium</div>
+                            Unlock advanced analytics, priority support, and custom integrations.
+                        </div>
+                    </div>
+                    <div class="mc-alert mc-alert-outline" data-hue="neutral">
+                        <div class="mc-alert-content">
+                            <div class="mc-alert-heading">Default</div>
+                            This is a generic system notification with neutral styling.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <footer class="docs-footer">
+            <p>MC Perception Design System &mdash; 7 hues &times; 5 modes &times; 6 sizes &mdash; WCAG AA compliant</p>
+            <p style="margin-top: 0.5rem;"><a href="https://github.com/anthropics/claude-code">Built with Claude Code</a></p>
+        </footer>
+
+            </div>
+        </main>
+    </div>
+
+    <script>
+    (function() {
+        var page = location.pathname.split('/').pop().replace('.html','') || 'index';
+        var links = document.querySelectorAll('.docs-nav-link');
+        links.forEach(function(a) {
+            if (a.getAttribute('data-page') === page) a.classList.add('active');
+        });
+        var hamburger = document.getElementById('docs-hamburger');
+        var sidebar = document.getElementById('docs-sidebar');
+        var overlay = document.getElementById('docs-overlay');
+        if (hamburger && sidebar && overlay) {
+            hamburger.addEventListener('click', function() {
+                sidebar.classList.toggle('open');
+                overlay.classList.toggle('open');
+            });
+            overlay.addEventListener('click', function() {
+                sidebar.classList.remove('open');
+                overlay.classList.remove('open');
+            });
+        }
+    })();
+    </script>
+
+</body>
+</html>

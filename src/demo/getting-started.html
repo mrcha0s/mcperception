@@ -1,0 +1,778 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Getting Started — MC Perception</title>
+    <link rel="stylesheet" href="../dist/mcperception.css">
+    <style>
+/* ── Docs Layout ── */
+.docs-layout {
+    display: flex;
+    min-height: 100vh;
+}
+.docs-sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 240px;
+    height: 100vh;
+    background: #222222;
+    border-right: 1px solid #222222;
+    overflow-y: auto;
+    z-index: 40;
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.2s ease;
+}
+.docs-sidebar-header {
+    padding: 1.25rem 1.25rem 0.75rem;
+    border-bottom: 1px solid #222222;
+    display: flex;
+    align-items: baseline;
+    gap: 0.5rem;
+}
+.docs-logo {
+    font-size: 0.875rem;
+    font-weight: 700;
+    color: #FFFFFF;
+    text-decoration: none;
+    letter-spacing: -0.01em;
+}
+.docs-logo:hover { color: #c3c3c3; }
+.docs-version {
+    font-size: 0.625rem;
+    color: #515151;
+    font-family: 'Roboto Mono', ui-monospace, monospace;
+}
+.docs-sidebar-nav {
+    padding: 0.75rem 0;
+    flex: 1;
+}
+.docs-nav-group {
+    margin-bottom: 0.25rem;
+}
+.docs-nav-group-label {
+    font-size: 0.625rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: #515151;
+    padding: 0.625rem 1.25rem 0.375rem;
+}
+.docs-nav-link {
+    display: block;
+    font-size: 0.8125rem;
+    color: #a0a0a0;
+    text-decoration: none;
+    padding: 0.375rem 1.25rem;
+    border-left: 2px solid transparent;
+    transition: color 0.15s, border-color 0.15s, background 0.15s;
+}
+.docs-nav-link:hover {
+    color: #c3c3c3;
+    background: #222222;
+}
+.docs-nav-link.active {
+    color: #5252ff;
+    border-left-color: #5252ff;
+    background: #222222;
+}
+.docs-content {
+    flex: 1;
+    margin-left: 240px;
+}
+
+/* ── Mobile: hamburger + overlay ── */
+#docs-hamburger {
+    display: none;
+    position: fixed;
+    top: 0.75rem;
+    left: 0.75rem;
+    z-index: 50;
+    background: #222222;
+    border: 1px solid #222222;
+    color: #a0a0a0;
+    font-size: 1.25rem;
+    width: 36px;
+    height: 36px;
+    border-radius: 6px;
+    cursor: pointer;
+    align-items: center;
+    justify-content: center;
+    line-height: 1;
+    padding: 0;
+}
+#docs-hamburger:hover { color: #FFFFFF; }
+#docs-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: #090909;
+    z-index: 35;
+}
+@media (max-width: 1023px) {
+    #docs-hamburger { display: flex; }
+    .docs-sidebar {
+        transform: translateX(-100%);
+    }
+    .docs-sidebar.open {
+        transform: translateX(0);
+    }
+    #docs-overlay.open {
+        display: block;
+    }
+    .docs-content {
+        margin-left: 0;
+    }
+}
+
+/* ── Guide Cards & Code Blocks ── */
+.guide-section { margin-bottom: 4rem; }
+.guide-card {
+    background: #090909;
+    border: 1px solid #222222;
+    border-radius: 6px;
+    padding: 1.5rem;
+}
+.guide-label {
+    min-width: 72px;
+    font-size: 0.6rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: #6c6c6c;
+    font-weight: 700;
+}
+.guide-row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.75rem;
+}
+.code-block {
+    background: #0a0a0a;
+    border: 1px solid #222222;
+    border-radius: 6px;
+    padding: 1rem 1.25rem;
+    font-family: 'Roboto Mono', ui-monospace, monospace;
+    font-size: 0.7rem;
+    line-height: 1.8;
+    color: #a0a0a0;
+    overflow-x: auto;
+    tab-size: 2;
+}
+.code-block .t  { color: #ff7474; }
+.code-block .a  { color: #9494ff; }
+.code-block .v  { color: #00ba00; }
+.code-block .c  { color: #6d6dff; }
+.code-block .cm { color: #515151; }
+.code-block .tx { color: #c3c3c3; }
+.surface-panel {
+    border-radius: 8px;
+    padding: 1.25rem 1.5rem;
+}
+.section-number {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    border-radius: 6px;
+    font-size: 0.75rem;
+    font-weight: 800;
+    margin-right: 0.5rem;
+}
+.grid-label {
+    font-size: 0.6rem;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    font-weight: 700;
+    color: #515151;
+    width: 64px;
+    flex-shrink: 0;
+}
+.white-label { color: #7f7f7f; }
+
+/* ── Standard Footer ── */
+.docs-footer {
+    margin-top: 6rem;
+    padding: 2rem 0;
+    border-top: 1px solid #222222;
+    text-align: center;
+}
+.docs-footer p {
+    font-size: 0.75rem;
+    color: #515151;
+}
+.docs-footer a {
+    color: #6d6dff;
+    text-decoration: none;
+}
+.docs-footer a:hover {
+    color: #9494ff;
+}
+
+/* ── Getting Started specific ── */
+.size-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.75rem;
+}
+.size-table th {
+    text-align: left;
+    font-size: 0.6rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: #515151;
+    font-weight: 700;
+    padding: 0.5rem 0.75rem;
+    border-bottom: 1px solid #222222;
+}
+.size-table td {
+    padding: 0.5rem 0.75rem;
+    color: #a0a0a0;
+    border-bottom: 1px solid #222222;
+}
+.size-table code {
+    font-family: 'Roboto Mono', ui-monospace, monospace;
+    font-size: 0.7rem;
+    color: #9494ff;
+}
+.naming-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.75rem;
+}
+.naming-table th {
+    text-align: left;
+    font-size: 0.6rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: #515151;
+    font-weight: 700;
+    padding: 0.5rem 0.75rem;
+    border-bottom: 1px solid #222222;
+}
+.naming-table td {
+    padding: 0.5rem 0.75rem;
+    color: #a0a0a0;
+    border-bottom: 1px solid #222222;
+}
+.naming-table code {
+    font-family: 'Roboto Mono', ui-monospace, monospace;
+    font-size: 0.7rem;
+    color: #9494ff;
+}
+.next-card {
+    background: #090909;
+    border: 1px solid #222222;
+    border-radius: 6px;
+    padding: 1.25rem;
+    text-decoration: none;
+    display: block;
+    transition: border-color 0.15s;
+}
+.next-card:hover {
+    border-color: #5252ff;
+}
+.next-card h4 {
+    color: #FFFFFF;
+    font-size: 0.875rem;
+    font-weight: 600;
+    margin-bottom: 0.375rem;
+}
+.next-card p {
+    color: #6c6c6c;
+    font-size: 0.75rem;
+    line-height: 1.5;
+}
+.next-card .arrow {
+    color: #5252ff;
+    font-size: 1rem;
+    margin-top: 0.5rem;
+}
+    </style>
+</head>
+<body class="bg-p-black text-white min-h-screen font-sans">
+
+    <button id="docs-hamburger">&#9776;</button>
+    <div id="docs-overlay"></div>
+
+    <div class="docs-layout">
+
+        <!-- ====== SIDEBAR ====== -->
+        <aside class="docs-sidebar" id="docs-sidebar">
+            <div class="docs-sidebar-header">
+                <a href="index.html" class="docs-logo">MC Perception</a>
+                <span class="docs-version">v1.0</span>
+            </div>
+            <nav class="docs-sidebar-nav">
+                <div class="docs-nav-group">
+                    <div class="docs-nav-group-label">Getting Started</div>
+                    <a href="index.html" class="docs-nav-link" data-page="index">Home</a>
+                    <a href="getting-started.html" class="docs-nav-link" data-page="getting-started">Getting Started</a>
+                </div>
+                <div class="docs-nav-group">
+                    <div class="docs-nav-group-label">Foundation</div>
+                    <a href="color.html" class="docs-nav-link" data-page="color">Color Palette</a>
+                    <a href="surface-modes.html" class="docs-nav-link" data-page="surface-modes">Surface Modes</a>
+                    <a href="typography.html" class="docs-nav-link" data-page="typography">Typography</a>
+                </div>
+                <div class="docs-nav-group">
+                    <div class="docs-nav-group-label">Components</div>
+                    <a href="button.html" class="docs-nav-link" data-page="button">Buttons</a>
+                    <a href="badges.html" class="docs-nav-link" data-page="badges">Badges</a>
+                    <a href="alert.html" class="docs-nav-link" data-page="alert">Alerts</a>
+                    <a href="input.html" class="docs-nav-link" data-page="input">Form Inputs</a>
+                    <a href="selection.html" class="docs-nav-link" data-page="selection">Selection Controls</a>
+                    <a href="table.html" class="docs-nav-link" data-page="table">Tables</a>
+            <a href="panel-system.html" class="docs-nav-link" data-page="panel-system">Panels</a>
+                </div>
+                <div class="docs-nav-group">
+                    <div class="docs-nav-group-label">Patterns</div>
+                    <a href="forms.html" class="docs-nav-link" data-page="forms">Form Layout</a>
+                    <a href="dark-surfaces.html" class="docs-nav-link" data-page="dark-surfaces">Dark Surface Depth</a>
+                </div>
+                <div class="docs-nav-group">
+                    <div class="docs-nav-group-label">Examples</div>
+                    <a href="trading-card.html" class="docs-nav-link" data-page="trading-card">Trading Card</a>
+                    <a href="orderbook.html" class="docs-nav-link" data-page="orderbook">Orderbook</a>
+                </div>
+            </nav>
+        </aside>
+
+        <!-- ====== MAIN CONTENT ====== -->
+        <main class="docs-content">
+            <div class="max-w-7xl mx-auto px-6 py-12">
+
+                <!-- ====== BREADCRUMB ====== -->
+                <nav class="text-xs text-p-neutral-400 mb-6 flex gap-2 items-center">
+                    <a href="index.html" class="hover:text-white transition-colors">Home</a>
+                    <span class="text-p-neutral-600">/</span>
+                    <a href="getting-started.html" class="hover:text-white transition-colors">Getting Started</a>
+                    <span class="text-p-neutral-600">/</span>
+                    <span class="text-white font-semibold">Getting Started</span>
+                </nav>
+
+                <!-- ====== HERO ====== -->
+                <header class="mb-16">
+                    <h1 class="text-5xl font-bold tracking-tight mb-3">Getting Started</h1>
+                    <p class="text-p-neutral-300 text-lg max-w-2xl">Learn MC Perception in 5 minutes &mdash; from first button to full surface-mode-aware UI.</p>
+                </header>
+
+
+                <!-- ====== 1. INSTALLATION ====== -->
+                <section class="guide-section">
+                    <h2 class="text-2xl font-bold mb-1 flex items-center">
+                        <span class="section-number bg-p-blue-800 text-p-blue-200">1</span>
+                        Installation
+                    </h2>
+                    <p class="text-p-neutral-400 text-sm mb-6 ml-10">Add a single stylesheet to start building.</p>
+
+                    <div class="guide-card">
+                        <div class="flex items-center gap-2 mb-3">
+                            <span class="text-[10px] uppercase tracking-widest text-p-neutral-400 font-bold">CDN Link</span>
+                        </div>
+                        <div class="code-block">
+<span class="t">&lt;link</span> <span class="a">rel</span>=<span class="v">"stylesheet"</span> <span class="a">href</span>=<span class="v">"mcperception.css"</span><span class="t">&gt;</span>
+                        </div>
+                        <p class="text-p-neutral-400 text-xs mt-3">No build tools required &mdash; just link the CSS and start building.</p>
+                    </div>
+                </section>
+
+
+                <!-- ====== 2. YOUR FIRST BUTTON ====== -->
+                <section class="guide-section">
+                    <h2 class="text-2xl font-bold mb-1 flex items-center">
+                        <span class="section-number bg-p-green-800 text-p-green-200">2</span>
+                        Your First Button
+                    </h2>
+                    <p class="text-p-neutral-400 text-sm mb-6 ml-10">A single element with two classes and one data attribute.</p>
+
+                    <div class="guide-card">
+                        <div class="flex items-center gap-2 mb-3">
+                            <span class="text-[10px] uppercase tracking-widest text-p-neutral-400 font-bold">Live Example</span>
+                        </div>
+                        <div class="guide-row mb-4">
+                            <button class="mc-button mc-button-filled" data-hue="blue">Click me</button>
+                        </div>
+                        <div class="code-block">
+<span class="t">&lt;button</span> <span class="a">class</span>=<span class="v">"mc-button mc-button-filled"</span> <span class="a">data-hue</span>=<span class="v">"blue"</span><span class="t">&gt;</span><span class="tx">Click me</span><span class="t">&lt;/button&gt;</span>
+                        </div>
+                        <p class="text-p-neutral-400 text-xs mt-3"><code class="text-p-blue-300" style="font-family:'Roboto Mono',ui-monospace,monospace;font-size:0.7rem;">mc-button</code> is the base class, <code class="text-p-blue-300" style="font-family:'Roboto Mono',ui-monospace,monospace;font-size:0.7rem;">mc-button-filled</code> sets the variant, and <code class="text-p-blue-300" style="font-family:'Roboto Mono',ui-monospace,monospace;font-size:0.7rem;">data-hue="blue"</code> sets the color hue.</p>
+                    </div>
+                </section>
+
+
+                <!-- ====== 3. ALL 7 HUES ====== -->
+                <section class="guide-section">
+                    <h2 class="text-2xl font-bold mb-1 flex items-center">
+                        <span class="section-number bg-p-red-800 text-p-red-200">3</span>
+                        All 7 Hues
+                    </h2>
+                    <p class="text-p-neutral-400 text-sm mb-6 ml-10">Every component supports 7 color hues for semantic meaning.</p>
+
+                    <div class="guide-card">
+                        <div class="flex items-center gap-2 mb-3">
+                            <span class="text-[10px] uppercase tracking-widest text-p-neutral-400 font-bold">7 Hues</span>
+                        </div>
+                        <div class="guide-row mb-4">
+                            <button class="mc-button mc-button-filled" data-hue="neutral">Neutral</button>
+                            <button class="mc-button mc-button-filled" data-hue="red">Red</button>
+                            <button class="mc-button mc-button-filled" data-hue="green">Green</button>
+                            <button class="mc-button mc-button-filled" data-hue="blue">Blue</button>
+                            <button class="mc-button mc-button-filled" data-hue="yellow">Yellow</button>
+                            <button class="mc-button mc-button-filled" data-hue="magenta">Magenta</button>
+                            <button class="mc-button mc-button-filled" data-hue="teal">Teal</button>
+                        </div>
+                        <div class="code-block">
+<span class="t">&lt;button</span> <span class="a">class</span>=<span class="v">"mc-button mc-button-filled"</span> <span class="a">data-hue</span>=<span class="v">"neutral"</span><span class="t">&gt;</span><span class="tx">Neutral</span><span class="t">&lt;/button&gt;</span>
+<span class="t">&lt;button</span> <span class="a">class</span>=<span class="v">"mc-button mc-button-filled"</span> <span class="a">data-hue</span>=<span class="v">"red"</span><span class="t">&gt;</span><span class="tx">Red</span><span class="t">&lt;/button&gt;</span>
+<span class="t">&lt;button</span> <span class="a">class</span>=<span class="v">"mc-button mc-button-filled"</span> <span class="a">data-hue</span>=<span class="v">"green"</span><span class="t">&gt;</span><span class="tx">Green</span><span class="t">&lt;/button&gt;</span>
+<span class="t">&lt;button</span> <span class="a">class</span>=<span class="v">"mc-button mc-button-filled"</span> <span class="a">data-hue</span>=<span class="v">"blue"</span><span class="t">&gt;</span><span class="tx">Blue</span><span class="t">&lt;/button&gt;</span>
+<span class="t">&lt;button</span> <span class="a">class</span>=<span class="v">"mc-button mc-button-filled"</span> <span class="a">data-hue</span>=<span class="v">"yellow"</span><span class="t">&gt;</span><span class="tx">Yellow</span><span class="t">&lt;/button&gt;</span>
+<span class="t">&lt;button</span> <span class="a">class</span>=<span class="v">"mc-button mc-button-filled"</span> <span class="a">data-hue</span>=<span class="v">"magenta"</span><span class="t">&gt;</span><span class="tx">Magenta</span><span class="t">&lt;/button&gt;</span>
+<span class="t">&lt;button</span> <span class="a">class</span>=<span class="v">"mc-button mc-button-filled"</span> <span class="a">data-hue</span>=<span class="v">"teal"</span><span class="t">&gt;</span><span class="tx">Teal</span><span class="t">&lt;/button&gt;</span>
+                        </div>
+                        <div style="margin-top:1rem; padding:1rem; border:1px solid #222222; border-radius:6px;">
+                            <div class="text-[10px] uppercase tracking-widest text-p-neutral-400 font-bold mb-3">Semantic Mapping</div>
+                            <div style="display:grid; grid-template-columns:repeat(auto-fill,minmax(140px,1fr)); gap:0.5rem; font-size:0.75rem;">
+                                <div><span class="text-p-blue-400">blue</span> <span class="text-p-neutral-500">=</span> <span class="text-p-neutral-300">Primary</span></div>
+                                <div><span class="text-p-green-400">green</span> <span class="text-p-neutral-500">=</span> <span class="text-p-neutral-300">Success</span></div>
+                                <div><span class="text-p-red-400">red</span> <span class="text-p-neutral-500">=</span> <span class="text-p-neutral-300">Danger</span></div>
+                                <div><span class="text-p-yellow-400">yellow</span> <span class="text-p-neutral-500">=</span> <span class="text-p-neutral-300">Warning</span></div>
+                                <div><span class="text-p-teal-400">teal</span> <span class="text-p-neutral-500">=</span> <span class="text-p-neutral-300">Info</span></div>
+                                <div><span class="text-p-magenta-400">magenta</span> <span class="text-p-neutral-500">=</span> <span class="text-p-neutral-300">Premium</span></div>
+                                <div><span class="text-p-neutral-400">neutral</span> <span class="text-p-neutral-500">=</span> <span class="text-p-neutral-300">Default</span></div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+
+                <!-- ====== 4. SURFACE MODES ====== -->
+                <section class="guide-section">
+                    <h2 class="text-2xl font-bold mb-1 flex items-center">
+                        <span class="section-number bg-p-magenta-800 text-p-magenta-200">4</span>
+                        Surface Modes
+                    </h2>
+                    <p class="text-p-neutral-400 text-sm mb-6 ml-10">Components auto-adapt to 5 surface backgrounds. Same markup, different surface.</p>
+
+                    <div class="grid grid-cols-1 gap-4">
+
+                        <!-- Mode 1 — White -->
+                        <div class="guide-card">
+                            <div class="flex items-center gap-2 mb-3">
+                                <span class="text-[10px] uppercase tracking-widest text-p-neutral-400 font-bold">Mode 1 — White</span>
+                            </div>
+                            <div class="surface-panel" style="background:#FFFFFF;" data-hue="blue" data-mode="1">
+                                <div class="guide-row">
+                                    <button class="mc-button mc-button-filled" data-hue="blue">Filled</button>
+                                    <button class="mc-button mc-button-outline" data-hue="blue">Outline</button>
+                                    <button class="mc-button mc-button-ghost" data-hue="blue">Ghost</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Mode 2 — Black -->
+                        <div class="guide-card">
+                            <div class="flex items-center gap-2 mb-3">
+                                <span class="text-[10px] uppercase tracking-widest text-p-neutral-400 font-bold">Mode 2 — Black</span>
+                            </div>
+                            <div class="surface-panel" style="background:#0A0A0A;" data-hue="blue" data-mode="2">
+                                <div class="guide-row">
+                                    <button class="mc-button mc-button-filled" data-hue="blue">Filled</button>
+                                    <button class="mc-button mc-button-outline" data-hue="blue">Outline</button>
+                                    <button class="mc-button mc-button-ghost" data-hue="blue">Ghost</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Mode 3 — Light Hue -->
+                        <div class="guide-card">
+                            <div class="flex items-center gap-2 mb-3">
+                                <span class="text-[10px] uppercase tracking-widest text-p-neutral-400 font-bold">Mode 3 — Light Hue (blue.100)</span>
+                            </div>
+                            <div class="surface-panel bg-p-blue-100" data-hue="blue" data-mode="3">
+                                <div class="guide-row">
+                                    <button class="mc-button mc-button-filled" data-hue="blue">Filled</button>
+                                    <button class="mc-button mc-button-outline" data-hue="blue">Outline</button>
+                                    <button class="mc-button mc-button-ghost" data-hue="blue">Ghost</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Mode 4 — Dark Hue -->
+                        <div class="guide-card">
+                            <div class="flex items-center gap-2 mb-3">
+                                <span class="text-[10px] uppercase tracking-widest text-p-neutral-400 font-bold">Mode 4 — Dark Hue (blue.800)</span>
+                            </div>
+                            <div class="surface-panel bg-p-blue-800" data-hue="blue" data-mode="4">
+                                <div class="guide-row">
+                                    <button class="mc-button mc-button-filled" data-hue="blue">Filled</button>
+                                    <button class="mc-button mc-button-outline" data-hue="blue">Outline</button>
+                                    <button class="mc-button mc-button-ghost" data-hue="blue">Ghost</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Mode 5 — Mid Hue -->
+                        <div class="guide-card">
+                            <div class="flex items-center gap-2 mb-3">
+                                <span class="text-[10px] uppercase tracking-widest text-p-neutral-400 font-bold">Mode 5 — Mid Hue (blue.500)</span>
+                            </div>
+                            <div class="surface-panel bg-p-blue-500" data-hue="blue" data-mode="5">
+                                <div class="guide-row">
+                                    <button class="mc-button mc-button-filled" data-hue="blue">Filled</button>
+                                    <button class="mc-button mc-button-outline" data-hue="blue">Outline</button>
+                                    <button class="mc-button mc-button-ghost" data-hue="blue">Ghost</button>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="guide-card mt-4">
+                        <div class="flex items-center gap-2 mb-3">
+                            <span class="text-[10px] uppercase tracking-widest text-p-neutral-400 font-bold">Code</span>
+                        </div>
+                        <div class="code-block">
+<span class="cm">&lt;!-- Wrap components in a surface container with data-hue and data-mode --&gt;</span>
+<span class="t">&lt;div</span> <span class="a">data-hue</span>=<span class="v">"blue"</span> <span class="a">data-mode</span>=<span class="v">"1"</span><span class="t">&gt;</span>
+  <span class="t">&lt;button</span> <span class="a">class</span>=<span class="v">"mc-button mc-button-filled"</span> <span class="a">data-hue</span>=<span class="v">"blue"</span><span class="t">&gt;</span><span class="tx">Filled</span><span class="t">&lt;/button&gt;</span>
+<span class="t">&lt;/div&gt;</span>
+
+<span class="cm">&lt;!-- Change data-mode to switch surface — components auto-adapt --&gt;</span>
+<span class="t">&lt;div</span> <span class="a">data-hue</span>=<span class="v">"blue"</span> <span class="a">data-mode</span>=<span class="v">"4"</span><span class="t">&gt;</span>
+  <span class="t">&lt;button</span> <span class="a">class</span>=<span class="v">"mc-button mc-button-filled"</span> <span class="a">data-hue</span>=<span class="v">"blue"</span><span class="t">&gt;</span><span class="tx">Filled</span><span class="t">&lt;/button&gt;</span>
+<span class="t">&lt;/div&gt;</span>
+                        </div>
+                    </div>
+                </section>
+
+
+                <!-- ====== 5. SIZE SCALE ====== -->
+                <section class="guide-section">
+                    <h2 class="text-2xl font-bold mb-1 flex items-center">
+                        <span class="section-number bg-p-yellow-800 text-p-yellow-100">5</span>
+                        Size Scale
+                    </h2>
+                    <p class="text-p-neutral-400 text-sm mb-6 ml-10">6 sizes from compact controls to large touch targets.</p>
+
+                    <div class="guide-card">
+                        <div class="flex items-center gap-2 mb-3">
+                            <span class="text-[10px] uppercase tracking-widest text-p-neutral-400 font-bold">All 6 Sizes</span>
+                        </div>
+                        <div class="guide-row mb-4" style="align-items:flex-end;">
+                            <button class="mc-button mc-button-filled mc-button-xs" data-hue="blue">xs</button>
+                            <button class="mc-button mc-button-filled mc-button-sm" data-hue="blue">sm</button>
+                            <button class="mc-button mc-button-filled mc-button-md" data-hue="blue">md</button>
+                            <button class="mc-button mc-button-filled mc-button-lg" data-hue="blue">lg</button>
+                            <button class="mc-button mc-button-filled mc-button-xl" data-hue="blue">xl</button>
+                            <button class="mc-button mc-button-filled mc-button-xxl" data-hue="blue">xxl</button>
+                        </div>
+                        <div class="code-block mb-4">
+<span class="t">&lt;button</span> <span class="a">class</span>=<span class="v">"mc-button mc-button-filled mc-button-xs"</span> <span class="a">data-hue</span>=<span class="v">"blue"</span><span class="t">&gt;</span><span class="tx">xs</span><span class="t">&lt;/button&gt;</span>
+<span class="t">&lt;button</span> <span class="a">class</span>=<span class="v">"mc-button mc-button-filled mc-button-sm"</span> <span class="a">data-hue</span>=<span class="v">"blue"</span><span class="t">&gt;</span><span class="tx">sm</span><span class="t">&lt;/button&gt;</span>
+<span class="t">&lt;button</span> <span class="a">class</span>=<span class="v">"mc-button mc-button-filled mc-button-md"</span> <span class="a">data-hue</span>=<span class="v">"blue"</span><span class="t">&gt;</span><span class="tx">md</span><span class="t">&lt;/button&gt;</span>
+<span class="t">&lt;button</span> <span class="a">class</span>=<span class="v">"mc-button mc-button-filled mc-button-lg"</span> <span class="a">data-hue</span>=<span class="v">"blue"</span><span class="t">&gt;</span><span class="tx">lg</span><span class="t">&lt;/button&gt;</span>
+<span class="t">&lt;button</span> <span class="a">class</span>=<span class="v">"mc-button mc-button-filled mc-button-xl"</span> <span class="a">data-hue</span>=<span class="v">"blue"</span><span class="t">&gt;</span><span class="tx">xl</span><span class="t">&lt;/button&gt;</span>
+<span class="t">&lt;button</span> <span class="a">class</span>=<span class="v">"mc-button mc-button-filled mc-button-xxl"</span> <span class="a">data-hue</span>=<span class="v">"blue"</span><span class="t">&gt;</span><span class="tx">xxl</span><span class="t">&lt;/button&gt;</span>
+                        </div>
+
+                        <table class="size-table">
+                            <thead>
+                                <tr>
+                                    <th>Size</th>
+                                    <th>Class</th>
+                                    <th>Font Size</th>
+                                    <th>Min Height</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>xs</td>
+                                    <td><code>mc-button-xs</code></td>
+                                    <td>11px</td>
+                                    <td>24px</td>
+                                </tr>
+                                <tr>
+                                    <td>sm</td>
+                                    <td><code>mc-button-sm</code></td>
+                                    <td>12px</td>
+                                    <td>30px</td>
+                                </tr>
+                                <tr>
+                                    <td>md</td>
+                                    <td><code>mc-button-md</code></td>
+                                    <td>14px</td>
+                                    <td>36px</td>
+                                </tr>
+                                <tr>
+                                    <td>lg</td>
+                                    <td><code>mc-button-lg</code></td>
+                                    <td>16px</td>
+                                    <td>44px</td>
+                                </tr>
+                                <tr>
+                                    <td>xl</td>
+                                    <td><code>mc-button-xl</code></td>
+                                    <td>18px</td>
+                                    <td>52px</td>
+                                </tr>
+                                <tr>
+                                    <td>xxl</td>
+                                    <td><code>mc-button-xxl</code></td>
+                                    <td>20px</td>
+                                    <td>60px</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+
+
+                <!-- ====== 6. CLASS NAMING CONVENTION ====== -->
+                <section class="guide-section">
+                    <h2 class="text-2xl font-bold mb-1 flex items-center">
+                        <span class="section-number bg-p-teal-800 text-p-teal-200">6</span>
+                        Class Naming Convention
+                    </h2>
+                    <p class="text-p-neutral-400 text-sm mb-6 ml-10">Consistent, predictable class names across all components.</p>
+
+                    <div class="guide-card mb-4">
+                        <div class="flex items-center gap-2 mb-3">
+                            <span class="text-[10px] uppercase tracking-widest text-p-neutral-400 font-bold">Pattern</span>
+                        </div>
+                        <div class="code-block">
+<span class="cm">&lt;!-- Pattern: mc-{component}-{variant} + mc-{component}-{size} + data-hue="{hue}" --&gt;</span>
+<span class="t">&lt;button</span> <span class="a">class</span>=<span class="v">"mc-button mc-button-filled mc-button-lg"</span> <span class="a">data-hue</span>=<span class="v">"blue"</span><span class="t">&gt;</span><span class="tx">Submit</span><span class="t">&lt;/button&gt;</span>
+
+<span class="cm">&lt;!--  base ──┘       variant ──┘     size ──┘          hue ──┘ --&gt;</span>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div class="guide-card">
+                            <div class="flex items-center gap-2 mb-3">
+                                <span class="text-[10px] uppercase tracking-widest text-p-neutral-400 font-bold">Component Prefixes</span>
+                            </div>
+                            <table class="naming-table">
+                                <thead>
+                                    <tr>
+                                        <th>Component</th>
+                                        <th>Base Class</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr><td>Button</td><td><code>mc-button</code></td></tr>
+                                    <tr><td>Badge</td><td><code>mc-badge</code></td></tr>
+                                    <tr><td>Input</td><td><code>mc-input</code></td></tr>
+                                    <tr><td>Checkbox</td><td><code>mc-checkbox</code></td></tr>
+                                    <tr><td>Radio</td><td><code>mc-radio</code></td></tr>
+                                    <tr><td>Toggle</td><td><code>mc-toggle</code></td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <div class="guide-card">
+                            <div class="flex items-center gap-2 mb-3">
+                                <span class="text-[10px] uppercase tracking-widest text-p-neutral-400 font-bold">Variants by Component</span>
+                            </div>
+                            <table class="naming-table">
+                                <thead>
+                                    <tr>
+                                        <th>Component</th>
+                                        <th>Variants</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr><td>Button</td><td><code>filled</code>, <code>outline</code>, <code>ghost</code>, <code>tonal</code></td></tr>
+                                    <tr><td>Badge</td><td><code>filled</code>, <code>outline</code>, <code>ghost</code>, <code>tonal</code></td></tr>
+                                    <tr><td>Input</td><td><code>outline</code>, <code>filled</code></td></tr>
+                                    <tr><td>Checkbox</td><td><code>filled</code>, <code>outline</code></td></tr>
+                                    <tr><td>Radio</td><td><code>filled</code>, <code>outline</code></td></tr>
+                                    <tr><td>Toggle</td><td><code>filled</code>, <code>outline</code></td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </section>
+
+
+                <!-- ====== 7. NEXT STEPS ====== -->
+                <section class="guide-section">
+                    <h2 class="text-2xl font-bold mb-1 flex items-center">
+                        <span class="section-number bg-p-neutral-700 text-p-neutral-200">7</span>
+                        Next Steps
+                    </h2>
+                    <p class="text-p-neutral-400 text-sm mb-6 ml-10">Dive deeper into the design system.</p>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+
+                        <a href="color.html" class="next-card">
+                            <h4>Color Palette</h4>
+                            <p>Explore all 7 hues with 10 steps each &mdash; 70 colors total, every hex value documented.</p>
+                            <div class="arrow">&rarr;</div>
+                        </a>
+
+                        <a href="surface-modes.html" class="next-card">
+                            <h4>Surface Modes</h4>
+                            <p>Understand the 5 surface modes and how components adapt to light, dark, and branded backgrounds.</p>
+                            <div class="arrow">&rarr;</div>
+                        </a>
+
+                        <a href="button.html" class="next-card">
+                            <h4>Buttons</h4>
+                            <p>Full button reference &mdash; 4 variants, all hues, sizes, states, and surface mode demos.</p>
+                            <div class="arrow">&rarr;</div>
+                        </a>
+
+                        <a href="input.html" class="next-card">
+                            <h4>Form Inputs</h4>
+                            <p>Text fields, search, and form controls with full surface-mode awareness and WCAG AA contrast.</p>
+                            <div class="arrow">&rarr;</div>
+                        </a>
+
+                    </div>
+                </section>
+
+
+                <!-- ====== FOOTER ====== -->
+                <footer class="docs-footer">
+                    <p>MC Perception Design System &mdash; 7 hues &times; 5 modes &times; 6 sizes &mdash; WCAG AA compliant</p>
+                    <p style="margin-top: 0.5rem;"><a href="https://github.com/anthropics/claude-code">Built with Claude Code</a></p>
+                </footer>
+
+            </div>
+        </main>
+
+    </div>
+
+    <script>
+    // Auto-mark active sidebar link based on current filename
+    (function() {
+        var page = location.pathname.split('/').pop().replace('.html','') || 'index';
+        var links = document.querySelectorAll('.docs-nav-link');
+        links.forEach(function(a) {
+            if (a.getAttribute('data-page') === page) a.classList.add('active');
+        });
+        // Mobile hamburger toggle
+        var hamburger = document.getElementById('docs-hamburger');
+        var sidebar = document.getElementById('docs-sidebar');
+        var overlay = document.getElementById('docs-overlay');
+        if (hamburger && sidebar && overlay) {
+            hamburger.addEventListener('click', function() {
+                sidebar.classList.toggle('open');
+                overlay.classList.toggle('open');
+            });
+            overlay.addEventListener('click', function() {
+                sidebar.classList.remove('open');
+                overlay.classList.remove('open');
+            });
+        }
+    })();
+    </script>
+
+</body>
+</html>

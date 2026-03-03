@@ -1,0 +1,1136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Table Style Guide — MC Perception</title>
+    <link rel="stylesheet" href="../dist/mcperception.css">
+    <style>
+/* ── Docs Layout ── */
+.docs-layout {
+    display: flex;
+    min-height: 100vh;
+}
+.docs-sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 240px;
+    height: 100vh;
+    background: #222222;
+    border-right: 1px solid #222222;
+    overflow-y: auto;
+    z-index: 40;
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.2s ease;
+}
+.docs-sidebar-header {
+    padding: 1.25rem 1.25rem 0.75rem;
+    border-bottom: 1px solid #222222;
+    display: flex;
+    align-items: baseline;
+    gap: 0.5rem;
+}
+.docs-logo {
+    font-size: 0.875rem;
+    font-weight: 700;
+    color: #FFFFFF;
+    text-decoration: none;
+    letter-spacing: -0.01em;
+}
+.docs-logo:hover { color: #c3c3c3; }
+.docs-version {
+    font-size: 0.625rem;
+    color: #515151;
+    font-family: 'Roboto Mono', ui-monospace, monospace;
+}
+.docs-sidebar-nav {
+    padding: 0.75rem 0;
+    flex: 1;
+}
+.docs-nav-group {
+    margin-bottom: 0.25rem;
+}
+.docs-nav-group-label {
+    font-size: 0.625rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: #515151;
+    padding: 0.625rem 1.25rem 0.375rem;
+}
+.docs-nav-link {
+    display: block;
+    font-size: 0.8125rem;
+    color: #a0a0a0;
+    text-decoration: none;
+    padding: 0.375rem 1.25rem;
+    border-left: 2px solid transparent;
+    transition: color 0.15s, border-color 0.15s, background 0.15s;
+}
+.docs-nav-link:hover {
+    color: #c3c3c3;
+    background: #222222;
+}
+.docs-nav-link.active {
+    color: #5252ff;
+    border-left-color: #5252ff;
+    background: #222222;
+}
+.docs-content {
+    flex: 1;
+    margin-left: 240px;
+}
+
+/* ── Mobile: hamburger + overlay ── */
+#docs-hamburger {
+    display: none;
+    position: fixed;
+    top: 0.75rem;
+    left: 0.75rem;
+    z-index: 50;
+    background: #222222;
+    border: 1px solid #222222;
+    color: #a0a0a0;
+    font-size: 1.25rem;
+    width: 36px;
+    height: 36px;
+    border-radius: 6px;
+    cursor: pointer;
+    align-items: center;
+    justify-content: center;
+    line-height: 1;
+    padding: 0;
+}
+#docs-hamburger:hover { color: #FFFFFF; }
+#docs-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: #090909;
+    z-index: 35;
+}
+@media (max-width: 1023px) {
+    #docs-hamburger { display: flex; }
+    .docs-sidebar {
+        transform: translateX(-100%);
+    }
+    .docs-sidebar.open {
+        transform: translateX(0);
+    }
+    #docs-overlay.open {
+        display: block;
+    }
+    .docs-content {
+        margin-left: 0;
+    }
+}
+
+/* ── Guide Cards & Code Blocks ── */
+.guide-section { margin-bottom: 4rem; }
+.guide-card {
+    background: #090909;
+    border: 1px solid #222222;
+    border-radius: 6px;
+    padding: 1.5rem;
+}
+.guide-label {
+    min-width: 72px;
+    font-size: 0.6rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: #6c6c6c;
+    font-weight: 700;
+}
+.guide-row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.75rem;
+}
+.code-block {
+    background: #0a0a0a;
+    border: 1px solid #222222;
+    border-radius: 6px;
+    padding: 1rem 1.25rem;
+    font-family: 'Roboto Mono', ui-monospace, monospace;
+    font-size: 0.7rem;
+    line-height: 1.8;
+    color: #a0a0a0;
+    overflow-x: auto;
+    tab-size: 2;
+}
+.code-block .t  { color: #ff7474; }
+.code-block .a  { color: #9494ff; }
+.code-block .v  { color: #00ba00; }
+.code-block .c  { color: #6d6dff; }
+.code-block .cm { color: #515151; }
+.code-block .tx { color: #c3c3c3; }
+.surface-panel {
+    border-radius: 8px;
+    padding: 1.25rem 1.5rem;
+}
+.section-number {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    border-radius: 6px;
+    font-size: 0.75rem;
+    font-weight: 800;
+    margin-right: 0.5rem;
+}
+.grid-label {
+    font-size: 0.6rem;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    font-weight: 700;
+    color: #515151;
+    width: 64px;
+    flex-shrink: 0;
+}
+.white-label { color: #7f7f7f; }
+
+/* ── Standard Footer ── */
+.docs-footer {
+    margin-top: 6rem;
+    padding: 2rem 0;
+    border-top: 1px solid #222222;
+    text-align: center;
+}
+.docs-footer p {
+    font-size: 0.75rem;
+    color: #515151;
+}
+.docs-footer a {
+    color: #6d6dff;
+    text-decoration: none;
+}
+.docs-footer a:hover {
+    color: #9494ff;
+}
+
+/* ── Table Demo Helpers ── */
+.hue-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 1rem;
+}
+.size-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+}
+    </style>
+</head>
+<body class="bg-p-black text-white min-h-screen font-sans">
+
+    <button id="docs-hamburger">&#9776;</button>
+    <div id="docs-overlay"></div>
+
+    <div class="docs-layout">
+        <aside class="docs-sidebar" id="docs-sidebar">
+            <div class="docs-sidebar-header">
+                <a href="index.html" class="docs-logo">MC Perception</a>
+                <span class="docs-version">v1.0</span>
+            </div>
+            <nav class="docs-sidebar-nav">
+                <div class="docs-nav-group">
+                    <div class="docs-nav-group-label">Getting Started</div>
+                    <a href="index.html" class="docs-nav-link" data-page="index">Home</a>
+                    <a href="getting-started.html" class="docs-nav-link" data-page="getting-started">Getting Started</a>
+                </div>
+                <div class="docs-nav-group">
+                    <div class="docs-nav-group-label">Foundation</div>
+                    <a href="color.html" class="docs-nav-link" data-page="color">Color Palette</a>
+                    <a href="surface-modes.html" class="docs-nav-link" data-page="surface-modes">Surface Modes</a>
+                    <a href="typography.html" class="docs-nav-link" data-page="typography">Typography</a>
+                </div>
+                <div class="docs-nav-group">
+                    <div class="docs-nav-group-label">Components</div>
+                    <a href="button.html" class="docs-nav-link" data-page="button">Buttons</a>
+                    <a href="badges.html" class="docs-nav-link" data-page="badges">Badges</a>
+                    <a href="alert.html" class="docs-nav-link" data-page="alert">Alerts</a>
+                    <a href="input.html" class="docs-nav-link" data-page="input">Form Inputs</a>
+                    <a href="selection.html" class="docs-nav-link" data-page="selection">Selection Controls</a>
+                    <a href="table.html" class="docs-nav-link" data-page="table">Tables</a>
+                    <a href="panel-system.html" class="docs-nav-link" data-page="panel-system">Panels</a>
+                </div>
+                <div class="docs-nav-group">
+                    <div class="docs-nav-group-label">Patterns</div>
+                    <a href="forms.html" class="docs-nav-link" data-page="forms">Form Layout</a>
+                    <a href="dark-surfaces.html" class="docs-nav-link" data-page="dark-surfaces">Dark Surface Depth</a>
+                </div>
+                <div class="docs-nav-group">
+                    <div class="docs-nav-group-label">Examples</div>
+                    <a href="trading-card.html" class="docs-nav-link" data-page="trading-card">Trading Card</a>
+                    <a href="orderbook.html" class="docs-nav-link" data-page="orderbook">Orderbook</a>
+                </div>
+            </nav>
+        </aside>
+
+        <main class="docs-content">
+            <div class="max-w-7xl mx-auto px-6 py-12">
+
+        <!-- ====== HERO ====== -->
+        <header class="mb-16">
+            <nav class="text-xs text-p-neutral-400 mb-6 flex gap-2 items-center">
+                <a href="index.html" class="hover:text-white transition-colors">Home</a>
+                <span class="text-p-neutral-600">/</span>
+                <a href="index.html" class="hover:text-white transition-colors">Components</a>
+                <span class="text-p-neutral-600">/</span>
+                <span class="text-white font-semibold">Tables</span>
+            </nav>
+
+            <div class="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-6 mb-8">
+                <div>
+                    <h1 class="text-5xl font-bold tracking-tight mb-3">Tables</h1>
+                    <p class="text-p-neutral-300 text-lg max-w-2xl">Surface-mode-aware data tables. 7 hues, 5 modifiers, 6 sizes, 5 surface modes, sortable headers, semantic row colors.</p>
+                </div>
+                <div class="flex gap-2 flex-wrap items-center text-xs text-p-neutral-400">
+                    <span class="px-2 py-1 rounded bg-p-neutral-800 font-mono">.mc-table</span>
+                    <span class="px-2 py-1 rounded bg-p-neutral-800 font-mono">data-hue</span>
+                    <span class="px-2 py-1 rounded bg-p-neutral-800 font-mono">data-mode</span>
+                </div>
+            </div>
+
+            <!-- Quick code example -->
+            <div class="guide-card">
+                <div class="flex items-center gap-2 mb-3">
+                    <span class="text-[10px] uppercase tracking-widest text-p-neutral-400 font-bold">Quick Start</span>
+                </div>
+                <div class="code-block">
+<span class="cm">&lt;!-- Basic table --&gt;</span>
+<span class="t">&lt;table</span> <span class="a">class</span>=<span class="v">"mc-table"</span> <span class="a">data-hue</span>=<span class="v">"blue"</span><span class="t">&gt;</span>
+  <span class="t">&lt;thead&gt;</span>
+    <span class="t">&lt;tr&gt;</span><span class="t">&lt;th&gt;</span><span class="tx">#</span><span class="t">&lt;/th&gt;</span><span class="t">&lt;th&gt;</span><span class="tx">Name</span><span class="t">&lt;/th&gt;</span><span class="t">&lt;th&gt;</span><span class="tx">Status</span><span class="t">&lt;/th&gt;</span><span class="t">&lt;th&gt;</span><span class="tx">Amount</span><span class="t">&lt;/th&gt;</span><span class="t">&lt;/tr&gt;</span>
+  <span class="t">&lt;/thead&gt;</span>
+  <span class="t">&lt;tbody&gt;</span>
+    <span class="t">&lt;tr&gt;</span><span class="t">&lt;td&gt;</span><span class="tx">1</span><span class="t">&lt;/td&gt;</span><span class="t">&lt;td&gt;</span><span class="tx">Alice</span><span class="t">&lt;/td&gt;</span><span class="t">&lt;td&gt;</span><span class="tx">Active</span><span class="t">&lt;/td&gt;</span><span class="t">&lt;td&gt;</span><span class="tx">$1,200</span><span class="t">&lt;/td&gt;</span><span class="t">&lt;/tr&gt;</span>
+  <span class="t">&lt;/tbody&gt;</span>
+<span class="t">&lt;/table&gt;</span>
+
+<span class="cm">&lt;!-- Striped + hover on dark surface --&gt;</span>
+<span class="t">&lt;div</span> <span class="a">data-mode</span>=<span class="v">"2"</span><span class="t">&gt;</span>
+  <span class="t">&lt;table</span> <span class="a">class</span>=<span class="v">"mc-table mc-table-striped mc-table-hover"</span> <span class="a">data-hue</span>=<span class="v">"blue"</span><span class="t">&gt;</span>...<span class="t">&lt;/table&gt;</span>
+<span class="t">&lt;/div&gt;</span>
+                </div>
+            </div>
+        </header>
+
+
+        <!-- ====== 1. ALL 7 HUES ON M2 ====== -->
+        <section class="guide-section">
+            <h2 class="text-2xl font-bold mb-1 flex items-center">
+                <span class="section-number bg-p-blue-800 text-p-blue-200">1</span>
+                All 7 Hues
+            </h2>
+            <p class="text-p-neutral-400 text-sm mb-6 ml-10">Each hue on the default dark surface (Mode 2). Striped variant for visual clarity.</p>
+
+            <div class="hue-grid">
+                <!-- Neutral -->
+                <div class="guide-card">
+                    <div class="text-[10px] uppercase tracking-widest text-p-neutral-400 font-bold mb-3">Neutral</div>
+                    <table class="mc-table mc-table-striped mc-table-sm" data-hue="neutral">
+                        <thead><tr><th>#</th><th>Name</th><th>Status</th><th>Amount</th></tr></thead>
+                        <tbody>
+                            <tr><td>1</td><td>Alice</td><td>Active</td><td>$1,200</td></tr>
+                            <tr><td>2</td><td>Bob</td><td>Pending</td><td>$840</td></tr>
+                            <tr><td>3</td><td>Carol</td><td>Closed</td><td>$2,100</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Red -->
+                <div class="guide-card">
+                    <div class="text-[10px] uppercase tracking-widest text-p-neutral-400 font-bold mb-3">Red</div>
+                    <table class="mc-table mc-table-striped mc-table-sm" data-hue="red">
+                        <thead><tr><th>#</th><th>Name</th><th>Status</th><th>Amount</th></tr></thead>
+                        <tbody>
+                            <tr><td>1</td><td>Alice</td><td>Active</td><td>$1,200</td></tr>
+                            <tr><td>2</td><td>Bob</td><td>Pending</td><td>$840</td></tr>
+                            <tr><td>3</td><td>Carol</td><td>Closed</td><td>$2,100</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Green -->
+                <div class="guide-card">
+                    <div class="text-[10px] uppercase tracking-widest text-p-neutral-400 font-bold mb-3">Green</div>
+                    <table class="mc-table mc-table-striped mc-table-sm" data-hue="green">
+                        <thead><tr><th>#</th><th>Name</th><th>Status</th><th>Amount</th></tr></thead>
+                        <tbody>
+                            <tr><td>1</td><td>Alice</td><td>Active</td><td>$1,200</td></tr>
+                            <tr><td>2</td><td>Bob</td><td>Pending</td><td>$840</td></tr>
+                            <tr><td>3</td><td>Carol</td><td>Closed</td><td>$2,100</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Blue -->
+                <div class="guide-card">
+                    <div class="text-[10px] uppercase tracking-widest text-p-neutral-400 font-bold mb-3">Blue</div>
+                    <table class="mc-table mc-table-striped mc-table-sm" data-hue="blue">
+                        <thead><tr><th>#</th><th>Name</th><th>Status</th><th>Amount</th></tr></thead>
+                        <tbody>
+                            <tr><td>1</td><td>Alice</td><td>Active</td><td>$1,200</td></tr>
+                            <tr><td>2</td><td>Bob</td><td>Pending</td><td>$840</td></tr>
+                            <tr><td>3</td><td>Carol</td><td>Closed</td><td>$2,100</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Yellow -->
+                <div class="guide-card">
+                    <div class="text-[10px] uppercase tracking-widest text-p-neutral-400 font-bold mb-3">Yellow</div>
+                    <table class="mc-table mc-table-striped mc-table-sm" data-hue="yellow">
+                        <thead><tr><th>#</th><th>Name</th><th>Status</th><th>Amount</th></tr></thead>
+                        <tbody>
+                            <tr><td>1</td><td>Alice</td><td>Active</td><td>$1,200</td></tr>
+                            <tr><td>2</td><td>Bob</td><td>Pending</td><td>$840</td></tr>
+                            <tr><td>3</td><td>Carol</td><td>Closed</td><td>$2,100</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Magenta -->
+                <div class="guide-card">
+                    <div class="text-[10px] uppercase tracking-widest text-p-neutral-400 font-bold mb-3">Magenta</div>
+                    <table class="mc-table mc-table-striped mc-table-sm" data-hue="magenta">
+                        <thead><tr><th>#</th><th>Name</th><th>Status</th><th>Amount</th></tr></thead>
+                        <tbody>
+                            <tr><td>1</td><td>Alice</td><td>Active</td><td>$1,200</td></tr>
+                            <tr><td>2</td><td>Bob</td><td>Pending</td><td>$840</td></tr>
+                            <tr><td>3</td><td>Carol</td><td>Closed</td><td>$2,100</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Teal -->
+                <div class="guide-card">
+                    <div class="text-[10px] uppercase tracking-widest text-p-neutral-400 font-bold mb-3">Teal</div>
+                    <table class="mc-table mc-table-striped mc-table-sm" data-hue="teal">
+                        <thead><tr><th>#</th><th>Name</th><th>Status</th><th>Amount</th></tr></thead>
+                        <tbody>
+                            <tr><td>1</td><td>Alice</td><td>Active</td><td>$1,200</td></tr>
+                            <tr><td>2</td><td>Bob</td><td>Pending</td><td>$840</td></tr>
+                            <tr><td>3</td><td>Carol</td><td>Closed</td><td>$2,100</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- ====== 2. ALL 5 SURFACE MODES ====== -->
+        <section class="guide-section">
+            <h2 class="text-2xl font-bold mb-1 flex items-center">
+                <span class="section-number bg-p-green-800 text-p-green-200">2</span>
+                Surface Modes
+            </h2>
+            <p class="text-p-neutral-400 text-sm mb-6 ml-10">The same blue-hue table adapts to all 5 surface modes automatically.</p>
+
+            <!-- M1 — White -->
+            <div class="surface-panel mb-4" style="background:#FFFFFF; color:#0A0A0A;" data-mode="1" data-hue="blue">
+                <div class="text-[10px] uppercase tracking-widest font-bold mb-4 white-label">Mode 1 — White #FFFFFF</div>
+                <table class="mc-table mc-table-striped mc-table-hover" data-hue="blue">
+                    <thead><tr><th>#</th><th>Name</th><th>Status</th><th>Amount</th></tr></thead>
+                    <tbody>
+                        <tr><td>1</td><td>Alice Johnson</td><td>Active</td><td>$1,200.00</td></tr>
+                        <tr><td>2</td><td>Bob Smith</td><td>Pending</td><td>$840.50</td></tr>
+                        <tr><td>3</td><td>Carol Davis</td><td>Closed</td><td>$2,100.75</td></tr>
+                        <tr><td>4</td><td>Dan Wilson</td><td>Active</td><td>$560.00</td></tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- M2 — Black -->
+            <div class="surface-panel mb-4" style="background:#0A0A0A;" data-mode="2" data-hue="blue">
+                <div class="text-[10px] uppercase tracking-widest text-p-neutral-400 font-bold mb-4">Mode 2 — Black #0A0A0A</div>
+                <table class="mc-table mc-table-striped mc-table-hover" data-hue="blue">
+                    <thead><tr><th>#</th><th>Name</th><th>Status</th><th>Amount</th></tr></thead>
+                    <tbody>
+                        <tr><td>1</td><td>Alice Johnson</td><td>Active</td><td>$1,200.00</td></tr>
+                        <tr><td>2</td><td>Bob Smith</td><td>Pending</td><td>$840.50</td></tr>
+                        <tr><td>3</td><td>Carol Davis</td><td>Closed</td><td>$2,100.75</td></tr>
+                        <tr><td>4</td><td>Dan Wilson</td><td>Active</td><td>$560.00</td></tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- M3 — Light Hue -->
+            <div class="surface-panel mb-4" style="background:var(--color-p-blue-100);" data-mode="3" data-hue="blue">
+                <div class="text-[9px] uppercase tracking-widest font-bold mb-4" style="color:#1919ff;">Mode 3 — Blue 100</div>
+                <table class="mc-table mc-table-striped mc-table-hover" data-hue="blue">
+                    <thead><tr><th>#</th><th>Name</th><th>Status</th><th>Amount</th></tr></thead>
+                    <tbody>
+                        <tr><td>1</td><td>Alice Johnson</td><td>Active</td><td>$1,200.00</td></tr>
+                        <tr><td>2</td><td>Bob Smith</td><td>Pending</td><td>$840.50</td></tr>
+                        <tr><td>3</td><td>Carol Davis</td><td>Closed</td><td>$2,100.75</td></tr>
+                        <tr><td>4</td><td>Dan Wilson</td><td>Active</td><td>$560.00</td></tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- M4 — Dark Hue -->
+            <div class="surface-panel mb-4" style="background:var(--color-p-blue-800);" data-mode="4" data-hue="blue">
+                <div class="text-[9px] uppercase tracking-widest font-bold mb-4" style="color:#9494ff;">Mode 4 — Blue 800</div>
+                <table class="mc-table mc-table-striped mc-table-hover" data-hue="blue">
+                    <thead><tr><th>#</th><th>Name</th><th>Status</th><th>Amount</th></tr></thead>
+                    <tbody>
+                        <tr><td>1</td><td>Alice Johnson</td><td>Active</td><td>$1,200.00</td></tr>
+                        <tr><td>2</td><td>Bob Smith</td><td>Pending</td><td>$840.50</td></tr>
+                        <tr><td>3</td><td>Carol Davis</td><td>Closed</td><td>$2,100.75</td></tr>
+                        <tr><td>4</td><td>Dan Wilson</td><td>Active</td><td>$560.00</td></tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- M5 — Mid Hue -->
+            <div class="surface-panel mb-4" style="background:var(--color-p-blue-500);" data-mode="5" data-hue="blue">
+                <div class="text-[9px] uppercase tracking-widest font-bold mb-4" style="color:#f8f8ff;">Mode 5 — Blue 500</div>
+                <table class="mc-table mc-table-striped mc-table-hover" data-hue="blue">
+                    <thead><tr><th>#</th><th>Name</th><th>Status</th><th>Amount</th></tr></thead>
+                    <tbody>
+                        <tr><td>1</td><td>Alice Johnson</td><td>Active</td><td>$1,200.00</td></tr>
+                        <tr><td>2</td><td>Bob Smith</td><td>Pending</td><td>$840.50</td></tr>
+                        <tr><td>3</td><td>Carol Davis</td><td>Closed</td><td>$2,100.75</td></tr>
+                        <tr><td>4</td><td>Dan Wilson</td><td>Active</td><td>$560.00</td></tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="guide-card mt-4">
+                <div class="code-block">
+<span class="cm">&lt;!-- M1: White surface --&gt;</span>
+<span class="t">&lt;div</span> <span class="a">data-mode</span>=<span class="v">"1"</span> <span class="a">data-hue</span>=<span class="v">"blue"</span> <span class="a">style</span>=<span class="v">"background:#FFFFFF"</span><span class="t">&gt;</span>
+  <span class="t">&lt;table</span> <span class="a">class</span>=<span class="v">"mc-table mc-table-striped"</span> <span class="a">data-hue</span>=<span class="v">"blue"</span><span class="t">&gt;</span>...<span class="t">&lt;/table&gt;</span>
+<span class="t">&lt;/div&gt;</span>
+
+<span class="cm">&lt;!-- M4: Dark hue surface --&gt;</span>
+<span class="t">&lt;div</span> <span class="a">data-mode</span>=<span class="v">"4"</span> <span class="a">data-hue</span>=<span class="v">"blue"</span> <span class="a">style</span>=<span class="v">"background:var(--color-p-blue-800)"</span><span class="t">&gt;</span>
+  <span class="t">&lt;table</span> <span class="a">class</span>=<span class="v">"mc-table mc-table-striped"</span> <span class="a">data-hue</span>=<span class="v">"blue"</span><span class="t">&gt;</span>...<span class="t">&lt;/table&gt;</span>
+<span class="t">&lt;/div&gt;</span>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- ====== 3. MODIFIERS ====== -->
+        <section class="guide-section">
+            <h2 class="text-2xl font-bold mb-1 flex items-center">
+                <span class="section-number bg-p-red-800 text-p-red-200">3</span>
+                Modifiers
+            </h2>
+            <p class="text-p-neutral-400 text-sm mb-6 ml-10">Striped, hover, bordered, borderless, striped columns, and combined variants.</p>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
+                <!-- Striped -->
+                <div class="guide-card">
+                    <div class="text-[10px] uppercase tracking-widest text-p-neutral-400 font-bold mb-3">Striped Rows</div>
+                    <table class="mc-table mc-table-striped mc-table-sm" data-hue="blue">
+                        <thead><tr><th>#</th><th>Name</th><th>Status</th><th>Amount</th></tr></thead>
+                        <tbody>
+                            <tr><td>1</td><td>Alice</td><td>Active</td><td>$1,200</td></tr>
+                            <tr><td>2</td><td>Bob</td><td>Pending</td><td>$840</td></tr>
+                            <tr><td>3</td><td>Carol</td><td>Closed</td><td>$2,100</td></tr>
+                            <tr><td>4</td><td>Dan</td><td>Active</td><td>$560</td></tr>
+                        </tbody>
+                    </table>
+                    <div class="code-block mt-3">
+<span class="t">&lt;table</span> <span class="a">class</span>=<span class="v">"mc-table mc-table-striped"</span> <span class="a">data-hue</span>=<span class="v">"blue"</span><span class="t">&gt;</span>
+                    </div>
+                </div>
+
+                <!-- Striped Columns -->
+                <div class="guide-card">
+                    <div class="text-[10px] uppercase tracking-widest text-p-neutral-400 font-bold mb-3">Striped Columns</div>
+                    <table class="mc-table mc-table-striped-columns mc-table-sm" data-hue="blue">
+                        <thead><tr><th>#</th><th>Name</th><th>Status</th><th>Amount</th></tr></thead>
+                        <tbody>
+                            <tr><td>1</td><td>Alice</td><td>Active</td><td>$1,200</td></tr>
+                            <tr><td>2</td><td>Bob</td><td>Pending</td><td>$840</td></tr>
+                            <tr><td>3</td><td>Carol</td><td>Closed</td><td>$2,100</td></tr>
+                            <tr><td>4</td><td>Dan</td><td>Active</td><td>$560</td></tr>
+                        </tbody>
+                    </table>
+                    <div class="code-block mt-3">
+<span class="t">&lt;table</span> <span class="a">class</span>=<span class="v">"mc-table mc-table-striped-columns"</span> <span class="a">data-hue</span>=<span class="v">"blue"</span><span class="t">&gt;</span>
+                    </div>
+                </div>
+
+                <!-- Hover -->
+                <div class="guide-card">
+                    <div class="text-[10px] uppercase tracking-widest text-p-neutral-400 font-bold mb-3">Hoverable Rows</div>
+                    <table class="mc-table mc-table-hover mc-table-sm" data-hue="blue">
+                        <thead><tr><th>#</th><th>Name</th><th>Status</th><th>Amount</th></tr></thead>
+                        <tbody>
+                            <tr><td>1</td><td>Alice</td><td>Active</td><td>$1,200</td></tr>
+                            <tr><td>2</td><td>Bob</td><td>Pending</td><td>$840</td></tr>
+                            <tr><td>3</td><td>Carol</td><td>Closed</td><td>$2,100</td></tr>
+                            <tr><td>4</td><td>Dan</td><td>Active</td><td>$560</td></tr>
+                        </tbody>
+                    </table>
+                    <div class="code-block mt-3">
+<span class="t">&lt;table</span> <span class="a">class</span>=<span class="v">"mc-table mc-table-hover"</span> <span class="a">data-hue</span>=<span class="v">"blue"</span><span class="t">&gt;</span>
+                    </div>
+                </div>
+
+                <!-- Bordered -->
+                <div class="guide-card">
+                    <div class="text-[10px] uppercase tracking-widest text-p-neutral-400 font-bold mb-3">Bordered</div>
+                    <table class="mc-table mc-table-bordered mc-table-sm" data-hue="blue">
+                        <thead><tr><th>#</th><th>Name</th><th>Status</th><th>Amount</th></tr></thead>
+                        <tbody>
+                            <tr><td>1</td><td>Alice</td><td>Active</td><td>$1,200</td></tr>
+                            <tr><td>2</td><td>Bob</td><td>Pending</td><td>$840</td></tr>
+                            <tr><td>3</td><td>Carol</td><td>Closed</td><td>$2,100</td></tr>
+                            <tr><td>4</td><td>Dan</td><td>Active</td><td>$560</td></tr>
+                        </tbody>
+                    </table>
+                    <div class="code-block mt-3">
+<span class="t">&lt;table</span> <span class="a">class</span>=<span class="v">"mc-table mc-table-bordered"</span> <span class="a">data-hue</span>=<span class="v">"blue"</span><span class="t">&gt;</span>
+                    </div>
+                </div>
+
+                <!-- Borderless -->
+                <div class="guide-card">
+                    <div class="text-[10px] uppercase tracking-widest text-p-neutral-400 font-bold mb-3">Borderless</div>
+                    <table class="mc-table mc-table-borderless mc-table-sm" data-hue="blue">
+                        <thead><tr><th>#</th><th>Name</th><th>Status</th><th>Amount</th></tr></thead>
+                        <tbody>
+                            <tr><td>1</td><td>Alice</td><td>Active</td><td>$1,200</td></tr>
+                            <tr><td>2</td><td>Bob</td><td>Pending</td><td>$840</td></tr>
+                            <tr><td>3</td><td>Carol</td><td>Closed</td><td>$2,100</td></tr>
+                            <tr><td>4</td><td>Dan</td><td>Active</td><td>$560</td></tr>
+                        </tbody>
+                    </table>
+                    <div class="code-block mt-3">
+<span class="t">&lt;table</span> <span class="a">class</span>=<span class="v">"mc-table mc-table-borderless"</span> <span class="a">data-hue</span>=<span class="v">"blue"</span><span class="t">&gt;</span>
+                    </div>
+                </div>
+
+                <!-- Combined -->
+                <div class="guide-card">
+                    <div class="text-[10px] uppercase tracking-widest text-p-neutral-400 font-bold mb-3">Striped + Hover + Bordered</div>
+                    <table class="mc-table mc-table-striped mc-table-hover mc-table-bordered mc-table-sm" data-hue="blue">
+                        <thead><tr><th>#</th><th>Name</th><th>Status</th><th>Amount</th></tr></thead>
+                        <tbody>
+                            <tr><td>1</td><td>Alice</td><td>Active</td><td>$1,200</td></tr>
+                            <tr><td>2</td><td>Bob</td><td>Pending</td><td>$840</td></tr>
+                            <tr><td>3</td><td>Carol</td><td>Closed</td><td>$2,100</td></tr>
+                            <tr><td>4</td><td>Dan</td><td>Active</td><td>$560</td></tr>
+                        </tbody>
+                    </table>
+                    <div class="code-block mt-3">
+<span class="t">&lt;table</span> <span class="a">class</span>=<span class="v">"mc-table mc-table-striped mc-table-hover mc-table-bordered"</span> <span class="a">data-hue</span>=<span class="v">"blue"</span><span class="t">&gt;</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- ====== 4. SIZE SCALE ====== -->
+        <section class="guide-section">
+            <h2 class="text-2xl font-bold mb-1 flex items-center">
+                <span class="section-number bg-p-magenta-800 text-p-magenta-200">4</span>
+                Size Scale
+            </h2>
+            <p class="text-p-neutral-400 text-sm mb-6 ml-10">Six sizes from compact data UIs to large display tables. Default is <code class="text-p-teal-200 text-xs">md</code> (no extra class).</p>
+
+            <!-- Size reference table -->
+            <div class="guide-card mb-4 overflow-x-auto">
+                <table class="w-full text-xs">
+                    <thead>
+                        <tr class="text-p-neutral-400 uppercase tracking-wider text-left border-b border-p-neutral-800">
+                            <th class="py-2 pr-4">Size</th><th class="py-2 pr-4">Font</th><th class="py-2 pr-4">Padding</th><th class="py-2">Class</th>
+                        </tr>
+                    </thead>
+                    <tbody class="text-p-neutral-300 font-mono">
+                        <tr class="border-b border-p-neutral-800"><td class="py-2 pr-4">xs</td><td class="pr-4">11px</td><td class="pr-4">4 &times; 8</td><td class="text-p-teal-200">mc-table-xs</td></tr>
+                        <tr class="border-b border-p-neutral-800"><td class="py-2 pr-4">sm</td><td class="pr-4">12px</td><td class="pr-4">6 &times; 12</td><td class="text-p-teal-200">mc-table-sm</td></tr>
+                        <tr class="border-b border-p-neutral-800"><td class="py-2 pr-4 text-white font-bold">md</td><td class="pr-4">14px</td><td class="pr-4">8 &times; 16</td><td class="text-p-neutral-400 italic">default</td></tr>
+                        <tr class="border-b border-p-neutral-800"><td class="py-2 pr-4">lg</td><td class="pr-4">16px</td><td class="pr-4">10 &times; 20</td><td class="text-p-teal-200">mc-table-lg</td></tr>
+                        <tr class="border-b border-p-neutral-800"><td class="py-2 pr-4">xl</td><td class="pr-4">18px</td><td class="pr-4">12 &times; 24</td><td class="text-p-teal-200">mc-table-xl</td></tr>
+                        <tr><td class="py-2 pr-4">xxl</td><td class="pr-4">20px</td><td class="pr-4">14 &times; 28</td><td class="text-p-teal-200">mc-table-xxl</td></tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="size-grid">
+                <!-- XS -->
+                <div class="guide-card">
+                    <div class="text-[10px] uppercase tracking-widest text-p-neutral-400 font-bold mb-3">XS — 11px</div>
+                    <table class="mc-table mc-table-striped mc-table-xs" data-hue="blue">
+                        <thead><tr><th>#</th><th>Name</th><th>Status</th><th>Amount</th></tr></thead>
+                        <tbody>
+                            <tr><td>1</td><td>Alice</td><td>Active</td><td>$1,200</td></tr>
+                            <tr><td>2</td><td>Bob</td><td>Pending</td><td>$840</td></tr>
+                            <tr><td>3</td><td>Carol</td><td>Closed</td><td>$2,100</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- SM -->
+                <div class="guide-card">
+                    <div class="text-[10px] uppercase tracking-widest text-p-neutral-400 font-bold mb-3">SM — 12px</div>
+                    <table class="mc-table mc-table-striped mc-table-sm" data-hue="blue">
+                        <thead><tr><th>#</th><th>Name</th><th>Status</th><th>Amount</th></tr></thead>
+                        <tbody>
+                            <tr><td>1</td><td>Alice</td><td>Active</td><td>$1,200</td></tr>
+                            <tr><td>2</td><td>Bob</td><td>Pending</td><td>$840</td></tr>
+                            <tr><td>3</td><td>Carol</td><td>Closed</td><td>$2,100</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- MD -->
+                <div class="guide-card">
+                    <div class="text-[10px] uppercase tracking-widest text-p-neutral-400 font-bold mb-3">MD — 14px (default)</div>
+                    <table class="mc-table mc-table-striped" data-hue="blue">
+                        <thead><tr><th>#</th><th>Name</th><th>Status</th><th>Amount</th></tr></thead>
+                        <tbody>
+                            <tr><td>1</td><td>Alice</td><td>Active</td><td>$1,200</td></tr>
+                            <tr><td>2</td><td>Bob</td><td>Pending</td><td>$840</td></tr>
+                            <tr><td>3</td><td>Carol</td><td>Closed</td><td>$2,100</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- LG -->
+                <div class="guide-card">
+                    <div class="text-[10px] uppercase tracking-widest text-p-neutral-400 font-bold mb-3">LG — 16px</div>
+                    <table class="mc-table mc-table-striped mc-table-lg" data-hue="blue">
+                        <thead><tr><th>#</th><th>Name</th><th>Status</th><th>Amount</th></tr></thead>
+                        <tbody>
+                            <tr><td>1</td><td>Alice</td><td>Active</td><td>$1,200</td></tr>
+                            <tr><td>2</td><td>Bob</td><td>Pending</td><td>$840</td></tr>
+                            <tr><td>3</td><td>Carol</td><td>Closed</td><td>$2,100</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- XL -->
+                <div class="guide-card">
+                    <div class="text-[10px] uppercase tracking-widest text-p-neutral-400 font-bold mb-3">XL — 18px</div>
+                    <table class="mc-table mc-table-striped mc-table-xl" data-hue="blue">
+                        <thead><tr><th>#</th><th>Name</th><th>Status</th><th>Amount</th></tr></thead>
+                        <tbody>
+                            <tr><td>1</td><td>Alice</td><td>Active</td><td>$1,200</td></tr>
+                            <tr><td>2</td><td>Bob</td><td>Pending</td><td>$840</td></tr>
+                            <tr><td>3</td><td>Carol</td><td>Closed</td><td>$2,100</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- XXL -->
+                <div class="guide-card">
+                    <div class="text-[10px] uppercase tracking-widest text-p-neutral-400 font-bold mb-3">XXL — 20px</div>
+                    <table class="mc-table mc-table-striped mc-table-xxl" data-hue="blue">
+                        <thead><tr><th>#</th><th>Name</th><th>Status</th><th>Amount</th></tr></thead>
+                        <tbody>
+                            <tr><td>1</td><td>Alice</td><td>Active</td><td>$1,200</td></tr>
+                            <tr><td>2</td><td>Bob</td><td>Pending</td><td>$840</td></tr>
+                            <tr><td>3</td><td>Carol</td><td>Closed</td><td>$2,100</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- ====== 5. SEMANTIC ROW COLORS ====== -->
+        <section class="guide-section">
+            <h2 class="text-2xl font-bold mb-1 flex items-center">
+                <span class="section-number bg-p-yellow-800 text-p-yellow-100">5</span>
+                Semantic Row Colors
+            </h2>
+            <p class="text-p-neutral-400 text-sm mb-6 ml-10">Color individual rows by semantic meaning using <code class="text-p-teal-200 text-xs">.mc-table-row-{hue}</code> classes.</p>
+
+            <div class="guide-card">
+                <table class="mc-table mc-table-sm" data-hue="neutral">
+                    <thead><tr><th>#</th><th>Name</th><th>Status</th><th>Amount</th></tr></thead>
+                    <tbody>
+                        <tr><td>1</td><td>Alice Johnson</td><td>Standard</td><td>$1,200.00</td></tr>
+                        <tr class="mc-table-row-green"><td>2</td><td>Bob Smith</td><td>Approved</td><td>$840.50</td></tr>
+                        <tr class="mc-table-row-red"><td>3</td><td>Carol Davis</td><td>Rejected</td><td>$2,100.75</td></tr>
+                        <tr class="mc-table-row-yellow"><td>4</td><td>Dan Wilson</td><td>Pending Review</td><td>$560.00</td></tr>
+                        <tr class="mc-table-row-blue"><td>5</td><td>Eve Martinez</td><td>In Progress</td><td>$3,400.25</td></tr>
+                        <tr><td>6</td><td>Frank Lee</td><td>Standard</td><td>$720.00</td></tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="guide-card mt-4">
+                <div class="code-block">
+<span class="t">&lt;tr</span> <span class="a">class</span>=<span class="v">"mc-table-row-green"</span><span class="t">&gt;</span><span class="tx">...</span><span class="t">&lt;/tr&gt;</span>  <span class="cm">&lt;!-- Approved / success --&gt;</span>
+<span class="t">&lt;tr</span> <span class="a">class</span>=<span class="v">"mc-table-row-red"</span><span class="t">&gt;</span><span class="tx">...</span><span class="t">&lt;/tr&gt;</span>    <span class="cm">&lt;!-- Rejected / danger --&gt;</span>
+<span class="t">&lt;tr</span> <span class="a">class</span>=<span class="v">"mc-table-row-yellow"</span><span class="t">&gt;</span><span class="tx">...</span><span class="t">&lt;/tr&gt;</span> <span class="cm">&lt;!-- Pending / warning --&gt;</span>
+<span class="t">&lt;tr</span> <span class="a">class</span>=<span class="v">"mc-table-row-blue"</span><span class="t">&gt;</span><span class="tx">...</span><span class="t">&lt;/tr&gt;</span>   <span class="cm">&lt;!-- In progress / info --&gt;</span>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- ====== 6. ACTIVE ROWS ====== -->
+        <section class="guide-section">
+            <h2 class="text-2xl font-bold mb-1 flex items-center">
+                <span class="section-number bg-p-teal-800 text-p-teal-200">6</span>
+                Active Rows
+            </h2>
+            <p class="text-p-neutral-400 text-sm mb-6 ml-10">Highlight selected rows with <code class="text-p-teal-200 text-xs">.mc-table-active</code>.</p>
+
+            <div class="guide-card">
+                <table class="mc-table mc-table-hover mc-table-sm" data-hue="blue">
+                    <thead><tr><th>#</th><th>Name</th><th>Status</th><th>Amount</th></tr></thead>
+                    <tbody>
+                        <tr><td>1</td><td>Alice Johnson</td><td>Active</td><td>$1,200.00</td></tr>
+                        <tr class="mc-table-active"><td>2</td><td>Bob Smith</td><td>Selected</td><td>$840.50</td></tr>
+                        <tr><td>3</td><td>Carol Davis</td><td>Active</td><td>$2,100.75</td></tr>
+                        <tr class="mc-table-active"><td>4</td><td>Dan Wilson</td><td>Selected</td><td>$560.00</td></tr>
+                        <tr><td>5</td><td>Eve Martinez</td><td>Active</td><td>$3,400.25</td></tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="guide-card mt-4">
+                <div class="code-block">
+<span class="t">&lt;tr</span> <span class="a">class</span>=<span class="v">"mc-table-active"</span><span class="t">&gt;</span>
+  <span class="t">&lt;td&gt;</span><span class="tx">2</span><span class="t">&lt;/td&gt;</span>
+  <span class="t">&lt;td&gt;</span><span class="tx">Bob Smith</span><span class="t">&lt;/td&gt;</span>
+  <span class="t">&lt;td&gt;</span><span class="tx">Selected</span><span class="t">&lt;/td&gt;</span>
+  <span class="t">&lt;td&gt;</span><span class="tx">$840.50</span><span class="t">&lt;/td&gt;</span>
+<span class="t">&lt;/tr&gt;</span>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- ====== 7. SORTABLE HEADERS ====== -->
+        <section class="guide-section">
+            <h2 class="text-2xl font-bold mb-1 flex items-center">
+                <span class="section-number bg-p-neutral-700 text-p-neutral-200">7</span>
+                Sortable Headers
+            </h2>
+            <p class="text-p-neutral-400 text-sm mb-6 ml-10">Add <code class="text-p-teal-200 text-xs">.mc-table-sortable</code> on the table and sort direction classes on <code class="text-p-teal-200 text-xs">&lt;th&gt;</code> elements.</p>
+
+            <div class="guide-card">
+                <table class="mc-table mc-table-sortable mc-table-hover mc-table-sm" data-hue="blue">
+                    <thead>
+                        <tr>
+                            <th class="mc-table-sort-asc">#</th>
+                            <th>Name</th>
+                            <th class="mc-table-sort-desc">Status</th>
+                            <th>Amount</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>1</td><td>Alice Johnson</td><td>Active</td><td>$1,200.00</td></tr>
+                        <tr><td>2</td><td>Bob Smith</td><td>Closed</td><td>$840.50</td></tr>
+                        <tr><td>3</td><td>Carol Davis</td><td>Pending</td><td>$2,100.75</td></tr>
+                        <tr><td>4</td><td>Dan Wilson</td><td>Active</td><td>$560.00</td></tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="guide-card mt-4">
+                <div class="code-block">
+<span class="t">&lt;table</span> <span class="a">class</span>=<span class="v">"mc-table mc-table-sortable"</span> <span class="a">data-hue</span>=<span class="v">"blue"</span><span class="t">&gt;</span>
+  <span class="t">&lt;thead&gt;</span>
+    <span class="t">&lt;tr&gt;</span>
+      <span class="t">&lt;th</span> <span class="a">class</span>=<span class="v">"mc-table-sort-asc"</span><span class="t">&gt;</span><span class="tx">#</span><span class="t">&lt;/th&gt;</span>         <span class="cm">&lt;!-- sorted ascending --&gt;</span>
+      <span class="t">&lt;th&gt;</span><span class="tx">Name</span><span class="t">&lt;/th&gt;</span>                          <span class="cm">&lt;!-- unsorted --&gt;</span>
+      <span class="t">&lt;th</span> <span class="a">class</span>=<span class="v">"mc-table-sort-desc"</span><span class="t">&gt;</span><span class="tx">Status</span><span class="t">&lt;/th&gt;</span> <span class="cm">&lt;!-- sorted descending --&gt;</span>
+      <span class="t">&lt;th&gt;</span><span class="tx">Amount</span><span class="t">&lt;/th&gt;</span>
+    <span class="t">&lt;/tr&gt;</span>
+  <span class="t">&lt;/thead&gt;</span>
+  ...
+<span class="t">&lt;/table&gt;</span>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- ====== 8. RESPONSIVE ====== -->
+        <section class="guide-section">
+            <h2 class="text-2xl font-bold mb-1 flex items-center">
+                <span class="section-number bg-p-blue-800 text-p-blue-200">8</span>
+                Responsive Wrapper
+            </h2>
+            <p class="text-p-neutral-400 text-sm mb-6 ml-10">Wrap wide tables in <code class="text-p-teal-200 text-xs">.mc-table-responsive</code> for horizontal scrolling on small screens.</p>
+
+            <div class="guide-card">
+                <div class="mc-table-responsive">
+                    <table class="mc-table mc-table-striped mc-table-hover mc-table-sm" data-hue="blue">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Full Name</th>
+                                <th>Email Address</th>
+                                <th>Department</th>
+                                <th>Job Title</th>
+                                <th>Start Date</th>
+                                <th>Status</th>
+                                <th>Salary</th>
+                                <th>Location</th>
+                                <th>Manager</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>1</td>
+                                <td>Alice Johnson</td>
+                                <td>alice.johnson@example.com</td>
+                                <td>Engineering</td>
+                                <td>Senior Developer</td>
+                                <td>2021-03-15</td>
+                                <td>Active</td>
+                                <td>$128,000</td>
+                                <td>San Francisco</td>
+                                <td>Sarah Kim</td>
+                            </tr>
+                            <tr>
+                                <td>2</td>
+                                <td>Bob Smith</td>
+                                <td>bob.smith@example.com</td>
+                                <td>Marketing</td>
+                                <td>Brand Manager</td>
+                                <td>2020-07-22</td>
+                                <td>Active</td>
+                                <td>$95,000</td>
+                                <td>New York</td>
+                                <td>Tom Lee</td>
+                            </tr>
+                            <tr>
+                                <td>3</td>
+                                <td>Carol Davis</td>
+                                <td>carol.davis@example.com</td>
+                                <td>Finance</td>
+                                <td>Senior Analyst</td>
+                                <td>2019-11-01</td>
+                                <td>Active</td>
+                                <td>$112,000</td>
+                                <td>Chicago</td>
+                                <td>Maria Lopez</td>
+                            </tr>
+                            <tr>
+                                <td>4</td>
+                                <td>Dan Wilson</td>
+                                <td>dan.wilson@example.com</td>
+                                <td>Engineering</td>
+                                <td>Staff Engineer</td>
+                                <td>2018-01-10</td>
+                                <td>Active</td>
+                                <td>$155,000</td>
+                                <td>Seattle</td>
+                                <td>Sarah Kim</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="guide-card mt-4">
+                <div class="code-block">
+<span class="t">&lt;div</span> <span class="a">class</span>=<span class="v">"mc-table-responsive"</span><span class="t">&gt;</span>
+  <span class="t">&lt;table</span> <span class="a">class</span>=<span class="v">"mc-table mc-table-striped mc-table-hover"</span> <span class="a">data-hue</span>=<span class="v">"blue"</span><span class="t">&gt;</span>
+    <span class="cm">&lt;!-- wide table with many columns --&gt;</span>
+  <span class="t">&lt;/table&gt;</span>
+<span class="t">&lt;/div&gt;</span>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- ====== 9. CAPTIONS & FOOTER ====== -->
+        <section class="guide-section">
+            <h2 class="text-2xl font-bold mb-1 flex items-center">
+                <span class="section-number bg-p-green-800 text-p-green-200">9</span>
+                Captions &amp; Footer
+            </h2>
+            <p class="text-p-neutral-400 text-sm mb-6 ml-10">Table captions (bottom by default, top with <code class="text-p-teal-200 text-xs">.mc-table-caption-top</code>) and <code class="text-p-teal-200 text-xs">&lt;tfoot&gt;</code> styling.</p>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
+                <!-- Bottom caption (default) -->
+                <div class="guide-card">
+                    <div class="text-[10px] uppercase tracking-widest text-p-neutral-400 font-bold mb-3">Caption — Bottom (default)</div>
+                    <table class="mc-table mc-table-striped mc-table-sm" data-hue="blue">
+                        <caption>Table 1: Q4 Revenue Summary</caption>
+                        <thead><tr><th>#</th><th>Name</th><th>Status</th><th>Amount</th></tr></thead>
+                        <tbody>
+                            <tr><td>1</td><td>Alice</td><td>Active</td><td>$1,200</td></tr>
+                            <tr><td>2</td><td>Bob</td><td>Pending</td><td>$840</td></tr>
+                            <tr><td>3</td><td>Carol</td><td>Closed</td><td>$2,100</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Top caption -->
+                <div class="guide-card">
+                    <div class="text-[10px] uppercase tracking-widest text-p-neutral-400 font-bold mb-3">Caption — Top</div>
+                    <table class="mc-table mc-table-striped mc-table-caption-top mc-table-sm" data-hue="blue">
+                        <caption>Table 2: Monthly Performance</caption>
+                        <thead><tr><th>#</th><th>Name</th><th>Status</th><th>Amount</th></tr></thead>
+                        <tbody>
+                            <tr><td>1</td><td>Alice</td><td>Active</td><td>$1,200</td></tr>
+                            <tr><td>2</td><td>Bob</td><td>Pending</td><td>$840</td></tr>
+                            <tr><td>3</td><td>Carol</td><td>Closed</td><td>$2,100</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- tfoot -->
+                <div class="guide-card">
+                    <div class="text-[10px] uppercase tracking-widest text-p-neutral-400 font-bold mb-3">Table Footer (tfoot)</div>
+                    <table class="mc-table mc-table-striped mc-table-sm" data-hue="blue">
+                        <thead><tr><th>#</th><th>Name</th><th>Status</th><th>Amount</th></tr></thead>
+                        <tbody>
+                            <tr><td>1</td><td>Alice</td><td>Active</td><td>$1,200</td></tr>
+                            <tr><td>2</td><td>Bob</td><td>Pending</td><td>$840</td></tr>
+                            <tr><td>3</td><td>Carol</td><td>Closed</td><td>$2,100</td></tr>
+                        </tbody>
+                        <tfoot>
+                            <tr><td colspan="3">Total</td><td>$4,140</td></tr>
+                        </tfoot>
+                    </table>
+                </div>
+
+                <!-- Group divider -->
+                <div class="guide-card">
+                    <div class="text-[10px] uppercase tracking-widest text-p-neutral-400 font-bold mb-3">Group Divider (tbody)</div>
+                    <table class="mc-table mc-table-sm" data-hue="blue">
+                        <thead><tr><th>#</th><th>Name</th><th>Status</th><th>Amount</th></tr></thead>
+                        <tbody class="mc-table-group-divider">
+                            <tr><td>1</td><td>Alice</td><td>Active</td><td>$1,200</td></tr>
+                            <tr><td>2</td><td>Bob</td><td>Active</td><td>$840</td></tr>
+                        </tbody>
+                        <tbody class="mc-table-group-divider">
+                            <tr><td>3</td><td>Carol</td><td>Closed</td><td>$2,100</td></tr>
+                            <tr><td>4</td><td>Dan</td><td>Closed</td><td>$560</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="guide-card mt-4">
+                <div class="code-block">
+<span class="cm">&lt;!-- Caption on top --&gt;</span>
+<span class="t">&lt;table</span> <span class="a">class</span>=<span class="v">"mc-table mc-table-caption-top"</span> <span class="a">data-hue</span>=<span class="v">"blue"</span><span class="t">&gt;</span>
+  <span class="t">&lt;caption&gt;</span><span class="tx">Table title here</span><span class="t">&lt;/caption&gt;</span>
+  ...
+<span class="t">&lt;/table&gt;</span>
+
+<span class="cm">&lt;!-- Table footer --&gt;</span>
+<span class="t">&lt;tfoot&gt;</span>
+  <span class="t">&lt;tr&gt;</span><span class="t">&lt;td</span> <span class="a">colspan</span>=<span class="v">"3"</span><span class="t">&gt;</span><span class="tx">Total</span><span class="t">&lt;/td&gt;</span><span class="t">&lt;td&gt;</span><span class="tx">$4,140</span><span class="t">&lt;/td&gt;</span><span class="t">&lt;/tr&gt;</span>
+<span class="t">&lt;/tfoot&gt;</span>
+
+<span class="cm">&lt;!-- Group divider --&gt;</span>
+<span class="t">&lt;tbody</span> <span class="a">class</span>=<span class="v">"mc-table-group-divider"</span><span class="t">&gt;</span>...<span class="t">&lt;/tbody&gt;</span>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- ====== 10. API REFERENCE ====== -->
+        <section class="guide-section">
+            <h2 class="text-2xl font-bold mb-1 flex items-center">
+                <span class="section-number bg-p-red-800 text-p-red-200">10</span>
+                API Reference
+            </h2>
+            <p class="text-p-neutral-400 text-sm mb-6 ml-10">Complete class and attribute reference.</p>
+
+            <div class="guide-card overflow-x-auto">
+                <table class="w-full text-xs">
+                    <thead>
+                        <tr class="text-p-neutral-400 uppercase tracking-wider text-left border-b border-p-neutral-800">
+                            <th class="py-2 pr-4">Class / Attribute</th><th class="py-2 pr-4">Type</th><th class="py-2">Description</th>
+                        </tr>
+                    </thead>
+                    <tbody class="text-p-neutral-300 font-mono">
+                        <tr class="border-b border-p-neutral-800"><td class="py-2 pr-4 text-white">mc-table</td><td class="pr-4 text-p-neutral-400 font-sans">Base</td><td class="font-sans">Required on every table element</td></tr>
+                        <tr class="border-b border-p-neutral-800"><td class="py-2 pr-4 text-p-teal-200">data-hue="..."</td><td class="pr-4 text-p-neutral-400 font-sans">Attribute</td><td class="font-sans">neutral | red | green | blue | yellow | magenta | teal</td></tr>
+                        <tr class="border-b border-p-neutral-800"><td class="py-2 pr-4 text-p-teal-200">data-mode="..."</td><td class="pr-4 text-p-neutral-400 font-sans">Attribute</td><td class="font-sans">1 | 2 | 3 | 4 | 5 (on ancestor container)</td></tr>
+                        <tr class="border-b border-p-neutral-800"><td class="py-2 pr-4 text-p-blue-200">mc-table-striped</td><td class="pr-4 text-p-neutral-400 font-sans">Modifier</td><td class="font-sans">Alternating row backgrounds</td></tr>
+                        <tr class="border-b border-p-neutral-800"><td class="py-2 pr-4 text-p-blue-200">mc-table-striped-columns</td><td class="pr-4 text-p-neutral-400 font-sans">Modifier</td><td class="font-sans">Alternating column backgrounds</td></tr>
+                        <tr class="border-b border-p-neutral-800"><td class="py-2 pr-4 text-p-blue-200">mc-table-hover</td><td class="pr-4 text-p-neutral-400 font-sans">Modifier</td><td class="font-sans">Highlight rows on hover</td></tr>
+                        <tr class="border-b border-p-neutral-800"><td class="py-2 pr-4 text-p-blue-200">mc-table-bordered</td><td class="pr-4 text-p-neutral-400 font-sans">Modifier</td><td class="font-sans">Borders on all cells</td></tr>
+                        <tr class="border-b border-p-neutral-800"><td class="py-2 pr-4 text-p-blue-200">mc-table-borderless</td><td class="pr-4 text-p-neutral-400 font-sans">Modifier</td><td class="font-sans">Remove all borders</td></tr>
+                        <tr class="border-b border-p-neutral-800"><td class="py-2 pr-4 text-p-green-200">mc-table-xs</td><td class="pr-4 text-p-neutral-400 font-sans">Size</td><td class="font-sans">11px font, compact padding</td></tr>
+                        <tr class="border-b border-p-neutral-800"><td class="py-2 pr-4 text-p-green-200">mc-table-sm</td><td class="pr-4 text-p-neutral-400 font-sans">Size</td><td class="font-sans">12px font, small padding</td></tr>
+                        <tr class="border-b border-p-neutral-800"><td class="py-2 pr-4 text-p-neutral-400 italic font-sans">md (default)</td><td class="pr-4 text-p-neutral-400 font-sans">Size</td><td class="font-sans">14px font, standard padding</td></tr>
+                        <tr class="border-b border-p-neutral-800"><td class="py-2 pr-4 text-p-green-200">mc-table-lg</td><td class="pr-4 text-p-neutral-400 font-sans">Size</td><td class="font-sans">16px font, large padding</td></tr>
+                        <tr class="border-b border-p-neutral-800"><td class="py-2 pr-4 text-p-green-200">mc-table-xl</td><td class="pr-4 text-p-neutral-400 font-sans">Size</td><td class="font-sans">18px font, extra-large padding</td></tr>
+                        <tr class="border-b border-p-neutral-800"><td class="py-2 pr-4 text-p-green-200">mc-table-xxl</td><td class="pr-4 text-p-neutral-400 font-sans">Size</td><td class="font-sans">20px font, max padding</td></tr>
+                        <tr class="border-b border-p-neutral-800"><td class="py-2 pr-4 text-p-magenta-200">mc-table-active</td><td class="pr-4 text-p-neutral-400 font-sans">Row state</td><td class="font-sans">Highlight selected row (on &lt;tr&gt;)</td></tr>
+                        <tr class="border-b border-p-neutral-800"><td class="py-2 pr-4 text-p-magenta-200">mc-table-row-{hue}</td><td class="pr-4 text-p-neutral-400 font-sans">Row color</td><td class="font-sans">Semantic row coloring: red, green, blue, yellow, magenta, teal</td></tr>
+                        <tr class="border-b border-p-neutral-800"><td class="py-2 pr-4 text-p-yellow-200">mc-table-sortable</td><td class="pr-4 text-p-neutral-400 font-sans">Feature</td><td class="font-sans">Enables sortable header styling (on table)</td></tr>
+                        <tr class="border-b border-p-neutral-800"><td class="py-2 pr-4 text-p-yellow-200">mc-table-sort-asc</td><td class="pr-4 text-p-neutral-400 font-sans">Sort state</td><td class="font-sans">Ascending sort indicator (on &lt;th&gt;)</td></tr>
+                        <tr class="border-b border-p-neutral-800"><td class="py-2 pr-4 text-p-yellow-200">mc-table-sort-desc</td><td class="pr-4 text-p-neutral-400 font-sans">Sort state</td><td class="font-sans">Descending sort indicator (on &lt;th&gt;)</td></tr>
+                        <tr class="border-b border-p-neutral-800"><td class="py-2 pr-4 text-p-yellow-200">mc-table-responsive</td><td class="pr-4 text-p-neutral-400 font-sans">Wrapper</td><td class="font-sans">Horizontal scroll wrapper (on parent div)</td></tr>
+                        <tr class="border-b border-p-neutral-800"><td class="py-2 pr-4 text-p-yellow-200">mc-table-caption-top</td><td class="pr-4 text-p-neutral-400 font-sans">Feature</td><td class="font-sans">Move caption above table (on table)</td></tr>
+                        <tr><td class="py-2 pr-4 text-p-yellow-200">mc-table-group-divider</td><td class="pr-4 text-p-neutral-400 font-sans">Feature</td><td class="font-sans">Thicker border between tbody groups (on tbody)</td></tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Usage template -->
+            <div class="guide-card mt-4">
+                <div class="text-[10px] uppercase tracking-widest text-p-neutral-400 font-bold mb-3">Usage Template</div>
+                <div class="code-block">
+<span class="cm">&lt;!-- Full-featured table --&gt;</span>
+<span class="t">&lt;div</span> <span class="a">data-mode</span>=<span class="v">"{1|2|3|4|5}"</span> <span class="a">data-hue</span>=<span class="v">"{hue}"</span><span class="t">&gt;</span>
+  <span class="t">&lt;div</span> <span class="a">class</span>=<span class="v">"mc-table-responsive"</span><span class="t">&gt;</span>
+    <span class="t">&lt;table</span> <span class="a">class</span>=<span class="v">"mc-table</span>
+      <span class="v">mc-table-{striped|hover|bordered|borderless}</span>
+      <span class="v">mc-table-{xs|sm|lg|xl|xxl}"</span>  <span class="cm">&lt;!-- md = default --&gt;</span>
+      <span class="a">data-hue</span>=<span class="v">"{neutral|red|green|blue|yellow|magenta|teal}"</span><span class="t">&gt;</span>
+      <span class="t">&lt;thead&gt;</span>...<span class="t">&lt;/thead&gt;</span>
+      <span class="t">&lt;tbody&gt;</span>...<span class="t">&lt;/tbody&gt;</span>
+      <span class="t">&lt;tfoot&gt;</span>...<span class="t">&lt;/tfoot&gt;</span>
+    <span class="t">&lt;/table&gt;</span>
+  <span class="t">&lt;/div&gt;</span>
+<span class="t">&lt;/div&gt;</span>
+                </div>
+            </div>
+        </section>
+
+
+        <footer class="docs-footer">
+            <p>MC Perception Design System &mdash; 7 hues &times; 5 modes &times; 6 sizes &mdash; WCAG AA compliant</p>
+            <p style="margin-top: 0.5rem;"><a href="https://github.com/anthropics/claude-code">Built with Claude Code</a></p>
+        </footer>
+
+            </div>
+        </main>
+    </div>
+
+    <script>
+    // Auto-mark active sidebar link based on current filename
+    (function() {
+        var page = location.pathname.split('/').pop().replace('.html','') || 'index';
+        var links = document.querySelectorAll('.docs-nav-link');
+        links.forEach(function(a) {
+            if (a.getAttribute('data-page') === page) a.classList.add('active');
+        });
+        // Mobile hamburger toggle
+        var hamburger = document.getElementById('docs-hamburger');
+        var sidebar = document.getElementById('docs-sidebar');
+        var overlay = document.getElementById('docs-overlay');
+        if (hamburger && sidebar && overlay) {
+            hamburger.addEventListener('click', function() {
+                sidebar.classList.toggle('open');
+                overlay.classList.toggle('open');
+            });
+            overlay.addEventListener('click', function() {
+                sidebar.classList.remove('open');
+                overlay.classList.remove('open');
+            });
+        }
+    })();
+    </script>
+
+</body>
+</html>

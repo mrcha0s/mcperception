@@ -3,982 +3,578 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MC Perception - Component Library Documentation</title>
+    <title>MC Perception — Design System Documentation</title>
     <link rel="stylesheet" href="../dist/mcperception.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Inter', system-ui, -apple-system, sans-serif; }
+
+    /* -- Docs Layout -- */
+    .docs-layout {
+        display: flex;
+        min-height: 100vh;
+    }
+    .docs-sidebar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 240px;
+        height: 100vh;
+        background: #222222;
+        border-right: 1px solid #222222;
+        overflow-y: auto;
+        z-index: 40;
+        display: flex;
+        flex-direction: column;
+        transition: transform 0.2s ease;
+    }
+    .docs-sidebar-header {
+        padding: 1.25rem 1.25rem 0.75rem;
+        border-bottom: 1px solid #222222;
+        display: flex;
+        align-items: baseline;
+        gap: 0.5rem;
+    }
+    .docs-logo {
+        font-size: 0.875rem;
+        font-weight: 700;
+        color: #FFFFFF;
+        text-decoration: none;
+        letter-spacing: -0.01em;
+    }
+    .docs-logo:hover { color: #c3c3c3; }
+    .docs-version {
+        font-size: 0.625rem;
+        color: #515151;
+        font-family: 'Roboto Mono', ui-monospace, monospace;
+    }
+    .docs-sidebar-nav {
+        padding: 0.75rem 0;
+        flex: 1;
+    }
+    .docs-nav-group {
+        margin-bottom: 0.25rem;
+    }
+    .docs-nav-group-label {
+        font-size: 0.625rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        color: #515151;
+        padding: 0.625rem 1.25rem 0.375rem;
+    }
+    .docs-nav-link {
+        display: block;
+        font-size: 0.8125rem;
+        color: #a0a0a0;
+        text-decoration: none;
+        padding: 0.375rem 1.25rem;
+        border-left: 2px solid transparent;
+        transition: color 0.15s, border-color 0.15s, background 0.15s;
+    }
+    .docs-nav-link:hover {
+        color: #c3c3c3;
+        background: #222222;
+    }
+    .docs-nav-link.active {
+        color: #5252ff;
+        border-left-color: #5252ff;
+        background: #222222;
+    }
+    .docs-content {
+        flex: 1;
+        margin-left: 240px;
+    }
+
+    /* -- Mobile: hamburger + overlay -- */
+    #docs-hamburger {
+        display: none;
+        position: fixed;
+        top: 0.75rem;
+        left: 0.75rem;
+        z-index: 50;
+        background: #222222;
+        border: 1px solid #222222;
+        color: #a0a0a0;
+        font-size: 1.25rem;
+        width: 36px;
+        height: 36px;
+        border-radius: 6px;
+        cursor: pointer;
+        align-items: center;
+        justify-content: center;
+        line-height: 1;
+        padding: 0;
+    }
+    #docs-hamburger:hover { color: #FFFFFF; }
+    #docs-overlay {
+        display: none;
+        position: fixed;
+        inset: 0;
+        background: #090909;
+        z-index: 35;
+    }
+    @media (max-width: 1023px) {
+        #docs-hamburger { display: flex; }
+        .docs-sidebar {
+            transform: translateX(-100%);
+        }
+        .docs-sidebar.open {
+            transform: translateX(0);
+        }
+        #docs-overlay.open {
+            display: block;
+        }
+        .docs-content {
+            margin-left: 0;
+        }
+    }
+
+    /* -- Guide Cards & Code Blocks -- */
+    .guide-section { margin-bottom: 4rem; }
+    .guide-card {
+        background: #090909;
+        border: 1px solid #222222;
+        border-radius: 6px;
+        padding: 1.5rem;
+    }
+    .guide-label {
+        min-width: 72px;
+        font-size: 0.6rem;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        color: #6c6c6c;
+        font-weight: 700;
+    }
+    .guide-row {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 0.75rem;
+    }
+    .code-block {
+        background: #0a0a0a;
+        border: 1px solid #222222;
+        border-radius: 6px;
+        padding: 1rem 1.25rem;
+        font-family: 'Roboto Mono', ui-monospace, monospace;
+        font-size: 0.7rem;
+        line-height: 1.8;
+        color: #a0a0a0;
+        overflow-x: auto;
+        tab-size: 2;
+    }
+    .code-block .t  { color: #ff7474; }
+    .code-block .a  { color: #9494ff; }
+    .code-block .v  { color: #00ba00; }
+    .code-block .c  { color: #6d6dff; }
+    .code-block .cm { color: #515151; }
+    .code-block .tx { color: #c3c3c3; }
+    .surface-panel {
+        border-radius: 8px;
+        padding: 1.25rem 1.5rem;
+    }
+    .section-number {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 28px;
+        height: 28px;
+        border-radius: 6px;
+        font-size: 0.75rem;
+        font-weight: 800;
+        margin-right: 0.5rem;
+    }
+    .grid-label {
+        font-size: 0.6rem;
+        text-transform: uppercase;
+        letter-spacing: 0.12em;
+        font-weight: 700;
+        color: #515151;
+        width: 64px;
+        flex-shrink: 0;
+    }
+    .white-label { color: #7f7f7f; }
+
+    /* -- Standard Footer -- */
+    .docs-footer {
+        margin-top: 6rem;
+        padding: 2rem 0;
+        border-top: 1px solid #222222;
+        text-align: center;
+    }
+    .docs-footer p {
+        font-size: 0.75rem;
+        color: #515151;
+    }
+    .docs-footer a {
+        color: #6d6dff;
+        text-decoration: none;
+    }
+    .docs-footer a:hover {
+        color: #9494ff;
+    }
+
+    /* -- Hub-specific styles -- */
+    .hub-hero {
+        padding: 3rem 0 2.5rem;
+    }
+    .hub-hero h1 {
+        font-size: 3rem;
+        font-weight: 700;
+        letter-spacing: -0.025em;
+        color: #FFFFFF;
+        line-height: 1.1;
+    }
+    .hub-hero p {
+        margin-top: 0.75rem;
+        font-size: 1.0625rem;
+        color: #a0a0a0;
+        max-width: 640px;
+        line-height: 1.6;
+    }
+    .hub-badge {
+        display: inline-block;
+        margin-top: 1rem;
+        font-size: 0.6875rem;
+        font-weight: 600;
+        color: #5252ff;
+        background: #000035;
+        border: 1px solid #000081;
+        border-radius: 999px;
+        padding: 0.25rem 0.75rem;
+        letter-spacing: 0.02em;
+    }
+
+    .category-heading {
+        font-size: 0.6875rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        margin-bottom: 1rem;
+        padding-bottom: 0.5rem;
+        border-bottom: 1px solid #222222;
+    }
+
+    .hub-grid {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 0.75rem;
+    }
+    @media (min-width: 768px) {
+        .hub-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+    @media (min-width: 1280px) {
+        .hub-grid { grid-template-columns: repeat(3, 1fr); }
+    }
+
+    .hub-card {
+        background: #090909;
+        border: 1px solid #222222;
+        border-radius: 6px;
+        padding: 1.25rem 1.5rem;
+        border-left: 3px solid transparent;
+        transition: border-color 0.15s, background 0.15s;
+        display: flex;
+        flex-direction: column;
+        gap: 0.375rem;
+    }
+    .hub-card:hover {
+        background: #222222;
+    }
+    .hub-card-title {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 0.5rem;
+    }
+    .hub-card-title a {
+        font-size: 0.9375rem;
+        font-weight: 600;
+        color: #FFFFFF;
+        text-decoration: none;
+        transition: color 0.15s;
+    }
+    .hub-card-title a:hover {
+        color: #9494ff;
+    }
+    .hub-card-arrow {
+        font-size: 0.875rem;
+        color: #515151;
+        flex-shrink: 0;
+        transition: color 0.15s, transform 0.15s;
+    }
+    .hub-card:hover .hub-card-arrow {
+        color: #a0a0a0;
+        transform: translateX(2px);
+    }
+    .hub-card-desc {
+        font-size: 0.8125rem;
+        color: #7f7f7f;
+        line-height: 1.5;
+    }
+
+    /* Category accent colors */
+    .hub-card--foundation { border-left-color: #5252ff; }
+    .hub-card--components { border-left-color: #007f00; }
+    .hub-card--patterns   { border-left-color: #c000c0; }
+    .hub-card--examples   { border-left-color: #007979; }
+
+    .quick-start-section {
+        margin-top: 3rem;
+    }
+    .quick-start-section h2 {
+        font-size: 1.25rem;
+        font-weight: 700;
+        color: #FFFFFF;
+        margin-bottom: 1rem;
+    }
+    .quick-start-section .code-block {
+        font-size: 0.75rem;
+        line-height: 1.7;
+    }
+    </style>
 </head>
-<body class="bg-p-neutral-900 min-h-screen text-white">
+<body class="bg-p-black text-white min-h-screen font-sans">
 
-    <div class="max-w-6xl mx-auto p-6">
+    <button id="docs-hamburger" aria-label="Toggle navigation">&#9776;</button>
+    <div id="docs-overlay"></div>
 
-        <!-- Header -->
-        <header class="mb-12">
-            <h1 class="text-4xl font-bold mb-2">MC Perception</h1>
-            <p class="text-p-neutral-400 text-lg">Dark theme component library for trading dashboards and data-dense interfaces</p>
-            <div class="mc-divider"></div>
-            <div class="flex gap-4 text-sm">
-                <a href="components.html" class="text-p-blue-200 hover:text-p-blue-200">Components Demo</a>
-                <a href="trading-card.html" class="text-p-blue-200 hover:text-p-blue-200">Trading Cards</a>
-                <a href="orderbook.html" class="text-p-blue-200 hover:text-p-blue-200">Orderbook Demo</a>
-                <a href="panel.html" class="text-p-blue-200 hover:text-p-blue-200">Panel Demo</a>
-                <a href="color.html" class="text-p-blue-200 hover:text-p-blue-200">Color Palette</a>
-                <a href="button.html" class="text-p-blue-200 hover:text-p-blue-200">Button Style Guide</a>
-                <a href="selection.html" class="text-p-blue-200 hover:text-p-blue-200">Selection Controls</a>
-                <a href="forms.html" class="text-p-blue-200 hover:text-p-blue-200">Forms &amp; Inputs</a>
-                <a href="badges.html" class="text-p-blue-200 hover:text-p-blue-200">Badges</a>
-                <a href="surface-modes.html" class="text-p-blue-200 hover:text-p-blue-200">Surface Modes</a>
-                <a href="typography.html" class="text-p-blue-200 hover:text-p-blue-200">Typography</a>
+    <div class="docs-layout">
+
+        <!-- Sidebar -->
+        <aside class="docs-sidebar" id="docs-sidebar">
+            <div class="docs-sidebar-header">
+                <a href="index.html" class="docs-logo">MC Perception</a>
+                <span class="docs-version">v1.0</span>
             </div>
-        </header>
-
-        <!-- Color Tokens -->
-        <section class="mb-12">
-            <h2 class="text-2xl font-bold mb-4">Color Tokens</h2>
-            <p class="text-p-neutral-400 mb-6">Strict dark mode color palette. All components use these tokens.</p>
-
-            <div class="mc-panel p-4 mb-4">
-                <h3 class="text-sm font-semibold tracking-wider uppercase text-p-neutral-300 mb-4">Core Colors</h3>
-                <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 text-xs font-mono">
-                    <div>
-                        <div class="w-full h-12 bg-p-neutral-900 border border-p-neutral-800 rounded mb-2"></div>
-                        <div class="text-p-neutral-300">Background</div>
-                        <div class="text-p-neutral-400">#090909</div>
-                        <div class="text-p-neutral-500">bg-p-neutral-900</div>
-                    </div>
-                    <div>
-                        <div class="w-full h-12 bg-p-neutral-800 border border-p-neutral-800 rounded mb-2"></div>
-                        <div class="text-p-neutral-300">Panel</div>
-                        <div class="text-p-neutral-400">#171717</div>
-                        <div class="text-p-neutral-500">bg-p-neutral-800</div>
-                    </div>
-                    <div>
-                        <div class="w-full h-12 bg-p-neutral-800 border border-p-neutral-700 rounded mb-2"></div>
-                        <div class="text-p-neutral-300">Border</div>
-                        <div class="text-p-neutral-400">#222222</div>
-                        <div class="text-p-neutral-500">border-p-neutral-800</div>
-                    </div>
-                    <div>
-                        <div class="w-full h-12 bg-black border border-p-neutral-800 rounded mb-2"></div>
-                        <div class="text-p-neutral-300">Input BG</div>
-                        <div class="text-p-neutral-400">#000000</div>
-                        <div class="text-p-neutral-500">bg-black</div>
-                    </div>
-                    <div>
-                        <div class="w-full h-12 bg-p-neutral-700 border border-p-neutral-300 rounded mb-2"></div>
-                        <div class="text-p-neutral-300">Button BG</div>
-                        <div class="text-p-neutral-400">#2c2c2c</div>
-                        <div class="text-p-neutral-500">bg-p-neutral-700</div>
-                    </div>
-                    <div>
-                        <div class="w-full h-12 bg-p-neutral-300 border border-p-neutral-600 rounded mb-2"></div>
-                        <div class="text-p-neutral-300">Button Border</div>
-                        <div class="text-p-neutral-400">#373737</div>
-                        <div class="text-p-neutral-500">border-p-neutral-300</div>
-                    </div>
+            <nav class="docs-sidebar-nav">
+                <div class="docs-nav-group">
+                    <div class="docs-nav-group-label">Getting Started</div>
+                    <a href="index.html" class="docs-nav-link" data-page="index">Home</a>
+                    <a href="getting-started.html" class="docs-nav-link" data-page="getting-started">Getting Started</a>
                 </div>
-            </div>
+                <div class="docs-nav-group">
+                    <div class="docs-nav-group-label">Foundation</div>
+                    <a href="color.html" class="docs-nav-link" data-page="color">Color Palette</a>
+                    <a href="surface-modes.html" class="docs-nav-link" data-page="surface-modes">Surface Modes</a>
+                    <a href="typography.html" class="docs-nav-link" data-page="typography">Typography</a>
+                </div>
+                <div class="docs-nav-group">
+                    <div class="docs-nav-group-label">Components</div>
+                    <a href="button.html" class="docs-nav-link" data-page="button">Buttons</a>
+                    <a href="badges.html" class="docs-nav-link" data-page="badges">Badges</a>
+                    <a href="alert.html" class="docs-nav-link" data-page="alert">Alerts</a>
+                    <a href="input.html" class="docs-nav-link" data-page="input">Form Inputs</a>
+                    <a href="selection.html" class="docs-nav-link" data-page="selection">Selection Controls</a>
+                    <a href="table.html" class="docs-nav-link" data-page="table">Tables</a>
+            <a href="panel-system.html" class="docs-nav-link" data-page="panel-system">Panels</a>
+                </div>
+                <div class="docs-nav-group">
+                    <div class="docs-nav-group-label">Patterns</div>
+                    <a href="forms.html" class="docs-nav-link" data-page="forms">Form Layout</a>
+                    <a href="dark-surfaces.html" class="docs-nav-link" data-page="dark-surfaces">Dark Surface Depth</a>
+                </div>
+                <div class="docs-nav-group">
+                    <div class="docs-nav-group-label">Examples</div>
+                    <a href="trading-card.html" class="docs-nav-link" data-page="trading-card">Trading Card</a>
+                    <a href="orderbook.html" class="docs-nav-link" data-page="orderbook">Orderbook</a>
+                </div>
+            </nav>
+        </aside>
 
-            <div class="mc-panel p-4">
-                <h3 class="text-sm font-semibold tracking-wider uppercase text-p-neutral-300 mb-4">Semantic Colors</h3>
-                <div class="grid grid-cols-2 md:grid-cols-4 gap-4 text-xs font-mono">
-                    <div>
-                        <div class="w-full h-12 bg-p-green-500 rounded mb-2"></div>
-                        <div class="text-p-neutral-300">Positive</div>
-                        <div class="text-p-neutral-500">text-p-green-500</div>
-                    </div>
-                    <div>
-                        <div class="w-full h-12 bg-p-red-200 rounded mb-2"></div>
-                        <div class="text-p-neutral-300">Negative</div>
-                        <div class="text-p-neutral-500">text-p-red-200</div>
-                    </div>
-                    <div>
-                        <div class="w-full h-12 bg-p-neutral-400 rounded mb-2"></div>
-                        <div class="text-p-neutral-300">Muted</div>
-                        <div class="text-p-neutral-500">text-p-neutral-400</div>
-                    </div>
-                    <div>
-                        <div class="w-full h-12 bg-p-neutral-300 rounded mb-2"></div>
-                        <div class="text-p-neutral-300">Label</div>
-                        <div class="text-p-neutral-500">text-p-neutral-300</div>
-                    </div>
-                </div>
-            </div>
-        </section>
+        <!-- Main Content -->
+        <main class="docs-content">
+            <div class="max-w-7xl mx-auto px-6 py-12">
 
-        <!-- Typography -->
-        <section class="mb-12">
-            <h2 class="text-2xl font-bold mb-4">Typography</h2>
-            <p class="text-p-neutral-400 mb-6">Font families and text utilities.</p>
+                <!-- Hero -->
+                <header class="hub-hero">
+                    <h1>MC Perception</h1>
+                    <p>7 hues &times; 5 modes &times; 6 sizes &mdash; WCAG AA compliant design system for trading dashboards and data-dense interfaces</p>
+                    <span class="hub-badge">210 variants per component</span>
+                </header>
 
-            <div class="mc-panel p-4 mb-4">
-                <h3 class="text-sm font-semibold tracking-wider uppercase text-p-neutral-300 mb-4">Font Families</h3>
-                <div class="space-y-4">
-                    <div>
-                        <span class="font-sans text-lg">Roboto (font-sans)</span>
-                        <span class="text-p-neutral-400 text-sm ml-4">Default sans-serif</span>
-                    </div>
-                    <div>
-                        <span class="font-condensed text-lg">Roboto Condensed (font-condensed)</span>
-                        <span class="text-p-neutral-400 text-sm ml-4">Buttons, inputs</span>
-                    </div>
-                    <div>
-                        <span class="font-mono text-lg">Roboto Mono (font-mono)</span>
-                        <span class="text-p-neutral-400 text-sm ml-4">Numbers, code</span>
-                    </div>
-                    <div>
-                        <span class="font-slab text-lg">Roboto Slab (font-slab)</span>
-                        <span class="text-p-neutral-400 text-sm ml-4">Headlines</span>
-                    </div>
-                </div>
-            </div>
-
-            <div class="mc-panel p-4">
-                <h3 class="text-sm font-semibold tracking-wider uppercase text-p-neutral-300 mb-4">Text Utilities</h3>
-                <div class="space-y-2 text-sm">
-                    <div><span class="mc-text-positive">mc-text-positive</span> - Green text for gains/success</div>
-                    <div><span class="mc-text-negative">mc-text-negative</span> - Red text for losses/errors</div>
-                    <div><span class="mc-text-muted">mc-text-muted</span> - Gray text for secondary info</div>
-                    <div><span class="mc-text-label">mc-text-label</span> - Light gray for labels</div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Buttons -->
-        <section class="mb-12">
-            <h2 class="text-2xl font-bold mb-4">Buttons</h2>
-            <p class="text-p-neutral-400 mb-6">Base class: <code class="bg-black px-2 py-0.5 rounded text-p-blue-200">mc-button</code></p>
-
-            <div class="mc-panel p-4 mb-4">
-                <h3 class="text-sm font-semibold tracking-wider uppercase text-p-neutral-300 mb-4">Sizes</h3>
-                <div class="flex flex-wrap items-end gap-3 mb-4">
-                    <button class="mc-button mc-button-xs mc-button-filled" data-hue="neutral">xs</button>
-                    <button class="mc-button mc-button-sm mc-button-filled" data-hue="neutral">sm</button>
-                    <button class="mc-button mc-button-md mc-button-filled" data-hue="neutral">md</button>
-                    <button class="mc-button mc-button-lg mc-button-filled" data-hue="neutral">lg</button>
-                    <button class="mc-button mc-button-xl mc-button-filled" data-hue="neutral">xl</button>
-                </div>
-                <div class="text-xs text-p-neutral-400 font-mono">
-                    mc-button-xs | mc-button-sm | mc-button-md | mc-button-lg | mc-button-xl
-                </div>
-            </div>
-
-            <div class="mc-panel p-4 mb-4">
-                <h3 class="text-sm font-semibold tracking-wider uppercase text-p-neutral-300 mb-4">Semantic Variants</h3>
-                <div class="flex flex-wrap gap-3 mb-4">
-                    <button class="mc-button mc-button-sm mc-button-filled" data-hue="neutral">Default</button>
-                    <button class="mc-button mc-button-sm mc-button-filled" data-hue="blue">Primary</button>
-                    <button class="mc-button mc-button-sm mc-button-filled" data-hue="green">Success</button>
-                    <button class="mc-button mc-button-sm mc-button-filled" data-hue="red">Danger</button>
-                    <button class="mc-button mc-button-sm mc-button-filled" data-hue="yellow">Warning</button>
-                </div>
-                <div class="text-xs text-p-neutral-400 font-mono">
-                    mc-button-filled data-hue="neutral|blue|green|red|yellow"
-                </div>
-            </div>
-
-            <div class="mc-panel p-4">
-                <h3 class="text-sm font-semibold tracking-wider uppercase text-p-neutral-300 mb-4">Color Variants</h3>
-                <div class="grid grid-cols-2 md:grid-cols-4 gap-3 mb-4">
-                    <button class="mc-button mc-button-sm mc-button-filled" data-hue="neutral">Dark Gray</button>
-                    <button class="mc-button mc-button-sm mc-button-filled" data-hue="red">Dark Red</button>
-                    <button class="mc-button mc-button-sm mc-button-filled" data-hue="green">Dark Green</button>
-                    <button class="mc-button mc-button-sm mc-button-filled" data-hue="blue">Dark Blue</button>
-                    <button class="mc-button mc-button-sm mc-button-filled" data-hue="yellow">Dark Yellow</button>
-                    <button class="mc-button mc-button-sm mc-button-filled" data-hue="magenta">Dark Purple</button>
-                    <button class="mc-button mc-button-sm mc-button-filled" data-hue="teal">Dark Cyan</button>
-                    <button class="mc-button mc-button-sm mc-button-tonal" data-hue="neutral">Light Gray</button>
-                </div>
-                <div class="text-xs text-p-neutral-400 font-mono">
-                    mc-button-filled data-hue="[hue]" | mc-button-tonal data-hue="[hue]"
-                </div>
-            </div>
-        </section>
-
-        <!-- Inputs -->
-        <section class="mb-12">
-            <h2 class="text-2xl font-bold mb-4">Inputs</h2>
-            <p class="text-p-neutral-400 mb-6">Base class: <code class="bg-black px-2 py-0.5 rounded text-p-blue-200">mc-input</code></p>
-
-            <div class="mc-panel p-4 mb-4">
-                <h3 class="text-sm font-semibold tracking-wider uppercase text-p-neutral-300 mb-4">Sizes</h3>
-                <div class="space-y-3 mb-4">
-                    <input class="mc-input mc-input-xs mc-input-dark-gray" placeholder="xs input">
-                    <input class="mc-input mc-input-sm mc-input-dark-gray" placeholder="sm input">
-                    <input class="mc-input mc-input-md mc-input-dark-gray" placeholder="md input">
-                    <input class="mc-input mc-input-lg mc-input-dark-gray" placeholder="lg input">
-                </div>
-                <div class="text-xs text-p-neutral-400 font-mono">
-                    mc-input-xs | mc-input-sm | mc-input-md | mc-input-lg | mc-input-xl
-                </div>
-            </div>
-
-            <div class="mc-panel p-4 mb-4">
-                <h3 class="text-sm font-semibold tracking-wider uppercase text-p-neutral-300 mb-4">Mono Variant (for numbers)</h3>
-                <div class="mb-4">
-                    <input class="mc-input mc-input-md mc-input-dark-gray mc-input-mono w-64" value="1,234,567.89">
-                </div>
-                <div class="text-xs text-p-neutral-400 font-mono">
-                    mc-input-mono - Uses Roboto Mono font for numeric inputs
-                </div>
-            </div>
-
-            <div class="mc-panel p-4">
-                <h3 class="text-sm font-semibold tracking-wider uppercase text-p-neutral-300 mb-4">Select & Checkbox</h3>
-                <div class="flex flex-wrap gap-6 items-start mb-4">
-                    <div>
-                        <label class="mc-label">Select</label>
-                        <select class="mc-select">
-                            <option>Option 1</option>
-                            <option>Option 2</option>
-                        </select>
-                    </div>
-                    <div>
-                        <label class="mc-label">Checkbox</label>
-                        <div class="flex items-center gap-2 mt-2">
-                            <input type="checkbox" class="mc-checkbox" id="demo-check" checked>
-                            <label for="demo-check" class="text-sm">Enabled</label>
-                        </div>
-                    </div>
-                    <div>
-                        <label class="mc-label">Radio</label>
-                        <div class="flex items-center gap-4 mt-2">
-                            <div class="flex items-center gap-2">
-                                <input type="radio" name="demo-radio" class="mc-radio" id="radio1" checked>
-                                <label for="radio1" class="text-sm">Option 1</label>
+                <!-- Getting Started -->
+                <section class="guide-section" style="margin-bottom: 2.5rem;">
+                    <div class="hub-grid">
+                        <a href="getting-started.html" class="hub-card hub-card--foundation" style="border-left-color: #5252ff; text-decoration: none;">
+                            <div class="hub-card-title">
+                                <span style="font-size: 0.9375rem; font-weight: 600; color: #FFFFFF;">Getting Started</span>
+                                <span class="hub-card-arrow">&rarr;</span>
                             </div>
-                            <div class="flex items-center gap-2">
-                                <input type="radio" name="demo-radio" class="mc-radio" id="radio2">
-                                <label for="radio2" class="text-sm">Option 2</label>
+                            <div class="hub-card-desc">Step-by-step tutorial for new users</div>
+                        </a>
+                    </div>
+                </section>
+
+                <!-- Foundation -->
+                <section class="guide-section">
+                    <div class="category-heading" style="color: #5252ff;">Foundation</div>
+                    <div class="hub-grid">
+                        <div class="hub-card hub-card--foundation">
+                            <div class="hub-card-title">
+                                <a href="color.html">Color Palette</a>
+                                <span class="hub-card-arrow">&rarr;</span>
                             </div>
+                            <div class="hub-card-desc">Complete 7-hue &times; 10-step palette with contrast ratios</div>
+                        </div>
+                        <div class="hub-card hub-card--foundation">
+                            <div class="hub-card-title">
+                                <a href="surface-modes.html">Surface Modes</a>
+                                <span class="hub-card-arrow">&rarr;</span>
+                            </div>
+                            <div class="hub-card-desc">5 surface modes: white, black, light hue, dark hue, mid hue</div>
+                        </div>
+                        <div class="hub-card hub-card--foundation">
+                            <div class="hub-card-title">
+                                <a href="typography.html">Typography</a>
+                                <span class="hub-card-arrow">&rarr;</span>
+                            </div>
+                            <div class="hub-card-desc">Surface-mode-aware text color tiers, WCAG AA verified</div>
                         </div>
                     </div>
-                </div>
-                <div class="text-xs text-p-neutral-400 font-mono">
-                    mc-select | mc-checkbox | mc-radio | mc-label
-                </div>
-            </div>
+                </section>
 
-            <div class="mc-panel p-4">
-                <h3 class="text-sm font-semibold tracking-wider uppercase text-p-neutral-300 mb-4">Switch / Toggle</h3>
-                <div class="flex flex-wrap gap-6 items-center mb-4">
-                    <div class="flex items-center gap-2">
-                        <input type="checkbox" class="mc-switch" id="switch1">
-                        <label for="switch1" class="text-sm">Default</label>
-                    </div>
-                    <div class="flex items-center gap-2">
-                        <input type="checkbox" class="mc-switch mc-switch-success" id="switch2" checked>
-                        <label for="switch2" class="text-sm">Success</label>
-                    </div>
-                    <div class="flex items-center gap-2">
-                        <input type="checkbox" class="mc-switch mc-switch-danger" id="switch3" checked>
-                        <label for="switch3" class="text-sm">Danger</label>
-                    </div>
-                    <div class="flex items-center gap-2">
-                        <input type="checkbox" class="mc-switch mc-switch-warning" id="switch4" checked>
-                        <label for="switch4" class="text-sm">Warning</label>
-                    </div>
-                </div>
-                <div class="text-xs text-p-neutral-400 font-mono">
-                    mc-switch | mc-switch-success | mc-switch-danger | mc-switch-warning
-                </div>
-            </div>
-
-            <div class="mc-panel p-4">
-                <h3 class="text-sm font-semibold tracking-wider uppercase text-p-neutral-300 mb-4">Textarea</h3>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
-                    <div>
-                        <label class="mc-label">Default</label>
-                        <textarea class="mc-textarea w-full" rows="3" placeholder="Enter text..."></textarea>
-                    </div>
-                    <div>
-                        <label class="mc-label">Monospace</label>
-                        <textarea class="mc-textarea mc-textarea-mono w-full" rows="3">const data = { key: "value" };</textarea>
-                    </div>
-                </div>
-                <div class="text-xs text-p-neutral-400 font-mono">
-                    mc-textarea | mc-textarea-mono
-                </div>
-            </div>
-
-            <div class="mc-panel p-4">
-                <h3 class="text-sm font-semibold tracking-wider uppercase text-p-neutral-300 mb-4">Input Group</h3>
-                <div class="flex flex-wrap gap-4 mb-4">
-                    <div class="mc-input-group">
-                        <span class="mc-input-addon">$</span>
-                        <input class="mc-input mc-input-md mc-input-dark-gray mc-input-mono" value="100.00">
-                    </div>
-                    <div class="mc-input-group">
-                        <input class="mc-input mc-input-md mc-input-dark-gray" placeholder="Search...">
-                        <span class="mc-input-addon">&#128269;</span>
-                    </div>
-                    <div class="mc-input-group">
-                        <span class="mc-input-addon">https://</span>
-                        <input class="mc-input mc-input-md mc-input-dark-gray" placeholder="example.com">
-                        <span class="mc-input-addon">/path</span>
-                    </div>
-                </div>
-                <div class="text-xs text-p-neutral-400 font-mono">
-                    mc-input-group | mc-input-addon
-                </div>
-            </div>
-        </section>
-
-        <!-- Panels -->
-        <section class="mb-12">
-            <h2 class="text-2xl font-bold mb-4">Panels</h2>
-            <p class="text-p-neutral-400 mb-6">Base class: <code class="bg-black px-2 py-0.5 rounded text-p-blue-200">mc-panel</code></p>
-
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
-                <div class="mc-panel">
-                    <div class="mc-panel-header">
-                        <span class="mc-panel-title">Panel Title</span>
-                        <span class="mc-badge mc-badge-filled" data-hue="green">Status</span>
-                    </div>
-                    <div class="mc-panel-body">
-                        <p class="mc-panel-subtitle mb-2">Subtitle or description</p>
-                        <p class="text-sm">Panel body content goes here.</p>
-                    </div>
-                </div>
-                <div class="mc-panel mc-panel-dark-gray">
-                    <div class="p-4">
-                        <h3 class="mc-panel-title mb-2">Simple Panel</h3>
-                        <p class="text-sm text-p-neutral-400">Without header/body structure</p>
-                    </div>
-                </div>
-            </div>
-            <div class="text-xs text-p-neutral-400 font-mono mb-4">
-                mc-panel | mc-panel-header | mc-panel-body | mc-panel-title | mc-panel-subtitle
-            </div>
-
-            <div class="mc-panel p-4">
-                <h3 class="text-sm font-semibold tracking-wider uppercase text-p-neutral-300 mb-4">Panel Color Variants</h3>
-                <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
-                    <div class="mc-panel mc-panel-dark-gray p-3 text-center text-xs">dark-gray</div>
-                    <div class="mc-panel mc-panel-dark-red p-3 text-center text-xs">dark-red</div>
-                    <div class="mc-panel mc-panel-dark-green p-3 text-center text-xs">dark-green</div>
-                    <div class="mc-panel mc-panel-dark-blue p-3 text-center text-xs">dark-blue</div>
-                </div>
-                <div class="text-xs text-p-neutral-400 font-mono mt-4">
-                    mc-panel-dark-[gray|red|green|blue|yellow|purple|cyan] | Also available: bevel/emboss variants
-                </div>
-            </div>
-        </section>
-
-        <!-- Badges -->
-        <section class="mb-12">
-            <h2 class="text-2xl font-bold mb-4">Badges</h2>
-            <p class="text-p-neutral-400 mb-6">Base class: <code class="bg-black px-2 py-0.5 rounded text-p-blue-200">mc-badge</code> — <a href="badges.html" class="text-p-blue-200 hover:text-p-blue-200">Full Badge Style Guide &rarr;</a></p>
-
-            <div class="mc-panel p-4 mb-4">
-                <h3 class="text-sm font-semibold tracking-wider uppercase text-p-neutral-300 mb-3">Filled (High Emphasis)</h3>
-                <div class="flex flex-wrap gap-2 mb-4">
-                    <span class="mc-badge mc-badge-filled" data-hue="green">Success</span>
-                    <span class="mc-badge mc-badge-filled" data-hue="red">Danger</span>
-                    <span class="mc-badge mc-badge-filled" data-hue="yellow">Warning</span>
-                    <span class="mc-badge mc-badge-filled" data-hue="blue">Info</span>
-                    <span class="mc-badge mc-badge-filled" data-hue="neutral">Neutral</span>
-                    <span class="mc-badge mc-badge-filled" data-hue="magenta">Purple</span>
-                    <span class="mc-badge mc-badge-filled" data-hue="teal">Cyan</span>
-                </div>
-                <h3 class="text-sm font-semibold tracking-wider uppercase text-p-neutral-300 mb-3">Outline (Medium Emphasis)</h3>
-                <div class="flex flex-wrap gap-2 mb-4">
-                    <span class="mc-badge mc-badge-outline" data-hue="green">Success</span>
-                    <span class="mc-badge mc-badge-outline" data-hue="red">Danger</span>
-                    <span class="mc-badge mc-badge-outline" data-hue="yellow">Warning</span>
-                    <span class="mc-badge mc-badge-outline" data-hue="blue">Info</span>
-                    <span class="mc-badge mc-badge-outline" data-hue="neutral">Neutral</span>
-                </div>
-                <h3 class="text-sm font-semibold tracking-wider uppercase text-p-neutral-300 mb-3">Subtle (Low Emphasis)</h3>
-                <div class="flex flex-wrap gap-2 mb-4">
-                    <span class="mc-badge mc-badge-subtle" data-hue="green">Success</span>
-                    <span class="mc-badge mc-badge-subtle" data-hue="red">Danger</span>
-                    <span class="mc-badge mc-badge-subtle" data-hue="yellow">Warning</span>
-                    <span class="mc-badge mc-badge-subtle" data-hue="blue">Info</span>
-                    <span class="mc-badge mc-badge-subtle" data-hue="neutral">Neutral</span>
-                </div>
-                <h3 class="text-sm font-semibold tracking-wider uppercase text-p-neutral-300 mb-3">Dot, Pill, Sizes, Counters</h3>
-                <div class="flex flex-wrap items-center gap-3 mb-4">
-                    <span class="mc-badge mc-badge-dot mc-badge-filled" data-hue="green">Online</span>
-                    <span class="mc-badge mc-badge-pill mc-badge-filled" data-hue="blue">New</span>
-                    <span class="mc-badge mc-badge-xs mc-badge-filled" data-hue="yellow">XS</span>
-                    <span class="mc-badge mc-badge-lg mc-badge-filled" data-hue="magenta">LG</span>
-                    <span class="mc-badge mc-badge-dot-only mc-badge-pulse" data-hue="green"></span>
-                    <span class="mc-badge-wrapper">
-                        <span class="text-lg">&#128276;</span>
-                        <span class="mc-badge-counter">5</span>
-                    </span>
-                </div>
-                <div class="text-xs text-p-neutral-400 font-mono">
-                    data-hue="{hue}" | mc-badge-[filled|tonal|outline|subtle] | mc-badge-[xs|sm|lg|xl|xxl] | mc-badge-[dot|pill|dot-only|pulse] | mc-badge-counter
-                </div>
-            </div>
-        </section>
-
-        <!-- Breadcrumb -->
-        <section class="mb-12">
-            <h2 class="text-2xl font-bold mb-4">Breadcrumb</h2>
-            <p class="text-p-neutral-400 mb-6">Navigation path indicator.</p>
-
-            <div class="mc-panel p-4">
-                <nav class="mc-breadcrumb mb-4">
-                    <a class="mc-breadcrumb-item" href="#">Home</a>
-                    <span class="mc-breadcrumb-separator">/</span>
-                    <a class="mc-breadcrumb-item" href="#">Products</a>
-                    <span class="mc-breadcrumb-separator">/</span>
-                    <a class="mc-breadcrumb-item" href="#">Category</a>
-                    <span class="mc-breadcrumb-separator">/</span>
-                    <span class="mc-breadcrumb-item active">Details</span>
-                </nav>
-                <div class="text-xs text-p-neutral-400 font-mono">
-                    mc-breadcrumb | mc-breadcrumb-item | mc-breadcrumb-separator | .active
-                </div>
-            </div>
-        </section>
-
-        <!-- Pagination -->
-        <section class="mb-12">
-            <h2 class="text-2xl font-bold mb-4">Pagination</h2>
-            <p class="text-p-neutral-400 mb-6">Page navigation controls.</p>
-
-            <div class="mc-panel p-4">
-                <div class="mc-pagination mb-4">
-                    <div class="mc-page disabled">&lt;</div>
-                    <div class="mc-page active">1</div>
-                    <div class="mc-page">2</div>
-                    <div class="mc-page">3</div>
-                    <div class="mc-page">...</div>
-                    <div class="mc-page">10</div>
-                    <div class="mc-page">&gt;</div>
-                </div>
-                <div class="text-xs text-p-neutral-400 font-mono">
-                    mc-pagination | mc-page | mc-page.active | mc-page.disabled
-                </div>
-            </div>
-        </section>
-
-        <!-- Spinner -->
-        <section class="mb-12">
-            <h2 class="text-2xl font-bold mb-4">Spinner</h2>
-            <p class="text-p-neutral-400 mb-6">Loading indicators.</p>
-
-            <div class="mc-panel p-4">
-                <div class="flex flex-wrap items-center gap-6 mb-4">
-                    <div class="flex items-center gap-2">
-                        <div class="mc-spinner mc-spinner-sm"></div>
-                        <span class="text-sm">Small</span>
-                    </div>
-                    <div class="flex items-center gap-2">
-                        <div class="mc-spinner"></div>
-                        <span class="text-sm">Default</span>
-                    </div>
-                    <div class="flex items-center gap-2">
-                        <div class="mc-spinner mc-spinner-lg"></div>
-                        <span class="text-sm">Large</span>
-                    </div>
-                    <div class="flex items-center gap-2">
-                        <div class="mc-spinner mc-spinner-xl"></div>
-                        <span class="text-sm">XL</span>
-                    </div>
-                </div>
-                <div class="flex flex-wrap items-center gap-6 mb-4">
-                    <div class="flex items-center gap-2">
-                        <div class="mc-spinner mc-spinner-success"></div>
-                        <span class="text-sm">Success</span>
-                    </div>
-                    <div class="flex items-center gap-2">
-                        <div class="mc-spinner mc-spinner-danger"></div>
-                        <span class="text-sm">Danger</span>
-                    </div>
-                    <div class="flex items-center gap-2">
-                        <div class="mc-spinner mc-spinner-warning"></div>
-                        <span class="text-sm">Warning</span>
-                    </div>
-                </div>
-                <div class="text-xs text-p-neutral-400 font-mono">
-                    mc-spinner | mc-spinner-[sm|lg|xl] | mc-spinner-[success|danger|warning]
-                </div>
-            </div>
-        </section>
-
-        <!-- List Group -->
-        <section class="mb-12">
-            <h2 class="text-2xl font-bold mb-4">List Group</h2>
-            <p class="text-p-neutral-400 mb-6">Grouped list items.</p>
-
-            <div class="mc-panel p-4">
-                <div class="mc-list-group mb-4" style="max-width: 300px;">
-                    <div class="mc-list-item">First item</div>
-                    <div class="mc-list-item active">Active item</div>
-                    <div class="mc-list-item">Third item</div>
-                    <div class="mc-list-item disabled">Disabled item</div>
-                    <div class="mc-list-item">Last item</div>
-                </div>
-                <div class="text-xs text-p-neutral-400 font-mono">
-                    mc-list-group | mc-list-item | .active | .disabled
-                </div>
-            </div>
-        </section>
-
-        <!-- Avatar -->
-        <section class="mb-12">
-            <h2 class="text-2xl font-bold mb-4">Avatar</h2>
-            <p class="text-p-neutral-400 mb-6">User profile avatars with initials.</p>
-
-            <div class="mc-panel p-4">
-                <div class="flex flex-wrap items-center gap-4 mb-4">
-                    <div class="mc-avatar mc-avatar-sm">SM</div>
-                    <div class="mc-avatar">JD</div>
-                    <div class="mc-avatar mc-avatar-lg">LG</div>
-                    <div class="mc-avatar mc-avatar-xl">XL</div>
-                </div>
-                <div class="text-xs text-p-neutral-400 font-mono">
-                    mc-avatar | mc-avatar-[sm|lg|xl]
-                </div>
-            </div>
-        </section>
-
-        <!-- Code & Kbd -->
-        <section class="mb-12">
-            <h2 class="text-2xl font-bold mb-4">Code & Keyboard</h2>
-            <p class="text-p-neutral-400 mb-6">Code blocks and keyboard shortcuts.</p>
-
-            <div class="mc-panel p-4 mb-4">
-                <h3 class="text-sm font-semibold tracking-wider uppercase text-p-neutral-300 mb-4">Inline Code</h3>
-                <p class="text-sm mb-4">
-                    Run <code class="mc-code-inline">npm install</code> to install dependencies, then <code class="mc-code-inline">npm start</code> to run.
-                </p>
-                <div class="text-xs text-p-neutral-400 font-mono">
-                    mc-code-inline
-                </div>
-            </div>
-
-            <div class="mc-panel p-4 mb-4">
-                <h3 class="text-sm font-semibold tracking-wider uppercase text-p-neutral-300 mb-4">Code Block</h3>
-<pre class="mc-code mb-4">const config = {
-  theme: 'dark',
-  colors: ['#090909', '#171717'],
-  enabled: true
-};</pre>
-                <div class="text-xs text-p-neutral-400 font-mono">
-                    mc-code (on pre element)
-                </div>
-            </div>
-
-            <div class="mc-panel p-4">
-                <h3 class="text-sm font-semibold tracking-wider uppercase text-p-neutral-300 mb-4">Keyboard Shortcuts</h3>
-                <p class="text-sm mb-4">
-                    Press <kbd class="mc-kbd">Ctrl</kbd> + <kbd class="mc-kbd">C</kbd> to copy, <kbd class="mc-kbd">Ctrl</kbd> + <kbd class="mc-kbd">V</kbd> to paste.
-                </p>
-                <div class="text-xs text-p-neutral-400 font-mono">
-                    mc-kbd
-                </div>
-            </div>
-        </section>
-
-        <!-- Close Button -->
-        <section class="mb-12">
-            <h2 class="text-2xl font-bold mb-4">Close Button</h2>
-            <p class="text-p-neutral-400 mb-6">Dismissible element close buttons.</p>
-
-            <div class="mc-panel p-4">
-                <div class="flex flex-wrap items-center gap-6 mb-4">
-                    <div class="flex items-center gap-2">
-                        <span class="mc-close mc-close-sm"></span>
-                        <span class="text-sm">Small</span>
-                    </div>
-                    <div class="flex items-center gap-2">
-                        <span class="mc-close"></span>
-                        <span class="text-sm">Default</span>
-                    </div>
-                    <div class="flex items-center gap-2">
-                        <span class="mc-close mc-close-lg"></span>
-                        <span class="text-sm">Large</span>
-                    </div>
-                </div>
-                <div class="mc-alert mc-alert-info mb-4">
-                    <span>&#8505;</span>
-                    <span class="flex-1">Dismissible alert example</span>
-                    <span class="mc-close mc-close-sm"></span>
-                </div>
-                <div class="text-xs text-p-neutral-400 font-mono">
-                    mc-close | mc-close-[sm|lg]
-                </div>
-            </div>
-        </section>
-
-        <!-- Form Validation -->
-        <section class="mb-12">
-            <h2 class="text-2xl font-bold mb-4">Form Validation</h2>
-            <p class="text-p-neutral-400 mb-6">Input validation states.</p>
-
-            <div class="mc-panel p-4">
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-4">
-                    <div>
-                        <label class="mc-label">Error State</label>
-                        <input class="mc-input mc-input-md mc-input-dark-gray mc-input-error w-full" value="invalid@email">
-                        <p class="mc-error-text">Please enter a valid email address</p>
-                    </div>
-                    <div>
-                        <label class="mc-label">Success State</label>
-                        <input class="mc-input mc-input-md mc-input-dark-gray mc-input-success w-full" value="valid@email.com">
-                        <p class="mc-success-text">Email address looks good!</p>
-                    </div>
-                </div>
-                <div class="text-xs text-p-neutral-400 font-mono">
-                    mc-input-error | mc-input-success | mc-error-text | mc-success-text
-                </div>
-            </div>
-        </section>
-
-        <!-- Alerts -->
-        <section class="mb-12">
-            <h2 class="text-2xl font-bold mb-4">Alerts</h2>
-            <p class="text-p-neutral-400 mb-6">Base class: <code class="bg-black px-2 py-0.5 rounded text-p-blue-200">mc-alert</code></p>
-
-            <div class="mc-panel p-4">
-                <div class="space-y-3 mb-4">
-                    <div class="mc-alert mc-alert-success">
-                        <span>&#10003;</span>
-                        <span>Success alert message</span>
-                    </div>
-                    <div class="mc-alert mc-alert-danger">
-                        <span>&#10005;</span>
-                        <span>Danger alert message</span>
-                    </div>
-                    <div class="mc-alert mc-alert-warning">
-                        <span>&#9888;</span>
-                        <span>Warning alert message</span>
-                    </div>
-                    <div class="mc-alert mc-alert-info">
-                        <span>&#8505;</span>
-                        <span>Info alert message</span>
-                    </div>
-                </div>
-                <div class="text-xs text-p-neutral-400 font-mono">
-                    mc-alert-success | mc-alert-danger | mc-alert-warning | mc-alert-info
-                </div>
-            </div>
-        </section>
-
-        <!-- Tabs -->
-        <section class="mb-12">
-            <h2 class="text-2xl font-bold mb-4">Tabs</h2>
-            <p class="text-p-neutral-400 mb-6">Navigation tabs for content sections.</p>
-
-            <div class="mc-panel">
-                <div class="mc-tabs">
-                    <div class="mc-tab active">Active Tab</div>
-                    <div class="mc-tab">Tab 2</div>
-                    <div class="mc-tab">Tab 3</div>
-                    <div class="mc-tab">Tab 4</div>
-                </div>
-                <div class="p-4">
-                    <p class="text-sm text-p-neutral-400">Tab content area</p>
-                </div>
-            </div>
-            <div class="text-xs text-p-neutral-400 font-mono mt-4">
-                mc-tabs | mc-tab | mc-tab.active
-            </div>
-        </section>
-
-        <!-- Table -->
-        <section class="mb-12">
-            <h2 class="text-2xl font-bold mb-4">Table</h2>
-            <p class="text-p-neutral-400 mb-6">Data tables for trading interfaces.</p>
-
-            <div class="mc-panel">
-                <table class="mc-table">
-                    <thead>
-                        <tr>
-                            <th>Symbol</th>
-                            <th>Price</th>
-                            <th>Change</th>
-                            <th>Volume</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td class="text-white font-semibold">BTC/USD</td>
-                            <td>43,250.00</td>
-                            <td class="mc-text-positive">+2.45%</td>
-                            <td>$2.4B</td>
-                        </tr>
-                        <tr>
-                            <td class="text-white font-semibold">ETH/USD</td>
-                            <td>2,315.75</td>
-                            <td class="mc-text-negative">-1.23%</td>
-                            <td>$890M</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-            <div class="text-xs text-p-neutral-400 font-mono mt-4">
-                mc-table - Applies styles to th, td, and tr:hover
-            </div>
-        </section>
-
-        <!-- Progress -->
-        <section class="mb-12">
-            <h2 class="text-2xl font-bold mb-4">Progress Bar</h2>
-            <p class="text-p-neutral-400 mb-6">For metrics and loading states.</p>
-
-            <div class="mc-panel p-4">
-                <div class="space-y-4 mb-4">
-                    <div>
-                        <div class="flex justify-between text-xs mb-1">
-                            <span class="mc-text-muted">Success (45%)</span>
+                <!-- Components -->
+                <section class="guide-section">
+                    <div class="category-heading" style="color: #007f00;">Components</div>
+                    <div class="hub-grid">
+                        <div class="hub-card hub-card--components">
+                            <div class="hub-card-title">
+                                <a href="button.html">Buttons</a>
+                                <span class="hub-card-arrow">&rarr;</span>
+                            </div>
+                            <div class="hub-card-desc">4 variants, 6 sizes, all surface modes</div>
                         </div>
-                        <div class="mc-progress">
-                            <div class="mc-progress-bar mc-progress-bar-success" style="width: 45%;"></div>
+                        <div class="hub-card hub-card--components">
+                            <div class="hub-card-title">
+                                <a href="badges.html">Badges</a>
+                                <span class="hub-card-arrow">&rarr;</span>
+                            </div>
+                            <div class="hub-card-desc">Inline labels, tags, and status indicators</div>
+                        </div>
+                        <div class="hub-card hub-card--components">
+                            <div class="hub-card-title">
+                                <a href="input.html">Form Inputs</a>
+                                <span class="hub-card-arrow">&rarr;</span>
+                            </div>
+                            <div class="hub-card-desc">Text inputs, textareas, selects &mdash; 210 variants</div>
+                        </div>
+                        <div class="hub-card hub-card--components">
+                            <div class="hub-card-title">
+                                <a href="selection.html">Selection Controls</a>
+                                <span class="hub-card-arrow">&rarr;</span>
+                            </div>
+                            <div class="hub-card-desc">Checkboxes, radios, toggles, chips</div>
+                        </div>
+                        <div class="hub-card hub-card--components">
+                            <div class="hub-card-title">
+                                <a href="panel-system.html">Panels</a>
+                                <span class="hub-card-arrow">&rarr;</span>
+                            </div>
+                            <div class="hub-card-desc">Nestable containers with bevel/emboss, 3-level depth, 210 variants</div>
                         </div>
                     </div>
-                    <div>
-                        <div class="flex justify-between text-xs mb-1">
-                            <span class="mc-text-muted">Danger (87%)</span>
+                </section>
+
+                <!-- Patterns & Tutorials -->
+                <section class="guide-section">
+                    <div class="category-heading" style="color: #c000c0;">Patterns &amp; Tutorials</div>
+                    <div class="hub-grid">
+                        <div class="hub-card hub-card--patterns">
+                            <div class="hub-card-title">
+                                <a href="forms.html">Form Layout</a>
+                                <span class="hub-card-arrow">&rarr;</span>
+                            </div>
+                            <div class="hub-card-desc">Input anatomy, validation patterns, Do/Don'ts</div>
                         </div>
-                        <div class="mc-progress">
-                            <div class="mc-progress-bar mc-progress-bar-danger" style="width: 87%;"></div>
-                        </div>
-                    </div>
-                    <div>
-                        <div class="flex justify-between text-xs mb-1">
-                            <span class="mc-text-muted">Warning (60%)</span>
-                        </div>
-                        <div class="mc-progress">
-                            <div class="mc-progress-bar mc-progress-bar-warning" style="width: 60%;"></div>
-                        </div>
-                    </div>
-                    <div>
-                        <div class="flex justify-between text-xs mb-1">
-                            <span class="mc-text-muted">Info (30%)</span>
-                        </div>
-                        <div class="mc-progress">
-                            <div class="mc-progress-bar mc-progress-bar-info" style="width: 30%;"></div>
+                        <div class="hub-card hub-card--patterns">
+                            <div class="hub-card-title">
+                                <a href="dark-surfaces.html">Dark Surface Depth</a>
+                                <span class="hub-card-arrow">&rarr;</span>
+                            </div>
+                            <div class="hub-card-desc">M2/M4 flat layered depth system tutorial</div>
                         </div>
                     </div>
-                </div>
-                <div class="text-xs text-p-neutral-400 font-mono">
-                    mc-progress | mc-progress-bar | mc-progress-bar-[success|danger|warning|info]
-                </div>
-            </div>
-        </section>
+                </section>
 
-        <!-- Utilities -->
-        <section class="mb-12">
-            <h2 class="text-2xl font-bold mb-4">Utilities</h2>
-            <p class="text-p-neutral-400 mb-6">Helper classes for common patterns.</p>
-
-            <div class="mc-panel p-4 mb-4">
-                <h3 class="text-sm font-semibold tracking-wider uppercase text-p-neutral-300 mb-4">Divider</h3>
-                <p class="text-sm mb-2">Content above</p>
-                <div class="mc-divider"></div>
-                <p class="text-sm mt-2">Content below</p>
-                <div class="text-xs text-p-neutral-400 font-mono mt-4">
-                    mc-divider - Horizontal separator line
-                </div>
-            </div>
-
-            <div class="mc-panel p-4 mb-4">
-                <h3 class="text-sm font-semibold tracking-wider uppercase text-p-neutral-300 mb-4">Card</h3>
-                <div class="mc-card mb-4">
-                    <div class="flex justify-between text-sm">
-                        <span class="mc-text-muted">Label</span>
-                        <span class="font-mono">Value</span>
+                <!-- Examples -->
+                <section class="guide-section">
+                    <div class="category-heading" style="color: #007979;">Examples</div>
+                    <div class="hub-grid">
+                        <div class="hub-card hub-card--examples">
+                            <div class="hub-card-title">
+                                <a href="trading-card.html">Trading Card</a>
+                                <span class="hub-card-arrow">&rarr;</span>
+                            </div>
+                            <div class="hub-card-desc">Multi-section financial data card</div>
+                        </div>
+                        <div class="hub-card hub-card--examples">
+                            <div class="hub-card-title">
+                                <a href="orderbook.html">Orderbook</a>
+                                <span class="hub-card-arrow">&rarr;</span>
+                            </div>
+                            <div class="hub-card-desc">Real-time order book visualization</div>
+                        </div>
                     </div>
-                </div>
-                <div class="text-xs text-p-neutral-400 font-mono">
-                    mc-card - Black background info box
-                </div>
+                </section>
+
+                <!-- Quick Start -->
+                <section class="quick-start-section">
+                    <h2>Quick Start</h2>
+                    <div class="code-block"><span class="cm">&lt;!-- 1. Link the stylesheet --&gt;</span>
+<span class="t">&lt;link</span> <span class="a">rel=</span><span class="v">"stylesheet"</span> <span class="a">href=</span><span class="v">"mcperception.css"</span><span class="t">&gt;</span>
+
+<span class="cm">&lt;!-- 2. Use a button with hue + mode + size classes --&gt;</span>
+<span class="t">&lt;button</span> <span class="a">class=</span><span class="v">"mc-btn mc-btn-filled mc-hue-blue mc-mode-2 mc-size-md"</span><span class="t">&gt;</span>
+  <span class="tx">Place Order</span>
+<span class="t">&lt;/button&gt;</span>
+
+<span class="cm">&lt;!-- 3. Use an input --&gt;</span>
+<span class="t">&lt;input</span> <span class="a">type=</span><span class="v">"text"</span> <span class="a">class=</span><span class="v">"mc-input mc-hue-blue mc-mode-2 mc-size-md"</span>
+       <span class="a">placeholder=</span><span class="v">"Enter symbol..."</span><span class="t">&gt;</span>
+
+<span class="cm">&lt;!-- 4. Use a badge --&gt;</span>
+<span class="t">&lt;span</span> <span class="a">class=</span><span class="v">"mc-badge mc-badge-filled mc-hue-green mc-mode-2 mc-size-sm"</span><span class="t">&gt;</span>
+  <span class="tx">Active</span>
+<span class="t">&lt;/span&gt;</span></div>
+                </section>
+
+                <!-- Footer -->
+                <footer class="docs-footer">
+                    <p>MC Perception Design System &mdash; 7 hues &times; 5 modes &times; 6 sizes &mdash; WCAG AA compliant</p>
+                    <p style="margin-top: 0.5rem;"><a href="https://github.com/anthropics/claude-code">Built with Claude Code</a></p>
+                </footer>
+
             </div>
-
-            <div class="mc-panel p-4">
-                <h3 class="text-sm font-semibold tracking-wider uppercase text-p-neutral-300 mb-4">Button Group</h3>
-                <div class="mc-button-group mb-4">
-                    <button class="mc-button mc-button-sm mc-button-filled" data-hue="neutral">1D</button>
-                    <button class="mc-button mc-button-sm mc-button-filled" data-hue="blue">1W</button>
-                    <button class="mc-button mc-button-sm mc-button-filled" data-hue="neutral">1M</button>
-                    <button class="mc-button mc-button-sm mc-button-filled" data-hue="neutral">1Y</button>
-                </div>
-                <div class="text-xs text-p-neutral-400 font-mono">
-                    mc-button-group - Wraps buttons with connected borders
-                </div>
-            </div>
-        </section>
-
-        <!-- Class Reference -->
-        <section class="mb-12">
-            <h2 class="text-2xl font-bold mb-4">Quick Reference</h2>
-
-            <div class="mc-panel">
-                <table class="mc-table">
-                    <thead>
-                        <tr>
-                            <th>Component</th>
-                            <th>Base Class</th>
-                            <th>Variants</th>
-                        </tr>
-                    </thead>
-                    <tbody class="text-xs">
-                        <tr>
-                            <td class="text-white">Button</td>
-                            <td>mc-button</td>
-                            <td>mc-button-[xs|sm|md|lg|xl|xxl] mc-button-[filled|tonal|outline|ghost] data-hue="[hue]"</td>
-                        </tr>
-                        <tr>
-                            <td class="text-white">Input</td>
-                            <td>mc-input</td>
-                            <td>mc-input-[xs|sm|md|lg|xl] mc-input-[color] mc-input-mono</td>
-                        </tr>
-                        <tr>
-                            <td class="text-white">Select</td>
-                            <td>mc-select</td>
-                            <td>mc-select-[sm|md|lg]</td>
-                        </tr>
-                        <tr>
-                            <td class="text-white">Checkbox</td>
-                            <td>mc-checkbox</td>
-                            <td>-</td>
-                        </tr>
-                        <tr>
-                            <td class="text-white">Radio</td>
-                            <td>mc-radio</td>
-                            <td>-</td>
-                        </tr>
-                        <tr>
-                            <td class="text-white">Switch</td>
-                            <td>mc-switch</td>
-                            <td>mc-switch-[success|danger|warning]</td>
-                        </tr>
-                        <tr>
-                            <td class="text-white">Textarea</td>
-                            <td>mc-textarea</td>
-                            <td>mc-textarea-mono</td>
-                        </tr>
-                        <tr>
-                            <td class="text-white">Input Group</td>
-                            <td>mc-input-group</td>
-                            <td>mc-input-addon</td>
-                        </tr>
-                        <tr>
-                            <td class="text-white">Label</td>
-                            <td>mc-label</td>
-                            <td>-</td>
-                        </tr>
-                        <tr>
-                            <td class="text-white">Panel</td>
-                            <td>mc-panel</td>
-                            <td>mc-panel-[color] mc-panel-[color]-[bevel|emboss]</td>
-                        </tr>
-                        <tr>
-                            <td class="text-white">Badge</td>
-                            <td>mc-badge</td>
-                            <td>data-hue="{hue}" | mc-badge-[filled|tonal|outline|subtle] | mc-badge-[xs|sm|lg|xl|xxl] | mc-badge-[pill|square|dot|dot-only|pulse] | mc-badge-[dismissible|interactive|group] | mc-badge-[counter|wrapper]</td>
-                        </tr>
-                        <tr>
-                            <td class="text-white">Alert</td>
-                            <td>mc-alert</td>
-                            <td>mc-alert-[success|danger|warning|info]</td>
-                        </tr>
-                        <tr>
-                            <td class="text-white">Tabs</td>
-                            <td>mc-tabs</td>
-                            <td>mc-tab mc-tab.active</td>
-                        </tr>
-                        <tr>
-                            <td class="text-white">Table</td>
-                            <td>mc-table</td>
-                            <td>-</td>
-                        </tr>
-                        <tr>
-                            <td class="text-white">Progress</td>
-                            <td>mc-progress</td>
-                            <td>mc-progress-bar mc-progress-bar-[success|danger|warning|info]</td>
-                        </tr>
-                        <tr>
-                            <td class="text-white">Divider</td>
-                            <td>mc-divider</td>
-                            <td>-</td>
-                        </tr>
-                        <tr>
-                            <td class="text-white">Card</td>
-                            <td>mc-card</td>
-                            <td>-</td>
-                        </tr>
-                        <tr>
-                            <td class="text-white">Button Group</td>
-                            <td>mc-button-group</td>
-                            <td>-</td>
-                        </tr>
-                        <tr>
-                            <td class="text-white">Text</td>
-                            <td>-</td>
-                            <td>mc-text-positive mc-text-negative mc-text-muted mc-text-label</td>
-                        </tr>
-                        <tr>
-                            <td class="text-white">Breadcrumb</td>
-                            <td>mc-breadcrumb</td>
-                            <td>mc-breadcrumb-item mc-breadcrumb-separator</td>
-                        </tr>
-                        <tr>
-                            <td class="text-white">Pagination</td>
-                            <td>mc-pagination</td>
-                            <td>mc-page mc-page.active mc-page.disabled</td>
-                        </tr>
-                        <tr>
-                            <td class="text-white">Spinner</td>
-                            <td>mc-spinner</td>
-                            <td>mc-spinner-[sm|lg|xl] mc-spinner-[success|danger|warning]</td>
-                        </tr>
-                        <tr>
-                            <td class="text-white">List Group</td>
-                            <td>mc-list-group</td>
-                            <td>mc-list-item mc-list-item.active mc-list-item.disabled</td>
-                        </tr>
-                        <tr>
-                            <td class="text-white">Avatar</td>
-                            <td>mc-avatar</td>
-                            <td>mc-avatar-[sm|lg|xl]</td>
-                        </tr>
-                        <tr>
-                            <td class="text-white">Code</td>
-                            <td>mc-code</td>
-                            <td>mc-code-inline</td>
-                        </tr>
-                        <tr>
-                            <td class="text-white">Keyboard</td>
-                            <td>mc-kbd</td>
-                            <td>-</td>
-                        </tr>
-                        <tr>
-                            <td class="text-white">Close</td>
-                            <td>mc-close</td>
-                            <td>mc-close-[sm|lg]</td>
-                        </tr>
-                        <tr>
-                            <td class="text-white">Validation</td>
-                            <td>-</td>
-                            <td>mc-input-error mc-input-success mc-error-text mc-success-text</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </section>
-
-        <!-- Footer -->
-        <footer class="border-t border-p-neutral-800 pt-6 text-center">
-            <p class="mc-text-muted text-sm">MC Perception Design System - Apache License 2.0</p>
-        </footer>
+        </main>
 
     </div>
 
+    <!-- Sidebar JS -->
     <script>
-        // Tab interaction
-        document.querySelectorAll('.mc-tab').forEach(tab => {
-            tab.addEventListener('click', function() {
-                this.parentElement.querySelectorAll('.mc-tab').forEach(t => t.classList.remove('active'));
-                this.classList.add('active');
-            });
+    (function() {
+        var page = location.pathname.split('/').pop().replace('.html','') || 'index';
+        var links = document.querySelectorAll('.docs-nav-link');
+        links.forEach(function(a) {
+            if (a.getAttribute('data-page') === page) a.classList.add('active');
         });
+        var hamburger = document.getElementById('docs-hamburger');
+        var sidebar = document.getElementById('docs-sidebar');
+        var overlay = document.getElementById('docs-overlay');
+        if (hamburger && sidebar && overlay) {
+            hamburger.addEventListener('click', function() {
+                sidebar.classList.toggle('open');
+                overlay.classList.toggle('open');
+            });
+            overlay.addEventListener('click', function() {
+                sidebar.classList.remove('open');
+                overlay.classList.remove('open');
+            });
+        }
+    })();
     </script>
-
 </body>
 </html>

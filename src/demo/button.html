@@ -6,42 +6,267 @@
     <title>Button Style Guide — MC Perception</title>
     <link rel="stylesheet" href="../dist/mcperception.css">
     <style>
-        .guide-section { margin-bottom: 4rem; }
-        .guide-card { background: #111111; border: 1px solid #222222; border-radius: 6px; padding: 1.5rem; }
-        .guide-label { min-width: 72px; font-size: 0.6rem; text-transform: uppercase; letter-spacing: 0.1em; color: #6c6c6c; font-weight: 700; }
-        .guide-row { display: flex; flex-wrap: wrap; align-items: center; gap: 0.75rem; }
-        .code-block {
-            background: #0a0a0a; border: 1px solid #222222; border-radius: 6px;
-            padding: 1rem 1.25rem; font-family: 'Roboto Mono', ui-monospace, monospace;
-            font-size: 0.7rem; line-height: 1.8; color: #a0a0a0; overflow-x: auto;
-            tab-size: 2;
-        }
-        .code-block .t { color: #ff7474; }
-        .code-block .a { color: #9494ff; }
-        .code-block .v { color: #00ba00; }
-        .code-block .c { color: #6d6dff; }
-        .code-block .cm { color: #515151; }
-        .code-block .tx { color: #c3c3c3; }
-        .surface-panel { border-radius: 8px; padding: 1.25rem 1.5rem; }
-        .section-number {
-            display: inline-flex; align-items: center; justify-content: center;
-            width: 28px; height: 28px; border-radius: 6px;
-            font-size: 0.75rem; font-weight: 800; margin-right: 0.5rem;
-        }
-        .grid-label {
-            font-size: 0.6rem; text-transform: uppercase; letter-spacing: 0.12em;
-            font-weight: 700; color: #515151; width: 64px; flex-shrink: 0;
-        }
-        .white-label { color: #7f7f7f; }
+/* ── Docs Layout ── */
+.docs-layout {
+    display: flex;
+    min-height: 100vh;
+}
+.docs-sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 240px;
+    height: 100vh;
+    background: #222222;
+    border-right: 1px solid #222222;
+    overflow-y: auto;
+    z-index: 40;
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.2s ease;
+}
+.docs-sidebar-header {
+    padding: 1.25rem 1.25rem 0.75rem;
+    border-bottom: 1px solid #222222;
+    display: flex;
+    align-items: baseline;
+    gap: 0.5rem;
+}
+.docs-logo {
+    font-size: 0.875rem;
+    font-weight: 700;
+    color: #FFFFFF;
+    text-decoration: none;
+    letter-spacing: -0.01em;
+}
+.docs-logo:hover { color: #c3c3c3; }
+.docs-version {
+    font-size: 0.625rem;
+    color: #515151;
+    font-family: 'Roboto Mono', ui-monospace, monospace;
+}
+.docs-sidebar-nav {
+    padding: 0.75rem 0;
+    flex: 1;
+}
+.docs-nav-group {
+    margin-bottom: 0.25rem;
+}
+.docs-nav-group-label {
+    font-size: 0.625rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: #515151;
+    padding: 0.625rem 1.25rem 0.375rem;
+}
+.docs-nav-link {
+    display: block;
+    font-size: 0.8125rem;
+    color: #a0a0a0;
+    text-decoration: none;
+    padding: 0.375rem 1.25rem;
+    border-left: 2px solid transparent;
+    transition: color 0.15s, border-color 0.15s, background 0.15s;
+}
+.docs-nav-link:hover {
+    color: #c3c3c3;
+    background: #222222;
+}
+.docs-nav-link.active {
+    color: #5252ff;
+    border-left-color: #5252ff;
+    background: #222222;
+}
+.docs-content {
+    flex: 1;
+    margin-left: 240px;
+}
+
+/* ── Mobile: hamburger + overlay ── */
+#docs-hamburger {
+    display: none;
+    position: fixed;
+    top: 0.75rem;
+    left: 0.75rem;
+    z-index: 50;
+    background: #222222;
+    border: 1px solid #222222;
+    color: #a0a0a0;
+    font-size: 1.25rem;
+    width: 36px;
+    height: 36px;
+    border-radius: 6px;
+    cursor: pointer;
+    align-items: center;
+    justify-content: center;
+    line-height: 1;
+    padding: 0;
+}
+#docs-hamburger:hover { color: #FFFFFF; }
+#docs-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: #090909;
+    z-index: 35;
+}
+@media (max-width: 1023px) {
+    #docs-hamburger { display: flex; }
+    .docs-sidebar {
+        transform: translateX(-100%);
+    }
+    .docs-sidebar.open {
+        transform: translateX(0);
+    }
+    #docs-overlay.open {
+        display: block;
+    }
+    .docs-content {
+        margin-left: 0;
+    }
+}
+
+/* ── Guide Cards & Code Blocks ── */
+.guide-section { margin-bottom: 4rem; }
+.guide-card {
+    background: #090909;
+    border: 1px solid #222222;
+    border-radius: 6px;
+    padding: 1.5rem;
+}
+.guide-label {
+    min-width: 72px;
+    font-size: 0.6rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: #6c6c6c;
+    font-weight: 700;
+}
+.guide-row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.75rem;
+}
+.code-block {
+    background: #0a0a0a;
+    border: 1px solid #222222;
+    border-radius: 6px;
+    padding: 1rem 1.25rem;
+    font-family: 'Roboto Mono', ui-monospace, monospace;
+    font-size: 0.7rem;
+    line-height: 1.8;
+    color: #a0a0a0;
+    overflow-x: auto;
+    tab-size: 2;
+}
+.code-block .t  { color: #ff7474; }
+.code-block .a  { color: #9494ff; }
+.code-block .v  { color: #00ba00; }
+.code-block .c  { color: #6d6dff; }
+.code-block .cm { color: #515151; }
+.code-block .tx { color: #c3c3c3; }
+.surface-panel {
+    border-radius: 8px;
+    padding: 1.25rem 1.5rem;
+}
+.section-number {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    border-radius: 6px;
+    font-size: 0.75rem;
+    font-weight: 800;
+    margin-right: 0.5rem;
+}
+.grid-label {
+    font-size: 0.6rem;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    font-weight: 700;
+    color: #515151;
+    width: 64px;
+    flex-shrink: 0;
+}
+.white-label { color: #7f7f7f; }
+
+/* ── Standard Footer ── */
+.docs-footer {
+    margin-top: 6rem;
+    padding: 2rem 0;
+    border-top: 1px solid #222222;
+    text-align: center;
+}
+.docs-footer p {
+    font-size: 0.75rem;
+    color: #515151;
+}
+.docs-footer a {
+    color: #6d6dff;
+    text-decoration: none;
+}
+.docs-footer a:hover {
+    color: #9494ff;
+}
     </style>
 </head>
 <body class="bg-p-black text-white min-h-screen font-sans">
 
-    <div class="max-w-7xl mx-auto px-6 py-12">
+    <button id="docs-hamburger">&#9776;</button>
+    <div id="docs-overlay"></div>
+
+    <div class="docs-layout">
+        <aside class="docs-sidebar" id="docs-sidebar">
+            <div class="docs-sidebar-header">
+                <a href="index.html" class="docs-logo">MC Perception</a>
+                <span class="docs-version">v1.0</span>
+            </div>
+            <nav class="docs-sidebar-nav">
+                <div class="docs-nav-group">
+                    <div class="docs-nav-group-label">Getting Started</div>
+                    <a href="index.html" class="docs-nav-link" data-page="index">Home</a>
+                    <a href="getting-started.html" class="docs-nav-link" data-page="getting-started">Getting Started</a>
+                </div>
+                <div class="docs-nav-group">
+                    <div class="docs-nav-group-label">Foundation</div>
+                    <a href="color.html" class="docs-nav-link" data-page="color">Color Palette</a>
+                    <a href="surface-modes.html" class="docs-nav-link" data-page="surface-modes">Surface Modes</a>
+                    <a href="typography.html" class="docs-nav-link" data-page="typography">Typography</a>
+                </div>
+                <div class="docs-nav-group">
+                    <div class="docs-nav-group-label">Components</div>
+                    <a href="button.html" class="docs-nav-link" data-page="button">Buttons</a>
+                    <a href="badges.html" class="docs-nav-link" data-page="badges">Badges</a>
+                    <a href="alert.html" class="docs-nav-link" data-page="alert">Alerts</a>
+                    <a href="input.html" class="docs-nav-link" data-page="input">Form Inputs</a>
+                    <a href="selection.html" class="docs-nav-link" data-page="selection">Selection Controls</a>
+                    <a href="table.html" class="docs-nav-link" data-page="table">Tables</a>
+            <a href="panel-system.html" class="docs-nav-link" data-page="panel-system">Panels</a>
+                </div>
+                <div class="docs-nav-group">
+                    <div class="docs-nav-group-label">Patterns</div>
+                    <a href="forms.html" class="docs-nav-link" data-page="forms">Form Layout</a>
+                    <a href="dark-surfaces.html" class="docs-nav-link" data-page="dark-surfaces">Dark Surface Depth</a>
+                </div>
+                <div class="docs-nav-group">
+                    <div class="docs-nav-group-label">Examples</div>
+                    <a href="trading-card.html" class="docs-nav-link" data-page="trading-card">Trading Card</a>
+                    <a href="orderbook.html" class="docs-nav-link" data-page="orderbook">Orderbook</a>
+                </div>
+            </nav>
+        </aside>
+
+        <main class="docs-content">
+            <div class="max-w-7xl mx-auto px-6 py-12">
 
         <!-- ====== HERO ====== -->
         <header class="mb-16">
             <nav class="text-xs text-p-neutral-400 mb-6 flex gap-2 items-center">
+                <a href="index.html" class="hover:text-white transition-colors">Home</a>
+                <span class="text-p-neutral-600">/</span>
                 <a href="index.html" class="hover:text-white transition-colors">Components</a>
                 <span class="text-p-neutral-600">/</span>
                 <span class="text-white font-semibold">Button</span>
@@ -321,61 +546,281 @@
                 <span class="section-number bg-p-magenta-800 text-p-magenta-200">4</span>
                 Surface Mode Adaptation
             </h2>
-            <p class="text-p-neutral-400 text-sm mb-6 ml-10">Buttons auto-adapt to the parent <code class="text-p-teal-200 text-xs">data-mode</code> context.</p>
+            <p class="text-p-neutral-400 text-sm mb-6 ml-10">Buttons auto-adapt to the parent <code class="text-p-teal-200 text-xs">data-mode</code> context. All 7 hues × 4 variants × 5 modes.</p>
 
-            <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
-                <!-- M1 White -->
-                <div class="surface-panel" style="background: #FFFFFF;" data-hue="neutral" data-mode="1">
-                    <div class="text-[10px] uppercase tracking-widest font-bold mb-3 white-label">M1 — White #FFFFFF</div>
-                    <div class="flex flex-wrap gap-2">
-                        <button class="mc-button mc-button-filled mc-button-sm" data-hue="blue">Filled</button>
-                        <button class="mc-button mc-button-tonal mc-button-sm" data-hue="blue">Tonal</button>
-                        <button class="mc-button mc-button-outline mc-button-sm" data-hue="blue">Outline</button>
-                        <button class="mc-button mc-button-ghost mc-button-sm" data-hue="blue">Ghost</button>
+            <!-- ── M1 — White Surface ── -->
+            <div class="surface-panel mb-4" style="background: #FFFFFF;" data-hue="neutral" data-mode="1">
+                <div class="text-[10px] uppercase tracking-widest font-bold mb-4 white-label">M1 — White #FFFFFF</div>
+                <div class="space-y-3">
+                    <div class="guide-row">
+                        <span class="grid-label white-label">Filled</span>
+                        <button class="mc-button mc-button-filled mc-button-xs" data-hue="neutral">Neutral</button>
+                        <button class="mc-button mc-button-filled mc-button-xs" data-hue="red">Red</button>
+                        <button class="mc-button mc-button-filled mc-button-xs" data-hue="green">Green</button>
+                        <button class="mc-button mc-button-filled mc-button-xs" data-hue="blue">Blue</button>
+                        <button class="mc-button mc-button-filled mc-button-xs" data-hue="yellow">Yellow</button>
+                        <button class="mc-button mc-button-filled mc-button-xs" data-hue="magenta">Magenta</button>
+                        <button class="mc-button mc-button-filled mc-button-xs" data-hue="teal">Teal</button>
+                    </div>
+                    <div class="guide-row">
+                        <span class="grid-label white-label">Tonal</span>
+                        <button class="mc-button mc-button-tonal mc-button-xs" data-hue="neutral">Neutral</button>
+                        <button class="mc-button mc-button-tonal mc-button-xs" data-hue="red">Red</button>
+                        <button class="mc-button mc-button-tonal mc-button-xs" data-hue="green">Green</button>
+                        <button class="mc-button mc-button-tonal mc-button-xs" data-hue="blue">Blue</button>
+                        <button class="mc-button mc-button-tonal mc-button-xs" data-hue="yellow">Yellow</button>
+                        <button class="mc-button mc-button-tonal mc-button-xs" data-hue="magenta">Magenta</button>
+                        <button class="mc-button mc-button-tonal mc-button-xs" data-hue="teal">Teal</button>
+                    </div>
+                    <div class="guide-row">
+                        <span class="grid-label white-label">Outline</span>
+                        <button class="mc-button mc-button-outline mc-button-xs" data-hue="neutral">Neutral</button>
+                        <button class="mc-button mc-button-outline mc-button-xs" data-hue="red">Red</button>
+                        <button class="mc-button mc-button-outline mc-button-xs" data-hue="green">Green</button>
+                        <button class="mc-button mc-button-outline mc-button-xs" data-hue="blue">Blue</button>
+                        <button class="mc-button mc-button-outline mc-button-xs" data-hue="yellow">Yellow</button>
+                        <button class="mc-button mc-button-outline mc-button-xs" data-hue="magenta">Magenta</button>
+                        <button class="mc-button mc-button-outline mc-button-xs" data-hue="teal">Teal</button>
+                    </div>
+                    <div class="guide-row">
+                        <span class="grid-label white-label">Ghost</span>
+                        <button class="mc-button mc-button-ghost mc-button-xs" data-hue="neutral">Neutral</button>
+                        <button class="mc-button mc-button-ghost mc-button-xs" data-hue="red">Red</button>
+                        <button class="mc-button mc-button-ghost mc-button-xs" data-hue="green">Green</button>
+                        <button class="mc-button mc-button-ghost mc-button-xs" data-hue="blue">Blue</button>
+                        <button class="mc-button mc-button-ghost mc-button-xs" data-hue="yellow">Yellow</button>
+                        <button class="mc-button mc-button-ghost mc-button-xs" data-hue="magenta">Magenta</button>
+                        <button class="mc-button mc-button-ghost mc-button-xs" data-hue="teal">Teal</button>
                     </div>
                 </div>
+            </div>
 
-                <!-- M2 Black -->
-                <div class="surface-panel" style="background: #0A0A0A; border: 1px solid #222222;" data-hue="neutral" data-mode="2">
-                    <div class="text-[10px] uppercase tracking-widest text-p-neutral-400 font-bold mb-3">M2 — Black #0A0A0A</div>
-                    <div class="flex flex-wrap gap-2">
-                        <button class="mc-button mc-button-filled mc-button-sm" data-hue="blue">Filled</button>
-                        <button class="mc-button mc-button-tonal mc-button-sm" data-hue="blue">Tonal</button>
-                        <button class="mc-button mc-button-outline mc-button-sm" data-hue="blue">Outline</button>
-                        <button class="mc-button mc-button-ghost mc-button-sm" data-hue="blue">Ghost</button>
+            <!-- ── M2 — Black Surface (Depth Tokens: 3px radius, weight 400) ── -->
+            <div class="surface-panel mb-4" style="background: #0A0A0A; border: 1px solid #222222;" data-hue="neutral" data-mode="2">
+                <div class="text-[10px] uppercase tracking-widest text-p-neutral-400 font-bold mb-4">M2 — Black #0A0A0A <span class="text-p-neutral-600 normal-case">(depth tokens: 3px radius, weight 400)</span></div>
+                <div class="space-y-3">
+                    <div class="guide-row">
+                        <span class="grid-label">Filled</span>
+                        <button class="mc-button mc-button-filled mc-button-xs" data-hue="neutral">Neutral</button>
+                        <button class="mc-button mc-button-filled mc-button-xs" data-hue="red">Red</button>
+                        <button class="mc-button mc-button-filled mc-button-xs" data-hue="green">Green</button>
+                        <button class="mc-button mc-button-filled mc-button-xs" data-hue="blue">Blue</button>
+                        <button class="mc-button mc-button-filled mc-button-xs" data-hue="yellow">Yellow</button>
+                        <button class="mc-button mc-button-filled mc-button-xs" data-hue="magenta">Magenta</button>
+                        <button class="mc-button mc-button-filled mc-button-xs" data-hue="teal">Teal</button>
+                    </div>
+                    <div class="guide-row">
+                        <span class="grid-label">Tonal</span>
+                        <button class="mc-button mc-button-tonal mc-button-xs" data-hue="neutral">Neutral</button>
+                        <button class="mc-button mc-button-tonal mc-button-xs" data-hue="red">Red</button>
+                        <button class="mc-button mc-button-tonal mc-button-xs" data-hue="green">Green</button>
+                        <button class="mc-button mc-button-tonal mc-button-xs" data-hue="blue">Blue</button>
+                        <button class="mc-button mc-button-tonal mc-button-xs" data-hue="yellow">Yellow</button>
+                        <button class="mc-button mc-button-tonal mc-button-xs" data-hue="magenta">Magenta</button>
+                        <button class="mc-button mc-button-tonal mc-button-xs" data-hue="teal">Teal</button>
+                    </div>
+                    <div class="guide-row">
+                        <span class="grid-label">Outline</span>
+                        <button class="mc-button mc-button-outline mc-button-xs" data-hue="neutral">Neutral</button>
+                        <button class="mc-button mc-button-outline mc-button-xs" data-hue="red">Red</button>
+                        <button class="mc-button mc-button-outline mc-button-xs" data-hue="green">Green</button>
+                        <button class="mc-button mc-button-outline mc-button-xs" data-hue="blue">Blue</button>
+                        <button class="mc-button mc-button-outline mc-button-xs" data-hue="yellow">Yellow</button>
+                        <button class="mc-button mc-button-outline mc-button-xs" data-hue="magenta">Magenta</button>
+                        <button class="mc-button mc-button-outline mc-button-xs" data-hue="teal">Teal</button>
+                    </div>
+                    <div class="guide-row">
+                        <span class="grid-label">Ghost</span>
+                        <button class="mc-button mc-button-ghost mc-button-xs" data-hue="neutral">Neutral</button>
+                        <button class="mc-button mc-button-ghost mc-button-xs" data-hue="red">Red</button>
+                        <button class="mc-button mc-button-ghost mc-button-xs" data-hue="green">Green</button>
+                        <button class="mc-button mc-button-ghost mc-button-xs" data-hue="blue">Blue</button>
+                        <button class="mc-button mc-button-ghost mc-button-xs" data-hue="yellow">Yellow</button>
+                        <button class="mc-button mc-button-ghost mc-button-xs" data-hue="magenta">Magenta</button>
+                        <button class="mc-button mc-button-ghost mc-button-xs" data-hue="teal">Teal</button>
                     </div>
                 </div>
+            </div>
 
-                <!-- M3 Light Hue -->
+            <!-- ── M3 — Light Hue Surfaces (one panel per hue) ── -->
+            <div class="text-[10px] uppercase tracking-widest text-p-neutral-400 font-bold mb-3 mt-6">M3 — Light Hue Surfaces (step 100)</div>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 mb-4">
+                <div class="surface-panel" style="background: #e1e1e1;" data-hue="neutral" data-mode="3">
+                    <div class="text-[9px] uppercase tracking-widest font-bold mb-2" style="color: #515151;">Neutral #E1E1E1</div>
+                    <div class="flex flex-wrap gap-1.5">
+                        <button class="mc-button mc-button-filled mc-button-xs" data-hue="neutral">Filled</button>
+                        <button class="mc-button mc-button-outline mc-button-xs" data-hue="neutral">Outline</button>
+                        <button class="mc-button mc-button-ghost mc-button-xs" data-hue="neutral">Ghost</button>
+                    </div>
+                </div>
+                <div class="surface-panel" style="background: #ffd8d8;" data-hue="red" data-mode="3">
+                    <div class="text-[9px] uppercase tracking-widest font-bold mb-2" style="color: #a70000;">Red #FFD8D8</div>
+                    <div class="flex flex-wrap gap-1.5">
+                        <button class="mc-button mc-button-filled mc-button-xs" data-hue="red">Filled</button>
+                        <button class="mc-button mc-button-outline mc-button-xs" data-hue="red">Outline</button>
+                        <button class="mc-button mc-button-ghost mc-button-xs" data-hue="red">Ghost</button>
+                    </div>
+                </div>
+                <div class="surface-panel" style="background: #62ff62;" data-hue="green" data-mode="3">
+                    <div class="text-[9px] uppercase tracking-widest font-bold mb-2" style="color: #005f00;">Green #62FF62</div>
+                    <div class="flex flex-wrap gap-1.5">
+                        <button class="mc-button mc-button-filled mc-button-xs" data-hue="green">Filled</button>
+                        <button class="mc-button mc-button-outline mc-button-xs" data-hue="green">Outline</button>
+                        <button class="mc-button mc-button-ghost mc-button-xs" data-hue="green">Ghost</button>
+                    </div>
+                </div>
                 <div class="surface-panel" style="background: #dedeff;" data-hue="blue" data-mode="3">
-                    <div class="text-[10px] uppercase tracking-widest font-bold mb-3" style="color: #5252ff;">M3 — Light Blue #DEDEFF</div>
-                    <div class="flex flex-wrap gap-2">
-                        <button class="mc-button mc-button-filled mc-button-sm" data-hue="blue">Filled</button>
-                        <button class="mc-button mc-button-tonal mc-button-sm" data-hue="blue">Tonal</button>
-                        <button class="mc-button mc-button-outline mc-button-sm" data-hue="blue">Outline</button>
-                        <button class="mc-button mc-button-ghost mc-button-sm" data-hue="blue">Ghost</button>
+                    <div class="text-[9px] uppercase tracking-widest font-bold mb-2" style="color: #1919ff;">Blue #DEDEFF</div>
+                    <div class="flex flex-wrap gap-1.5">
+                        <button class="mc-button mc-button-filled mc-button-xs" data-hue="blue">Filled</button>
+                        <button class="mc-button mc-button-outline mc-button-xs" data-hue="blue">Outline</button>
+                        <button class="mc-button mc-button-ghost mc-button-xs" data-hue="blue">Ghost</button>
                     </div>
                 </div>
-
-                <!-- M4 Dark Hue -->
-                <div class="surface-panel" style="background: #000081;" data-hue="blue" data-mode="4">
-                    <div class="text-[10px] uppercase tracking-widest font-bold mb-3" style="color: #9494ff;">M4 — Dark Blue #000081</div>
-                    <div class="flex flex-wrap gap-2">
-                        <button class="mc-button mc-button-filled mc-button-sm" data-hue="blue">Filled</button>
-                        <button class="mc-button mc-button-tonal mc-button-sm" data-hue="blue">Tonal</button>
-                        <button class="mc-button mc-button-outline mc-button-sm" data-hue="blue">Outline</button>
-                        <button class="mc-button mc-button-ghost mc-button-sm" data-hue="blue">Ghost</button>
+                <div class="surface-panel" style="background: #e8e800;" data-hue="yellow" data-mode="3">
+                    <div class="text-[9px] uppercase tracking-widest font-bold mb-2" style="color: #545400;">Yellow #E8E800</div>
+                    <div class="flex flex-wrap gap-1.5">
+                        <button class="mc-button mc-button-filled mc-button-xs" data-hue="yellow">Filled</button>
+                        <button class="mc-button mc-button-outline mc-button-xs" data-hue="yellow">Outline</button>
+                        <button class="mc-button mc-button-ghost mc-button-xs" data-hue="yellow">Ghost</button>
                     </div>
                 </div>
+                <div class="surface-panel" style="background: #ffd2ff;" data-hue="magenta" data-mode="3">
+                    <div class="text-[9px] uppercase tracking-widest font-bold mb-2" style="color: #910091;">Magenta #FFD2FF</div>
+                    <div class="flex flex-wrap gap-1.5">
+                        <button class="mc-button mc-button-filled mc-button-xs" data-hue="magenta">Filled</button>
+                        <button class="mc-button mc-button-outline mc-button-xs" data-hue="magenta">Outline</button>
+                        <button class="mc-button mc-button-ghost mc-button-xs" data-hue="magenta">Ghost</button>
+                    </div>
+                </div>
+                <div class="surface-panel" style="background: #00f9f9;" data-hue="teal" data-mode="3">
+                    <div class="text-[9px] uppercase tracking-widest font-bold mb-2" style="color: #005a5a;">Teal #00F9F9</div>
+                    <div class="flex flex-wrap gap-1.5">
+                        <button class="mc-button mc-button-filled mc-button-xs" data-hue="teal">Filled</button>
+                        <button class="mc-button mc-button-outline mc-button-xs" data-hue="teal">Outline</button>
+                        <button class="mc-button mc-button-ghost mc-button-xs" data-hue="teal">Ghost</button>
+                    </div>
+                </div>
+            </div>
 
-                <!-- M5 Mid Hue (full-width) -->
-                <div class="surface-panel lg:col-span-2" style="background: #5252ff;" data-hue="blue" data-mode="5">
-                    <div class="text-[10px] uppercase tracking-widest font-bold mb-3" style="color: #f8f8ff;">M5 — Mid Blue #5252FF</div>
-                    <div class="flex flex-wrap gap-2">
-                        <button class="mc-button mc-button-filled mc-button-sm" data-hue="blue">Filled</button>
-                        <button class="mc-button mc-button-tonal mc-button-sm" data-hue="blue">Tonal</button>
-                        <button class="mc-button mc-button-outline mc-button-sm" data-hue="blue">Outline</button>
-                        <button class="mc-button mc-button-ghost mc-button-sm" data-hue="blue">Ghost</button>
+            <!-- ── M4 — Dark Hue Surfaces (depth tokens: 3px radius, weight 400) ── -->
+            <div class="text-[10px] uppercase tracking-widest text-p-neutral-400 font-bold mb-3 mt-6">M4 — Dark Hue Surfaces (step 800) <span class="text-p-neutral-600 normal-case">(depth tokens)</span></div>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 mb-4">
+                <div class="surface-panel" style="background: #222222; border: 1px solid #373737;" data-hue="neutral" data-mode="4">
+                    <div class="text-[9px] uppercase tracking-widest font-bold mb-2" style="color: #a0a0a0;">Neutral #222222</div>
+                    <div class="flex flex-wrap gap-1.5">
+                        <button class="mc-button mc-button-filled mc-button-xs" data-hue="neutral">Filled</button>
+                        <button class="mc-button mc-button-outline mc-button-xs" data-hue="neutral">Outline</button>
+                        <button class="mc-button mc-button-ghost mc-button-xs" data-hue="neutral">Ghost</button>
+                    </div>
+                </div>
+                <div class="surface-panel" style="background: #4d0000; border: 1px solid #740000;" data-hue="red" data-mode="4">
+                    <div class="text-[9px] uppercase tracking-widest font-bold mb-2" style="color: #ff7474;">Red #4D0000</div>
+                    <div class="flex flex-wrap gap-1.5">
+                        <button class="mc-button mc-button-filled mc-button-xs" data-hue="red">Filled</button>
+                        <button class="mc-button mc-button-outline mc-button-xs" data-hue="red">Outline</button>
+                        <button class="mc-button mc-button-ghost mc-button-xs" data-hue="red">Ghost</button>
+                    </div>
+                </div>
+                <div class="surface-panel" style="background: #002900; border: 1px solid #004000;" data-hue="green" data-mode="4">
+                    <div class="text-[9px] uppercase tracking-widest font-bold mb-2" style="color: #00ba00;">Green #002900</div>
+                    <div class="flex flex-wrap gap-1.5">
+                        <button class="mc-button mc-button-filled mc-button-xs" data-hue="green">Filled</button>
+                        <button class="mc-button mc-button-outline mc-button-xs" data-hue="green">Outline</button>
+                        <button class="mc-button mc-button-ghost mc-button-xs" data-hue="green">Ghost</button>
+                    </div>
+                </div>
+                <div class="surface-panel" style="background: #000081; border: 1px solid #0000bf;" data-hue="blue" data-mode="4">
+                    <div class="text-[9px] uppercase tracking-widest font-bold mb-2" style="color: #9494ff;">Blue #000081</div>
+                    <div class="flex flex-wrap gap-1.5">
+                        <button class="mc-button mc-button-filled mc-button-xs" data-hue="blue">Filled</button>
+                        <button class="mc-button mc-button-outline mc-button-xs" data-hue="blue">Outline</button>
+                        <button class="mc-button mc-button-ghost mc-button-xs" data-hue="blue">Ghost</button>
+                    </div>
+                </div>
+                <div class="surface-panel" style="background: #242400; border: 1px solid #383800;" data-hue="yellow" data-mode="4">
+                    <div class="text-[9px] uppercase tracking-widest font-bold mb-2" style="color: #a6a600;">Yellow #242400</div>
+                    <div class="flex flex-wrap gap-1.5">
+                        <button class="mc-button mc-button-filled mc-button-xs" data-hue="yellow">Filled</button>
+                        <button class="mc-button mc-button-outline mc-button-xs" data-hue="yellow">Outline</button>
+                        <button class="mc-button mc-button-ghost mc-button-xs" data-hue="yellow">Ghost</button>
+                    </div>
+                </div>
+                <div class="surface-panel" style="background: #420042; border: 1px solid #660066;" data-hue="magenta" data-mode="4">
+                    <div class="text-[9px] uppercase tracking-widest font-bold mb-2" style="color: #ff55ff;">Magenta #420042</div>
+                    <div class="flex flex-wrap gap-1.5">
+                        <button class="mc-button mc-button-filled mc-button-xs" data-hue="magenta">Filled</button>
+                        <button class="mc-button mc-button-outline mc-button-xs" data-hue="magenta">Outline</button>
+                        <button class="mc-button mc-button-ghost mc-button-xs" data-hue="magenta">Ghost</button>
+                    </div>
+                </div>
+                <div class="surface-panel" style="background: #002727; border: 1px solid #003d3d;" data-hue="teal" data-mode="4">
+                    <div class="text-[9px] uppercase tracking-widest font-bold mb-2" style="color: #00b2b2;">Teal #002727</div>
+                    <div class="flex flex-wrap gap-1.5">
+                        <button class="mc-button mc-button-filled mc-button-xs" data-hue="teal">Filled</button>
+                        <button class="mc-button mc-button-outline mc-button-xs" data-hue="teal">Outline</button>
+                        <button class="mc-button mc-button-ghost mc-button-xs" data-hue="teal">Ghost</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ── M5 — Mid Hue Surfaces ── -->
+            <div class="text-[10px] uppercase tracking-widest text-p-neutral-400 font-bold mb-3 mt-6">M5 — Mid Hue Surfaces (step 500)</div>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 mb-4">
+                <div class="surface-panel" style="background: #6c6c6c;" data-hue="neutral" data-mode="5">
+                    <div class="text-[9px] uppercase tracking-widest font-bold mb-2" style="color: #fafafa;">Neutral #6C6C6C</div>
+                    <div class="flex flex-wrap gap-1.5">
+                        <button class="mc-button mc-button-filled mc-button-xs" data-hue="neutral">Filled</button>
+                        <button class="mc-button mc-button-outline mc-button-xs" data-hue="neutral">Outline</button>
+                        <button class="mc-button mc-button-ghost mc-button-xs" data-hue="neutral">Ghost</button>
+                    </div>
+                </div>
+                <div class="surface-panel" style="background: #da0000;" data-hue="red" data-mode="5">
+                    <div class="text-[9px] uppercase tracking-widest font-bold mb-2" style="color: #fffafa;">Red #DA0000</div>
+                    <div class="flex flex-wrap gap-1.5">
+                        <button class="mc-button mc-button-filled mc-button-xs" data-hue="red">Filled</button>
+                        <button class="mc-button mc-button-outline mc-button-xs" data-hue="red">Outline</button>
+                        <button class="mc-button mc-button-ghost mc-button-xs" data-hue="red">Ghost</button>
+                    </div>
+                </div>
+                <div class="surface-panel" style="background: #007f00;" data-hue="green" data-mode="5">
+                    <div class="text-[9px] uppercase tracking-widest font-bold mb-2" style="color: #ebffeb;">Green #007F00</div>
+                    <div class="flex flex-wrap gap-1.5">
+                        <button class="mc-button mc-button-filled mc-button-xs" data-hue="green">Filled</button>
+                        <button class="mc-button mc-button-outline mc-button-xs" data-hue="green">Outline</button>
+                        <button class="mc-button mc-button-ghost mc-button-xs" data-hue="green">Ghost</button>
+                    </div>
+                </div>
+                <div class="surface-panel" style="background: #5252ff;" data-hue="blue" data-mode="5">
+                    <div class="text-[9px] uppercase tracking-widest font-bold mb-2" style="color: #f8f8ff;">Blue #5252FF</div>
+                    <div class="flex flex-wrap gap-1.5">
+                        <button class="mc-button mc-button-filled mc-button-xs" data-hue="blue">Filled</button>
+                        <button class="mc-button mc-button-outline mc-button-xs" data-hue="blue">Outline</button>
+                        <button class="mc-button mc-button-ghost mc-button-xs" data-hue="blue">Ghost</button>
+                    </div>
+                </div>
+                <div class="surface-panel" style="background: #6f6f00;" data-hue="yellow" data-mode="5">
+                    <div class="text-[9px] uppercase tracking-widest font-bold mb-2" style="color: #ffff97;">Yellow #6F6F00</div>
+                    <div class="flex flex-wrap gap-1.5">
+                        <button class="mc-button mc-button-filled mc-button-xs" data-hue="yellow">Filled</button>
+                        <button class="mc-button mc-button-outline mc-button-xs" data-hue="yellow">Outline</button>
+                        <button class="mc-button mc-button-ghost mc-button-xs" data-hue="yellow">Ghost</button>
+                    </div>
+                </div>
+                <div class="surface-panel" style="background: #c000c0;" data-hue="magenta" data-mode="5">
+                    <div class="text-[9px] uppercase tracking-widest font-bold mb-2" style="color: #fff7ff;">Magenta #C000C0</div>
+                    <div class="flex flex-wrap gap-1.5">
+                        <button class="mc-button mc-button-filled mc-button-xs" data-hue="magenta">Filled</button>
+                        <button class="mc-button mc-button-outline mc-button-xs" data-hue="magenta">Outline</button>
+                        <button class="mc-button mc-button-ghost mc-button-xs" data-hue="magenta">Ghost</button>
+                    </div>
+                </div>
+                <div class="surface-panel" style="background: #007979;" data-hue="teal" data-mode="5">
+                    <div class="text-[9px] uppercase tracking-widest font-bold mb-2" style="color: #e3ffff;">Teal #007979</div>
+                    <div class="flex flex-wrap gap-1.5">
+                        <button class="mc-button mc-button-filled mc-button-xs" data-hue="teal">Filled</button>
+                        <button class="mc-button mc-button-outline mc-button-xs" data-hue="teal">Outline</button>
+                        <button class="mc-button mc-button-ghost mc-button-xs" data-hue="teal">Ghost</button>
                     </div>
                 </div>
             </div>
@@ -385,6 +830,10 @@
 <span class="cm">&lt;!-- Buttons auto-adapt via ancestor data-mode --&gt;</span>
 <span class="t">&lt;div</span> <span class="a">data-hue</span>=<span class="v">"blue"</span> <span class="a">data-mode</span>=<span class="v">"1"</span><span class="t">&gt;</span>  <span class="cm">&lt;!-- white surface --&gt;</span>
   <span class="t">&lt;button</span> <span class="a">class</span>=<span class="v">"mc-button mc-button-filled"</span> <span class="a">data-hue</span>=<span class="v">"blue"</span><span class="t">&gt;</span><span class="tx">Adapts</span><span class="t">&lt;/button&gt;</span>
+<span class="t">&lt;/div&gt;</span>
+
+<span class="t">&lt;div</span> <span class="a">data-hue</span>=<span class="v">"blue"</span> <span class="a">data-mode</span>=<span class="v">"4"</span><span class="t">&gt;</span>  <span class="cm">&lt;!-- dark hue — depth tokens apply --&gt;</span>
+  <span class="t">&lt;button</span> <span class="a">class</span>=<span class="v">"mc-button mc-button-filled"</span> <span class="a">data-hue</span>=<span class="v">"blue"</span><span class="t">&gt;</span><span class="tx">Light fill</span><span class="t">&lt;/button&gt;</span>
 <span class="t">&lt;/div&gt;</span>
 
 <span class="t">&lt;div</span> <span class="a">data-hue</span>=<span class="v">"blue"</span> <span class="a">data-mode</span>=<span class="v">"5"</span><span class="t">&gt;</span>  <span class="cm">&lt;!-- mid surface — fills invert --&gt;</span>
@@ -761,22 +1210,13 @@
         </section>
 
 
-        <!-- ====== FOOTER ====== -->
-        <footer class="border-t border-p-neutral-800 pt-8 mt-16 pb-12">
-            <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
-                <div class="text-xs text-p-neutral-500">
-                    MC Perception Design System — Button Component
-                </div>
-                <nav class="flex gap-4 text-xs">
-                    <a href="index.html" class="text-p-neutral-400 hover:text-white transition-colors">Overview</a>
-                    <a href="badges.html" class="text-p-neutral-400 hover:text-white transition-colors">Badges</a>
-                    <a href="forms.html" class="text-p-neutral-400 hover:text-white transition-colors">Forms</a>
-                    <a href="selection.html" class="text-p-neutral-400 hover:text-white transition-colors">Selection</a>
-                    <a href="components.html" class="text-p-neutral-400 hover:text-white transition-colors">Components</a>
-                </nav>
-            </div>
+        <footer class="docs-footer">
+            <p>MC Perception Design System &mdash; 7 hues &times; 5 modes &times; 6 sizes &mdash; WCAG AA compliant</p>
+            <p style="margin-top: 0.5rem;"><a href="https://github.com/anthropics/claude-code">Built with Claude Code</a></p>
         </footer>
 
+            </div>
+        </main>
     </div>
 
     <script>
@@ -784,6 +1224,29 @@
         el.parentElement.querySelectorAll('.mc-button').forEach(b => b.classList.remove('active'));
         el.classList.add('active');
     }
+
+    // Auto-mark active sidebar link based on current filename
+    (function() {
+        var page = location.pathname.split('/').pop().replace('.html','') || 'index';
+        var links = document.querySelectorAll('.docs-nav-link');
+        links.forEach(function(a) {
+            if (a.getAttribute('data-page') === page) a.classList.add('active');
+        });
+        // Mobile hamburger toggle
+        var hamburger = document.getElementById('docs-hamburger');
+        var sidebar = document.getElementById('docs-sidebar');
+        var overlay = document.getElementById('docs-overlay');
+        if (hamburger && sidebar && overlay) {
+            hamburger.addEventListener('click', function() {
+                sidebar.classList.toggle('open');
+                overlay.classList.toggle('open');
+            });
+            overlay.addEventListener('click', function() {
+                sidebar.classList.remove('open');
+                overlay.classList.remove('open');
+            });
+        }
+    })();
     </script>
 
 </body>
