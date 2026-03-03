@@ -1,0 +1,1226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Navs &amp; Tabs Style Guide — MC Perception</title>
+    <link rel="stylesheet" href="../dist/mcperception.css">
+    <style>
+/* ── Docs Layout ── */
+.docs-layout {
+    display: flex;
+    min-height: 100vh;
+}
+.docs-sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 240px;
+    height: 100vh;
+    background: #222222;
+    border-right: 1px solid #222222;
+    overflow-y: auto;
+    z-index: 40;
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.2s ease;
+}
+.docs-sidebar-header {
+    padding: 1.25rem 1.25rem 0.75rem;
+    border-bottom: 1px solid #222222;
+    display: flex;
+    align-items: baseline;
+    gap: 0.5rem;
+}
+.docs-logo {
+    font-size: 0.875rem;
+    font-weight: 700;
+    color: #FFFFFF;
+    text-decoration: none;
+    letter-spacing: -0.01em;
+}
+.docs-logo:hover { color: #c3c3c3; }
+.docs-version {
+    font-size: 0.625rem;
+    color: #515151;
+    font-family: 'Roboto Mono', ui-monospace, monospace;
+}
+.docs-sidebar-nav {
+    padding: 0.75rem 0;
+    flex: 1;
+}
+.docs-nav-group {
+    margin-bottom: 0.25rem;
+}
+.docs-nav-group-label {
+    font-size: 0.625rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: #515151;
+    padding: 0.625rem 1.25rem 0.375rem;
+}
+.docs-nav-link {
+    display: block;
+    font-size: 0.8125rem;
+    color: #a0a0a0;
+    text-decoration: none;
+    padding: 0.375rem 1.25rem;
+    border-left: 2px solid transparent;
+    transition: color 0.15s, border-color 0.15s, background 0.15s;
+}
+.docs-nav-link:hover {
+    color: #c3c3c3;
+    background: #222222;
+}
+.docs-nav-link.active {
+    color: #5252ff;
+    border-left-color: #5252ff;
+    background: #222222;
+}
+.docs-content {
+    flex: 1;
+    margin-left: 240px;
+}
+
+/* ── Mobile: hamburger + overlay ── */
+#docs-hamburger {
+    display: none;
+    position: fixed;
+    top: 0.75rem;
+    left: 0.75rem;
+    z-index: 50;
+    background: #222222;
+    border: 1px solid #222222;
+    color: #a0a0a0;
+    font-size: 1.25rem;
+    width: 36px;
+    height: 36px;
+    border-radius: 6px;
+    cursor: pointer;
+    align-items: center;
+    justify-content: center;
+    line-height: 1;
+    padding: 0;
+}
+#docs-hamburger:hover { color: #FFFFFF; }
+#docs-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: #090909;
+    z-index: 35;
+}
+@media (max-width: 1023px) {
+    #docs-hamburger { display: flex; }
+    .docs-sidebar {
+        transform: translateX(-100%);
+    }
+    .docs-sidebar.open {
+        transform: translateX(0);
+    }
+    #docs-overlay.open {
+        display: block;
+    }
+    .docs-content {
+        margin-left: 0;
+    }
+}
+
+/* ── Guide Cards & Code Blocks ── */
+.guide-section { margin-bottom: 4rem; }
+.guide-card {
+    background: #090909;
+    border: 1px solid #222222;
+    border-radius: 6px;
+    padding: 1.5rem;
+}
+.guide-label {
+    min-width: 72px;
+    font-size: 0.6rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: #6c6c6c;
+    font-weight: 700;
+}
+.guide-row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.5rem;
+}
+.code-block {
+    background: #0A0A0A;
+    border: 1px solid #222222;
+    border-radius: 6px;
+    padding: 1rem 1.25rem;
+    font-family: 'Roboto Mono', ui-monospace, monospace;
+    font-size: 0.7rem;
+    line-height: 1.8;
+    color: #a0a0a0;
+    overflow-x: auto;
+    tab-size: 2;
+}
+.code-block .t  { color: #ff7474; }
+.code-block .a  { color: #9494ff; }
+.code-block .v  { color: #00ba00; }
+.code-block .c  { color: #6d6dff; }
+.code-block .cm { color: #515151; }
+.code-block .tx { color: #c3c3c3; }
+.surface-panel {
+    border-radius: 8px;
+    padding: 1.25rem 1.5rem;
+}
+.section-number {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    border-radius: 6px;
+    font-size: 0.75rem;
+    font-weight: 800;
+    margin-right: 0.5rem;
+}
+.grid-label {
+    font-size: 0.6rem;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    font-weight: 700;
+    color: #515151;
+    width: 64px;
+    flex-shrink: 0;
+}
+.white-label { color: #7f7f7f; }
+
+/* ── Standard Footer ── */
+.docs-footer {
+    margin-top: 6rem;
+    padding: 2rem 0;
+    border-top: 1px solid #222222;
+    text-align: center;
+}
+.docs-footer p {
+    font-size: 0.75rem;
+    color: #515151;
+}
+.docs-footer a {
+    color: #6d6dff;
+    text-decoration: none;
+}
+.docs-footer a:hover {
+    color: #9494ff;
+}
+    </style>
+</head>
+<body class="bg-p-black text-white min-h-screen font-sans">
+
+    <button id="docs-hamburger">&#9776;</button>
+    <div id="docs-overlay"></div>
+
+    <div class="docs-layout">
+        <aside class="docs-sidebar" id="docs-sidebar">
+            <div class="docs-sidebar-header">
+                <a href="index.html" class="docs-logo">MC Perception</a>
+                <span class="docs-version">v1.0</span>
+            </div>
+            <nav class="docs-sidebar-nav">
+                <div class="docs-nav-group">
+                    <div class="docs-nav-group-label">Getting Started</div>
+                    <a href="index.html" class="docs-nav-link" data-page="index">Home</a>
+                    <a href="getting-started.html" class="docs-nav-link" data-page="getting-started">Getting Started</a>
+                </div>
+                <div class="docs-nav-group">
+                    <div class="docs-nav-group-label">Foundation</div>
+                    <a href="color.html" class="docs-nav-link" data-page="color">Color Palette</a>
+                    <a href="surface-modes.html" class="docs-nav-link" data-page="surface-modes">Surface Modes</a>
+                    <a href="typography.html" class="docs-nav-link" data-page="typography">Typography</a>
+                </div>
+                <div class="docs-nav-group">
+                    <div class="docs-nav-group-label">Components</div>
+                    <a href="button.html" class="docs-nav-link" data-page="button">Buttons</a>
+                    <a href="badges.html" class="docs-nav-link" data-page="badges">Badges</a>
+                    <a href="alert.html" class="docs-nav-link" data-page="alert">Alerts</a>
+                    <a href="progress.html" class="docs-nav-link" data-page="progress">Progress</a>
+                    <a href="spinner.html" class="docs-nav-link" data-page="spinner">Spinners</a>
+                    <a href="pagination.html" class="docs-nav-link" data-page="pagination">Pagination</a>
+                    <a href="navs-tabs.html" class="docs-nav-link" data-page="navs-tabs">Navs &amp; Tabs</a>
+                    <a href="input.html" class="docs-nav-link" data-page="input">Form Inputs</a>
+                    <a href="selection.html" class="docs-nav-link" data-page="selection">Selection Controls</a>
+                    <a href="table.html" class="docs-nav-link" data-page="table">Tables</a>
+                    <a href="panel-system.html" class="docs-nav-link" data-page="panel-system">Panels</a>
+                </div>
+                <div class="docs-nav-group">
+                    <div class="docs-nav-group-label">Patterns</div>
+                    <a href="forms.html" class="docs-nav-link" data-page="forms">Form Layout</a>
+                    <a href="dark-surfaces.html" class="docs-nav-link" data-page="dark-surfaces">Dark Surface Depth</a>
+                </div>
+                <div class="docs-nav-group">
+                    <div class="docs-nav-group-label">Examples</div>
+                    <a href="trading-card.html" class="docs-nav-link" data-page="trading-card">Trading Card</a>
+                    <a href="orderbook.html" class="docs-nav-link" data-page="orderbook">Orderbook</a>
+                </div>
+            </nav>
+        </aside>
+
+        <main class="docs-content">
+            <div class="max-w-7xl mx-auto px-6 py-12">
+
+        <!-- ====== HERO ====== -->
+        <header class="mb-16">
+            <nav class="text-xs text-p-neutral-400 mb-6 flex gap-2 items-center">
+                <a href="index.html" class="hover:text-white transition-colors">Home</a>
+                <span class="text-p-neutral-600">/</span>
+                <a href="index.html" class="hover:text-white transition-colors">Components</a>
+                <span class="text-p-neutral-600">/</span>
+                <span class="text-white font-semibold">Navs &amp; Tabs</span>
+            </nav>
+
+            <div class="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-6 mb-8">
+                <div>
+                    <h1 class="text-5xl font-bold tracking-tight mb-3">Navs &amp; Tabs</h1>
+                    <p class="text-p-neutral-300 text-lg max-w-2xl">Surface-mode-aware navigation with tabs, pills, and underline variants. 7 hues, 6 sizes, 5 surface modes. Supports horizontal, vertical, fill, and justify layouts.</p>
+                </div>
+                <div class="flex gap-2 flex-wrap">
+                    <span class="mc-badge mc-badge-filled mc-badge-pill" data-hue="blue">Tabs</span>
+                    <span class="mc-badge mc-badge-tonal mc-badge-pill" data-hue="green">WCAG AA</span>
+                    <span class="mc-badge mc-badge-outline mc-badge-pill" data-hue="magenta">7 Hues</span>
+                    <span class="mc-badge mc-badge-subtle mc-badge-pill" data-hue="teal">5 Modes</span>
+                </div>
+            </div>
+
+            <!-- Quick code example -->
+            <div class="guide-card">
+                <div class="flex items-center gap-2 mb-3">
+                    <span class="text-[10px] uppercase tracking-widest text-p-neutral-400 font-bold">Quick Start</span>
+                </div>
+                <div class="code-block">
+<span class="cm">&lt;!-- Tabs variant --&gt;</span>
+<span class="t">&lt;ul</span> <span class="a">class</span>=<span class="v">"mc-nav mc-nav-tabs"</span> <span class="a">data-hue</span>=<span class="v">"blue"</span> <span class="a">role</span>=<span class="v">"tablist"</span><span class="t">&gt;</span>
+  <span class="t">&lt;li</span> <span class="a">class</span>=<span class="v">"mc-nav-item"</span> <span class="a">role</span>=<span class="v">"presentation"</span><span class="t">&gt;</span>
+    <span class="t">&lt;button</span> <span class="a">class</span>=<span class="v">"mc-nav-link active"</span> <span class="a">role</span>=<span class="v">"tab"</span> <span class="a">aria-selected</span>=<span class="v">"true"</span><span class="t">&gt;</span><span class="tx">Home</span><span class="t">&lt;/button&gt;</span>
+  <span class="t">&lt;/li&gt;</span>
+  <span class="t">&lt;li</span> <span class="a">class</span>=<span class="v">"mc-nav-item"</span> <span class="a">role</span>=<span class="v">"presentation"</span><span class="t">&gt;</span>
+    <span class="t">&lt;button</span> <span class="a">class</span>=<span class="v">"mc-nav-link"</span> <span class="a">role</span>=<span class="v">"tab"</span> <span class="a">aria-selected</span>=<span class="v">"false"</span><span class="t">&gt;</span><span class="tx">Profile</span><span class="t">&lt;/button&gt;</span>
+  <span class="t">&lt;/li&gt;</span>
+<span class="t">&lt;/ul&gt;</span>
+
+<span class="cm">&lt;!-- Pills variant --&gt;</span>
+<span class="t">&lt;ul</span> <span class="a">class</span>=<span class="v">"mc-nav mc-nav-pills"</span> <span class="a">data-hue</span>=<span class="v">"green"</span><span class="t">&gt;</span>
+  <span class="t">&lt;li</span> <span class="a">class</span>=<span class="v">"mc-nav-item"</span><span class="t">&gt;</span><span class="t">&lt;a</span> <span class="a">class</span>=<span class="v">"mc-nav-link active"</span> <span class="a">href</span>=<span class="v">"#"</span><span class="t">&gt;</span><span class="tx">Active</span><span class="t">&lt;/a&gt;</span><span class="t">&lt;/li&gt;</span>
+  <span class="t">&lt;li</span> <span class="a">class</span>=<span class="v">"mc-nav-item"</span><span class="t">&gt;</span><span class="t">&lt;a</span> <span class="a">class</span>=<span class="v">"mc-nav-link"</span> <span class="a">href</span>=<span class="v">"#"</span><span class="t">&gt;</span><span class="tx">Link</span><span class="t">&lt;/a&gt;</span><span class="t">&lt;/li&gt;</span>
+<span class="t">&lt;/ul&gt;</span>
+
+<span class="cm">&lt;!-- Underline variant --&gt;</span>
+<span class="t">&lt;ul</span> <span class="a">class</span>=<span class="v">"mc-nav mc-nav-underline"</span> <span class="a">data-hue</span>=<span class="v">"red"</span><span class="t">&gt;</span>
+  <span class="t">&lt;li</span> <span class="a">class</span>=<span class="v">"mc-nav-item"</span><span class="t">&gt;</span><span class="t">&lt;a</span> <span class="a">class</span>=<span class="v">"mc-nav-link active"</span> <span class="a">href</span>=<span class="v">"#"</span><span class="t">&gt;</span><span class="tx">Active</span><span class="t">&lt;/a&gt;</span><span class="t">&lt;/li&gt;</span>
+  <span class="t">&lt;li</span> <span class="a">class</span>=<span class="v">"mc-nav-item"</span><span class="t">&gt;</span><span class="t">&lt;a</span> <span class="a">class</span>=<span class="v">"mc-nav-link"</span> <span class="a">href</span>=<span class="v">"#"</span><span class="t">&gt;</span><span class="tx">Link</span><span class="t">&lt;/a&gt;</span><span class="t">&lt;/li&gt;</span>
+<span class="t">&lt;/ul&gt;</span>
+                </div>
+            </div>
+        </header>
+
+        <!-- ====== 1. TAB VARIANT ====== -->
+        <section class="guide-section">
+            <h2 class="text-2xl font-bold mb-1 flex items-center">
+                <span class="section-number bg-p-blue-500 text-white">1</span>
+                Tab Variant
+            </h2>
+            <p class="text-p-neutral-400 text-sm mb-6 ml-10">Bordered tab strip with active underline. All 7 hues with active, hover, and disabled states.</p>
+
+            <div class="guide-card mb-4">
+                <h3 class="text-xs font-bold uppercase tracking-widest text-p-neutral-400 mb-4">All 7 Hues</h3>
+                <div class="space-y-6">
+                    <div>
+                        <span class="guide-label mb-2 block">neutral</span>
+                        <ul class="mc-nav mc-nav-tabs" data-hue="neutral">
+                            <li class="mc-nav-item"><a class="mc-nav-link active" href="#">Home</a></li>
+                            <li class="mc-nav-item"><a class="mc-nav-link" href="#">Profile</a></li>
+                            <li class="mc-nav-item"><a class="mc-nav-link" href="#">Messages</a></li>
+                            <li class="mc-nav-item"><a class="mc-nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Settings</a></li>
+                        </ul>
+                    </div>
+                    <div>
+                        <span class="guide-label mb-2 block">red</span>
+                        <ul class="mc-nav mc-nav-tabs" data-hue="red">
+                            <li class="mc-nav-item"><a class="mc-nav-link active" href="#">Home</a></li>
+                            <li class="mc-nav-item"><a class="mc-nav-link" href="#">Profile</a></li>
+                            <li class="mc-nav-item"><a class="mc-nav-link" href="#">Messages</a></li>
+                            <li class="mc-nav-item"><a class="mc-nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Settings</a></li>
+                        </ul>
+                    </div>
+                    <div>
+                        <span class="guide-label mb-2 block">green</span>
+                        <ul class="mc-nav mc-nav-tabs" data-hue="green">
+                            <li class="mc-nav-item"><a class="mc-nav-link active" href="#">Home</a></li>
+                            <li class="mc-nav-item"><a class="mc-nav-link" href="#">Profile</a></li>
+                            <li class="mc-nav-item"><a class="mc-nav-link" href="#">Messages</a></li>
+                            <li class="mc-nav-item"><a class="mc-nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Settings</a></li>
+                        </ul>
+                    </div>
+                    <div>
+                        <span class="guide-label mb-2 block">blue</span>
+                        <ul class="mc-nav mc-nav-tabs" data-hue="blue">
+                            <li class="mc-nav-item"><a class="mc-nav-link active" href="#">Home</a></li>
+                            <li class="mc-nav-item"><a class="mc-nav-link" href="#">Profile</a></li>
+                            <li class="mc-nav-item"><a class="mc-nav-link" href="#">Messages</a></li>
+                            <li class="mc-nav-item"><a class="mc-nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Settings</a></li>
+                        </ul>
+                    </div>
+                    <div>
+                        <span class="guide-label mb-2 block">yellow</span>
+                        <ul class="mc-nav mc-nav-tabs" data-hue="yellow">
+                            <li class="mc-nav-item"><a class="mc-nav-link active" href="#">Home</a></li>
+                            <li class="mc-nav-item"><a class="mc-nav-link" href="#">Profile</a></li>
+                            <li class="mc-nav-item"><a class="mc-nav-link" href="#">Messages</a></li>
+                            <li class="mc-nav-item"><a class="mc-nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Settings</a></li>
+                        </ul>
+                    </div>
+                    <div>
+                        <span class="guide-label mb-2 block">magenta</span>
+                        <ul class="mc-nav mc-nav-tabs" data-hue="magenta">
+                            <li class="mc-nav-item"><a class="mc-nav-link active" href="#">Home</a></li>
+                            <li class="mc-nav-item"><a class="mc-nav-link" href="#">Profile</a></li>
+                            <li class="mc-nav-item"><a class="mc-nav-link" href="#">Messages</a></li>
+                            <li class="mc-nav-item"><a class="mc-nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Settings</a></li>
+                        </ul>
+                    </div>
+                    <div>
+                        <span class="guide-label mb-2 block">teal</span>
+                        <ul class="mc-nav mc-nav-tabs" data-hue="teal">
+                            <li class="mc-nav-item"><a class="mc-nav-link active" href="#">Home</a></li>
+                            <li class="mc-nav-item"><a class="mc-nav-link" href="#">Profile</a></li>
+                            <li class="mc-nav-item"><a class="mc-nav-link" href="#">Messages</a></li>
+                            <li class="mc-nav-item"><a class="mc-nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Settings</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tabbed content panel example with JS switching -->
+            <div class="guide-card mb-4">
+                <h3 class="text-xs font-bold uppercase tracking-widest text-p-neutral-400 mb-4">Tabbed Content Panel (JS Switching)</h3>
+                <ul class="mc-nav mc-nav-tabs" data-hue="blue" role="tablist">
+                    <li class="mc-nav-item" role="presentation">
+                        <button class="mc-nav-link active" role="tab" aria-selected="true" onclick="switchTab(this,'tab1')">Home</button>
+                    </li>
+                    <li class="mc-nav-item" role="presentation">
+                        <button class="mc-nav-link" role="tab" aria-selected="false" onclick="switchTab(this,'tab2')">Profile</button>
+                    </li>
+                    <li class="mc-nav-item" role="presentation">
+                        <button class="mc-nav-link" role="tab" aria-selected="false" onclick="switchTab(this,'tab3')">Messages</button>
+                    </li>
+                </ul>
+                <div class="mc-tab-content">
+                    <div class="mc-tab-pane active" id="tab1" role="tabpanel">
+                        <div style="padding: 1rem 0; color: #c3c3c3; font-size: 0.875rem;">
+                            <strong style="color: #FFFFFF;">Home tab content.</strong> This panel is shown when the Home tab is active. Click the other tabs to switch content.
+                        </div>
+                    </div>
+                    <div class="mc-tab-pane" id="tab2" role="tabpanel">
+                        <div style="padding: 1rem 0; color: #c3c3c3; font-size: 0.875rem;">
+                            <strong style="color: #FFFFFF;">Profile tab content.</strong> User profile information and settings would appear here.
+                        </div>
+                    </div>
+                    <div class="mc-tab-pane" id="tab3" role="tabpanel">
+                        <div style="padding: 1rem 0; color: #c3c3c3; font-size: 0.875rem;">
+                            <strong style="color: #FFFFFF;">Messages tab content.</strong> Inbox, sent items, and drafts would be displayed in this panel.
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="code-block text-[10px]"><span class="t">&lt;ul</span> <span class="a">class</span>=<span class="v">"mc-nav mc-nav-tabs"</span> <span class="a">data-hue</span>=<span class="v">"blue"</span> <span class="a">role</span>=<span class="v">"tablist"</span><span class="t">&gt;</span>
+  <span class="t">&lt;li</span> <span class="a">class</span>=<span class="v">"mc-nav-item"</span> <span class="a">role</span>=<span class="v">"presentation"</span><span class="t">&gt;</span>
+    <span class="t">&lt;button</span> <span class="a">class</span>=<span class="v">"mc-nav-link active"</span> <span class="a">role</span>=<span class="v">"tab"</span> <span class="a">aria-selected</span>=<span class="v">"true"</span> <span class="a">onclick</span>=<span class="v">"switchTab(this,'tab1')"</span><span class="t">&gt;</span><span class="tx">Home</span><span class="t">&lt;/button&gt;</span>
+  <span class="t">&lt;/li&gt;</span>
+  <span class="t">&lt;li</span> <span class="a">class</span>=<span class="v">"mc-nav-item"</span> <span class="a">role</span>=<span class="v">"presentation"</span><span class="t">&gt;</span>
+    <span class="t">&lt;button</span> <span class="a">class</span>=<span class="v">"mc-nav-link"</span> <span class="a">role</span>=<span class="v">"tab"</span> <span class="a">aria-selected</span>=<span class="v">"false"</span> <span class="a">onclick</span>=<span class="v">"switchTab(this,'tab2')"</span><span class="t">&gt;</span><span class="tx">Profile</span><span class="t">&lt;/button&gt;</span>
+  <span class="t">&lt;/li&gt;</span>
+<span class="t">&lt;/ul&gt;</span>
+<span class="t">&lt;div</span> <span class="a">class</span>=<span class="v">"mc-tab-content"</span><span class="t">&gt;</span>
+  <span class="t">&lt;div</span> <span class="a">class</span>=<span class="v">"mc-tab-pane active"</span> <span class="a">id</span>=<span class="v">"tab1"</span> <span class="a">role</span>=<span class="v">"tabpanel"</span><span class="t">&gt;</span><span class="tx">Home content...</span><span class="t">&lt;/div&gt;</span>
+  <span class="t">&lt;div</span> <span class="a">class</span>=<span class="v">"mc-tab-pane"</span> <span class="a">id</span>=<span class="v">"tab2"</span> <span class="a">role</span>=<span class="v">"tabpanel"</span><span class="t">&gt;</span><span class="tx">Profile content...</span><span class="t">&lt;/div&gt;</span>
+<span class="t">&lt;/div&gt;</span></div>
+        </section>
+
+        <!-- ====== 2. PILLS VARIANT ====== -->
+        <section class="guide-section">
+            <h2 class="text-2xl font-bold mb-1 flex items-center">
+                <span class="section-number bg-p-green-500 text-white">2</span>
+                Pills Variant
+            </h2>
+            <p class="text-p-neutral-400 text-sm mb-6 ml-10">Rounded pill-shaped navigation links. Active state uses a filled background.</p>
+
+            <div class="guide-card mb-4">
+                <h3 class="text-xs font-bold uppercase tracking-widest text-p-neutral-400 mb-4">All 7 Hues</h3>
+                <div class="space-y-6">
+                    <div>
+                        <span class="guide-label mb-2 block">neutral</span>
+                        <ul class="mc-nav mc-nav-pills" data-hue="neutral">
+                            <li class="mc-nav-item"><a class="mc-nav-link active" href="#">Home</a></li>
+                            <li class="mc-nav-item"><a class="mc-nav-link" href="#">Profile</a></li>
+                            <li class="mc-nav-item"><a class="mc-nav-link" href="#">Messages</a></li>
+                            <li class="mc-nav-item"><a class="mc-nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Settings</a></li>
+                        </ul>
+                    </div>
+                    <div>
+                        <span class="guide-label mb-2 block">red</span>
+                        <ul class="mc-nav mc-nav-pills" data-hue="red">
+                            <li class="mc-nav-item"><a class="mc-nav-link active" href="#">Home</a></li>
+                            <li class="mc-nav-item"><a class="mc-nav-link" href="#">Profile</a></li>
+                            <li class="mc-nav-item"><a class="mc-nav-link" href="#">Messages</a></li>
+                            <li class="mc-nav-item"><a class="mc-nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Settings</a></li>
+                        </ul>
+                    </div>
+                    <div>
+                        <span class="guide-label mb-2 block">green</span>
+                        <ul class="mc-nav mc-nav-pills" data-hue="green">
+                            <li class="mc-nav-item"><a class="mc-nav-link active" href="#">Home</a></li>
+                            <li class="mc-nav-item"><a class="mc-nav-link" href="#">Profile</a></li>
+                            <li class="mc-nav-item"><a class="mc-nav-link" href="#">Messages</a></li>
+                            <li class="mc-nav-item"><a class="mc-nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Settings</a></li>
+                        </ul>
+                    </div>
+                    <div>
+                        <span class="guide-label mb-2 block">blue</span>
+                        <ul class="mc-nav mc-nav-pills" data-hue="blue">
+                            <li class="mc-nav-item"><a class="mc-nav-link active" href="#">Home</a></li>
+                            <li class="mc-nav-item"><a class="mc-nav-link" href="#">Profile</a></li>
+                            <li class="mc-nav-item"><a class="mc-nav-link" href="#">Messages</a></li>
+                            <li class="mc-nav-item"><a class="mc-nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Settings</a></li>
+                        </ul>
+                    </div>
+                    <div>
+                        <span class="guide-label mb-2 block">yellow</span>
+                        <ul class="mc-nav mc-nav-pills" data-hue="yellow">
+                            <li class="mc-nav-item"><a class="mc-nav-link active" href="#">Home</a></li>
+                            <li class="mc-nav-item"><a class="mc-nav-link" href="#">Profile</a></li>
+                            <li class="mc-nav-item"><a class="mc-nav-link" href="#">Messages</a></li>
+                            <li class="mc-nav-item"><a class="mc-nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Settings</a></li>
+                        </ul>
+                    </div>
+                    <div>
+                        <span class="guide-label mb-2 block">magenta</span>
+                        <ul class="mc-nav mc-nav-pills" data-hue="magenta">
+                            <li class="mc-nav-item"><a class="mc-nav-link active" href="#">Home</a></li>
+                            <li class="mc-nav-item"><a class="mc-nav-link" href="#">Profile</a></li>
+                            <li class="mc-nav-item"><a class="mc-nav-link" href="#">Messages</a></li>
+                            <li class="mc-nav-item"><a class="mc-nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Settings</a></li>
+                        </ul>
+                    </div>
+                    <div>
+                        <span class="guide-label mb-2 block">teal</span>
+                        <ul class="mc-nav mc-nav-pills" data-hue="teal">
+                            <li class="mc-nav-item"><a class="mc-nav-link active" href="#">Home</a></li>
+                            <li class="mc-nav-item"><a class="mc-nav-link" href="#">Profile</a></li>
+                            <li class="mc-nav-item"><a class="mc-nav-link" href="#">Messages</a></li>
+                            <li class="mc-nav-item"><a class="mc-nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Settings</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="code-block text-[10px]"><span class="t">&lt;ul</span> <span class="a">class</span>=<span class="v">"mc-nav mc-nav-pills"</span> <span class="a">data-hue</span>=<span class="v">"green"</span><span class="t">&gt;</span>
+  <span class="t">&lt;li</span> <span class="a">class</span>=<span class="v">"mc-nav-item"</span><span class="t">&gt;</span><span class="t">&lt;a</span> <span class="a">class</span>=<span class="v">"mc-nav-link active"</span> <span class="a">href</span>=<span class="v">"#"</span><span class="t">&gt;</span><span class="tx">Home</span><span class="t">&lt;/a&gt;</span><span class="t">&lt;/li&gt;</span>
+  <span class="t">&lt;li</span> <span class="a">class</span>=<span class="v">"mc-nav-item"</span><span class="t">&gt;</span><span class="t">&lt;a</span> <span class="a">class</span>=<span class="v">"mc-nav-link"</span> <span class="a">href</span>=<span class="v">"#"</span><span class="t">&gt;</span><span class="tx">Profile</span><span class="t">&lt;/a&gt;</span><span class="t">&lt;/li&gt;</span>
+  <span class="t">&lt;li</span> <span class="a">class</span>=<span class="v">"mc-nav-item"</span><span class="t">&gt;</span><span class="t">&lt;a</span> <span class="a">class</span>=<span class="v">"mc-nav-link disabled"</span> <span class="a">href</span>=<span class="v">"#"</span> <span class="a">tabindex</span>=<span class="v">"-1"</span> <span class="a">aria-disabled</span>=<span class="v">"true"</span><span class="t">&gt;</span><span class="tx">Disabled</span><span class="t">&lt;/a&gt;</span><span class="t">&lt;/li&gt;</span>
+<span class="t">&lt;/ul&gt;</span></div>
+        </section>
+
+        <!-- ====== 3. UNDERLINE VARIANT ====== -->
+        <section class="guide-section">
+            <h2 class="text-2xl font-bold mb-1 flex items-center">
+                <span class="section-number bg-p-red-500 text-white">3</span>
+                Underline Variant
+            </h2>
+            <p class="text-p-neutral-400 text-sm mb-6 ml-10">Minimal underline indicator for the active link. Clean, low-profile navigation.</p>
+
+            <div class="guide-card mb-4">
+                <h3 class="text-xs font-bold uppercase tracking-widest text-p-neutral-400 mb-4">All 7 Hues</h3>
+                <div class="space-y-6">
+                    <div>
+                        <span class="guide-label mb-2 block">neutral</span>
+                        <ul class="mc-nav mc-nav-underline" data-hue="neutral">
+                            <li class="mc-nav-item"><a class="mc-nav-link active" href="#">Home</a></li>
+                            <li class="mc-nav-item"><a class="mc-nav-link" href="#">Profile</a></li>
+                            <li class="mc-nav-item"><a class="mc-nav-link" href="#">Messages</a></li>
+                            <li class="mc-nav-item"><a class="mc-nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Settings</a></li>
+                        </ul>
+                    </div>
+                    <div>
+                        <span class="guide-label mb-2 block">red</span>
+                        <ul class="mc-nav mc-nav-underline" data-hue="red">
+                            <li class="mc-nav-item"><a class="mc-nav-link active" href="#">Home</a></li>
+                            <li class="mc-nav-item"><a class="mc-nav-link" href="#">Profile</a></li>
+                            <li class="mc-nav-item"><a class="mc-nav-link" href="#">Messages</a></li>
+                            <li class="mc-nav-item"><a class="mc-nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Settings</a></li>
+                        </ul>
+                    </div>
+                    <div>
+                        <span class="guide-label mb-2 block">green</span>
+                        <ul class="mc-nav mc-nav-underline" data-hue="green">
+                            <li class="mc-nav-item"><a class="mc-nav-link active" href="#">Home</a></li>
+                            <li class="mc-nav-item"><a class="mc-nav-link" href="#">Profile</a></li>
+                            <li class="mc-nav-item"><a class="mc-nav-link" href="#">Messages</a></li>
+                            <li class="mc-nav-item"><a class="mc-nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Settings</a></li>
+                        </ul>
+                    </div>
+                    <div>
+                        <span class="guide-label mb-2 block">blue</span>
+                        <ul class="mc-nav mc-nav-underline" data-hue="blue">
+                            <li class="mc-nav-item"><a class="mc-nav-link active" href="#">Home</a></li>
+                            <li class="mc-nav-item"><a class="mc-nav-link" href="#">Profile</a></li>
+                            <li class="mc-nav-item"><a class="mc-nav-link" href="#">Messages</a></li>
+                            <li class="mc-nav-item"><a class="mc-nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Settings</a></li>
+                        </ul>
+                    </div>
+                    <div>
+                        <span class="guide-label mb-2 block">yellow</span>
+                        <ul class="mc-nav mc-nav-underline" data-hue="yellow">
+                            <li class="mc-nav-item"><a class="mc-nav-link active" href="#">Home</a></li>
+                            <li class="mc-nav-item"><a class="mc-nav-link" href="#">Profile</a></li>
+                            <li class="mc-nav-item"><a class="mc-nav-link" href="#">Messages</a></li>
+                            <li class="mc-nav-item"><a class="mc-nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Settings</a></li>
+                        </ul>
+                    </div>
+                    <div>
+                        <span class="guide-label mb-2 block">magenta</span>
+                        <ul class="mc-nav mc-nav-underline" data-hue="magenta">
+                            <li class="mc-nav-item"><a class="mc-nav-link active" href="#">Home</a></li>
+                            <li class="mc-nav-item"><a class="mc-nav-link" href="#">Profile</a></li>
+                            <li class="mc-nav-item"><a class="mc-nav-link" href="#">Messages</a></li>
+                            <li class="mc-nav-item"><a class="mc-nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Settings</a></li>
+                        </ul>
+                    </div>
+                    <div>
+                        <span class="guide-label mb-2 block">teal</span>
+                        <ul class="mc-nav mc-nav-underline" data-hue="teal">
+                            <li class="mc-nav-item"><a class="mc-nav-link active" href="#">Home</a></li>
+                            <li class="mc-nav-item"><a class="mc-nav-link" href="#">Profile</a></li>
+                            <li class="mc-nav-item"><a class="mc-nav-link" href="#">Messages</a></li>
+                            <li class="mc-nav-item"><a class="mc-nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Settings</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="code-block text-[10px]"><span class="t">&lt;ul</span> <span class="a">class</span>=<span class="v">"mc-nav mc-nav-underline"</span> <span class="a">data-hue</span>=<span class="v">"red"</span><span class="t">&gt;</span>
+  <span class="t">&lt;li</span> <span class="a">class</span>=<span class="v">"mc-nav-item"</span><span class="t">&gt;</span><span class="t">&lt;a</span> <span class="a">class</span>=<span class="v">"mc-nav-link active"</span> <span class="a">href</span>=<span class="v">"#"</span><span class="t">&gt;</span><span class="tx">Home</span><span class="t">&lt;/a&gt;</span><span class="t">&lt;/li&gt;</span>
+  <span class="t">&lt;li</span> <span class="a">class</span>=<span class="v">"mc-nav-item"</span><span class="t">&gt;</span><span class="t">&lt;a</span> <span class="a">class</span>=<span class="v">"mc-nav-link"</span> <span class="a">href</span>=<span class="v">"#"</span><span class="t">&gt;</span><span class="tx">Profile</span><span class="t">&lt;/a&gt;</span><span class="t">&lt;/li&gt;</span>
+  <span class="t">&lt;li</span> <span class="a">class</span>=<span class="v">"mc-nav-item"</span><span class="t">&gt;</span><span class="t">&lt;a</span> <span class="a">class</span>=<span class="v">"mc-nav-link disabled"</span> <span class="a">href</span>=<span class="v">"#"</span> <span class="a">tabindex</span>=<span class="v">"-1"</span> <span class="a">aria-disabled</span>=<span class="v">"true"</span><span class="t">&gt;</span><span class="tx">Disabled</span><span class="t">&lt;/a&gt;</span><span class="t">&lt;/li&gt;</span>
+<span class="t">&lt;/ul&gt;</span></div>
+        </section>
+
+        <!-- ====== 4. LAYOUT — FILL, JUSTIFY, VERTICAL ====== -->
+        <section class="guide-section">
+            <h2 class="text-2xl font-bold mb-1 flex items-center">
+                <span class="section-number bg-p-yellow-500 text-white">4</span>
+                Layout Variants
+            </h2>
+            <p class="text-p-neutral-400 text-sm mb-6 ml-10">Fill, justified, and vertical layout modifiers for flexible navigation patterns.</p>
+
+            <div class="guide-card mb-4">
+                <h3 class="text-xs font-bold uppercase tracking-widest text-p-neutral-400 mb-4">Fill — Proportional Width</h3>
+                <p class="text-xs text-p-neutral-400 mb-3">Items fill available space proportionally based on content length.</p>
+                <div class="space-y-4 mb-6">
+                    <div>
+                        <span class="guide-label mb-2 block">tabs + fill</span>
+                        <ul class="mc-nav mc-nav-tabs mc-nav-fill" data-hue="blue">
+                            <li class="mc-nav-item"><a class="mc-nav-link active" href="#">Home</a></li>
+                            <li class="mc-nav-item"><a class="mc-nav-link" href="#">Longer Nav Link</a></li>
+                            <li class="mc-nav-item"><a class="mc-nav-link" href="#">Profile</a></li>
+                            <li class="mc-nav-item"><a class="mc-nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a></li>
+                        </ul>
+                    </div>
+                    <div>
+                        <span class="guide-label mb-2 block">pills + fill</span>
+                        <ul class="mc-nav mc-nav-pills mc-nav-fill" data-hue="green">
+                            <li class="mc-nav-item"><a class="mc-nav-link active" href="#">Home</a></li>
+                            <li class="mc-nav-item"><a class="mc-nav-link" href="#">Longer Nav Link</a></li>
+                            <li class="mc-nav-item"><a class="mc-nav-link" href="#">Profile</a></li>
+                            <li class="mc-nav-item"><a class="mc-nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <h3 class="text-xs font-bold uppercase tracking-widest text-p-neutral-400 mb-4">Justified — Equal Width</h3>
+                <p class="text-xs text-p-neutral-400 mb-3">All items have equal width, filling the container completely.</p>
+                <div class="space-y-4 mb-6">
+                    <div>
+                        <span class="guide-label mb-2 block">tabs + justified</span>
+                        <ul class="mc-nav mc-nav-tabs mc-nav-justified" data-hue="red">
+                            <li class="mc-nav-item"><a class="mc-nav-link active" href="#">Home</a></li>
+                            <li class="mc-nav-item"><a class="mc-nav-link" href="#">Profile</a></li>
+                            <li class="mc-nav-item"><a class="mc-nav-link" href="#">Messages</a></li>
+                            <li class="mc-nav-item"><a class="mc-nav-link" href="#">Settings</a></li>
+                        </ul>
+                    </div>
+                    <div>
+                        <span class="guide-label mb-2 block">pills + justified</span>
+                        <ul class="mc-nav mc-nav-pills mc-nav-justified" data-hue="magenta">
+                            <li class="mc-nav-item"><a class="mc-nav-link active" href="#">Home</a></li>
+                            <li class="mc-nav-item"><a class="mc-nav-link" href="#">Profile</a></li>
+                            <li class="mc-nav-item"><a class="mc-nav-link" href="#">Messages</a></li>
+                            <li class="mc-nav-item"><a class="mc-nav-link" href="#">Settings</a></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <h3 class="text-xs font-bold uppercase tracking-widest text-p-neutral-400 mb-4">Vertical</h3>
+                <p class="text-xs text-p-neutral-400 mb-3">Stacked vertical navigation for sidebars and panels.</p>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div>
+                        <span class="guide-label mb-2 block">vertical tabs</span>
+                        <ul class="mc-nav mc-nav-tabs mc-nav-vertical" data-hue="blue" style="max-width: 200px;">
+                            <li class="mc-nav-item"><a class="mc-nav-link active" href="#">Dashboard</a></li>
+                            <li class="mc-nav-item"><a class="mc-nav-link" href="#">Orders</a></li>
+                            <li class="mc-nav-item"><a class="mc-nav-link" href="#">Products</a></li>
+                            <li class="mc-nav-item"><a class="mc-nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Reports</a></li>
+                        </ul>
+                    </div>
+                    <div>
+                        <span class="guide-label mb-2 block">vertical pills</span>
+                        <ul class="mc-nav mc-nav-pills mc-nav-vertical" data-hue="teal" style="max-width: 200px;">
+                            <li class="mc-nav-item"><a class="mc-nav-link active" href="#">Dashboard</a></li>
+                            <li class="mc-nav-item"><a class="mc-nav-link" href="#">Orders</a></li>
+                            <li class="mc-nav-item"><a class="mc-nav-link" href="#">Products</a></li>
+                            <li class="mc-nav-item"><a class="mc-nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Reports</a></li>
+                        </ul>
+                    </div>
+                    <div>
+                        <span class="guide-label mb-2 block">vertical underline</span>
+                        <ul class="mc-nav mc-nav-underline mc-nav-vertical" data-hue="red" style="max-width: 200px;">
+                            <li class="mc-nav-item"><a class="mc-nav-link active" href="#">Dashboard</a></li>
+                            <li class="mc-nav-item"><a class="mc-nav-link" href="#">Orders</a></li>
+                            <li class="mc-nav-item"><a class="mc-nav-link" href="#">Products</a></li>
+                            <li class="mc-nav-item"><a class="mc-nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Reports</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="code-block text-[10px]"><span class="cm">&lt;!-- Fill --&gt;</span>
+<span class="t">&lt;ul</span> <span class="a">class</span>=<span class="v">"mc-nav mc-nav-tabs mc-nav-fill"</span> <span class="a">data-hue</span>=<span class="v">"blue"</span><span class="t">&gt;</span><span class="tx">...</span><span class="t">&lt;/ul&gt;</span>
+
+<span class="cm">&lt;!-- Justified --&gt;</span>
+<span class="t">&lt;ul</span> <span class="a">class</span>=<span class="v">"mc-nav mc-nav-pills mc-nav-justified"</span> <span class="a">data-hue</span>=<span class="v">"red"</span><span class="t">&gt;</span><span class="tx">...</span><span class="t">&lt;/ul&gt;</span>
+
+<span class="cm">&lt;!-- Vertical --&gt;</span>
+<span class="t">&lt;ul</span> <span class="a">class</span>=<span class="v">"mc-nav mc-nav-tabs mc-nav-vertical"</span> <span class="a">data-hue</span>=<span class="v">"teal"</span><span class="t">&gt;</span><span class="tx">...</span><span class="t">&lt;/ul&gt;</span></div>
+        </section>
+
+        <!-- ====== 5. SIZE SCALE ====== -->
+        <section class="guide-section">
+            <h2 class="text-2xl font-bold mb-1 flex items-center">
+                <span class="section-number bg-p-magenta-500 text-white">5</span>
+                Size Scale
+            </h2>
+            <p class="text-p-neutral-400 text-sm mb-6 ml-10">6 sizes from xs (11px) to xxl (20px). Default is md (14px).</p>
+
+            <div class="guide-card mb-4">
+                <table class="w-full text-xs">
+                    <thead>
+                        <tr class="border-b border-p-neutral-800">
+                            <th class="text-left py-2 pr-4 text-[10px] text-p-neutral-400 uppercase tracking-widest font-bold">Size</th>
+                            <th class="text-left py-2 pr-4 text-[10px] text-p-neutral-400 uppercase tracking-widest font-bold">Class</th>
+                            <th class="text-left py-2 pr-4 text-[10px] text-p-neutral-400 uppercase tracking-widest font-bold">Font</th>
+                            <th class="text-left py-2 text-[10px] text-p-neutral-400 uppercase tracking-widest font-bold">Preview</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="border-b border-p-neutral-800">
+                            <td class="py-2.5 pr-4 text-white font-semibold">XS</td>
+                            <td class="py-2.5 pr-4 text-p-neutral-400 font-mono">mc-nav-xs</td>
+                            <td class="py-2.5 pr-4 text-p-neutral-400">11px</td>
+                            <td class="py-2.5">
+                                <ul class="mc-nav mc-nav-tabs mc-nav-xs" data-hue="blue">
+                                    <li class="mc-nav-item"><a class="mc-nav-link active" href="#">Home</a></li>
+                                    <li class="mc-nav-item"><a class="mc-nav-link" href="#">Profile</a></li>
+                                    <li class="mc-nav-item"><a class="mc-nav-link" href="#">Messages</a></li>
+                                </ul>
+                            </td>
+                        </tr>
+                        <tr class="border-b border-p-neutral-800">
+                            <td class="py-2.5 pr-4 text-white font-semibold">SM</td>
+                            <td class="py-2.5 pr-4 text-p-neutral-400 font-mono">mc-nav-sm</td>
+                            <td class="py-2.5 pr-4 text-p-neutral-400">12px</td>
+                            <td class="py-2.5">
+                                <ul class="mc-nav mc-nav-tabs mc-nav-sm" data-hue="blue">
+                                    <li class="mc-nav-item"><a class="mc-nav-link active" href="#">Home</a></li>
+                                    <li class="mc-nav-item"><a class="mc-nav-link" href="#">Profile</a></li>
+                                    <li class="mc-nav-item"><a class="mc-nav-link" href="#">Messages</a></li>
+                                </ul>
+                            </td>
+                        </tr>
+                        <tr class="border-b border-p-neutral-800">
+                            <td class="py-2.5 pr-4 text-white font-semibold">MD</td>
+                            <td class="py-2.5 pr-4 text-p-neutral-300 font-mono italic">default</td>
+                            <td class="py-2.5 pr-4 text-p-neutral-400">14px</td>
+                            <td class="py-2.5">
+                                <ul class="mc-nav mc-nav-tabs" data-hue="blue">
+                                    <li class="mc-nav-item"><a class="mc-nav-link active" href="#">Home</a></li>
+                                    <li class="mc-nav-item"><a class="mc-nav-link" href="#">Profile</a></li>
+                                    <li class="mc-nav-item"><a class="mc-nav-link" href="#">Messages</a></li>
+                                </ul>
+                            </td>
+                        </tr>
+                        <tr class="border-b border-p-neutral-800">
+                            <td class="py-2.5 pr-4 text-white font-semibold">LG</td>
+                            <td class="py-2.5 pr-4 text-p-neutral-400 font-mono">mc-nav-lg</td>
+                            <td class="py-2.5 pr-4 text-p-neutral-400">16px</td>
+                            <td class="py-2.5">
+                                <ul class="mc-nav mc-nav-tabs mc-nav-lg" data-hue="blue">
+                                    <li class="mc-nav-item"><a class="mc-nav-link active" href="#">Home</a></li>
+                                    <li class="mc-nav-item"><a class="mc-nav-link" href="#">Profile</a></li>
+                                    <li class="mc-nav-item"><a class="mc-nav-link" href="#">Messages</a></li>
+                                </ul>
+                            </td>
+                        </tr>
+                        <tr class="border-b border-p-neutral-800">
+                            <td class="py-2.5 pr-4 text-white font-semibold">XL</td>
+                            <td class="py-2.5 pr-4 text-p-neutral-400 font-mono">mc-nav-xl</td>
+                            <td class="py-2.5 pr-4 text-p-neutral-400">18px</td>
+                            <td class="py-2.5">
+                                <ul class="mc-nav mc-nav-tabs mc-nav-xl" data-hue="blue">
+                                    <li class="mc-nav-item"><a class="mc-nav-link active" href="#">Home</a></li>
+                                    <li class="mc-nav-item"><a class="mc-nav-link" href="#">Profile</a></li>
+                                    <li class="mc-nav-item"><a class="mc-nav-link" href="#">Messages</a></li>
+                                </ul>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="py-2.5 pr-4 text-white font-semibold">XXL</td>
+                            <td class="py-2.5 pr-4 text-p-neutral-400 font-mono">mc-nav-xxl</td>
+                            <td class="py-2.5 pr-4 text-p-neutral-400">20px</td>
+                            <td class="py-2.5">
+                                <ul class="mc-nav mc-nav-tabs mc-nav-xxl" data-hue="blue">
+                                    <li class="mc-nav-item"><a class="mc-nav-link active" href="#">Home</a></li>
+                                    <li class="mc-nav-item"><a class="mc-nav-link" href="#">Profile</a></li>
+                                    <li class="mc-nav-item"><a class="mc-nav-link" href="#">Messages</a></li>
+                                </ul>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- All variants at each size -->
+            <div class="guide-card">
+                <h3 class="text-xs font-bold uppercase tracking-widest text-p-neutral-400 mb-4">All Variants at Each Size</h3>
+                <div class="space-y-4">
+                    <div>
+                        <span class="guide-label mb-2 block">xs</span>
+                        <div class="space-y-2">
+                            <ul class="mc-nav mc-nav-tabs mc-nav-xs" data-hue="red">
+                                <li class="mc-nav-item"><a class="mc-nav-link active" href="#">Tabs xs</a></li>
+                                <li class="mc-nav-item"><a class="mc-nav-link" href="#">Link</a></li>
+                            </ul>
+                            <ul class="mc-nav mc-nav-pills mc-nav-xs" data-hue="red">
+                                <li class="mc-nav-item"><a class="mc-nav-link active" href="#">Pills xs</a></li>
+                                <li class="mc-nav-item"><a class="mc-nav-link" href="#">Link</a></li>
+                            </ul>
+                            <ul class="mc-nav mc-nav-underline mc-nav-xs" data-hue="red">
+                                <li class="mc-nav-item"><a class="mc-nav-link active" href="#">Underline xs</a></li>
+                                <li class="mc-nav-item"><a class="mc-nav-link" href="#">Link</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div>
+                        <span class="guide-label mb-2 block">sm</span>
+                        <div class="space-y-2">
+                            <ul class="mc-nav mc-nav-tabs mc-nav-sm" data-hue="green">
+                                <li class="mc-nav-item"><a class="mc-nav-link active" href="#">Tabs sm</a></li>
+                                <li class="mc-nav-item"><a class="mc-nav-link" href="#">Link</a></li>
+                            </ul>
+                            <ul class="mc-nav mc-nav-pills mc-nav-sm" data-hue="green">
+                                <li class="mc-nav-item"><a class="mc-nav-link active" href="#">Pills sm</a></li>
+                                <li class="mc-nav-item"><a class="mc-nav-link" href="#">Link</a></li>
+                            </ul>
+                            <ul class="mc-nav mc-nav-underline mc-nav-sm" data-hue="green">
+                                <li class="mc-nav-item"><a class="mc-nav-link active" href="#">Underline sm</a></li>
+                                <li class="mc-nav-item"><a class="mc-nav-link" href="#">Link</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div>
+                        <span class="guide-label mb-2 block">md</span>
+                        <div class="space-y-2">
+                            <ul class="mc-nav mc-nav-tabs" data-hue="blue">
+                                <li class="mc-nav-item"><a class="mc-nav-link active" href="#">Tabs md</a></li>
+                                <li class="mc-nav-item"><a class="mc-nav-link" href="#">Link</a></li>
+                            </ul>
+                            <ul class="mc-nav mc-nav-pills" data-hue="blue">
+                                <li class="mc-nav-item"><a class="mc-nav-link active" href="#">Pills md</a></li>
+                                <li class="mc-nav-item"><a class="mc-nav-link" href="#">Link</a></li>
+                            </ul>
+                            <ul class="mc-nav mc-nav-underline" data-hue="blue">
+                                <li class="mc-nav-item"><a class="mc-nav-link active" href="#">Underline md</a></li>
+                                <li class="mc-nav-item"><a class="mc-nav-link" href="#">Link</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div>
+                        <span class="guide-label mb-2 block">lg</span>
+                        <div class="space-y-2">
+                            <ul class="mc-nav mc-nav-tabs mc-nav-lg" data-hue="yellow">
+                                <li class="mc-nav-item"><a class="mc-nav-link active" href="#">Tabs lg</a></li>
+                                <li class="mc-nav-item"><a class="mc-nav-link" href="#">Link</a></li>
+                            </ul>
+                            <ul class="mc-nav mc-nav-pills mc-nav-lg" data-hue="yellow">
+                                <li class="mc-nav-item"><a class="mc-nav-link active" href="#">Pills lg</a></li>
+                                <li class="mc-nav-item"><a class="mc-nav-link" href="#">Link</a></li>
+                            </ul>
+                            <ul class="mc-nav mc-nav-underline mc-nav-lg" data-hue="yellow">
+                                <li class="mc-nav-item"><a class="mc-nav-link active" href="#">Underline lg</a></li>
+                                <li class="mc-nav-item"><a class="mc-nav-link" href="#">Link</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div>
+                        <span class="guide-label mb-2 block">xl</span>
+                        <div class="space-y-2">
+                            <ul class="mc-nav mc-nav-tabs mc-nav-xl" data-hue="magenta">
+                                <li class="mc-nav-item"><a class="mc-nav-link active" href="#">Tabs xl</a></li>
+                                <li class="mc-nav-item"><a class="mc-nav-link" href="#">Link</a></li>
+                            </ul>
+                            <ul class="mc-nav mc-nav-pills mc-nav-xl" data-hue="magenta">
+                                <li class="mc-nav-item"><a class="mc-nav-link active" href="#">Pills xl</a></li>
+                                <li class="mc-nav-item"><a class="mc-nav-link" href="#">Link</a></li>
+                            </ul>
+                            <ul class="mc-nav mc-nav-underline mc-nav-xl" data-hue="magenta">
+                                <li class="mc-nav-item"><a class="mc-nav-link active" href="#">Underline xl</a></li>
+                                <li class="mc-nav-item"><a class="mc-nav-link" href="#">Link</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div>
+                        <span class="guide-label mb-2 block">xxl</span>
+                        <div class="space-y-2">
+                            <ul class="mc-nav mc-nav-tabs mc-nav-xxl" data-hue="teal">
+                                <li class="mc-nav-item"><a class="mc-nav-link active" href="#">Tabs xxl</a></li>
+                                <li class="mc-nav-item"><a class="mc-nav-link" href="#">Link</a></li>
+                            </ul>
+                            <ul class="mc-nav mc-nav-pills mc-nav-xxl" data-hue="teal">
+                                <li class="mc-nav-item"><a class="mc-nav-link active" href="#">Pills xxl</a></li>
+                                <li class="mc-nav-item"><a class="mc-nav-link" href="#">Link</a></li>
+                            </ul>
+                            <ul class="mc-nav mc-nav-underline mc-nav-xxl" data-hue="teal">
+                                <li class="mc-nav-item"><a class="mc-nav-link active" href="#">Underline xxl</a></li>
+                                <li class="mc-nav-item"><a class="mc-nav-link" href="#">Link</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ====== 6. SURFACE MODE ADAPTATION ====== -->
+        <section class="guide-section">
+            <h2 class="text-2xl font-bold mb-1 flex items-center">
+                <span class="section-number bg-p-teal-500 text-white">6</span>
+                Surface Mode Adaptation
+            </h2>
+            <p class="text-p-neutral-400 text-sm mb-6 ml-10">Navs inherit <code class="text-p-blue-300 text-xs">data-mode</code> from ancestor containers. Tabs, pills, and underline shown per mode.</p>
+
+            <!-- Mode 1 — White -->
+            <h3 class="text-xs font-bold uppercase tracking-widest text-p-neutral-400 mb-3">Mode 1 &mdash; White Surface (#FFFFFF)</h3>
+            <div class="surface-panel border mb-6" data-mode="1" style="background:#FFFFFF; border-color:#c3c3c3;">
+                <p class="text-[9px] uppercase tracking-[0.15em] font-bold mb-3 white-label">Tabs</p>
+                <div class="space-y-3 mb-4">
+                    <ul class="mc-nav mc-nav-tabs" data-hue="blue">
+                        <li class="mc-nav-item"><a class="mc-nav-link active" href="#">Home</a></li>
+                        <li class="mc-nav-item"><a class="mc-nav-link" href="#">Profile</a></li>
+                        <li class="mc-nav-item"><a class="mc-nav-link" href="#">Messages</a></li>
+                        <li class="mc-nav-item"><a class="mc-nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Settings</a></li>
+                    </ul>
+                    <ul class="mc-nav mc-nav-tabs" data-hue="red">
+                        <li class="mc-nav-item"><a class="mc-nav-link active" href="#">Home</a></li>
+                        <li class="mc-nav-item"><a class="mc-nav-link" href="#">Profile</a></li>
+                        <li class="mc-nav-item"><a class="mc-nav-link" href="#">Messages</a></li>
+                    </ul>
+                    <ul class="mc-nav mc-nav-tabs" data-hue="teal">
+                        <li class="mc-nav-item"><a class="mc-nav-link active" href="#">Home</a></li>
+                        <li class="mc-nav-item"><a class="mc-nav-link" href="#">Profile</a></li>
+                        <li class="mc-nav-item"><a class="mc-nav-link" href="#">Messages</a></li>
+                    </ul>
+                </div>
+                <p class="text-[9px] uppercase tracking-[0.15em] font-bold mb-3 white-label">Pills</p>
+                <div class="space-y-3 mb-4">
+                    <ul class="mc-nav mc-nav-pills" data-hue="blue">
+                        <li class="mc-nav-item"><a class="mc-nav-link active" href="#">Home</a></li>
+                        <li class="mc-nav-item"><a class="mc-nav-link" href="#">Profile</a></li>
+                        <li class="mc-nav-item"><a class="mc-nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a></li>
+                    </ul>
+                    <ul class="mc-nav mc-nav-pills" data-hue="green">
+                        <li class="mc-nav-item"><a class="mc-nav-link active" href="#">Home</a></li>
+                        <li class="mc-nav-item"><a class="mc-nav-link" href="#">Profile</a></li>
+                    </ul>
+                </div>
+                <p class="text-[9px] uppercase tracking-[0.15em] font-bold mb-3 white-label">Underline</p>
+                <div class="space-y-3">
+                    <ul class="mc-nav mc-nav-underline" data-hue="magenta">
+                        <li class="mc-nav-item"><a class="mc-nav-link active" href="#">Home</a></li>
+                        <li class="mc-nav-item"><a class="mc-nav-link" href="#">Profile</a></li>
+                        <li class="mc-nav-item"><a class="mc-nav-link" href="#">Messages</a></li>
+                    </ul>
+                    <ul class="mc-nav mc-nav-underline" data-hue="yellow">
+                        <li class="mc-nav-item"><a class="mc-nav-link active" href="#">Home</a></li>
+                        <li class="mc-nav-item"><a class="mc-nav-link" href="#">Profile</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Mode 2 — Black -->
+            <h3 class="text-xs font-bold uppercase tracking-widest text-p-neutral-400 mb-3">Mode 2 &mdash; Black Surface (#0A0A0A)</h3>
+            <div class="surface-panel border mb-6" data-mode="2" style="background:#0A0A0A; border-color:#222222; border-radius:3px;">
+                <p class="text-[9px] uppercase tracking-[0.15em] font-bold mb-3" style="color:#6c6c6c;">Tabs</p>
+                <div class="space-y-3 mb-4">
+                    <ul class="mc-nav mc-nav-tabs" data-hue="blue">
+                        <li class="mc-nav-item"><a class="mc-nav-link active" href="#">Home</a></li>
+                        <li class="mc-nav-item"><a class="mc-nav-link" href="#">Profile</a></li>
+                        <li class="mc-nav-item"><a class="mc-nav-link" href="#">Messages</a></li>
+                        <li class="mc-nav-item"><a class="mc-nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Settings</a></li>
+                    </ul>
+                    <ul class="mc-nav mc-nav-tabs" data-hue="red">
+                        <li class="mc-nav-item"><a class="mc-nav-link active" href="#">Home</a></li>
+                        <li class="mc-nav-item"><a class="mc-nav-link" href="#">Profile</a></li>
+                        <li class="mc-nav-item"><a class="mc-nav-link" href="#">Messages</a></li>
+                    </ul>
+                    <ul class="mc-nav mc-nav-tabs" data-hue="neutral">
+                        <li class="mc-nav-item"><a class="mc-nav-link active" href="#">Home</a></li>
+                        <li class="mc-nav-item"><a class="mc-nav-link" href="#">Profile</a></li>
+                        <li class="mc-nav-item"><a class="mc-nav-link" href="#">Messages</a></li>
+                    </ul>
+                </div>
+                <p class="text-[9px] uppercase tracking-[0.15em] font-bold mb-3" style="color:#6c6c6c;">Pills</p>
+                <div class="space-y-3 mb-4">
+                    <ul class="mc-nav mc-nav-pills" data-hue="blue">
+                        <li class="mc-nav-item"><a class="mc-nav-link active" href="#">Home</a></li>
+                        <li class="mc-nav-item"><a class="mc-nav-link" href="#">Profile</a></li>
+                        <li class="mc-nav-item"><a class="mc-nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a></li>
+                    </ul>
+                    <ul class="mc-nav mc-nav-pills" data-hue="green">
+                        <li class="mc-nav-item"><a class="mc-nav-link active" href="#">Home</a></li>
+                        <li class="mc-nav-item"><a class="mc-nav-link" href="#">Profile</a></li>
+                    </ul>
+                </div>
+                <p class="text-[9px] uppercase tracking-[0.15em] font-bold mb-3" style="color:#6c6c6c;">Underline</p>
+                <div class="space-y-3">
+                    <ul class="mc-nav mc-nav-underline" data-hue="magenta">
+                        <li class="mc-nav-item"><a class="mc-nav-link active" href="#">Home</a></li>
+                        <li class="mc-nav-item"><a class="mc-nav-link" href="#">Profile</a></li>
+                        <li class="mc-nav-item"><a class="mc-nav-link" href="#">Messages</a></li>
+                    </ul>
+                    <ul class="mc-nav mc-nav-underline" data-hue="teal">
+                        <li class="mc-nav-item"><a class="mc-nav-link active" href="#">Home</a></li>
+                        <li class="mc-nav-item"><a class="mc-nav-link" href="#">Profile</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Mode 3 — Light Hue -->
+            <h3 class="text-xs font-bold uppercase tracking-widest text-p-neutral-400 mb-3">Mode 3 &mdash; Light Hue Surface (blue.100 #dedeff)</h3>
+            <div class="surface-panel border mb-6" data-mode="3" style="background:#dedeff; border-color:#bebeff;">
+                <p class="text-[9px] uppercase tracking-[0.15em] font-bold mb-3 white-label">Tabs</p>
+                <div class="space-y-3 mb-4">
+                    <ul class="mc-nav mc-nav-tabs" data-hue="blue">
+                        <li class="mc-nav-item"><a class="mc-nav-link active" href="#">Home</a></li>
+                        <li class="mc-nav-item"><a class="mc-nav-link" href="#">Profile</a></li>
+                        <li class="mc-nav-item"><a class="mc-nav-link" href="#">Messages</a></li>
+                        <li class="mc-nav-item"><a class="mc-nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Settings</a></li>
+                    </ul>
+                    <ul class="mc-nav mc-nav-tabs" data-hue="green">
+                        <li class="mc-nav-item"><a class="mc-nav-link active" href="#">Home</a></li>
+                        <li class="mc-nav-item"><a class="mc-nav-link" href="#">Profile</a></li>
+                        <li class="mc-nav-item"><a class="mc-nav-link" href="#">Messages</a></li>
+                    </ul>
+                </div>
+                <p class="text-[9px] uppercase tracking-[0.15em] font-bold mb-3 white-label">Pills</p>
+                <div class="space-y-3 mb-4">
+                    <ul class="mc-nav mc-nav-pills" data-hue="blue">
+                        <li class="mc-nav-item"><a class="mc-nav-link active" href="#">Home</a></li>
+                        <li class="mc-nav-item"><a class="mc-nav-link" href="#">Profile</a></li>
+                        <li class="mc-nav-item"><a class="mc-nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a></li>
+                    </ul>
+                    <ul class="mc-nav mc-nav-pills" data-hue="red">
+                        <li class="mc-nav-item"><a class="mc-nav-link active" href="#">Home</a></li>
+                        <li class="mc-nav-item"><a class="mc-nav-link" href="#">Profile</a></li>
+                    </ul>
+                </div>
+                <p class="text-[9px] uppercase tracking-[0.15em] font-bold mb-3 white-label">Underline</p>
+                <div class="space-y-3">
+                    <ul class="mc-nav mc-nav-underline" data-hue="blue">
+                        <li class="mc-nav-item"><a class="mc-nav-link active" href="#">Home</a></li>
+                        <li class="mc-nav-item"><a class="mc-nav-link" href="#">Profile</a></li>
+                        <li class="mc-nav-item"><a class="mc-nav-link" href="#">Messages</a></li>
+                    </ul>
+                    <ul class="mc-nav mc-nav-underline" data-hue="teal">
+                        <li class="mc-nav-item"><a class="mc-nav-link active" href="#">Home</a></li>
+                        <li class="mc-nav-item"><a class="mc-nav-link" href="#">Profile</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Mode 4 — Dark Hue -->
+            <h3 class="text-xs font-bold uppercase tracking-widest text-p-neutral-400 mb-3">Mode 4 &mdash; Dark Hue Surface (blue.800 #000081)</h3>
+            <div class="surface-panel border mb-6" data-mode="4" style="background:#000081; border-color:#0000bf; border-radius:3px;">
+                <p class="text-[9px] uppercase tracking-[0.15em] font-bold mb-3" style="color:#9494ff;">Tabs</p>
+                <div class="space-y-3 mb-4">
+                    <ul class="mc-nav mc-nav-tabs" data-hue="blue">
+                        <li class="mc-nav-item"><a class="mc-nav-link active" href="#">Home</a></li>
+                        <li class="mc-nav-item"><a class="mc-nav-link" href="#">Profile</a></li>
+                        <li class="mc-nav-item"><a class="mc-nav-link" href="#">Messages</a></li>
+                        <li class="mc-nav-item"><a class="mc-nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Settings</a></li>
+                    </ul>
+                    <ul class="mc-nav mc-nav-tabs" data-hue="red">
+                        <li class="mc-nav-item"><a class="mc-nav-link active" href="#">Home</a></li>
+                        <li class="mc-nav-item"><a class="mc-nav-link" href="#">Profile</a></li>
+                        <li class="mc-nav-item"><a class="mc-nav-link" href="#">Messages</a></li>
+                    </ul>
+                    <ul class="mc-nav mc-nav-tabs" data-hue="teal">
+                        <li class="mc-nav-item"><a class="mc-nav-link active" href="#">Home</a></li>
+                        <li class="mc-nav-item"><a class="mc-nav-link" href="#">Profile</a></li>
+                        <li class="mc-nav-item"><a class="mc-nav-link" href="#">Messages</a></li>
+                    </ul>
+                </div>
+                <p class="text-[9px] uppercase tracking-[0.15em] font-bold mb-3" style="color:#9494ff;">Pills</p>
+                <div class="space-y-3 mb-4">
+                    <ul class="mc-nav mc-nav-pills" data-hue="blue">
+                        <li class="mc-nav-item"><a class="mc-nav-link active" href="#">Home</a></li>
+                        <li class="mc-nav-item"><a class="mc-nav-link" href="#">Profile</a></li>
+                        <li class="mc-nav-item"><a class="mc-nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a></li>
+                    </ul>
+                    <ul class="mc-nav mc-nav-pills" data-hue="green">
+                        <li class="mc-nav-item"><a class="mc-nav-link active" href="#">Home</a></li>
+                        <li class="mc-nav-item"><a class="mc-nav-link" href="#">Profile</a></li>
+                    </ul>
+                </div>
+                <p class="text-[9px] uppercase tracking-[0.15em] font-bold mb-3" style="color:#9494ff;">Underline</p>
+                <div class="space-y-3">
+                    <ul class="mc-nav mc-nav-underline" data-hue="blue">
+                        <li class="mc-nav-item"><a class="mc-nav-link active" href="#">Home</a></li>
+                        <li class="mc-nav-item"><a class="mc-nav-link" href="#">Profile</a></li>
+                        <li class="mc-nav-item"><a class="mc-nav-link" href="#">Messages</a></li>
+                    </ul>
+                    <ul class="mc-nav mc-nav-underline" data-hue="magenta">
+                        <li class="mc-nav-item"><a class="mc-nav-link active" href="#">Home</a></li>
+                        <li class="mc-nav-item"><a class="mc-nav-link" href="#">Profile</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Mode 5 — Mid Hue -->
+            <h3 class="text-xs font-bold uppercase tracking-widest text-p-neutral-400 mb-3">Mode 5 &mdash; Mid Hue Surface (blue.500 #5252ff)</h3>
+            <div class="surface-panel border mb-6" data-mode="5" style="background:#5252ff; border-color:#9494ff;">
+                <p class="text-[9px] uppercase tracking-[0.15em] font-bold mb-3" style="color:#dedeff;">Tabs</p>
+                <div class="space-y-3 mb-4">
+                    <ul class="mc-nav mc-nav-tabs" data-hue="blue">
+                        <li class="mc-nav-item"><a class="mc-nav-link active" href="#">Home</a></li>
+                        <li class="mc-nav-item"><a class="mc-nav-link" href="#">Profile</a></li>
+                        <li class="mc-nav-item"><a class="mc-nav-link" href="#">Messages</a></li>
+                        <li class="mc-nav-item"><a class="mc-nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Settings</a></li>
+                    </ul>
+                    <ul class="mc-nav mc-nav-tabs" data-hue="red">
+                        <li class="mc-nav-item"><a class="mc-nav-link active" href="#">Home</a></li>
+                        <li class="mc-nav-item"><a class="mc-nav-link" href="#">Profile</a></li>
+                        <li class="mc-nav-item"><a class="mc-nav-link" href="#">Messages</a></li>
+                    </ul>
+                </div>
+                <p class="text-[9px] uppercase tracking-[0.15em] font-bold mb-3" style="color:#dedeff;">Pills</p>
+                <div class="space-y-3 mb-4">
+                    <ul class="mc-nav mc-nav-pills" data-hue="blue">
+                        <li class="mc-nav-item"><a class="mc-nav-link active" href="#">Home</a></li>
+                        <li class="mc-nav-item"><a class="mc-nav-link" href="#">Profile</a></li>
+                        <li class="mc-nav-item"><a class="mc-nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a></li>
+                    </ul>
+                    <ul class="mc-nav mc-nav-pills" data-hue="teal">
+                        <li class="mc-nav-item"><a class="mc-nav-link active" href="#">Home</a></li>
+                        <li class="mc-nav-item"><a class="mc-nav-link" href="#">Profile</a></li>
+                    </ul>
+                </div>
+                <p class="text-[9px] uppercase tracking-[0.15em] font-bold mb-3" style="color:#dedeff;">Underline</p>
+                <div class="space-y-3">
+                    <ul class="mc-nav mc-nav-underline" data-hue="blue">
+                        <li class="mc-nav-item"><a class="mc-nav-link active" href="#">Home</a></li>
+                        <li class="mc-nav-item"><a class="mc-nav-link" href="#">Profile</a></li>
+                        <li class="mc-nav-item"><a class="mc-nav-link" href="#">Messages</a></li>
+                    </ul>
+                    <ul class="mc-nav mc-nav-underline" data-hue="neutral">
+                        <li class="mc-nav-item"><a class="mc-nav-link active" href="#">Home</a></li>
+                        <li class="mc-nav-item"><a class="mc-nav-link" href="#">Profile</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="code-block text-[10px]"><span class="cm">&lt;!-- Mode 1: White surface --&gt;</span>
+<span class="t">&lt;div</span> <span class="a">data-mode</span>=<span class="v">"1"</span> <span class="a">style</span>=<span class="v">"background:#FFFFFF;"</span><span class="t">&gt;</span>
+  <span class="t">&lt;ul</span> <span class="a">class</span>=<span class="v">"mc-nav mc-nav-tabs"</span> <span class="a">data-hue</span>=<span class="v">"blue"</span><span class="t">&gt;</span><span class="tx">...</span><span class="t">&lt;/ul&gt;</span>
+<span class="t">&lt;/div&gt;</span>
+
+<span class="cm">&lt;!-- Mode 2: Black surface --&gt;</span>
+<span class="t">&lt;div</span> <span class="a">data-mode</span>=<span class="v">"2"</span> <span class="a">style</span>=<span class="v">"background:#0A0A0A;"</span><span class="t">&gt;</span>
+  <span class="t">&lt;ul</span> <span class="a">class</span>=<span class="v">"mc-nav mc-nav-pills"</span> <span class="a">data-hue</span>=<span class="v">"blue"</span><span class="t">&gt;</span><span class="tx">...</span><span class="t">&lt;/ul&gt;</span>
+<span class="t">&lt;/div&gt;</span>
+
+<span class="cm">&lt;!-- Mode 4: Dark hue surface --&gt;</span>
+<span class="t">&lt;div</span> <span class="a">data-mode</span>=<span class="v">"4"</span> <span class="a">style</span>=<span class="v">"background:#000081;"</span><span class="t">&gt;</span>
+  <span class="t">&lt;ul</span> <span class="a">class</span>=<span class="v">"mc-nav mc-nav-underline"</span> <span class="a">data-hue</span>=<span class="v">"blue"</span><span class="t">&gt;</span><span class="tx">...</span><span class="t">&lt;/ul&gt;</span>
+<span class="t">&lt;/div&gt;</span>
+
+<span class="cm">&lt;!-- Mode 5: Mid hue surface --&gt;</span>
+<span class="t">&lt;div</span> <span class="a">data-mode</span>=<span class="v">"5"</span> <span class="a">style</span>=<span class="v">"background:#5252ff;"</span><span class="t">&gt;</span>
+  <span class="t">&lt;ul</span> <span class="a">class</span>=<span class="v">"mc-nav mc-nav-tabs"</span> <span class="a">data-hue</span>=<span class="v">"blue"</span><span class="t">&gt;</span><span class="tx">...</span><span class="t">&lt;/ul&gt;</span>
+<span class="t">&lt;/div&gt;</span></div>
+        </section>
+
+        <footer class="docs-footer">
+            <p>MC Perception Design System &mdash; 7 hues &times; 5 modes &times; 6 sizes &mdash; WCAG AA compliant</p>
+            <p style="margin-top: 0.5rem;"><a href="https://github.com/anthropics/claude-code">Built with Claude Code</a></p>
+        </footer>
+
+            </div>
+        </main>
+    </div>
+
+    <script>
+    (function() {
+        var page = location.pathname.split('/').pop().replace('.html','') || 'index';
+        var links = document.querySelectorAll('.docs-nav-link');
+        links.forEach(function(a) {
+            if (a.getAttribute('data-page') === page) a.classList.add('active');
+        });
+        var hamburger = document.getElementById('docs-hamburger');
+        var sidebar = document.getElementById('docs-sidebar');
+        var overlay = document.getElementById('docs-overlay');
+        if (hamburger && sidebar && overlay) {
+            hamburger.addEventListener('click', function() {
+                sidebar.classList.toggle('open');
+                overlay.classList.toggle('open');
+            });
+            overlay.addEventListener('click', function() {
+                sidebar.classList.remove('open');
+                overlay.classList.remove('open');
+            });
+        }
+    })();
+
+    function switchTab(btn, paneId) {
+        var nav = btn.closest('.mc-nav');
+        nav.querySelectorAll('.mc-nav-link').forEach(function(l) {
+            l.classList.remove('active');
+            l.setAttribute('aria-selected', 'false');
+        });
+        btn.classList.add('active');
+        btn.setAttribute('aria-selected', 'true');
+        var content = nav.nextElementSibling;
+        if (content && content.classList.contains('mc-tab-content')) {
+            content.querySelectorAll('.mc-tab-pane').forEach(function(p) { p.classList.remove('active'); });
+            var pane = content.querySelector('#' + paneId);
+            if (pane) pane.classList.add('active');
+        }
+    }
+    </script>
+
+</body>
+</html>
