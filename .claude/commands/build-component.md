@@ -17,6 +17,36 @@ hooks:
 
 Build a single Perception Bootstrap component: $ARGUMENTS
 
+## Phase 0: Reference Analysis & Feature Scoping (MANDATORY)
+
+### If $ARGUMENTS contains a URL (http:// or https://):
+
+1. **Screenshot the reference:** Use Chrome DevTools MCP (`navigate_page` + `take_screenshot`) to capture the reference design.
+   Scroll and take multiple screenshots if needed to see the full component.
+   If MCP is not connected, ask the user to describe the component or paste a screenshot.
+
+2. **Analyze the visual design** from the screenshot:
+   - Component anatomy: parts/sections (header, body, footer, icons, badges, etc.)
+   - Variants: visual variants shown (filled, outlined, ghost, etc.)
+   - Interactive states: hover, focus, disabled, active, selected, etc.
+   - Layout: horizontal, vertical, stacked, grid, inline, etc.
+   - Special features: animations, collapse, drag, sort, dismiss, etc.
+
+3. **Ask the user** which features to include and which to skip.
+   Present identified parts as a multiSelect checklist via AskUserQuestion.
+   Do NOT proceed to coding without user confirmation on the feature set.
+
+### If $ARGUMENTS has NO URL:
+
+1. Read the component skill file if it exists (Phase 1, step 5 below).
+2. **Ask the user** about which features/parts to include based on the component type.
+   Present common parts/features as a multiSelect checklist.
+3. If the user says "all" or "everything", include the full feature set.
+
+Do NOT start writing code until the feature set is agreed upon.
+
+---
+
 ## Phase 1: Read Skills (MANDATORY — do this first)
 
 Read these files before writing any code:

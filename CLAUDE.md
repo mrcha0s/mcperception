@@ -35,8 +35,13 @@ Modes 2 and 4 use a Photoshop-inspired flat-layered depth system. No gradients. 
 ### Rule 7: CSS Architecture Audit
 After building or modifying any component CSS, run the `css-auditor` agent (or `/audit-css {component}`). This catches subtle issues the standard validator misses: duplicate size variants, inconsistent border-radius across modes, missing panel-aware overrides, opacity/rgba palette violations, `:focus` vs `:focus-visible`, and disabled state color faking. Zero critical findings required. Warnings should be addressed before shipping.
 
-### Rule 8: WCAG Guard — Mandatory After Every Component Change
-After editing ANY component CSS, demo HTML, or color token, you MUST spawn the `wcag-guard` agent before reporting completion to the user. This is NOT optional. Do NOT skip this step. The agent checks contrast ratios for all 35 hue × mode pairs, palette compliance, demo page completeness, and regressions against known-good baselines. If the agent returns FAIL, fix every violation before delivering. Never mark a component task as done until wcag-guard returns PASS.
+### Rule 8: WCAG Guard + Visual QA — Mandatory After Every Component Change
+After editing ANY component CSS, demo HTML, or color token, you MUST spawn BOTH verification agents before reporting completion. This is NOT optional.
+
+1. **`visual-qa` agent** — takes screenshots via Chrome DevTools MCP, verifies all design skills visually (15 checks: palette, modes, pairings, states, depth tokens, sizes, hues, typography, layout, color, accessibility)
+2. **`wcag-guard` agent** — source-level analysis: computes contrast ratios for all 35 hue × mode pairs, checks palette compliance, demo completeness, regression baselines
+
+Both agents must return PASS. If either returns FAIL, fix every violation before delivering. Never mark a component task as done until both agents pass.
 
 ### Rule 9: Read Foundation Skills Before ANY UI Work
 Before writing or editing ANY component CSS, demo HTML, color token, or UI-related code, you MUST read these 4 foundation files FIRST:
@@ -363,3 +368,110 @@ Source files (imported by `src/mcperception.css`):
 - Use `opacity` to mute text/bg/border colors in demo pages — use explicit palette steps instead
 - Use `border-radius` > 3px on demo page elements inside M2/M4 containers (mode cards, preview panels)
 - Ship a demo page without scanning it for palette violations (Rule 10)
+- Use nonexistent CSS classes in demo pages or components — always verify a class exists in the built `dist/mcperception.css` before using it (see CLASS EXISTENCE REFERENCE below)
+- Use `mc-btn-xs`, `mc-btn-sm`, `mc-btn-lg`, `mc-btn-xl`, `mc-btn-xxl` as standalone button size classes — THESE DO NOT EXIST. Button sizes only exist within button groups (`.mc-btn-group-{size} > .mc-btn`). For component-embedded buttons (dropdown toggles, input-group buttons), size the button from the parent wrapper (e.g., `.mc-dropdown-{size} .mc-dropdown-toggle`)
+
+---
+
+## CLASS EXISTENCE REFERENCE — VERIFIED CSS CLASSES
+
+### Rule 12: Verify CSS Classes Exist Before Using Them
+Before adding any `mc-*` class to HTML (demo pages, components, examples), verify the class actually exists in the compiled CSS. Non-existent classes render silently with no styling — producing subtle bugs that look like "everything is the same size" or "no style applied".
+
+**How to verify:** Search `src/dist/mcperception.css` for the class name. If zero matches, the class does not exist.
+
+### Button Size Classes — NONE EXIST as Standalone
+There are NO standalone button size classes. The following classes DO NOT EXIST:
+- `mc-btn-xs` — DOES NOT EXIST
+- `mc-btn-sm` — DOES NOT EXIST
+- `mc-btn-lg` — DOES NOT EXIST
+- `mc-btn-xl` — DOES NOT EXIST
+- `mc-btn-xxl` — DOES NOT EXIST
+
+**Button sizing is ONLY available through:**
+1. **Button groups:** `.mc-btn-group-{size} > .mc-btn` — the group wrapper sizes its child buttons
+2. **Component wrappers:** Each component handles its own toggle/button sizing (e.g., `.mc-dropdown-{size} .mc-dropdown-toggle`)
+
+### Component Toggle/Button Sizing Pattern
+When a component contains a button-like element (toggle, trigger, action button), the component's size class MUST cascade sizing to that element via CSS:
+
+```css
+/* CORRECT — parent wrapper sizes the toggle */
+.mc-dropdown-xs .mc-dropdown-toggle { padding: 4px 8px; font-size: 11px; min-height: 24px; }
+.mc-dropdown-sm .mc-dropdown-toggle { padding: 6px 12px; font-size: 12px; min-height: 30px; }
+/* md is default on .mc-dropdown-toggle base */
+.mc-dropdown-lg .mc-dropdown-toggle { padding: 10px 20px; font-size: 16px; min-height: 44px; }
+
+/* WRONG — nonexistent standalone class, does nothing */
+<button class="mc-btn mc-btn-xs mc-dropdown-toggle">  ← mc-btn-xs does not exist!
+```
+
+---
+
+## AUTO-PIPELINE — MANDATORY AFTER EVERY CHANGE
+
+### Rule 11: Automatic Build + Visual QA After Every Change
+
+After completing ANY code change (CSS, HTML, component, demo page, color tokens), Claude MUST automatically execute the full pipeline **without being asked**. This is NOT optional. Do NOT wait for the user to request it.
+
+**Pipeline steps (run in order):**
+
+1. **Build CSS:** `cd src && npm run build`
+2. **Start dev server** (if not already running): `cd src && npm run serve` (background)
+3. **Run Visual QA:** Spawn the `visual-qa` agent on the affected demo page(s) — it takes screenshots via Chrome DevTools MCP and verifies all design skills visually (palette, modes, depth tokens, sizes, hues, typography, layout, accessibility)
+4. **Run WCAG Guard:** Spawn the `wcag-guard` agent on the affected component(s) — it performs source-level contrast computation for all 35 hue x mode pairs, palette compliance, and regression checks
+5. **Report results** to the user with pass/fail tables from both agents
+
+**Scope rules:**
+- Single component changed → Visual QA on that component's demo page only
+- `mcperception-color.css` changed → Visual QA on ALL demo pages
+- New component built → Visual QA on the new demo page
+- Demo page edited → Visual QA on that demo page
+
+**If any check fails:** Fix the issue immediately, rebuild, and re-run Visual QA. Do NOT report completion until all checks pass.
+
+**If Chrome DevTools MCP is not connected:** Skip the screenshot/Visual QA steps, but still run the CSS build. Warn the user that Visual QA was skipped.
+
+---
+
+## VISUAL QA PIPELINE
+
+### Prerequisites
+
+1. **Dev server running:** `cd src && npm run serve` (serves on `http://localhost:3000`)
+2. **Chrome DevTools MCP connected:** Configured in `.mcp.json` at project root
+3. **Demo pages built:** `cd src && npm run build` must have been run so `dist/mcperception.css` exists
+
+### URL Pattern
+
+All demo pages are at: `http://localhost:3000/demo/{page}.html`
+
+Example: `http://localhost:3000/demo/index.html`
+
+### Visual QA Agent
+
+The `visual-qa` agent (`.claude/agents/visual-qa.md`) is a dedicated sub-agent for screenshot-based verification. It checks 15 visual criteria across all design skills using Chrome DevTools MCP.
+
+**Invoke it with:**
+- Component name: `visual-qa button` → checks `http://localhost:3000/demo/button.html`
+- All pages: `visual-qa all` → checks every file in `src/demo/`
+
+**What it checks (15 points):**
+1. Page loads + CSS applied
+2. Palette colors correct per mode
+3-7. All 5 surface mode pairings (bg, text, accent, buttons, dividers)
+8. Interactive states (hover, focus, disabled)
+9. Depth tokens M2/M4 (flat, no shadows, 3px radius, weight 400 buttons)
+10. Size scale (6 tiers distinct)
+11. Hue differentiation (7 distinct)
+12. Typography (hierarchy, readability, M2/M4 rules)
+13. Layout & hierarchy (spacing, alignment, organization)
+14. Color application (contrast, 60-30-10, semantics)
+15. Accessibility (not color-only, focus ring, disabled visible)
+
+### When to Run Visual QA
+
+- **After any CSS change:** Run on the affected component's demo page
+- **After building a new component:** Run on the new demo page
+- **After modifying `mcperception-color.css`:** Run on ALL demo pages (color changes affect everything)
+- **Before delivering a component:** Visual QA is part of Phase 3 verification

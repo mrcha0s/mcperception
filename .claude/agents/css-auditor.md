@@ -28,7 +28,7 @@ Before auditing, read these for the ground truth:
 
 ## Checks
 
-Run ALL 12 checks. For each finding, report the severity, file path, line number, and what's wrong.
+Run ALL 14 checks. For each finding, report the severity, file path, line number, and what's wrong.
 
 ---
 
@@ -185,6 +185,31 @@ Severity: **WARNING** — missing wrapper styles means checkbox + label won't al
 
 ---
 
+### Category E — Class Existence & Demo Integrity
+
+**[E1] No nonexistent CSS classes in demo HTML**
+
+For each demo page (`src/demo/*.html`) related to the audited component:
+- Extract all `mc-*` class names used in the HTML (from `class="..."` attributes)
+- Check each class exists in `src/dist/mcperception.css` (search for `.mc-{name}` as a selector)
+- Flag any `mc-*` class used in demo HTML that does NOT exist in the compiled CSS
+
+**Known nonexistent classes to always flag:**
+- `mc-btn-xs`, `mc-btn-sm`, `mc-btn-lg`, `mc-btn-xl`, `mc-btn-xxl` — standalone button size classes DO NOT EXIST
+- Button sizes only work within button groups (`.mc-btn-group-{size} > .mc-btn`)
+
+Severity: **CRITICAL** — nonexistent classes render silently with no styling, producing bugs like "all sizes look identical".
+
+**[E2] Component toggle/button sizing via wrapper**
+
+For components that embed a toggle or trigger button (dropdown, input-group, etc.):
+- Check that the component's size variants (e.g. `.mc-dropdown-xs`, `.mc-dropdown-sm`) include CSS rules that cascade sizing to child button/toggle elements
+- Flag if size classes exist on the wrapper but no corresponding `.mc-{component}-{size} .mc-{component}-toggle` (or similar) rules exist in the CSS
+
+Severity: **WARNING** — missing cascade means toggle buttons won't resize with the component.
+
+---
+
 ## Report Format
 
 ```
@@ -212,6 +237,10 @@ CATEGORY D — INTERACTIVE STATES & ACCESSIBILITY
   [D1] All states present:   ✅ PASS | ⚠️ WARNING (details)
   [D2] :focus-visible:       ✅ PASS | ℹ️ INFO (details)
   [D3] Wrapper/label styles: ✅ PASS | ⚠️ WARNING (details)
+
+CATEGORY E — CLASS EXISTENCE & DEMO INTEGRITY
+  [E1] No phantom classes:   ✅ PASS | ❌ CRITICAL (details)
+  [E2] Toggle sizing cascade: ✅ PASS | ⚠️ WARNING (details)
 
 ───────────────────────────────────────────────
 SUMMARY: X critical, Y warnings, Z info

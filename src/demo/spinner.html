@@ -290,6 +290,8 @@
                     <a href="card.html" class="docs-nav-link" data-page="card">Card</a>
                     <a href="button-group.html" class="docs-nav-link" data-page="button-group">Button Group</a>
                     <a href="breadcrumb.html" class="docs-nav-link" data-page="breadcrumb">Breadcrumb</a>
+                    <a href="code-mockup.html" class="docs-nav-link" data-page="code-mockup">Code Mockup</a>
+                    <a href="stat.html" class="docs-nav-link" data-page="stat">Stat</a>
                     <a href="input.html" class="docs-nav-link" data-page="input">Form Inputs</a>
                     <a href="selection.html" class="docs-nav-link" data-page="selection">Selection Controls</a>
                     <a href="table.html" class="docs-nav-link" data-page="table">Tables</a>
@@ -461,10 +463,486 @@
             </div>
         </section>
 
-        <!-- ====== 3. SIZE SCALE ====== -->
+        <!-- ====== 3. DOTS SPINNER — ALL 7 HUES ====== -->
         <section class="guide-section">
             <h2 class="text-2xl font-bold mb-1 flex items-center">
                 <span class="section-number bg-p-red-500 text-white">3</span>
+                Dots Spinner &mdash; All 7 Hues
+            </h2>
+            <p class="text-p-neutral-400 text-sm mb-6 ml-10">Three dots pulsing with staggered delay. Requires 3 child <code>&lt;span&gt;</code> elements.</p>
+
+            <div class="guide-card mb-4">
+                <div class="spinner-hue-grid">
+                    <div class="spinner-hue-cell">
+                        <div class="mc-spinner-dots" data-hue="neutral" role="status"><span></span><span></span><span></span><span class="sr-only">Loading...</span></div>
+                        <span class="spinner-hue-label">Neutral</span>
+                    </div>
+                    <div class="spinner-hue-cell">
+                        <div class="mc-spinner-dots" data-hue="red" role="status"><span></span><span></span><span></span><span class="sr-only">Loading...</span></div>
+                        <span class="spinner-hue-label">Red</span>
+                    </div>
+                    <div class="spinner-hue-cell">
+                        <div class="mc-spinner-dots" data-hue="green" role="status"><span></span><span></span><span></span><span class="sr-only">Loading...</span></div>
+                        <span class="spinner-hue-label">Green</span>
+                    </div>
+                    <div class="spinner-hue-cell">
+                        <div class="mc-spinner-dots" data-hue="blue" role="status"><span></span><span></span><span></span><span class="sr-only">Loading...</span></div>
+                        <span class="spinner-hue-label">Blue</span>
+                    </div>
+                    <div class="spinner-hue-cell">
+                        <div class="mc-spinner-dots" data-hue="yellow" role="status"><span></span><span></span><span></span><span class="sr-only">Loading...</span></div>
+                        <span class="spinner-hue-label">Yellow</span>
+                    </div>
+                    <div class="spinner-hue-cell">
+                        <div class="mc-spinner-dots" data-hue="magenta" role="status"><span></span><span></span><span></span><span class="sr-only">Loading...</span></div>
+                        <span class="spinner-hue-label">Magenta</span>
+                    </div>
+                    <div class="spinner-hue-cell">
+                        <div class="mc-spinner-dots" data-hue="teal" role="status"><span></span><span></span><span></span><span class="sr-only">Loading...</span></div>
+                        <span class="spinner-hue-label">Teal</span>
+                    </div>
+                </div>
+            </div>
+            <div class="code-block">
+<span class="t">&lt;div</span> <span class="a">class</span>=<span class="v">"mc-spinner-dots"</span> <span class="a">data-hue</span>=<span class="v">"blue"</span> <span class="a">role</span>=<span class="v">"status"</span><span class="t">&gt;</span>
+  <span class="t">&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;</span>
+  <span class="t">&lt;span</span> <span class="a">class</span>=<span class="v">"sr-only"</span><span class="t">&gt;</span><span class="tx">Loading...</span><span class="t">&lt;/span&gt;</span>
+<span class="t">&lt;/div&gt;</span>
+            </div>
+        </section>
+
+        <!-- ====== 4. BARS SPINNER — ALL 7 HUES ====== -->
+        <section class="guide-section">
+            <h2 class="text-2xl font-bold mb-1 flex items-center">
+                <span class="section-number bg-p-magenta-500 text-white">4</span>
+                Bars Spinner &mdash; All 7 Hues
+            </h2>
+            <p class="text-p-neutral-400 text-sm mb-6 ml-10">Four vertical equalizer bars wave-scaling. Requires 4 child <code>&lt;span&gt;</code> elements.</p>
+
+            <div class="guide-card mb-4">
+                <div class="spinner-hue-grid">
+                    <div class="spinner-hue-cell">
+                        <div class="mc-spinner-bars" data-hue="neutral" role="status"><span></span><span></span><span></span><span></span><span class="sr-only">Loading...</span></div>
+                        <span class="spinner-hue-label">Neutral</span>
+                    </div>
+                    <div class="spinner-hue-cell">
+                        <div class="mc-spinner-bars" data-hue="red" role="status"><span></span><span></span><span></span><span></span><span class="sr-only">Loading...</span></div>
+                        <span class="spinner-hue-label">Red</span>
+                    </div>
+                    <div class="spinner-hue-cell">
+                        <div class="mc-spinner-bars" data-hue="green" role="status"><span></span><span></span><span></span><span></span><span class="sr-only">Loading...</span></div>
+                        <span class="spinner-hue-label">Green</span>
+                    </div>
+                    <div class="spinner-hue-cell">
+                        <div class="mc-spinner-bars" data-hue="blue" role="status"><span></span><span></span><span></span><span></span><span class="sr-only">Loading...</span></div>
+                        <span class="spinner-hue-label">Blue</span>
+                    </div>
+                    <div class="spinner-hue-cell">
+                        <div class="mc-spinner-bars" data-hue="yellow" role="status"><span></span><span></span><span></span><span></span><span class="sr-only">Loading...</span></div>
+                        <span class="spinner-hue-label">Yellow</span>
+                    </div>
+                    <div class="spinner-hue-cell">
+                        <div class="mc-spinner-bars" data-hue="magenta" role="status"><span></span><span></span><span></span><span></span><span class="sr-only">Loading...</span></div>
+                        <span class="spinner-hue-label">Magenta</span>
+                    </div>
+                    <div class="spinner-hue-cell">
+                        <div class="mc-spinner-bars" data-hue="teal" role="status"><span></span><span></span><span></span><span></span><span class="sr-only">Loading...</span></div>
+                        <span class="spinner-hue-label">Teal</span>
+                    </div>
+                </div>
+            </div>
+            <div class="code-block">
+<span class="t">&lt;div</span> <span class="a">class</span>=<span class="v">"mc-spinner-bars"</span> <span class="a">data-hue</span>=<span class="v">"blue"</span> <span class="a">role</span>=<span class="v">"status"</span><span class="t">&gt;</span>
+  <span class="t">&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;</span>
+  <span class="t">&lt;span</span> <span class="a">class</span>=<span class="v">"sr-only"</span><span class="t">&gt;</span><span class="tx">Loading...</span><span class="t">&lt;/span&gt;</span>
+<span class="t">&lt;/div&gt;</span>
+            </div>
+        </section>
+
+        <!-- ====== 5. ORBIT SPINNER — ALL 7 HUES ====== -->
+        <section class="guide-section">
+            <h2 class="text-2xl font-bold mb-1 flex items-center">
+                <span class="section-number bg-p-yellow-500 text-white">5</span>
+                Orbit Spinner &mdash; All 7 Hues
+            </h2>
+            <p class="text-p-neutral-400 text-sm mb-6 ml-10">Two dots orbiting a central point with scale pulse. Requires 2 child <code>&lt;span&gt;</code> elements.</p>
+
+            <div class="guide-card mb-4">
+                <div class="spinner-hue-grid">
+                    <div class="spinner-hue-cell">
+                        <div class="mc-spinner-orbit" data-hue="neutral" role="status"><span></span><span></span><span class="sr-only">Loading...</span></div>
+                        <span class="spinner-hue-label">Neutral</span>
+                    </div>
+                    <div class="spinner-hue-cell">
+                        <div class="mc-spinner-orbit" data-hue="red" role="status"><span></span><span></span><span class="sr-only">Loading...</span></div>
+                        <span class="spinner-hue-label">Red</span>
+                    </div>
+                    <div class="spinner-hue-cell">
+                        <div class="mc-spinner-orbit" data-hue="green" role="status"><span></span><span></span><span class="sr-only">Loading...</span></div>
+                        <span class="spinner-hue-label">Green</span>
+                    </div>
+                    <div class="spinner-hue-cell">
+                        <div class="mc-spinner-orbit" data-hue="blue" role="status"><span></span><span></span><span class="sr-only">Loading...</span></div>
+                        <span class="spinner-hue-label">Blue</span>
+                    </div>
+                    <div class="spinner-hue-cell">
+                        <div class="mc-spinner-orbit" data-hue="yellow" role="status"><span></span><span></span><span class="sr-only">Loading...</span></div>
+                        <span class="spinner-hue-label">Yellow</span>
+                    </div>
+                    <div class="spinner-hue-cell">
+                        <div class="mc-spinner-orbit" data-hue="magenta" role="status"><span></span><span></span><span class="sr-only">Loading...</span></div>
+                        <span class="spinner-hue-label">Magenta</span>
+                    </div>
+                    <div class="spinner-hue-cell">
+                        <div class="mc-spinner-orbit" data-hue="teal" role="status"><span></span><span></span><span class="sr-only">Loading...</span></div>
+                        <span class="spinner-hue-label">Teal</span>
+                    </div>
+                </div>
+            </div>
+            <div class="code-block">
+<span class="t">&lt;div</span> <span class="a">class</span>=<span class="v">"mc-spinner-orbit"</span> <span class="a">data-hue</span>=<span class="v">"blue"</span> <span class="a">role</span>=<span class="v">"status"</span><span class="t">&gt;</span>
+  <span class="t">&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;</span>
+  <span class="t">&lt;span</span> <span class="a">class</span>=<span class="v">"sr-only"</span><span class="t">&gt;</span><span class="tx">Loading...</span><span class="t">&lt;/span&gt;</span>
+<span class="t">&lt;/div&gt;</span>
+            </div>
+        </section>
+
+        <!-- ====== 6. CHASE SPINNER — ALL 7 HUES ====== -->
+        <section class="guide-section">
+            <h2 class="text-2xl font-bold mb-1 flex items-center">
+                <span class="section-number bg-p-teal-500 text-white">6</span>
+                Chase Spinner &mdash; All 7 Hues
+            </h2>
+            <p class="text-p-neutral-400 text-sm mb-6 ml-10">Four dots chasing each other in a square pattern. Requires 4 child <code>&lt;span&gt;</code> elements.</p>
+
+            <div class="guide-card mb-4">
+                <div class="spinner-hue-grid">
+                    <div class="spinner-hue-cell">
+                        <div class="mc-spinner-chase" data-hue="neutral" role="status"><span></span><span></span><span></span><span></span><span class="sr-only">Loading...</span></div>
+                        <span class="spinner-hue-label">Neutral</span>
+                    </div>
+                    <div class="spinner-hue-cell">
+                        <div class="mc-spinner-chase" data-hue="red" role="status"><span></span><span></span><span></span><span></span><span class="sr-only">Loading...</span></div>
+                        <span class="spinner-hue-label">Red</span>
+                    </div>
+                    <div class="spinner-hue-cell">
+                        <div class="mc-spinner-chase" data-hue="green" role="status"><span></span><span></span><span></span><span></span><span class="sr-only">Loading...</span></div>
+                        <span class="spinner-hue-label">Green</span>
+                    </div>
+                    <div class="spinner-hue-cell">
+                        <div class="mc-spinner-chase" data-hue="blue" role="status"><span></span><span></span><span></span><span></span><span class="sr-only">Loading...</span></div>
+                        <span class="spinner-hue-label">Blue</span>
+                    </div>
+                    <div class="spinner-hue-cell">
+                        <div class="mc-spinner-chase" data-hue="yellow" role="status"><span></span><span></span><span></span><span></span><span class="sr-only">Loading...</span></div>
+                        <span class="spinner-hue-label">Yellow</span>
+                    </div>
+                    <div class="spinner-hue-cell">
+                        <div class="mc-spinner-chase" data-hue="magenta" role="status"><span></span><span></span><span></span><span></span><span class="sr-only">Loading...</span></div>
+                        <span class="spinner-hue-label">Magenta</span>
+                    </div>
+                    <div class="spinner-hue-cell">
+                        <div class="mc-spinner-chase" data-hue="teal" role="status"><span></span><span></span><span></span><span></span><span class="sr-only">Loading...</span></div>
+                        <span class="spinner-hue-label">Teal</span>
+                    </div>
+                </div>
+            </div>
+            <div class="code-block">
+<span class="t">&lt;div</span> <span class="a">class</span>=<span class="v">"mc-spinner-chase"</span> <span class="a">data-hue</span>=<span class="v">"blue"</span> <span class="a">role</span>=<span class="v">"status"</span><span class="t">&gt;</span>
+  <span class="t">&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;</span>
+  <span class="t">&lt;span</span> <span class="a">class</span>=<span class="v">"sr-only"</span><span class="t">&gt;</span><span class="tx">Loading...</span><span class="t">&lt;/span&gt;</span>
+<span class="t">&lt;/div&gt;</span>
+            </div>
+        </section>
+
+        <!-- ====== 7. CUBE SPINNER — ALL 7 HUES ====== -->
+        <section class="guide-section">
+            <h2 class="text-2xl font-bold mb-1 flex items-center">
+                <span class="section-number bg-p-neutral-500 text-white">7</span>
+                Cube Spinner &mdash; All 7 Hues
+            </h2>
+            <p class="text-p-neutral-400 text-sm mb-6 ml-10">3D rotating/flipping square with perspective transform. Single element, no children needed.</p>
+
+            <div class="guide-card mb-4">
+                <div class="spinner-hue-grid">
+                    <div class="spinner-hue-cell">
+                        <div class="mc-spinner-cube" data-hue="neutral" role="status"><span class="sr-only">Loading...</span></div>
+                        <span class="spinner-hue-label">Neutral</span>
+                    </div>
+                    <div class="spinner-hue-cell">
+                        <div class="mc-spinner-cube" data-hue="red" role="status"><span class="sr-only">Loading...</span></div>
+                        <span class="spinner-hue-label">Red</span>
+                    </div>
+                    <div class="spinner-hue-cell">
+                        <div class="mc-spinner-cube" data-hue="green" role="status"><span class="sr-only">Loading...</span></div>
+                        <span class="spinner-hue-label">Green</span>
+                    </div>
+                    <div class="spinner-hue-cell">
+                        <div class="mc-spinner-cube" data-hue="blue" role="status"><span class="sr-only">Loading...</span></div>
+                        <span class="spinner-hue-label">Blue</span>
+                    </div>
+                    <div class="spinner-hue-cell">
+                        <div class="mc-spinner-cube" data-hue="yellow" role="status"><span class="sr-only">Loading...</span></div>
+                        <span class="spinner-hue-label">Yellow</span>
+                    </div>
+                    <div class="spinner-hue-cell">
+                        <div class="mc-spinner-cube" data-hue="magenta" role="status"><span class="sr-only">Loading...</span></div>
+                        <span class="spinner-hue-label">Magenta</span>
+                    </div>
+                    <div class="spinner-hue-cell">
+                        <div class="mc-spinner-cube" data-hue="teal" role="status"><span class="sr-only">Loading...</span></div>
+                        <span class="spinner-hue-label">Teal</span>
+                    </div>
+                </div>
+            </div>
+            <div class="code-block">
+<span class="t">&lt;div</span> <span class="a">class</span>=<span class="v">"mc-spinner-cube"</span> <span class="a">data-hue</span>=<span class="v">"blue"</span> <span class="a">role</span>=<span class="v">"status"</span><span class="t">&gt;</span>
+  <span class="t">&lt;span</span> <span class="a">class</span>=<span class="v">"sr-only"</span><span class="t">&gt;</span><span class="tx">Loading...</span><span class="t">&lt;/span&gt;</span>
+<span class="t">&lt;/div&gt;</span>
+            </div>
+        </section>
+
+        <!-- ====== 8. DUAL SPINNER — ALL 7 HUES ====== -->
+        <section class="guide-section">
+            <h2 class="text-2xl font-bold mb-1 flex items-center">
+                <span class="section-number bg-p-blue-500 text-white">8</span>
+                Dual Spinner &mdash; All 7 Hues
+            </h2>
+            <p class="text-p-neutral-400 text-sm mb-6 ml-10">Two concentric arcs rotating in opposite directions. Single element with <code>::before</code> pseudo-element.</p>
+
+            <div class="guide-card mb-4">
+                <div class="spinner-hue-grid">
+                    <div class="spinner-hue-cell">
+                        <div class="mc-spinner-dual" data-hue="neutral" role="status"><span class="sr-only">Loading...</span></div>
+                        <span class="spinner-hue-label">Neutral</span>
+                    </div>
+                    <div class="spinner-hue-cell">
+                        <div class="mc-spinner-dual" data-hue="red" role="status"><span class="sr-only">Loading...</span></div>
+                        <span class="spinner-hue-label">Red</span>
+                    </div>
+                    <div class="spinner-hue-cell">
+                        <div class="mc-spinner-dual" data-hue="green" role="status"><span class="sr-only">Loading...</span></div>
+                        <span class="spinner-hue-label">Green</span>
+                    </div>
+                    <div class="spinner-hue-cell">
+                        <div class="mc-spinner-dual" data-hue="blue" role="status"><span class="sr-only">Loading...</span></div>
+                        <span class="spinner-hue-label">Blue</span>
+                    </div>
+                    <div class="spinner-hue-cell">
+                        <div class="mc-spinner-dual" data-hue="yellow" role="status"><span class="sr-only">Loading...</span></div>
+                        <span class="spinner-hue-label">Yellow</span>
+                    </div>
+                    <div class="spinner-hue-cell">
+                        <div class="mc-spinner-dual" data-hue="magenta" role="status"><span class="sr-only">Loading...</span></div>
+                        <span class="spinner-hue-label">Magenta</span>
+                    </div>
+                    <div class="spinner-hue-cell">
+                        <div class="mc-spinner-dual" data-hue="teal" role="status"><span class="sr-only">Loading...</span></div>
+                        <span class="spinner-hue-label">Teal</span>
+                    </div>
+                </div>
+            </div>
+            <div class="code-block">
+<span class="t">&lt;div</span> <span class="a">class</span>=<span class="v">"mc-spinner-dual"</span> <span class="a">data-hue</span>=<span class="v">"blue"</span> <span class="a">role</span>=<span class="v">"status"</span><span class="t">&gt;</span>
+  <span class="t">&lt;span</span> <span class="a">class</span>=<span class="v">"sr-only"</span><span class="t">&gt;</span><span class="tx">Loading...</span><span class="t">&lt;/span&gt;</span>
+<span class="t">&lt;/div&gt;</span>
+            </div>
+        </section>
+
+        <!-- ====== 9. RING SPINNER — ALL 7 HUES ====== -->
+        <section class="guide-section">
+            <h2 class="text-2xl font-bold mb-1 flex items-center">
+                <span class="section-number bg-p-green-500 text-white">9</span>
+                Ring Spinner &mdash; All 7 Hues
+            </h2>
+            <p class="text-p-neutral-400 text-sm mb-6 ml-10">Static ring track with a rotating accent indicator bar via <code>::after</code> pseudo-element.</p>
+
+            <div class="guide-card mb-4">
+                <div class="spinner-hue-grid">
+                    <div class="spinner-hue-cell">
+                        <div class="mc-spinner-ring" data-hue="neutral" role="status"><span class="sr-only">Loading...</span></div>
+                        <span class="spinner-hue-label">Neutral</span>
+                    </div>
+                    <div class="spinner-hue-cell">
+                        <div class="mc-spinner-ring" data-hue="red" role="status"><span class="sr-only">Loading...</span></div>
+                        <span class="spinner-hue-label">Red</span>
+                    </div>
+                    <div class="spinner-hue-cell">
+                        <div class="mc-spinner-ring" data-hue="green" role="status"><span class="sr-only">Loading...</span></div>
+                        <span class="spinner-hue-label">Green</span>
+                    </div>
+                    <div class="spinner-hue-cell">
+                        <div class="mc-spinner-ring" data-hue="blue" role="status"><span class="sr-only">Loading...</span></div>
+                        <span class="spinner-hue-label">Blue</span>
+                    </div>
+                    <div class="spinner-hue-cell">
+                        <div class="mc-spinner-ring" data-hue="yellow" role="status"><span class="sr-only">Loading...</span></div>
+                        <span class="spinner-hue-label">Yellow</span>
+                    </div>
+                    <div class="spinner-hue-cell">
+                        <div class="mc-spinner-ring" data-hue="magenta" role="status"><span class="sr-only">Loading...</span></div>
+                        <span class="spinner-hue-label">Magenta</span>
+                    </div>
+                    <div class="spinner-hue-cell">
+                        <div class="mc-spinner-ring" data-hue="teal" role="status"><span class="sr-only">Loading...</span></div>
+                        <span class="spinner-hue-label">Teal</span>
+                    </div>
+                </div>
+            </div>
+            <div class="code-block">
+<span class="t">&lt;div</span> <span class="a">class</span>=<span class="v">"mc-spinner-ring"</span> <span class="a">data-hue</span>=<span class="v">"blue"</span> <span class="a">role</span>=<span class="v">"status"</span><span class="t">&gt;</span>
+  <span class="t">&lt;span</span> <span class="a">class</span>=<span class="v">"sr-only"</span><span class="t">&gt;</span><span class="tx">Loading...</span><span class="t">&lt;/span&gt;</span>
+<span class="t">&lt;/div&gt;</span>
+            </div>
+        </section>
+
+        <!-- ====== 10. RIPPLE SPINNER — ALL 7 HUES ====== -->
+        <section class="guide-section">
+            <h2 class="text-2xl font-bold mb-1 flex items-center">
+                <span class="section-number bg-p-red-500 text-white">10</span>
+                Ripple Spinner &mdash; All 7 Hues
+            </h2>
+            <p class="text-p-neutral-400 text-sm mb-6 ml-10">Two rings expanding outward with staggered timing. Requires 2 child <code>&lt;span&gt;</code> elements.</p>
+
+            <div class="guide-card mb-4">
+                <div class="spinner-hue-grid">
+                    <div class="spinner-hue-cell">
+                        <div class="mc-spinner-ripple" data-hue="neutral" role="status"><span></span><span></span><span class="sr-only">Loading...</span></div>
+                        <span class="spinner-hue-label">Neutral</span>
+                    </div>
+                    <div class="spinner-hue-cell">
+                        <div class="mc-spinner-ripple" data-hue="red" role="status"><span></span><span></span><span class="sr-only">Loading...</span></div>
+                        <span class="spinner-hue-label">Red</span>
+                    </div>
+                    <div class="spinner-hue-cell">
+                        <div class="mc-spinner-ripple" data-hue="green" role="status"><span></span><span></span><span class="sr-only">Loading...</span></div>
+                        <span class="spinner-hue-label">Green</span>
+                    </div>
+                    <div class="spinner-hue-cell">
+                        <div class="mc-spinner-ripple" data-hue="blue" role="status"><span></span><span></span><span class="sr-only">Loading...</span></div>
+                        <span class="spinner-hue-label">Blue</span>
+                    </div>
+                    <div class="spinner-hue-cell">
+                        <div class="mc-spinner-ripple" data-hue="yellow" role="status"><span></span><span></span><span class="sr-only">Loading...</span></div>
+                        <span class="spinner-hue-label">Yellow</span>
+                    </div>
+                    <div class="spinner-hue-cell">
+                        <div class="mc-spinner-ripple" data-hue="magenta" role="status"><span></span><span></span><span class="sr-only">Loading...</span></div>
+                        <span class="spinner-hue-label">Magenta</span>
+                    </div>
+                    <div class="spinner-hue-cell">
+                        <div class="mc-spinner-ripple" data-hue="teal" role="status"><span></span><span></span><span class="sr-only">Loading...</span></div>
+                        <span class="spinner-hue-label">Teal</span>
+                    </div>
+                </div>
+            </div>
+            <div class="code-block">
+<span class="t">&lt;div</span> <span class="a">class</span>=<span class="v">"mc-spinner-ripple"</span> <span class="a">data-hue</span>=<span class="v">"blue"</span> <span class="a">role</span>=<span class="v">"status"</span><span class="t">&gt;</span>
+  <span class="t">&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;</span>
+  <span class="t">&lt;span</span> <span class="a">class</span>=<span class="v">"sr-only"</span><span class="t">&gt;</span><span class="tx">Loading...</span><span class="t">&lt;/span&gt;</span>
+<span class="t">&lt;/div&gt;</span>
+            </div>
+        </section>
+
+        <!-- ====== 11. BLOCKS SPINNER — ALL 7 HUES ====== -->
+        <section class="guide-section">
+            <h2 class="text-2xl font-bold mb-1 flex items-center">
+                <span class="section-number bg-p-magenta-500 text-white">11</span>
+                Blocks Spinner &mdash; All 7 Hues
+            </h2>
+            <p class="text-p-neutral-400 text-sm mb-6 ml-10">Four blocks filling color sequentially in a 2&times;2 grid. Requires 4 child <code>&lt;span&gt;</code> elements.</p>
+
+            <div class="guide-card mb-4">
+                <div class="spinner-hue-grid">
+                    <div class="spinner-hue-cell">
+                        <div class="mc-spinner-blocks" data-hue="neutral" role="status"><span></span><span></span><span></span><span></span><span class="sr-only">Loading...</span></div>
+                        <span class="spinner-hue-label">Neutral</span>
+                    </div>
+                    <div class="spinner-hue-cell">
+                        <div class="mc-spinner-blocks" data-hue="red" role="status"><span></span><span></span><span></span><span></span><span class="sr-only">Loading...</span></div>
+                        <span class="spinner-hue-label">Red</span>
+                    </div>
+                    <div class="spinner-hue-cell">
+                        <div class="mc-spinner-blocks" data-hue="green" role="status"><span></span><span></span><span></span><span></span><span class="sr-only">Loading...</span></div>
+                        <span class="spinner-hue-label">Green</span>
+                    </div>
+                    <div class="spinner-hue-cell">
+                        <div class="mc-spinner-blocks" data-hue="blue" role="status"><span></span><span></span><span></span><span></span><span class="sr-only">Loading...</span></div>
+                        <span class="spinner-hue-label">Blue</span>
+                    </div>
+                    <div class="spinner-hue-cell">
+                        <div class="mc-spinner-blocks" data-hue="yellow" role="status"><span></span><span></span><span></span><span></span><span class="sr-only">Loading...</span></div>
+                        <span class="spinner-hue-label">Yellow</span>
+                    </div>
+                    <div class="spinner-hue-cell">
+                        <div class="mc-spinner-blocks" data-hue="magenta" role="status"><span></span><span></span><span></span><span></span><span class="sr-only">Loading...</span></div>
+                        <span class="spinner-hue-label">Magenta</span>
+                    </div>
+                    <div class="spinner-hue-cell">
+                        <div class="mc-spinner-blocks" data-hue="teal" role="status"><span></span><span></span><span></span><span></span><span class="sr-only">Loading...</span></div>
+                        <span class="spinner-hue-label">Teal</span>
+                    </div>
+                </div>
+            </div>
+            <div class="code-block">
+<span class="t">&lt;div</span> <span class="a">class</span>=<span class="v">"mc-spinner-blocks"</span> <span class="a">data-hue</span>=<span class="v">"blue"</span> <span class="a">role</span>=<span class="v">"status"</span><span class="t">&gt;</span>
+  <span class="t">&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;</span>
+  <span class="t">&lt;span</span> <span class="a">class</span>=<span class="v">"sr-only"</span><span class="t">&gt;</span><span class="tx">Loading...</span><span class="t">&lt;/span&gt;</span>
+<span class="t">&lt;/div&gt;</span>
+            </div>
+        </section>
+
+        <!-- ====== 12. SLIDE SPINNER — ALL 7 HUES ====== -->
+        <section class="guide-section">
+            <h2 class="text-2xl font-bold mb-1 flex items-center">
+                <span class="section-number bg-p-teal-500 text-white">12</span>
+                Slide Spinner &mdash; All 7 Hues
+            </h2>
+            <p class="text-p-neutral-400 text-sm mb-6 ml-10">Indeterminate horizontal bar sliding across a track via <code>::after</code> pseudo-element.</p>
+
+            <div class="guide-card mb-4">
+                <div class="spinner-hue-grid">
+                    <div class="spinner-hue-cell">
+                        <div class="mc-spinner-slide" data-hue="neutral" role="status"><span class="sr-only">Loading...</span></div>
+                        <span class="spinner-hue-label">Neutral</span>
+                    </div>
+                    <div class="spinner-hue-cell">
+                        <div class="mc-spinner-slide" data-hue="red" role="status"><span class="sr-only">Loading...</span></div>
+                        <span class="spinner-hue-label">Red</span>
+                    </div>
+                    <div class="spinner-hue-cell">
+                        <div class="mc-spinner-slide" data-hue="green" role="status"><span class="sr-only">Loading...</span></div>
+                        <span class="spinner-hue-label">Green</span>
+                    </div>
+                    <div class="spinner-hue-cell">
+                        <div class="mc-spinner-slide" data-hue="blue" role="status"><span class="sr-only">Loading...</span></div>
+                        <span class="spinner-hue-label">Blue</span>
+                    </div>
+                    <div class="spinner-hue-cell">
+                        <div class="mc-spinner-slide" data-hue="yellow" role="status"><span class="sr-only">Loading...</span></div>
+                        <span class="spinner-hue-label">Yellow</span>
+                    </div>
+                    <div class="spinner-hue-cell">
+                        <div class="mc-spinner-slide" data-hue="magenta" role="status"><span class="sr-only">Loading...</span></div>
+                        <span class="spinner-hue-label">Magenta</span>
+                    </div>
+                    <div class="spinner-hue-cell">
+                        <div class="mc-spinner-slide" data-hue="teal" role="status"><span class="sr-only">Loading...</span></div>
+                        <span class="spinner-hue-label">Teal</span>
+                    </div>
+                </div>
+            </div>
+            <div class="code-block">
+<span class="t">&lt;div</span> <span class="a">class</span>=<span class="v">"mc-spinner-slide"</span> <span class="a">data-hue</span>=<span class="v">"blue"</span> <span class="a">role</span>=<span class="v">"status"</span><span class="t">&gt;</span>
+  <span class="t">&lt;span</span> <span class="a">class</span>=<span class="v">"sr-only"</span><span class="t">&gt;</span><span class="tx">Loading...</span><span class="t">&lt;/span&gt;</span>
+<span class="t">&lt;/div&gt;</span>
+            </div>
+        </section>
+
+        <!-- ====== 13. SIZE SCALE ====== -->
+        <section class="guide-section">
+            <h2 class="text-2xl font-bold mb-1 flex items-center">
+                <span class="section-number bg-p-yellow-500 text-white">13</span>
                 Size Scale
             </h2>
             <p class="text-p-neutral-400 text-sm mb-6 ml-10">6 sizes from xs (16px) to xxl (64px). Default is md (28px).</p>
@@ -562,12 +1040,73 @@
 <span class="cm">&lt;!-- Same size classes work with grow spinners --&gt;</span>
 <span class="t">&lt;div</span> <span class="a">class</span>=<span class="v">"mc-spinner-grow mc-spinner-lg"</span> <span class="a">data-hue</span>=<span class="v">"green"</span> <span class="a">role</span>=<span class="v">"status"</span><span class="t">&gt;</span><span class="tx">...</span><span class="t">&lt;/div&gt;</span>
             </div>
+
+            <!-- New spinner types at 3 key sizes -->
+            <h3 class="text-xs font-bold uppercase tracking-widest text-p-neutral-400 mb-3 mt-8">All Spinner Types at XS / MD / XL</h3>
+            <div class="guide-card mb-4">
+                <div style="display:grid; grid-template-columns:100px 1fr 1fr 1fr; gap:12px; align-items:center;">
+                    <div class="text-p-neutral-400 text-xs font-bold">Type</div>
+                    <div class="text-p-neutral-400 text-xs font-bold text-center">XS (16px)</div>
+                    <div class="text-p-neutral-400 text-xs font-bold text-center">MD (28px)</div>
+                    <div class="text-p-neutral-400 text-xs font-bold text-center">XL (48px)</div>
+
+                    <div class="text-p-neutral-300 text-xs">Dots</div>
+                    <div class="text-center"><div class="mc-spinner-dots mc-spinner-xs" data-hue="blue" role="status"><span></span><span></span><span></span><span class="sr-only">Loading...</span></div></div>
+                    <div class="text-center"><div class="mc-spinner-dots" data-hue="blue" role="status"><span></span><span></span><span></span><span class="sr-only">Loading...</span></div></div>
+                    <div class="text-center"><div class="mc-spinner-dots mc-spinner-xl" data-hue="blue" role="status"><span></span><span></span><span></span><span class="sr-only">Loading...</span></div></div>
+
+                    <div class="text-p-neutral-300 text-xs">Bars</div>
+                    <div class="text-center"><div class="mc-spinner-bars mc-spinner-xs" data-hue="green" role="status"><span></span><span></span><span></span><span></span><span class="sr-only">Loading...</span></div></div>
+                    <div class="text-center"><div class="mc-spinner-bars" data-hue="green" role="status"><span></span><span></span><span></span><span></span><span class="sr-only">Loading...</span></div></div>
+                    <div class="text-center"><div class="mc-spinner-bars mc-spinner-xl" data-hue="green" role="status"><span></span><span></span><span></span><span></span><span class="sr-only">Loading...</span></div></div>
+
+                    <div class="text-p-neutral-300 text-xs">Orbit</div>
+                    <div class="text-center"><div class="mc-spinner-orbit mc-spinner-xs" data-hue="red" role="status"><span></span><span></span><span class="sr-only">Loading...</span></div></div>
+                    <div class="text-center"><div class="mc-spinner-orbit" data-hue="red" role="status"><span></span><span></span><span class="sr-only">Loading...</span></div></div>
+                    <div class="text-center"><div class="mc-spinner-orbit mc-spinner-xl" data-hue="red" role="status"><span></span><span></span><span class="sr-only">Loading...</span></div></div>
+
+                    <div class="text-p-neutral-300 text-xs">Chase</div>
+                    <div class="text-center"><div class="mc-spinner-chase mc-spinner-xs" data-hue="magenta" role="status"><span></span><span></span><span></span><span></span><span class="sr-only">Loading...</span></div></div>
+                    <div class="text-center"><div class="mc-spinner-chase" data-hue="magenta" role="status"><span></span><span></span><span></span><span></span><span class="sr-only">Loading...</span></div></div>
+                    <div class="text-center"><div class="mc-spinner-chase mc-spinner-xl" data-hue="magenta" role="status"><span></span><span></span><span></span><span></span><span class="sr-only">Loading...</span></div></div>
+
+                    <div class="text-p-neutral-300 text-xs">Cube</div>
+                    <div class="text-center"><div class="mc-spinner-cube mc-spinner-xs" data-hue="yellow" role="status"><span class="sr-only">Loading...</span></div></div>
+                    <div class="text-center"><div class="mc-spinner-cube" data-hue="yellow" role="status"><span class="sr-only">Loading...</span></div></div>
+                    <div class="text-center"><div class="mc-spinner-cube mc-spinner-xl" data-hue="yellow" role="status"><span class="sr-only">Loading...</span></div></div>
+
+                    <div class="text-p-neutral-300 text-xs">Dual</div>
+                    <div class="text-center"><div class="mc-spinner-dual mc-spinner-xs" data-hue="teal" role="status"><span class="sr-only">Loading...</span></div></div>
+                    <div class="text-center"><div class="mc-spinner-dual" data-hue="teal" role="status"><span class="sr-only">Loading...</span></div></div>
+                    <div class="text-center"><div class="mc-spinner-dual mc-spinner-xl" data-hue="teal" role="status"><span class="sr-only">Loading...</span></div></div>
+
+                    <div class="text-p-neutral-300 text-xs">Ring</div>
+                    <div class="text-center"><div class="mc-spinner-ring mc-spinner-xs" data-hue="blue" role="status"><span class="sr-only">Loading...</span></div></div>
+                    <div class="text-center"><div class="mc-spinner-ring" data-hue="blue" role="status"><span class="sr-only">Loading...</span></div></div>
+                    <div class="text-center"><div class="mc-spinner-ring mc-spinner-xl" data-hue="blue" role="status"><span class="sr-only">Loading...</span></div></div>
+
+                    <div class="text-p-neutral-300 text-xs">Ripple</div>
+                    <div class="text-center"><div class="mc-spinner-ripple mc-spinner-xs" data-hue="neutral" role="status"><span></span><span></span><span class="sr-only">Loading...</span></div></div>
+                    <div class="text-center"><div class="mc-spinner-ripple" data-hue="neutral" role="status"><span></span><span></span><span class="sr-only">Loading...</span></div></div>
+                    <div class="text-center"><div class="mc-spinner-ripple mc-spinner-xl" data-hue="neutral" role="status"><span></span><span></span><span class="sr-only">Loading...</span></div></div>
+
+                    <div class="text-p-neutral-300 text-xs">Blocks</div>
+                    <div class="text-center"><div class="mc-spinner-blocks mc-spinner-xs" data-hue="red" role="status"><span></span><span></span><span></span><span></span><span class="sr-only">Loading...</span></div></div>
+                    <div class="text-center"><div class="mc-spinner-blocks" data-hue="red" role="status"><span></span><span></span><span></span><span></span><span class="sr-only">Loading...</span></div></div>
+                    <div class="text-center"><div class="mc-spinner-blocks mc-spinner-xl" data-hue="red" role="status"><span></span><span></span><span></span><span></span><span class="sr-only">Loading...</span></div></div>
+
+                    <div class="text-p-neutral-300 text-xs">Slide</div>
+                    <div class="text-center"><div class="mc-spinner-slide mc-spinner-xs" data-hue="green" role="status"><span class="sr-only">Loading...</span></div></div>
+                    <div class="text-center"><div class="mc-spinner-slide" data-hue="green" role="status"><span class="sr-only">Loading...</span></div></div>
+                    <div class="text-center"><div class="mc-spinner-slide mc-spinner-xl" data-hue="green" role="status"><span class="sr-only">Loading...</span></div></div>
+                </div>
+            </div>
         </section>
 
         <!-- ====== 4. SURFACE MODE ADAPTATION ====== -->
         <section class="guide-section">
             <h2 class="text-2xl font-bold mb-1 flex items-center">
-                <span class="section-number bg-p-magenta-500 text-white">4</span>
+                <span class="section-number bg-p-magenta-500 text-white">14</span>
                 Surface Mode Adaptation
             </h2>
             <p class="text-p-neutral-400 text-sm mb-6 ml-10">Spinners inherit <code class="text-p-blue-300 text-xs">data-mode</code> from ancestor containers. All 7 hues shown per mode.</p>
@@ -595,6 +1134,25 @@
                     <div class="mc-spinner-grow" data-hue="magenta" role="status"><span class="sr-only">Loading...</span></div>
                     <div class="mc-spinner-grow" data-hue="teal" role="status"><span class="sr-only">Loading...</span></div>
                 </div>
+                <p class="text-[9px] uppercase tracking-[0.15em] font-bold mb-3 white-label">Dots / Bars / Orbit / Chase</p>
+                <div class="spinner-mode-row">
+                    <div class="mc-spinner-dots" data-hue="blue" role="status"><span></span><span></span><span></span><span class="sr-only">Loading...</span></div>
+                    <div class="mc-spinner-bars" data-hue="red" role="status"><span></span><span></span><span></span><span></span><span class="sr-only">Loading...</span></div>
+                    <div class="mc-spinner-orbit" data-hue="green" role="status"><span></span><span></span><span class="sr-only">Loading...</span></div>
+                    <div class="mc-spinner-chase" data-hue="magenta" role="status"><span></span><span></span><span></span><span></span><span class="sr-only">Loading...</span></div>
+                </div>
+                <p class="text-[9px] uppercase tracking-[0.15em] font-bold mb-3 white-label">Cube / Dual / Ring / Ripple</p>
+                <div class="spinner-mode-row">
+                    <div class="mc-spinner-cube" data-hue="yellow" role="status"><span class="sr-only">Loading...</span></div>
+                    <div class="mc-spinner-dual" data-hue="teal" role="status"><span class="sr-only">Loading...</span></div>
+                    <div class="mc-spinner-ring" data-hue="blue" role="status"><span class="sr-only">Loading...</span></div>
+                    <div class="mc-spinner-ripple" data-hue="neutral" role="status"><span></span><span></span><span class="sr-only">Loading...</span></div>
+                </div>
+                <p class="text-[9px] uppercase tracking-[0.15em] font-bold mb-3 white-label">Blocks / Slide</p>
+                <div class="spinner-mode-row">
+                    <div class="mc-spinner-blocks" data-hue="red" role="status"><span></span><span></span><span></span><span></span><span class="sr-only">Loading...</span></div>
+                    <div class="mc-spinner-slide" data-hue="green" role="status" style="width:80px;"><span class="sr-only">Loading...</span></div>
+                </div>
             </div>
 
             <!-- Mode 2 — Black -->
@@ -619,6 +1177,25 @@
                     <div class="mc-spinner-grow" data-hue="yellow" role="status"><span class="sr-only">Loading...</span></div>
                     <div class="mc-spinner-grow" data-hue="magenta" role="status"><span class="sr-only">Loading...</span></div>
                     <div class="mc-spinner-grow" data-hue="teal" role="status"><span class="sr-only">Loading...</span></div>
+                </div>
+                <p class="text-[9px] uppercase tracking-[0.15em] text-p-neutral-500 font-bold mb-3">Dots / Bars / Orbit / Chase</p>
+                <div class="spinner-mode-row">
+                    <div class="mc-spinner-dots" data-hue="blue" role="status"><span></span><span></span><span></span><span class="sr-only">Loading...</span></div>
+                    <div class="mc-spinner-bars" data-hue="red" role="status"><span></span><span></span><span></span><span></span><span class="sr-only">Loading...</span></div>
+                    <div class="mc-spinner-orbit" data-hue="green" role="status"><span></span><span></span><span class="sr-only">Loading...</span></div>
+                    <div class="mc-spinner-chase" data-hue="magenta" role="status"><span></span><span></span><span></span><span></span><span class="sr-only">Loading...</span></div>
+                </div>
+                <p class="text-[9px] uppercase tracking-[0.15em] text-p-neutral-500 font-bold mb-3">Cube / Dual / Ring / Ripple</p>
+                <div class="spinner-mode-row">
+                    <div class="mc-spinner-cube" data-hue="yellow" role="status"><span class="sr-only">Loading...</span></div>
+                    <div class="mc-spinner-dual" data-hue="teal" role="status"><span class="sr-only">Loading...</span></div>
+                    <div class="mc-spinner-ring" data-hue="blue" role="status"><span class="sr-only">Loading...</span></div>
+                    <div class="mc-spinner-ripple" data-hue="neutral" role="status"><span></span><span></span><span class="sr-only">Loading...</span></div>
+                </div>
+                <p class="text-[9px] uppercase tracking-[0.15em] text-p-neutral-500 font-bold mb-3">Blocks / Slide</p>
+                <div class="spinner-mode-row">
+                    <div class="mc-spinner-blocks" data-hue="red" role="status"><span></span><span></span><span></span><span></span><span class="sr-only">Loading...</span></div>
+                    <div class="mc-spinner-slide" data-hue="green" role="status" style="width:80px;"><span class="sr-only">Loading...</span></div>
                 </div>
             </div>
 
@@ -645,6 +1222,25 @@
                     <div class="mc-spinner-grow" data-hue="magenta" role="status"><span class="sr-only">Loading...</span></div>
                     <div class="mc-spinner-grow" data-hue="teal" role="status"><span class="sr-only">Loading...</span></div>
                 </div>
+                <p class="text-[9px] uppercase tracking-[0.15em] font-bold mb-3 white-label">Dots / Bars / Orbit / Chase</p>
+                <div class="spinner-mode-row">
+                    <div class="mc-spinner-dots" data-hue="blue" role="status"><span></span><span></span><span></span><span class="sr-only">Loading...</span></div>
+                    <div class="mc-spinner-bars" data-hue="red" role="status"><span></span><span></span><span></span><span></span><span class="sr-only">Loading...</span></div>
+                    <div class="mc-spinner-orbit" data-hue="green" role="status"><span></span><span></span><span class="sr-only">Loading...</span></div>
+                    <div class="mc-spinner-chase" data-hue="magenta" role="status"><span></span><span></span><span></span><span></span><span class="sr-only">Loading...</span></div>
+                </div>
+                <p class="text-[9px] uppercase tracking-[0.15em] font-bold mb-3 white-label">Cube / Dual / Ring / Ripple</p>
+                <div class="spinner-mode-row">
+                    <div class="mc-spinner-cube" data-hue="yellow" role="status"><span class="sr-only">Loading...</span></div>
+                    <div class="mc-spinner-dual" data-hue="teal" role="status"><span class="sr-only">Loading...</span></div>
+                    <div class="mc-spinner-ring" data-hue="blue" role="status"><span class="sr-only">Loading...</span></div>
+                    <div class="mc-spinner-ripple" data-hue="neutral" role="status"><span></span><span></span><span class="sr-only">Loading...</span></div>
+                </div>
+                <p class="text-[9px] uppercase tracking-[0.15em] font-bold mb-3 white-label">Blocks / Slide</p>
+                <div class="spinner-mode-row">
+                    <div class="mc-spinner-blocks" data-hue="red" role="status"><span></span><span></span><span></span><span></span><span class="sr-only">Loading...</span></div>
+                    <div class="mc-spinner-slide" data-hue="green" role="status" style="width:80px;"><span class="sr-only">Loading...</span></div>
+                </div>
             </div>
 
             <!-- Mode 4 — Dark Hue (blue) -->
@@ -669,6 +1265,25 @@
                     <div class="mc-spinner-grow" data-hue="yellow" role="status"><span class="sr-only">Loading...</span></div>
                     <div class="mc-spinner-grow" data-hue="magenta" role="status"><span class="sr-only">Loading...</span></div>
                     <div class="mc-spinner-grow" data-hue="teal" role="status"><span class="sr-only">Loading...</span></div>
+                </div>
+                <p class="text-[9px] uppercase tracking-[0.15em] text-white font-bold mb-3">Dots / Bars / Orbit / Chase</p>
+                <div class="spinner-mode-row">
+                    <div class="mc-spinner-dots" data-hue="blue" role="status"><span></span><span></span><span></span><span class="sr-only">Loading...</span></div>
+                    <div class="mc-spinner-bars" data-hue="red" role="status"><span></span><span></span><span></span><span></span><span class="sr-only">Loading...</span></div>
+                    <div class="mc-spinner-orbit" data-hue="green" role="status"><span></span><span></span><span class="sr-only">Loading...</span></div>
+                    <div class="mc-spinner-chase" data-hue="magenta" role="status"><span></span><span></span><span></span><span></span><span class="sr-only">Loading...</span></div>
+                </div>
+                <p class="text-[9px] uppercase tracking-[0.15em] text-white font-bold mb-3">Cube / Dual / Ring / Ripple</p>
+                <div class="spinner-mode-row">
+                    <div class="mc-spinner-cube" data-hue="yellow" role="status"><span class="sr-only">Loading...</span></div>
+                    <div class="mc-spinner-dual" data-hue="teal" role="status"><span class="sr-only">Loading...</span></div>
+                    <div class="mc-spinner-ring" data-hue="blue" role="status"><span class="sr-only">Loading...</span></div>
+                    <div class="mc-spinner-ripple" data-hue="neutral" role="status"><span></span><span></span><span class="sr-only">Loading...</span></div>
+                </div>
+                <p class="text-[9px] uppercase tracking-[0.15em] text-white font-bold mb-3">Blocks / Slide</p>
+                <div class="spinner-mode-row">
+                    <div class="mc-spinner-blocks" data-hue="red" role="status"><span></span><span></span><span></span><span></span><span class="sr-only">Loading...</span></div>
+                    <div class="mc-spinner-slide" data-hue="green" role="status" style="width:80px;"><span class="sr-only">Loading...</span></div>
                 </div>
             </div>
 
@@ -695,6 +1310,25 @@
                     <div class="mc-spinner-grow" data-hue="magenta" role="status"><span class="sr-only">Loading...</span></div>
                     <div class="mc-spinner-grow" data-hue="teal" role="status"><span class="sr-only">Loading...</span></div>
                 </div>
+                <p class="text-[9px] uppercase tracking-[0.15em] text-white font-bold mb-3">Dots / Bars / Orbit / Chase</p>
+                <div class="spinner-mode-row">
+                    <div class="mc-spinner-dots" data-hue="blue" role="status"><span></span><span></span><span></span><span class="sr-only">Loading...</span></div>
+                    <div class="mc-spinner-bars" data-hue="red" role="status"><span></span><span></span><span></span><span></span><span class="sr-only">Loading...</span></div>
+                    <div class="mc-spinner-orbit" data-hue="green" role="status"><span></span><span></span><span class="sr-only">Loading...</span></div>
+                    <div class="mc-spinner-chase" data-hue="magenta" role="status"><span></span><span></span><span></span><span></span><span class="sr-only">Loading...</span></div>
+                </div>
+                <p class="text-[9px] uppercase tracking-[0.15em] text-white font-bold mb-3">Cube / Dual / Ring / Ripple</p>
+                <div class="spinner-mode-row">
+                    <div class="mc-spinner-cube" data-hue="yellow" role="status"><span class="sr-only">Loading...</span></div>
+                    <div class="mc-spinner-dual" data-hue="teal" role="status"><span class="sr-only">Loading...</span></div>
+                    <div class="mc-spinner-ring" data-hue="blue" role="status"><span class="sr-only">Loading...</span></div>
+                    <div class="mc-spinner-ripple" data-hue="neutral" role="status"><span></span><span></span><span class="sr-only">Loading...</span></div>
+                </div>
+                <p class="text-[9px] uppercase tracking-[0.15em] text-white font-bold mb-3">Blocks / Slide</p>
+                <div class="spinner-mode-row">
+                    <div class="mc-spinner-blocks" data-hue="red" role="status"><span></span><span></span><span></span><span></span><span class="sr-only">Loading...</span></div>
+                    <div class="mc-spinner-slide" data-hue="green" role="status" style="width:80px;"><span class="sr-only">Loading...</span></div>
+                </div>
             </div>
 
             <div class="code-block">
@@ -717,7 +1351,7 @@
         <!-- ====== 5. BUTTON SPINNERS ====== -->
         <section class="guide-section">
             <h2 class="text-2xl font-bold mb-1 flex items-center">
-                <span class="section-number bg-p-yellow-500 text-white">5</span>
+                <span class="section-number bg-p-neutral-500 text-white">15</span>
                 Button Spinners
             </h2>
             <p class="text-p-neutral-400 text-sm mb-6 ml-10">Spinners inside buttons to indicate loading state. Use <code class="text-p-blue-300 text-xs">mc-spinner-xs</code> for inline button spinners.</p>
@@ -806,7 +1440,7 @@
         <!-- ====== 6. SEMANTIC HUE MAPPING ====== -->
         <section class="guide-section">
             <h2 class="text-2xl font-bold mb-1 flex items-center">
-                <span class="section-number bg-p-teal-500 text-white">6</span>
+                <span class="section-number bg-p-blue-500 text-white">16</span>
                 Semantic Hue Mapping
             </h2>
             <p class="text-p-neutral-400 text-sm mb-6 ml-10">Recommended hue assignments for common loading scenarios.</p>
