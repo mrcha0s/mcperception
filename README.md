@@ -280,6 +280,63 @@ All four font families are embedded in the compiled CSS. No external font loadin
 
 ---
 
+## Using MC Perception in Other Projects (AI-Assisted)
+
+If you're building a separate project (Blazor, React, Next.js, etc.) and want your AI coding assistant to use MC Perception classes correctly, use the **`CLAUDE-PerceptionUsage.md`** file.
+
+This is a **self-contained instruction file** that includes everything an AI assistant needs — the full color palette, all CSS classes, mode pairing rules, WCAG requirements, dark surface depth system, and usage examples — in a single file with no external dependencies.
+
+### Setup
+
+1. **Get the CSS** — add to your project:
+   ```html
+   <!-- CDN -->
+   <link rel="stylesheet" href="https://mrcha0s.github.io/mcperception/src/dist/mcperception.css">
+
+   <!-- Or copy locally -->
+   <!-- Download src/dist/mcperception.css into your project's static assets -->
+   ```
+
+2. **Get the AI instruction file** — download [`CLAUDE-PerceptionUsage.md`](CLAUDE-PerceptionUsage.md) into your project root:
+   ```bash
+   # Using curl
+   curl -o CLAUDE-PerceptionUsage.md https://raw.githubusercontent.com/mrcha0s/mcperception/main/CLAUDE-PerceptionUsage.md
+   ```
+
+3. **For Claude Code** — rename it to `CLAUDE.md` in your project root (Claude Code auto-loads this file):
+   ```bash
+   mv CLAUDE-PerceptionUsage.md CLAUDE.md
+   ```
+   Or append it to your existing `CLAUDE.md` if you already have one.
+
+4. **For other AI tools** (Cursor, Copilot, ChatGPT, etc.) — paste the file contents into your AI's context/system prompt, or reference it per your tool's instructions.
+
+### What's Inside
+
+| Section | What It Contains |
+|---------|-----------------|
+| Mandatory Rules | 6 core rules: palette-only colors, 5 modes, 7 hues, WCAG AA, dark depth |
+| Complete Palette | All 7 hues x 10 steps with exact hex values and contrast ratios |
+| Mode Pairing Table | Which colors to use for text, buttons, accents, icons on each surface |
+| Dark Surface Depth | Layer system, border tiers, text colors for Modes 2 & 4 |
+| Size Scale | 6 size tiers with font, padding, radius, and min-height values |
+| CSS Class Reference | Every `mc-*` class organized by category |
+| Usage Examples | HTML and Blazor/Razor code patterns |
+| Forbidden List | Common mistakes the AI must avoid |
+
+### Example Workflow
+
+```
+You: "Create a user settings page with a form and dark mode toggle"
+
+AI reads CLAUDE-PerceptionUsage.md → uses mc-input, mc-switch, mc-card, mc-button classes
+   → applies data-hue="blue" data-mode="1"
+   → follows WCAG AA contrast rules
+   → uses only palette hex values
+```
+
+---
+
 ## Using with Claude Code
 
 MC Perception is designed to work with [Claude Code](https://docs.anthropic.com/en/docs/claude-code) for AI-assisted UI generation. When Claude Code is connected to this repository, it automatically loads the design system rules and generates WCAG-compliant UI that follows every convention.
