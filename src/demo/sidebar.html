@@ -1,0 +1,824 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sidebar Style Guide — MC Perception</title>
+    <link rel="stylesheet" href="../dist/mcperception.css">
+    <style>
+/* ---- Demo Layout ---- */
+.demo-layout {
+    display: flex;
+    min-height: 100vh;
+    background: #0A0A0A;
+    color: #E1E1E1;
+    font-family: 'Inter', 'Segoe UI', system-ui, sans-serif;
+}
+.demo-main {
+    flex: 1;
+    padding: 2rem;
+    margin-left: 240px;
+}
+@media (max-width: 1023px) {
+    .demo-main { margin-left: 0; }
+}
+
+/* ---- Sections ---- */
+.demo-section {
+    margin-bottom: 3rem;
+}
+.demo-section h2 {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: #FFFFFF;
+    margin: 0 0 0.75rem;
+    border-bottom: 1px solid #373737;
+    padding-bottom: 0.5rem;
+}
+.demo-section h3 {
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: #A0A0A0;
+    margin: 1.5rem 0 0.5rem;
+}
+.demo-section p {
+    font-size: 0.8rem;
+    color: #A0A0A0;
+    margin: 0 0 0.75rem;
+    line-height: 1.5;
+}
+
+/* ---- Mode Cards ---- */
+.mode-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 1.5rem;
+}
+.mode-card {
+    border: 1px solid #373737;
+    border-radius: 3px;
+    overflow: hidden;
+    background-color: #0A0A0A;
+}
+.mode-card-header {
+    padding: 0.5rem 1rem;
+    font-size: 0.7rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: #6C6C6C;
+    border-bottom: 1px solid #373737;
+    background: #0A0A0A;
+}
+.mode-card-body {
+    padding: 0;
+    position: relative;
+    height: 400px;
+    overflow: hidden;
+}
+
+/* ---- Sidebar Preview (inline, not fixed) ---- */
+.mode-card-body .mc-sidebar {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    border-right: none;
+}
+.mode-card-body .mc-sidebar-content {
+    display: none;
+}
+
+/* Code block */
+.code-block {
+    background: #0A0A0A;
+    border: 1px solid #222222;
+    border-radius: 3px;
+    padding: 1rem 1.25rem;
+    font-family: 'Roboto Mono', ui-monospace, monospace;
+    font-size: 0.7rem;
+    line-height: 1.8;
+    color: #C3C3C3;
+    overflow-x: auto;
+    margin: 0.5rem 0 1rem;
+    white-space: pre;
+}
+
+/* ---- Docs Nav Sidebar (for this page) ---- */
+.docs-sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 240px;
+    height: 100vh;
+    background: #222222;
+    border-right: 1px solid #373737;
+    overflow-y: auto;
+    z-index: 1050;
+    display: flex;
+    flex-direction: column;
+}
+.docs-sidebar-header {
+    padding: 1.25rem 1.25rem 0.75rem;
+    border-bottom: 1px solid #373737;
+    display: flex;
+    align-items: baseline;
+    gap: 0.5rem;
+}
+.docs-logo {
+    font-size: 0.875rem;
+    font-weight: 700;
+    color: #FFFFFF;
+    text-decoration: none;
+}
+.docs-logo:hover { color: #C3C3C3; }
+.docs-version {
+    font-size: 0.625rem;
+    color: #515151;
+    font-family: 'Roboto Mono', ui-monospace, monospace;
+}
+.docs-sidebar-nav { padding: 0.75rem 0; flex: 1; }
+.docs-nav-group { margin-bottom: 0.25rem; }
+.docs-nav-group-label {
+    font-size: 0.625rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: #515151;
+    padding: 0.625rem 1.25rem 0.375rem;
+}
+.docs-nav-link {
+    display: block;
+    font-size: 0.8125rem;
+    color: #A0A0A0;
+    text-decoration: none;
+    padding: 0.375rem 1.25rem;
+    border-left: 2px solid transparent;
+}
+.docs-nav-link:hover {
+    color: #C3C3C3;
+    background: #373737;
+}
+.docs-nav-link.active {
+    color: #5252FF;
+    border-left-color: #5252FF;
+    background: #222222;
+}
+@media (max-width: 1023px) {
+    .docs-sidebar { transform: translateX(-100%); transition: transform 0.2s ease; }
+    .docs-sidebar.open { transform: translateX(0); }
+    .demo-main { margin-left: 0; }
+}
+
+/* ---- Size Compare ---- */
+.size-row {
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+    margin-bottom: 1rem;
+    flex-wrap: wrap;
+}
+.size-card {
+    border: 1px solid #373737;
+    border-radius: 3px;
+    overflow: hidden;
+    flex: 0 0 auto;
+}
+.size-card-header {
+    padding: 0.4rem 0.75rem;
+    font-size: 0.6rem;
+    font-weight: 600;
+    color: #6C6C6C;
+    background: #0A0A0A;
+    border-bottom: 1px solid #373737;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+}
+.size-card-body {
+    height: 280px;
+    position: relative;
+    overflow: hidden;
+}
+.size-card-body .mc-sidebar {
+    position: absolute;
+    height: 100%;
+    border-right: none;
+}
+    </style>
+</head>
+<body>
+
+<!-- Docs Navigation Sidebar -->
+<aside class="docs-sidebar" id="docsSidebar">
+    <div class="docs-sidebar-header">
+        <a href="index.html" class="docs-logo">MC Perception</a>
+        <span class="docs-version">v1.0</span>
+    </div>
+    <nav class="docs-sidebar-nav">
+        <div class="docs-nav-group">
+            <div class="docs-nav-group-label">Foundation</div>
+            <a href="color.html" class="docs-nav-link">Colors</a>
+            <a href="typography.html" class="docs-nav-link">Typography</a>
+            <a href="surface-modes.html" class="docs-nav-link">Surface Modes</a>
+        </div>
+        <div class="docs-nav-group">
+            <div class="docs-nav-group-label">Components</div>
+            <a href="button.html" class="docs-nav-link">Buttons</a>
+            <a href="input.html" class="docs-nav-link">Inputs</a>
+            <a href="selection.html" class="docs-nav-link">Selection</a>
+            <a href="badges.html" class="docs-nav-link">Badges</a>
+            <a href="alert.html" class="docs-nav-link">Alerts</a>
+            <a href="card.html" class="docs-nav-link">Card</a>
+            <a href="table.html" class="docs-nav-link">Tables</a>
+            <a href="navs-tabs.html" class="docs-nav-link">Navs & Tabs</a>
+            <a href="navbar.html" class="docs-nav-link">Navbar</a>
+            <a href="sidebar.html" class="docs-nav-link active">Sidebar</a>
+            <a href="dropdown.html" class="docs-nav-link">Dropdowns</a>
+            <a href="list-group.html" class="docs-nav-link">List Group</a>
+            <a href="pagination.html" class="docs-nav-link">Pagination</a>
+            <a href="progress.html" class="docs-nav-link">Progress</a>
+            <a href="spinner.html" class="docs-nav-link">Spinners</a>
+            <a href="breadcrumb.html" class="docs-nav-link">Breadcrumb</a>
+        </div>
+    </nav>
+</aside>
+
+<!-- Main Content -->
+<main class="demo-main">
+    <h1 style="font-size: 1.75rem; font-weight: 700; color: #FFFFFF; margin: 0 0 0.5rem;">Sidebar</h1>
+    <p style="color: #A0A0A0; font-size: 0.875rem; margin: 0 0 2rem; line-height: 1.6;">
+        Fixed vertical navigation panel with brand area, icon+text nav items, section headers,
+        collapsible groups, letter badges, notification counters, and user profile footer.
+        Supports all 5 surface modes, 7 hues, 6 sizes, and responsive mobile drawer.
+    </p>
+
+    <!-- ============================================================
+         SECTION: All 5 Surface Modes
+         ============================================================ -->
+    <div class="demo-section">
+        <h2>Surface Modes</h2>
+        <p>Every sidebar works on all 5 surface modes. Mode 2 (dark) is the default.</p>
+
+        <div class="mode-grid">
+            <!-- Mode 1 -->
+            <div class="mode-card">
+                <div class="mode-card-header">Mode 1 — White</div>
+                <div class="mode-card-body" data-mode="1">
+                    <nav class="mc-sidebar" data-hue="blue" style="position: absolute;">
+                        <a class="mc-sidebar-brand" href="#">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="24" height="24"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                            Perception
+                        </a>
+                        <ul class="mc-sidebar-nav">
+                            <li><a href="#" class="mc-sidebar-link active">
+                                <span class="mc-sidebar-link-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="20" height="20"><path d="m2.25 12 8.954-8.955a1.126 1.126 0 0 1 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+                                <span class="mc-sidebar-link-text">Dashboard</span>
+                            </a></li>
+                            <li><a href="#" class="mc-sidebar-link">
+                                <span class="mc-sidebar-link-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="20" height="20"><path d="M15 19.128a9.38 9.38 0 0 0 2.625.372 9.337 9.337 0 0 0 4.121-.952 4.125 4.125 0 0 0-7.533-2.493M15 19.128v-.003c0-1.113-.285-2.16-.786-3.07M15 19.128v.106A12.318 12.318 0 0 1 8.624 21c-2.331 0-4.512-.645-6.374-1.766l-.001-.109a6.375 6.375 0 0 1 11.964-3.07M12 6.375a3.375 3.375 0 1 1-6.75 0 3.375 3.375 0 0 1 6.75 0Zm8.25 2.25a2.625 2.625 0 1 1-5.25 0 2.625 2.625 0 0 1 5.25 0Z" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+                                <span class="mc-sidebar-link-text">Team</span>
+                                <span class="mc-sidebar-link-badge">3</span>
+                            </a></li>
+                            <li><a href="#" class="mc-sidebar-link">
+                                <span class="mc-sidebar-link-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="20" height="20"><path d="M2.25 12.75V12A2.25 2.25 0 0 1 4.5 9.75h15A2.25 2.25 0 0 1 21.75 12v.75m-8.69-6.44-2.12-2.12a1.5 1.5 0 0 0-1.061-.44H4.5A2.25 2.25 0 0 0 2.25 6v12a2.25 2.25 0 0 0 2.25 2.25h15A2.25 2.25 0 0 0 21.75 18V9a2.25 2.25 0 0 0-2.25-2.25h-5.379a1.5 1.5 0 0 1-1.06-.44Z" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+                                <span class="mc-sidebar-link-text">Projects</span>
+                            </a></li>
+                            <li class="mc-sidebar-heading">Teams</li>
+                            <li><a href="#" class="mc-sidebar-link">
+                                <span class="mc-sidebar-letter">H</span>
+                                <span class="mc-sidebar-link-text">Heroicons</span>
+                            </a></li>
+                            <li><a href="#" class="mc-sidebar-link">
+                                <span class="mc-sidebar-letter">P</span>
+                                <span class="mc-sidebar-link-text">Perception</span>
+                            </a></li>
+                        </ul>
+                        <a href="#" class="mc-sidebar-footer">
+                            <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32'%3E%3Crect width='32' height='32' rx='16' fill='%23C3C3C3'/%3E%3Ctext x='16' y='21' text-anchor='middle' font-size='14' fill='%23515151' font-family='sans-serif'%3EJ%3C/text%3E%3C/svg%3E" class="mc-sidebar-avatar" alt="User">
+                            <span>Jane Doe</span>
+                        </a>
+                    </nav>
+                </div>
+            </div>
+
+            <!-- Mode 2 -->
+            <div class="mode-card">
+                <div class="mode-card-header">Mode 2 — Black (Default)</div>
+                <div class="mode-card-body" data-mode="2">
+                    <nav class="mc-sidebar" data-hue="blue" style="position: absolute;">
+                        <a class="mc-sidebar-brand" href="#">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="24" height="24"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                            Perception
+                        </a>
+                        <ul class="mc-sidebar-nav">
+                            <li><a href="#" class="mc-sidebar-link active">
+                                <span class="mc-sidebar-link-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="20" height="20"><path d="m2.25 12 8.954-8.955a1.126 1.126 0 0 1 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+                                <span class="mc-sidebar-link-text">Dashboard</span>
+                            </a></li>
+                            <li><a href="#" class="mc-sidebar-link">
+                                <span class="mc-sidebar-link-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="20" height="20"><path d="M15 19.128a9.38 9.38 0 0 0 2.625.372 9.337 9.337 0 0 0 4.121-.952 4.125 4.125 0 0 0-7.533-2.493M15 19.128v-.003c0-1.113-.285-2.16-.786-3.07M15 19.128v.106A12.318 12.318 0 0 1 8.624 21c-2.331 0-4.512-.645-6.374-1.766l-.001-.109a6.375 6.375 0 0 1 11.964-3.07M12 6.375a3.375 3.375 0 1 1-6.75 0 3.375 3.375 0 0 1 6.75 0Zm8.25 2.25a2.625 2.625 0 1 1-5.25 0 2.625 2.625 0 0 1 5.25 0Z" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+                                <span class="mc-sidebar-link-text">Team</span>
+                                <span class="mc-sidebar-link-badge">3</span>
+                            </a></li>
+                            <li><a href="#" class="mc-sidebar-link">
+                                <span class="mc-sidebar-link-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="20" height="20"><path d="M2.25 12.75V12A2.25 2.25 0 0 1 4.5 9.75h15A2.25 2.25 0 0 1 21.75 12v.75m-8.69-6.44-2.12-2.12a1.5 1.5 0 0 0-1.061-.44H4.5A2.25 2.25 0 0 0 2.25 6v12a2.25 2.25 0 0 0 2.25 2.25h15A2.25 2.25 0 0 0 21.75 18V9a2.25 2.25 0 0 0-2.25-2.25h-5.379a1.5 1.5 0 0 1-1.06-.44Z" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+                                <span class="mc-sidebar-link-text">Projects</span>
+                            </a></li>
+                            <li><a href="#" class="mc-sidebar-link disabled">
+                                <span class="mc-sidebar-link-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="20" height="20"><path d="M9.594 3.94c.09-.542.56-.94 1.11-.94h2.593c.55 0 1.02.398 1.11.94l.213 1.281c.063.374.313.686.645.87.074.04.147.083.22.127.325.196.72.257 1.075.124l1.217-.456a1.125 1.125 0 0 1 1.37.49l1.296 2.247a1.125 1.125 0 0 1-.26 1.431l-1.003.827c-.293.241-.438.613-.431.992a7.723 7.723 0 0 1 0 .255c-.007.378.138.75.43.991l1.004.827c.424.35.534.955.26 1.43l-1.298 2.247a1.125 1.125 0 0 1-1.369.491l-1.217-.456c-.355-.133-.75-.072-1.076.124a6.47 6.47 0 0 1-.22.128c-.331.183-.581.495-.644.869l-.213 1.281c-.09.543-.56.94-1.11.94h-2.594c-.55 0-1.019-.398-1.11-.94l-.213-1.281c-.062-.374-.312-.686-.644-.87a6.52 6.52 0 0 1-.22-.127c-.325-.196-.72-.257-1.076-.124l-1.217.456a1.125 1.125 0 0 1-1.369-.49l-1.297-2.247a1.125 1.125 0 0 1 .26-1.431l1.004-.827c.292-.24.437-.613.43-.991a6.932 6.932 0 0 1 0-.255c.007-.38-.138-.751-.43-.992l-1.004-.827a1.125 1.125 0 0 1-.26-1.43l1.297-2.247a1.125 1.125 0 0 1 1.37-.491l1.216.456c.356.133.751.072 1.076-.124.072-.044.146-.086.22-.128.332-.183.582-.495.644-.869l.214-1.28Z" stroke-linecap="round" stroke-linejoin="round"/><path d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+                                <span class="mc-sidebar-link-text">Settings</span>
+                            </a></li>
+                            <li class="mc-sidebar-heading">Teams</li>
+                            <li><a href="#" class="mc-sidebar-link">
+                                <span class="mc-sidebar-letter">H</span>
+                                <span class="mc-sidebar-link-text">Heroicons</span>
+                            </a></li>
+                            <li><a href="#" class="mc-sidebar-link">
+                                <span class="mc-sidebar-letter">P</span>
+                                <span class="mc-sidebar-link-text">Perception</span>
+                            </a></li>
+                        </ul>
+                        <a href="#" class="mc-sidebar-footer">
+                            <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32'%3E%3Crect width='32' height='32' rx='16' fill='%23373737'/%3E%3Ctext x='16' y='21' text-anchor='middle' font-size='14' fill='%23E1E1E1' font-family='sans-serif'%3EJ%3C/text%3E%3C/svg%3E" class="mc-sidebar-avatar" alt="User">
+                            <span>Jane Doe</span>
+                        </a>
+                    </nav>
+                </div>
+            </div>
+
+            <!-- Mode 3 -->
+            <div class="mode-card">
+                <div class="mode-card-header">Mode 3 — Light Hue</div>
+                <div class="mode-card-body" data-mode="3">
+                    <nav class="mc-sidebar" data-hue="blue" style="position: absolute;">
+                        <a class="mc-sidebar-brand" href="#">Perception</a>
+                        <ul class="mc-sidebar-nav">
+                            <li><a href="#" class="mc-sidebar-link active">
+                                <span class="mc-sidebar-link-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="20" height="20"><path d="m2.25 12 8.954-8.955a1.126 1.126 0 0 1 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+                                <span class="mc-sidebar-link-text">Dashboard</span>
+                            </a></li>
+                            <li><a href="#" class="mc-sidebar-link">
+                                <span class="mc-sidebar-link-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="20" height="20"><path d="M15 19.128a9.38 9.38 0 0 0 2.625.372 9.337 9.337 0 0 0 4.121-.952 4.125 4.125 0 0 0-7.533-2.493M15 19.128v-.003c0-1.113-.285-2.16-.786-3.07M15 19.128v.106A12.318 12.318 0 0 1 8.624 21c-2.331 0-4.512-.645-6.374-1.766l-.001-.109a6.375 6.375 0 0 1 11.964-3.07M12 6.375a3.375 3.375 0 1 1-6.75 0 3.375 3.375 0 0 1 6.75 0Zm8.25 2.25a2.625 2.625 0 1 1-5.25 0 2.625 2.625 0 0 1 5.25 0Z" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+                                <span class="mc-sidebar-link-text">Team</span>
+                            </a></li>
+                            <li><a href="#" class="mc-sidebar-link">
+                                <span class="mc-sidebar-link-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="20" height="20"><path d="M2.25 12.75V12A2.25 2.25 0 0 1 4.5 9.75h15A2.25 2.25 0 0 1 21.75 12v.75m-8.69-6.44-2.12-2.12a1.5 1.5 0 0 0-1.061-.44H4.5A2.25 2.25 0 0 0 2.25 6v12a2.25 2.25 0 0 0 2.25 2.25h15A2.25 2.25 0 0 0 21.75 18V9a2.25 2.25 0 0 0-2.25-2.25h-5.379a1.5 1.5 0 0 1-1.06-.44Z" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+                                <span class="mc-sidebar-link-text">Projects</span>
+                            </a></li>
+                            <li class="mc-sidebar-heading">Teams</li>
+                            <li><a href="#" class="mc-sidebar-link">
+                                <span class="mc-sidebar-letter">H</span>
+                                <span class="mc-sidebar-link-text">Heroicons</span>
+                            </a></li>
+                        </ul>
+                        <a href="#" class="mc-sidebar-footer">
+                            <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32'%3E%3Crect width='32' height='32' rx='16' fill='%23BEBEFF'/%3E%3Ctext x='16' y='21' text-anchor='middle' font-size='14' fill='%23000035' font-family='sans-serif'%3EJ%3C/text%3E%3C/svg%3E" class="mc-sidebar-avatar" alt="User">
+                            <span>Jane Doe</span>
+                        </a>
+                    </nav>
+                </div>
+            </div>
+
+            <!-- Mode 4 -->
+            <div class="mode-card">
+                <div class="mode-card-header">Mode 4 — Dark Hue</div>
+                <div class="mode-card-body" data-mode="4">
+                    <nav class="mc-sidebar" data-hue="blue" style="position: absolute;">
+                        <a class="mc-sidebar-brand" href="#">Perception</a>
+                        <ul class="mc-sidebar-nav">
+                            <li><a href="#" class="mc-sidebar-link active">
+                                <span class="mc-sidebar-link-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="20" height="20"><path d="m2.25 12 8.954-8.955a1.126 1.126 0 0 1 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+                                <span class="mc-sidebar-link-text">Dashboard</span>
+                            </a></li>
+                            <li><a href="#" class="mc-sidebar-link">
+                                <span class="mc-sidebar-link-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="20" height="20"><path d="M15 19.128a9.38 9.38 0 0 0 2.625.372 9.337 9.337 0 0 0 4.121-.952 4.125 4.125 0 0 0-7.533-2.493M15 19.128v-.003c0-1.113-.285-2.16-.786-3.07M15 19.128v.106A12.318 12.318 0 0 1 8.624 21c-2.331 0-4.512-.645-6.374-1.766l-.001-.109a6.375 6.375 0 0 1 11.964-3.07M12 6.375a3.375 3.375 0 1 1-6.75 0 3.375 3.375 0 0 1 6.75 0Zm8.25 2.25a2.625 2.625 0 1 1-5.25 0 2.625 2.625 0 0 1 5.25 0Z" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+                                <span class="mc-sidebar-link-text">Team</span>
+                                <span class="mc-sidebar-link-badge">5</span>
+                            </a></li>
+                            <li><a href="#" class="mc-sidebar-link">
+                                <span class="mc-sidebar-link-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="20" height="20"><path d="M2.25 12.75V12A2.25 2.25 0 0 1 4.5 9.75h15A2.25 2.25 0 0 1 21.75 12v.75m-8.69-6.44-2.12-2.12a1.5 1.5 0 0 0-1.061-.44H4.5A2.25 2.25 0 0 0 2.25 6v12a2.25 2.25 0 0 0 2.25 2.25h15A2.25 2.25 0 0 0 21.75 18V9a2.25 2.25 0 0 0-2.25-2.25h-5.379a1.5 1.5 0 0 1-1.06-.44Z" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+                                <span class="mc-sidebar-link-text">Projects</span>
+                            </a></li>
+                            <li class="mc-sidebar-heading">Teams</li>
+                            <li><a href="#" class="mc-sidebar-link">
+                                <span class="mc-sidebar-letter">H</span>
+                                <span class="mc-sidebar-link-text">Heroicons</span>
+                            </a></li>
+                        </ul>
+                        <a href="#" class="mc-sidebar-footer">
+                            <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32'%3E%3Crect width='32' height='32' rx='16' fill='%23000035'/%3E%3Ctext x='16' y='21' text-anchor='middle' font-size='14' fill='%239494FF' font-family='sans-serif'%3EJ%3C/text%3E%3C/svg%3E" class="mc-sidebar-avatar" alt="User">
+                            <span>Jane Doe</span>
+                        </a>
+                    </nav>
+                </div>
+            </div>
+
+            <!-- Mode 5 -->
+            <div class="mode-card">
+                <div class="mode-card-header">Mode 5 — Mid Hue</div>
+                <div class="mode-card-body" data-mode="5">
+                    <nav class="mc-sidebar" data-hue="blue" style="position: absolute;">
+                        <a class="mc-sidebar-brand" href="#">Perception</a>
+                        <ul class="mc-sidebar-nav">
+                            <li><a href="#" class="mc-sidebar-link active">
+                                <span class="mc-sidebar-link-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="20" height="20"><path d="m2.25 12 8.954-8.955a1.126 1.126 0 0 1 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+                                <span class="mc-sidebar-link-text">Dashboard</span>
+                            </a></li>
+                            <li><a href="#" class="mc-sidebar-link">
+                                <span class="mc-sidebar-link-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="20" height="20"><path d="M15 19.128a9.38 9.38 0 0 0 2.625.372 9.337 9.337 0 0 0 4.121-.952 4.125 4.125 0 0 0-7.533-2.493M15 19.128v-.003c0-1.113-.285-2.16-.786-3.07M15 19.128v.106A12.318 12.318 0 0 1 8.624 21c-2.331 0-4.512-.645-6.374-1.766l-.001-.109a6.375 6.375 0 0 1 11.964-3.07M12 6.375a3.375 3.375 0 1 1-6.75 0 3.375 3.375 0 0 1 6.75 0Zm8.25 2.25a2.625 2.625 0 1 1-5.25 0 2.625 2.625 0 0 1 5.25 0Z" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+                                <span class="mc-sidebar-link-text">Team</span>
+                            </a></li>
+                            <li><a href="#" class="mc-sidebar-link">
+                                <span class="mc-sidebar-link-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="20" height="20"><path d="M2.25 12.75V12A2.25 2.25 0 0 1 4.5 9.75h15A2.25 2.25 0 0 1 21.75 12v.75m-8.69-6.44-2.12-2.12a1.5 1.5 0 0 0-1.061-.44H4.5A2.25 2.25 0 0 0 2.25 6v12a2.25 2.25 0 0 0 2.25 2.25h15A2.25 2.25 0 0 0 21.75 18V9a2.25 2.25 0 0 0-2.25-2.25h-5.379a1.5 1.5 0 0 1-1.06-.44Z" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+                                <span class="mc-sidebar-link-text">Projects</span>
+                            </a></li>
+                        </ul>
+                        <a href="#" class="mc-sidebar-footer">
+                            <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32'%3E%3Crect width='32' height='32' rx='16' fill='%231919FF'/%3E%3Ctext x='16' y='21' text-anchor='middle' font-size='14' fill='%23FFFFFF' font-family='sans-serif'%3EJ%3C/text%3E%3C/svg%3E" class="mc-sidebar-avatar" alt="User">
+                            <span>Jane Doe</span>
+                        </a>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ============================================================
+         SECTION: All 7 Hues
+         ============================================================ -->
+    <div class="demo-section">
+        <h2>Hues</h2>
+        <p>All 7 hues on Mode 2 (dark) surface.</p>
+        <div class="mode-grid" style="grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));">
+            <div class="mode-card" data-mode="2" style="height: 200px; position: relative;">
+                <div class="mode-card-header">Neutral</div>
+                <nav class="mc-sidebar" data-hue="neutral" data-mode="2" style="position: relative; height: auto; width: 100%; padding: 8px 0;">
+                    <ul class="mc-sidebar-nav">
+                        <li><a href="#" class="mc-sidebar-link active"><span class="mc-sidebar-link-text">Active</span></a></li>
+                        <li><a href="#" class="mc-sidebar-link"><span class="mc-sidebar-link-text">Default</span></a></li>
+                        <li><a href="#" class="mc-sidebar-link disabled"><span class="mc-sidebar-link-text">Disabled</span></a></li>
+                    </ul>
+                </nav>
+            </div>
+            <div class="mode-card" data-mode="2" style="height: 200px; position: relative;">
+                <div class="mode-card-header">Red</div>
+                <nav class="mc-sidebar" data-hue="red" data-mode="2" style="position: relative; height: auto; width: 100%; padding: 8px 0;">
+                    <ul class="mc-sidebar-nav">
+                        <li><a href="#" class="mc-sidebar-link active"><span class="mc-sidebar-link-text">Active</span></a></li>
+                        <li><a href="#" class="mc-sidebar-link"><span class="mc-sidebar-link-text">Default</span></a></li>
+                        <li><a href="#" class="mc-sidebar-link disabled"><span class="mc-sidebar-link-text">Disabled</span></a></li>
+                    </ul>
+                </nav>
+            </div>
+            <div class="mode-card" data-mode="2" style="height: 200px; position: relative;">
+                <div class="mode-card-header">Green</div>
+                <nav class="mc-sidebar" data-hue="green" data-mode="2" style="position: relative; height: auto; width: 100%; padding: 8px 0;">
+                    <ul class="mc-sidebar-nav">
+                        <li><a href="#" class="mc-sidebar-link active"><span class="mc-sidebar-link-text">Active</span></a></li>
+                        <li><a href="#" class="mc-sidebar-link"><span class="mc-sidebar-link-text">Default</span></a></li>
+                        <li><a href="#" class="mc-sidebar-link disabled"><span class="mc-sidebar-link-text">Disabled</span></a></li>
+                    </ul>
+                </nav>
+            </div>
+            <div class="mode-card" data-mode="2" style="height: 200px; position: relative;">
+                <div class="mode-card-header">Blue</div>
+                <nav class="mc-sidebar" data-hue="blue" data-mode="2" style="position: relative; height: auto; width: 100%; padding: 8px 0;">
+                    <ul class="mc-sidebar-nav">
+                        <li><a href="#" class="mc-sidebar-link active"><span class="mc-sidebar-link-text">Active</span></a></li>
+                        <li><a href="#" class="mc-sidebar-link"><span class="mc-sidebar-link-text">Default</span></a></li>
+                        <li><a href="#" class="mc-sidebar-link disabled"><span class="mc-sidebar-link-text">Disabled</span></a></li>
+                    </ul>
+                </nav>
+            </div>
+            <div class="mode-card" data-mode="2" style="height: 200px; position: relative;">
+                <div class="mode-card-header">Yellow</div>
+                <nav class="mc-sidebar" data-hue="yellow" data-mode="2" style="position: relative; height: auto; width: 100%; padding: 8px 0;">
+                    <ul class="mc-sidebar-nav">
+                        <li><a href="#" class="mc-sidebar-link active"><span class="mc-sidebar-link-text">Active</span></a></li>
+                        <li><a href="#" class="mc-sidebar-link"><span class="mc-sidebar-link-text">Default</span></a></li>
+                        <li><a href="#" class="mc-sidebar-link disabled"><span class="mc-sidebar-link-text">Disabled</span></a></li>
+                    </ul>
+                </nav>
+            </div>
+            <div class="mode-card" data-mode="2" style="height: 200px; position: relative;">
+                <div class="mode-card-header">Magenta</div>
+                <nav class="mc-sidebar" data-hue="magenta" data-mode="2" style="position: relative; height: auto; width: 100%; padding: 8px 0;">
+                    <ul class="mc-sidebar-nav">
+                        <li><a href="#" class="mc-sidebar-link active"><span class="mc-sidebar-link-text">Active</span></a></li>
+                        <li><a href="#" class="mc-sidebar-link"><span class="mc-sidebar-link-text">Default</span></a></li>
+                        <li><a href="#" class="mc-sidebar-link disabled"><span class="mc-sidebar-link-text">Disabled</span></a></li>
+                    </ul>
+                </nav>
+            </div>
+            <div class="mode-card" data-mode="2" style="height: 200px; position: relative;">
+                <div class="mode-card-header">Teal</div>
+                <nav class="mc-sidebar" data-hue="teal" data-mode="2" style="position: relative; height: auto; width: 100%; padding: 8px 0;">
+                    <ul class="mc-sidebar-nav">
+                        <li><a href="#" class="mc-sidebar-link active"><span class="mc-sidebar-link-text">Active</span></a></li>
+                        <li><a href="#" class="mc-sidebar-link"><span class="mc-sidebar-link-text">Default</span></a></li>
+                        <li><a href="#" class="mc-sidebar-link disabled"><span class="mc-sidebar-link-text">Disabled</span></a></li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </div>
+
+    <!-- ============================================================
+         SECTION: Collapsible Sections
+         ============================================================ -->
+    <div class="demo-section">
+        <h2>Collapsible Submenus</h2>
+        <p>Multi-level nested navigation with collapsible submenus. Supports up to 3 levels of nesting with progressive indentation and a vertical guide line.</p>
+
+        <div class="mode-grid" style="grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));">
+            <!-- Mode 2 — 3-level deep submenu -->
+            <div class="mode-card">
+                <div class="mode-card-header">Mode 2 — Nested Submenus</div>
+                <div class="mode-card-body" data-mode="2" style="height: auto; min-height: 380px;">
+                    <nav class="mc-sidebar" data-hue="blue" style="position: relative; height: auto; width: 100%;">
+                        <ul class="mc-sidebar-nav" style="padding-top: 12px;">
+                            <li>
+                                <a href="#" class="mc-sidebar-link"><span class="mc-sidebar-link-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="20" height="20"><path d="m2.25 12 8.954-8.955a1.126 1.126 0 0 1 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="mc-sidebar-link-text">Home</span></a>
+                            </li>
+                            <li>
+                                <button class="mc-sidebar-collapse-toggle" aria-expanded="true" onclick="this.setAttribute('aria-expanded', this.getAttribute('aria-expanded')==='true'?'false':'true'); this.nextElementSibling.classList.toggle('show')">
+                                    <span class="mc-sidebar-link-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="20" height="20"><path d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+                                    <span class="mc-sidebar-link-text">Users</span>
+                                    <span class="mc-sidebar-collapse-chevron"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m9 18 6-6-6-6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+                                </button>
+                                <div class="mc-sidebar-collapse-content show">
+                                    <a href="#" class="mc-sidebar-link active"><span class="mc-sidebar-link-text">All Users</span></a>
+                                    <button class="mc-sidebar-collapse-toggle" aria-expanded="true" onclick="this.setAttribute('aria-expanded', this.getAttribute('aria-expanded')==='true'?'false':'true'); this.nextElementSibling.classList.toggle('show')">
+                                        <span class="mc-sidebar-link-text">Roles</span>
+                                        <span class="mc-sidebar-collapse-chevron"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m9 18 6-6-6-6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+                                    </button>
+                                    <div class="mc-sidebar-collapse-content show">
+                                        <a href="#" class="mc-sidebar-link"><span class="mc-sidebar-link-text">Admin</span></a>
+                                        <a href="#" class="mc-sidebar-link"><span class="mc-sidebar-link-text">Editor</span></a>
+                                        <button class="mc-sidebar-collapse-toggle" aria-expanded="true" onclick="this.setAttribute('aria-expanded', this.getAttribute('aria-expanded')==='true'?'false':'true'); this.nextElementSibling.classList.toggle('show')">
+                                            <span class="mc-sidebar-link-text">Custom</span>
+                                            <span class="mc-sidebar-collapse-chevron"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m9 18 6-6-6-6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+                                        </button>
+                                        <div class="mc-sidebar-collapse-content show">
+                                            <a href="#" class="mc-sidebar-link"><span class="mc-sidebar-link-text">Create Role</span></a>
+                                            <a href="#" class="mc-sidebar-link"><span class="mc-sidebar-link-text">Permissions</span></a>
+                                        </div>
+                                    </div>
+                                    <a href="#" class="mc-sidebar-link"><span class="mc-sidebar-link-text">Invitations</span></a>
+                                </div>
+                            </li>
+                            <li>
+                                <button class="mc-sidebar-collapse-toggle" aria-expanded="false" onclick="this.setAttribute('aria-expanded', this.getAttribute('aria-expanded')==='true'?'false':'true'); this.nextElementSibling.classList.toggle('show')">
+                                    <span class="mc-sidebar-link-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="20" height="20"><path d="M9.594 3.94c.09-.542.56-.94 1.11-.94h2.593c.55 0 1.02.398 1.11.94l.213 1.281c.063.374.313.686.645.87.074.04.147.083.22.127.325.196.72.257 1.075.124l1.217-.456a1.125 1.125 0 0 1 1.37.49l1.296 2.247a1.125 1.125 0 0 1-.26 1.431l-1.003.827c-.293.241-.438.613-.431.992a7.723 7.723 0 0 1 0 .255c-.007.378.138.75.43.991l1.004.827c.424.35.534.955.26 1.43l-1.298 2.247a1.125 1.125 0 0 1-1.369.491l-1.217-.456c-.355-.133-.75-.072-1.076.124a6.47 6.47 0 0 1-.22.128c-.331.183-.581.495-.644.869l-.213 1.281c-.09.543-.56.94-1.11.94h-2.594c-.55 0-1.019-.398-1.11-.94l-.213-1.281c-.062-.374-.312-.686-.644-.87a6.52 6.52 0 0 1-.22-.127c-.325-.196-.72-.257-1.076-.124l-1.217.456a1.125 1.125 0 0 1-1.369-.49l-1.297-2.247a1.125 1.125 0 0 1 .26-1.431l1.004-.827c.292-.24.437-.613.43-.991a6.932 6.932 0 0 1 0-.255c.007-.38-.138-.751-.43-.992l-1.004-.827a1.125 1.125 0 0 1-.26-1.43l1.297-2.247a1.125 1.125 0 0 1 1.37-.491l1.216.456c.356.133.751.072 1.076-.124.072-.044.146-.086.22-.128.332-.183.582-.495.644-.869l.214-1.28Z" stroke-linecap="round" stroke-linejoin="round"/><path d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+                                    <span class="mc-sidebar-link-text">Settings</span>
+                                    <span class="mc-sidebar-collapse-chevron"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m9 18 6-6-6-6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+                                </button>
+                                <div class="mc-sidebar-collapse-content">
+                                    <a href="#" class="mc-sidebar-link"><span class="mc-sidebar-link-text">General</span></a>
+                                    <a href="#" class="mc-sidebar-link"><span class="mc-sidebar-link-text">Security</span></a>
+                                </div>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+
+            <!-- Mode 1 — 2-level submenu -->
+            <div class="mode-card">
+                <div class="mode-card-header">Mode 1 — Nested Submenus</div>
+                <div class="mode-card-body" data-mode="1" style="height: auto; min-height: 380px; background-color: #FFFFFF;">
+                    <nav class="mc-sidebar" data-hue="blue" style="position: relative; height: auto; width: 100%; background-color: #FFFFFF;">
+                        <ul class="mc-sidebar-nav" style="padding-top: 12px;">
+                            <li>
+                                <button class="mc-sidebar-collapse-toggle" aria-expanded="true" onclick="this.setAttribute('aria-expanded', this.getAttribute('aria-expanded')==='true'?'false':'true'); this.nextElementSibling.classList.toggle('show')">
+                                    <span class="mc-sidebar-link-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="20" height="20"><path d="M2.25 12.75V12A2.25 2.25 0 0 1 4.5 9.75h15A2.25 2.25 0 0 1 21.75 12v.75m-8.69-6.44-2.12-2.12a1.5 1.5 0 0 0-1.061-.44H4.5A2.25 2.25 0 0 0 2.25 6v12a2.25 2.25 0 0 0 2.25 2.25h15A2.25 2.25 0 0 0 21.75 18V9a2.25 2.25 0 0 0-2.25-2.25h-5.379a1.5 1.5 0 0 1-1.06-.44Z" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+                                    <span class="mc-sidebar-link-text">Documents</span>
+                                    <span class="mc-sidebar-collapse-chevron"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m9 18 6-6-6-6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+                                </button>
+                                <div class="mc-sidebar-collapse-content show">
+                                    <button class="mc-sidebar-collapse-toggle" aria-expanded="true" onclick="this.setAttribute('aria-expanded', this.getAttribute('aria-expanded')==='true'?'false':'true'); this.nextElementSibling.classList.toggle('show')">
+                                        <span class="mc-sidebar-link-text">Projects</span>
+                                        <span class="mc-sidebar-collapse-chevron"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m9 18 6-6-6-6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+                                    </button>
+                                    <div class="mc-sidebar-collapse-content show">
+                                        <a href="#" class="mc-sidebar-link active"><span class="mc-sidebar-link-text">Website</span></a>
+                                        <a href="#" class="mc-sidebar-link"><span class="mc-sidebar-link-text">Mobile App</span></a>
+                                        <a href="#" class="mc-sidebar-link"><span class="mc-sidebar-link-text">API</span></a>
+                                    </div>
+                                    <a href="#" class="mc-sidebar-link"><span class="mc-sidebar-link-text">Shared</span></a>
+                                    <a href="#" class="mc-sidebar-link"><span class="mc-sidebar-link-text">Archived</span></a>
+                                </div>
+                            </li>
+                            <li>
+                                <a href="#" class="mc-sidebar-link"><span class="mc-sidebar-link-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="20" height="20"><path d="M9.594 3.94c.09-.542.56-.94 1.11-.94h2.593c.55 0 1.02.398 1.11.94l.213 1.281c.063.374.313.686.645.87.074.04.147.083.22.127.325.196.72.257 1.075.124l1.217-.456a1.125 1.125 0 0 1 1.37.49l1.296 2.247a1.125 1.125 0 0 1-.26 1.431l-1.003.827c-.293.241-.438.613-.431.992a7.723 7.723 0 0 1 0 .255c-.007.378.138.75.43.991l1.004.827c.424.35.534.955.26 1.43l-1.298 2.247a1.125 1.125 0 0 1-1.369.491l-1.217-.456c-.355-.133-.75-.072-1.076.124a6.47 6.47 0 0 1-.22.128c-.331.183-.581.495-.644.869l-.213 1.281c-.09.543-.56.94-1.11.94h-2.594c-.55 0-1.019-.398-1.11-.94l-.213-1.281c-.062-.374-.312-.686-.644-.87a6.52 6.52 0 0 1-.22-.127c-.325-.196-.72-.257-1.076-.124l-1.217.456a1.125 1.125 0 0 1-1.369-.49l-1.297-2.247a1.125 1.125 0 0 1 .26-1.431l1.004-.827c.292-.24.437-.613.43-.991a6.932 6.932 0 0 1 0-.255c.007-.38-.138-.751-.43-.992l-1.004-.827a1.125 1.125 0 0 1-.26-1.43l1.297-2.247a1.125 1.125 0 0 1 1.37-.491l1.216.456c.356.133.751.072 1.076-.124.072-.044.146-.086.22-.128.332-.183.582-.495.644-.869l.214-1.28Z" stroke-linecap="round" stroke-linejoin="round"/><path d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="mc-sidebar-link-text">Settings</span></a>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ============================================================
+         SECTION: Sizes
+         ============================================================ -->
+    <div class="demo-section">
+        <h2>Sizes</h2>
+        <p>All 6 size tiers: xs, sm, md (default), lg, xl, xxl.</p>
+
+        <div class="size-row">
+            <div class="size-card">
+                <div class="size-card-header">xs (220px)</div>
+                <div class="size-card-body" style="width: 220px;" data-mode="2">
+                    <nav class="mc-sidebar mc-sidebar-xs" data-hue="blue" style="position: absolute; width: 100%;">
+                        <a class="mc-sidebar-brand" href="#">App</a>
+                        <ul class="mc-sidebar-nav">
+                            <li><a href="#" class="mc-sidebar-link active"><span class="mc-sidebar-link-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="14" height="14"><path d="m2.25 12 8.954-8.955a1.126 1.126 0 0 1 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="mc-sidebar-link-text">Home</span></a></li>
+                            <li><a href="#" class="mc-sidebar-link"><span class="mc-sidebar-link-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="14" height="14"><path d="M15 19.128a9.38 9.38 0 0 0 2.625.372 9.337 9.337 0 0 0 4.121-.952 4.125 4.125 0 0 0-7.533-2.493M15 19.128v-.003c0-1.113-.285-2.16-.786-3.07M15 19.128v.106A12.318 12.318 0 0 1 8.624 21c-2.331 0-4.512-.645-6.374-1.766l-.001-.109a6.375 6.375 0 0 1 11.964-3.07M12 6.375a3.375 3.375 0 1 1-6.75 0 3.375 3.375 0 0 1 6.75 0Zm8.25 2.25a2.625 2.625 0 1 1-5.25 0 2.625 2.625 0 0 1 5.25 0Z" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="mc-sidebar-link-text">Users</span><span class="mc-sidebar-link-badge">2</span></a></li>
+                            <li class="mc-sidebar-heading">Teams</li>
+                            <li><a href="#" class="mc-sidebar-link"><span class="mc-sidebar-letter">A</span><span class="mc-sidebar-link-text">Alpha</span></a></li>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+
+            <div class="size-card">
+                <div class="size-card-header">sm (240px)</div>
+                <div class="size-card-body" style="width: 240px;" data-mode="2">
+                    <nav class="mc-sidebar mc-sidebar-sm" data-hue="blue" style="position: absolute; width: 100%;">
+                        <a class="mc-sidebar-brand" href="#">App</a>
+                        <ul class="mc-sidebar-nav">
+                            <li><a href="#" class="mc-sidebar-link active"><span class="mc-sidebar-link-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="16" height="16"><path d="m2.25 12 8.954-8.955a1.126 1.126 0 0 1 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="mc-sidebar-link-text">Home</span></a></li>
+                            <li><a href="#" class="mc-sidebar-link"><span class="mc-sidebar-link-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="16" height="16"><path d="M15 19.128a9.38 9.38 0 0 0 2.625.372 9.337 9.337 0 0 0 4.121-.952 4.125 4.125 0 0 0-7.533-2.493M15 19.128v-.003c0-1.113-.285-2.16-.786-3.07M15 19.128v.106A12.318 12.318 0 0 1 8.624 21c-2.331 0-4.512-.645-6.374-1.766l-.001-.109a6.375 6.375 0 0 1 11.964-3.07M12 6.375a3.375 3.375 0 1 1-6.75 0 3.375 3.375 0 0 1 6.75 0Zm8.25 2.25a2.625 2.625 0 1 1-5.25 0 2.625 2.625 0 0 1 5.25 0Z" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="mc-sidebar-link-text">Users</span></a></li>
+                            <li class="mc-sidebar-heading">Teams</li>
+                            <li><a href="#" class="mc-sidebar-link"><span class="mc-sidebar-letter">A</span><span class="mc-sidebar-link-text">Alpha</span></a></li>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+
+            <div class="size-card">
+                <div class="size-card-header">md (272px, default)</div>
+                <div class="size-card-body" style="width: 272px;" data-mode="2">
+                    <nav class="mc-sidebar" data-hue="blue" style="position: absolute; width: 100%;">
+                        <a class="mc-sidebar-brand" href="#">App</a>
+                        <ul class="mc-sidebar-nav">
+                            <li><a href="#" class="mc-sidebar-link active"><span class="mc-sidebar-link-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="20" height="20"><path d="m2.25 12 8.954-8.955a1.126 1.126 0 0 1 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="mc-sidebar-link-text">Home</span></a></li>
+                            <li><a href="#" class="mc-sidebar-link"><span class="mc-sidebar-link-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="20" height="20"><path d="M15 19.128a9.38 9.38 0 0 0 2.625.372 9.337 9.337 0 0 0 4.121-.952 4.125 4.125 0 0 0-7.533-2.493M15 19.128v-.003c0-1.113-.285-2.16-.786-3.07M15 19.128v.106A12.318 12.318 0 0 1 8.624 21c-2.331 0-4.512-.645-6.374-1.766l-.001-.109a6.375 6.375 0 0 1 11.964-3.07M12 6.375a3.375 3.375 0 1 1-6.75 0 3.375 3.375 0 0 1 6.75 0Zm8.25 2.25a2.625 2.625 0 1 1-5.25 0 2.625 2.625 0 0 1 5.25 0Z" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="mc-sidebar-link-text">Users</span></a></li>
+                            <li class="mc-sidebar-heading">Teams</li>
+                            <li><a href="#" class="mc-sidebar-link"><span class="mc-sidebar-letter">A</span><span class="mc-sidebar-link-text">Alpha</span></a></li>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+        </div>
+
+        <div class="size-row">
+            <div class="size-card">
+                <div class="size-card-header">lg (304px)</div>
+                <div class="size-card-body" style="width: 304px;" data-mode="2">
+                    <nav class="mc-sidebar mc-sidebar-lg" data-hue="blue" style="position: absolute; width: 100%;">
+                        <a class="mc-sidebar-brand" href="#">App</a>
+                        <ul class="mc-sidebar-nav">
+                            <li><a href="#" class="mc-sidebar-link active"><span class="mc-sidebar-link-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="22" height="22"><path d="m2.25 12 8.954-8.955a1.126 1.126 0 0 1 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="mc-sidebar-link-text">Home</span></a></li>
+                            <li><a href="#" class="mc-sidebar-link"><span class="mc-sidebar-link-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="22" height="22"><path d="M15 19.128a9.38 9.38 0 0 0 2.625.372 9.337 9.337 0 0 0 4.121-.952 4.125 4.125 0 0 0-7.533-2.493M15 19.128v-.003c0-1.113-.285-2.16-.786-3.07M15 19.128v.106A12.318 12.318 0 0 1 8.624 21c-2.331 0-4.512-.645-6.374-1.766l-.001-.109a6.375 6.375 0 0 1 11.964-3.07M12 6.375a3.375 3.375 0 1 1-6.75 0 3.375 3.375 0 0 1 6.75 0Zm8.25 2.25a2.625 2.625 0 1 1-5.25 0 2.625 2.625 0 0 1 5.25 0Z" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="mc-sidebar-link-text">Users</span></a></li>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+
+            <div class="size-card">
+                <div class="size-card-header">xl (336px)</div>
+                <div class="size-card-body" style="width: 336px;" data-mode="2">
+                    <nav class="mc-sidebar mc-sidebar-xl" data-hue="blue" style="position: absolute; width: 100%;">
+                        <a class="mc-sidebar-brand" href="#">App</a>
+                        <ul class="mc-sidebar-nav">
+                            <li><a href="#" class="mc-sidebar-link active"><span class="mc-sidebar-link-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="26" height="26"><path d="m2.25 12 8.954-8.955a1.126 1.126 0 0 1 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="mc-sidebar-link-text">Home</span></a></li>
+                            <li><a href="#" class="mc-sidebar-link"><span class="mc-sidebar-link-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="26" height="26"><path d="M15 19.128a9.38 9.38 0 0 0 2.625.372 9.337 9.337 0 0 0 4.121-.952 4.125 4.125 0 0 0-7.533-2.493M15 19.128v-.003c0-1.113-.285-2.16-.786-3.07M15 19.128v.106A12.318 12.318 0 0 1 8.624 21c-2.331 0-4.512-.645-6.374-1.766l-.001-.109a6.375 6.375 0 0 1 11.964-3.07M12 6.375a3.375 3.375 0 1 1-6.75 0 3.375 3.375 0 0 1 6.75 0Zm8.25 2.25a2.625 2.625 0 1 1-5.25 0 2.625 2.625 0 0 1 5.25 0Z" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="mc-sidebar-link-text">Users</span></a></li>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+
+            <div class="size-card">
+                <div class="size-card-header">xxl (368px)</div>
+                <div class="size-card-body" style="width: 368px;" data-mode="2">
+                    <nav class="mc-sidebar mc-sidebar-xxl" data-hue="blue" style="position: absolute; width: 100%;">
+                        <a class="mc-sidebar-brand" href="#">App</a>
+                        <ul class="mc-sidebar-nav">
+                            <li><a href="#" class="mc-sidebar-link active"><span class="mc-sidebar-link-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="30" height="30"><path d="m2.25 12 8.954-8.955a1.126 1.126 0 0 1 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="mc-sidebar-link-text">Home</span></a></li>
+                            <li><a href="#" class="mc-sidebar-link"><span class="mc-sidebar-link-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="30" height="30"><path d="M15 19.128a9.38 9.38 0 0 0 2.625.372 9.337 9.337 0 0 0 4.121-.952 4.125 4.125 0 0 0-7.533-2.493M15 19.128v-.003c0-1.113-.285-2.16-.786-3.07M15 19.128v.106A12.318 12.318 0 0 1 8.624 21c-2.331 0-4.512-.645-6.374-1.766l-.001-.109a6.375 6.375 0 0 1 11.964-3.07M12 6.375a3.375 3.375 0 1 1-6.75 0 3.375 3.375 0 0 1 6.75 0Zm8.25 2.25a2.625 2.625 0 1 1-5.25 0 2.625 2.625 0 0 1 5.25 0Z" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="mc-sidebar-link-text">Users</span></a></li>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ============================================================
+         SECTION: Usage Code
+         ============================================================ -->
+    <div class="demo-section">
+        <h2>Usage</h2>
+
+        <h3>Basic Sidebar</h3>
+<div class="code-block">&lt;nav class="mc-sidebar" data-hue="blue" data-mode="2"&gt;
+  &lt;a class="mc-sidebar-brand" href="#"&gt;
+    &lt;img src="logo.svg" alt="Logo"&gt;
+    My App
+  &lt;/a&gt;
+  &lt;ul class="mc-sidebar-nav"&gt;
+    &lt;li&gt;&lt;a href="#" class="mc-sidebar-link active"&gt;
+      &lt;span class="mc-sidebar-link-icon"&gt;&lt;svg&gt;...&lt;/svg&gt;&lt;/span&gt;
+      &lt;span class="mc-sidebar-link-text"&gt;Dashboard&lt;/span&gt;
+    &lt;/a&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;a href="#" class="mc-sidebar-link"&gt;
+      &lt;span class="mc-sidebar-link-icon"&gt;&lt;svg&gt;...&lt;/svg&gt;&lt;/span&gt;
+      &lt;span class="mc-sidebar-link-text"&gt;Team&lt;/span&gt;
+      &lt;span class="mc-sidebar-link-badge"&gt;3&lt;/span&gt;
+    &lt;/a&gt;&lt;/li&gt;
+    &lt;li class="mc-sidebar-heading"&gt;Teams&lt;/li&gt;
+    &lt;li&gt;&lt;a href="#" class="mc-sidebar-link"&gt;
+      &lt;span class="mc-sidebar-letter"&gt;H&lt;/span&gt;
+      &lt;span class="mc-sidebar-link-text"&gt;Heroicons&lt;/span&gt;
+    &lt;/a&gt;&lt;/li&gt;
+  &lt;/ul&gt;
+  &lt;a href="#" class="mc-sidebar-footer"&gt;
+    &lt;img src="avatar.jpg" class="mc-sidebar-avatar" alt="User"&gt;
+    &lt;span&gt;Jane Doe&lt;/span&gt;
+  &lt;/a&gt;
+&lt;/nav&gt;
+&lt;main class="mc-sidebar-content"&gt;...&lt;/main&gt;</div>
+
+        <h3>Collapsible Group</h3>
+<div class="code-block">&lt;button class="mc-sidebar-collapse-toggle" aria-expanded="false"&gt;
+  &lt;span class="mc-sidebar-link-icon"&gt;&lt;svg&gt;...&lt;/svg&gt;&lt;/span&gt;
+  &lt;span class="mc-sidebar-link-text"&gt;Settings&lt;/span&gt;
+  &lt;span class="mc-sidebar-collapse-chevron"&gt;&lt;svg&gt;...&lt;/svg&gt;&lt;/span&gt;
+&lt;/button&gt;
+&lt;div class="mc-sidebar-collapse-content"&gt;
+  &lt;a href="#" class="mc-sidebar-link"&gt;General&lt;/a&gt;
+  &lt;a href="#" class="mc-sidebar-link"&gt;Security&lt;/a&gt;
+&lt;/div&gt;</div>
+
+        <h3>Nested Submenu (3 Levels)</h3>
+<div class="code-block">&lt;!-- Level 1 --&gt;
+&lt;button class="mc-sidebar-collapse-toggle" aria-expanded="true"&gt;
+  &lt;span class="mc-sidebar-link-icon"&gt;&lt;svg&gt;...&lt;/svg&gt;&lt;/span&gt;
+  &lt;span class="mc-sidebar-link-text"&gt;Users&lt;/span&gt;
+  &lt;span class="mc-sidebar-collapse-chevron"&gt;&lt;svg&gt;...&lt;/svg&gt;&lt;/span&gt;
+&lt;/button&gt;
+&lt;div class="mc-sidebar-collapse-content show"&gt;
+  &lt;a href="#" class="mc-sidebar-link"&gt;All Users&lt;/a&gt;
+
+  &lt;!-- Level 2 (nested) --&gt;
+  &lt;button class="mc-sidebar-collapse-toggle" aria-expanded="true"&gt;
+    &lt;span class="mc-sidebar-link-text"&gt;Roles&lt;/span&gt;
+    &lt;span class="mc-sidebar-collapse-chevron"&gt;&lt;svg&gt;...&lt;/svg&gt;&lt;/span&gt;
+  &lt;/button&gt;
+  &lt;div class="mc-sidebar-collapse-content show"&gt;
+    &lt;a href="#" class="mc-sidebar-link"&gt;Admin&lt;/a&gt;
+    &lt;a href="#" class="mc-sidebar-link"&gt;Editor&lt;/a&gt;
+
+    &lt;!-- Level 3 (deeply nested) --&gt;
+    &lt;button class="mc-sidebar-collapse-toggle" aria-expanded="false"&gt;
+      &lt;span class="mc-sidebar-link-text"&gt;Custom&lt;/span&gt;
+      &lt;span class="mc-sidebar-collapse-chevron"&gt;&lt;svg&gt;...&lt;/svg&gt;&lt;/span&gt;
+    &lt;/button&gt;
+    &lt;div class="mc-sidebar-collapse-content"&gt;
+      &lt;a href="#" class="mc-sidebar-link"&gt;Create Role&lt;/a&gt;
+      &lt;a href="#" class="mc-sidebar-link"&gt;Permissions&lt;/a&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</div>
+
+        <h3>Mobile Responsive</h3>
+<div class="code-block">&lt;!-- Mobile top bar --&gt;
+&lt;div class="mc-sidebar-topbar" data-hue="blue"&gt;
+  &lt;button class="mc-sidebar-toggle" onclick="..."&gt;
+    &lt;svg&gt;...&lt;/svg&gt;
+  &lt;/button&gt;
+  &lt;span class="mc-sidebar-topbar-title"&gt;Dashboard&lt;/span&gt;
+&lt;/div&gt;
+
+&lt;!-- Backdrop --&gt;
+&lt;div class="mc-sidebar-backdrop" id="backdrop"&gt;&lt;/div&gt;
+
+&lt;!-- Sidebar (add .show to open on mobile) --&gt;
+&lt;nav class="mc-sidebar" data-hue="blue"&gt;
+  &lt;button class="mc-sidebar-close"&gt;&lt;svg&gt;...&lt;/svg&gt;&lt;/button&gt;
+  ...
+&lt;/nav&gt;</div>
+
+        <h3>Sizes</h3>
+<div class="code-block">&lt;nav class="mc-sidebar mc-sidebar-xs"&gt;...&lt;/nav&gt;  &lt;!-- 220px --&gt;
+&lt;nav class="mc-sidebar mc-sidebar-sm"&gt;...&lt;/nav&gt;  &lt;!-- 240px --&gt;
+&lt;nav class="mc-sidebar"&gt;...&lt;/nav&gt;              &lt;!-- 272px (default) --&gt;
+&lt;nav class="mc-sidebar mc-sidebar-lg"&gt;...&lt;/nav&gt;  &lt;!-- 304px --&gt;
+&lt;nav class="mc-sidebar mc-sidebar-xl"&gt;...&lt;/nav&gt;  &lt;!-- 336px --&gt;
+&lt;nav class="mc-sidebar mc-sidebar-xxl"&gt;...&lt;/nav&gt; &lt;!-- 368px --&gt;</div>
+    </div>
+
+</main>
+
+</body>
+</html>
