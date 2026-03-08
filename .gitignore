@@ -361,3 +361,10 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
+
+# Perception — build artifacts & temp files
+screenshots/
+*.png
+*.br
+src/dist/fonts/
+src/screenshot*.js
