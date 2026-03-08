@@ -261,9 +261,38 @@ All 7 hues follow the same luminance curve. Full hex tables for red, green, blue
 </div>
 ```
 
+### Sidebar
+
+Fixed vertical navigation panel with collapsible nested submenus:
+
+```html
+<nav class="mc-sidebar" data-hue="blue" data-mode="2">
+    <div class="mc-sidebar-brand">
+        <span class="mc-sidebar-brand-text">App Name</span>
+    </div>
+    <div class="mc-sidebar-nav">
+        <a href="#" class="mc-sidebar-link mc-sidebar-link-active">
+            <svg class="mc-sidebar-icon">...</svg> Dashboard
+        </a>
+        <div class="mc-sidebar-collapse">
+            <button class="mc-sidebar-collapse-toggle">
+                <svg class="mc-sidebar-icon">...</svg> Settings
+                <svg class="mc-sidebar-collapse-chevron">...</svg>
+            </button>
+            <div class="mc-sidebar-collapse-content">
+                <a href="#" class="mc-sidebar-link">General</a>
+                <a href="#" class="mc-sidebar-link">Security</a>
+            </div>
+        </div>
+    </div>
+</nav>
+```
+
+**Sizes:** `mc-sidebar-xs` | `mc-sidebar-sm` | *(md default)* | `mc-sidebar-lg` | `mc-sidebar-xl` | `mc-sidebar-xxl`
+
 ### Other Components
 
-Tables (`mc-table`), alerts (`mc-alert`), tabs (`mc-tabs`), progress bars (`mc-progress`), spinners (`mc-spinner`), avatars (`mc-avatar`), breadcrumbs (`mc-breadcrumb`), pagination (`mc-pagination`), code blocks (`mc-code`), kbd (`mc-kbd`), dividers (`mc-divider`), list groups (`mc-list-group`).
+Tables (`mc-table`), alerts (`mc-alert`), tabs (`mc-tabs`), progress bars (`mc-progress`), spinners (`mc-spinner`), avatars (`mc-avatar`), breadcrumbs (`mc-breadcrumb`), pagination (`mc-pagination`), code blocks (`mc-code`), kbd (`mc-kbd`), dividers (`mc-divider`), list groups (`mc-list-group`), cards (`mc-card`), dropdowns (`mc-dropdown`), stats (`mc-stat`), code mockups (`mc-code-mockup`), range sliders (`mc-range`).
 
 ---
 
@@ -473,21 +502,55 @@ This means **one set of variant rules** handles all 7 hues across all 5 surface 
 
 ## Demo Pages
 
+### Getting Started
+
 | Page | Description |
 |------|-------------|
 | [index.html](src/demo/index.html) | Component library overview |
-| [button.html](src/demo/button.html) | Button style guide — variants, sizes, modes, icons, groups |
-| [badges.html](src/demo/badges.html) | Badge style guide — filled, tonal, outline, shapes |
+| [getting-started.html](src/demo/getting-started.html) | Installation and quick start |
+
+### Foundation
+
+| Page | Description |
+|------|-------------|
+| [color.html](src/demo/color.html) | Full color palette reference — 7 hues x 10 steps |
 | [surface-modes.html](src/demo/surface-modes.html) | Interactive WCAG explorer — 7 hues x 5 modes with contrast auditing |
-| [forms.html](src/demo/forms.html) | Forms and input components |
-| [selection.html](src/demo/selection.html) | Checkboxes, radios, toggles, switches |
-| [color.html](src/demo/color.html) | Full color palette reference |
-| [components.html](src/demo/components.html) | All components showcase |
-| [panel.html](src/demo/panel.html) | Panel variants and color grid |
-| [input.html](src/demo/input.html) | Input size and color matrix |
+| [typography.html](src/demo/typography.html) | Typography specimens — Roboto family, headings, body, mono |
+
+### Components
+
+| Page | Description |
+|------|-------------|
+| [alert.html](src/demo/alert.html) | Alert style guide — filled, outline, dismissible |
+| [badges.html](src/demo/badges.html) | Badge style guide — filled, tonal, outline, shapes |
+| [breadcrumb.html](src/demo/breadcrumb.html) | Breadcrumb — custom dividers, size variants |
+| [button.html](src/demo/button.html) | Button style guide — filled, tonal, outline, ghost, icons, groups |
+| [button-group.html](src/demo/button-group.html) | Button groups — horizontal, vertical, toolbar layouts |
+| [card.html](src/demo/card.html) | Card — header, footer, body, group layout |
+| [code-mockup.html](src/demo/code-mockup.html) | Code mockup — terminal-style code blocks |
+| [dropdown.html](src/demo/dropdown.html) | Dropdowns — directions, alignment, menu states |
+| [input.html](src/demo/input.html) | Form inputs — text, password, search, icons, validation |
+| [list-group.html](src/demo/list-group.html) | List group — items, actions, flush, horizontal |
+| [navbar.html](src/demo/navbar.html) | Navbar — responsive, collapsible, fixed positions |
+| [navs-tabs.html](src/demo/navs-tabs.html) | Navs and tabs — tabs, pills, underline, vertical |
+| [pagination.html](src/demo/pagination.html) | Pagination — sizes, alignment, disabled states |
+| [panel-system.html](src/demo/panel-system.html) | Panels — surface mode panels with headers and bodies |
+| [progress.html](src/demo/progress.html) | Progress bars — striped, animated, stacked |
+| [range.html](src/demo/range.html) | Range slider — sizes, labels, ticks, tooltips |
+| [selection.html](src/demo/selection.html) | Selection controls — checkboxes, radios, toggles, switches |
+| [sidebar.html](src/demo/sidebar.html) | Sidebar — collapsible submenus, letter badges, avatars, all modes |
+| [spinner.html](src/demo/spinner.html) | Spinners — 12 animation types, all sizes |
+| [stat.html](src/demo/stat.html) | Stat — KPI cards with title, value, description, figures |
+| [table.html](src/demo/table.html) | Tables — striped, hover, bordered, sortable, responsive |
+
+### Patterns & Examples
+
+| Page | Description |
+|------|-------------|
+| [forms.html](src/demo/forms.html) | Form layout patterns and validation |
+| [dark-surfaces.html](src/demo/dark-surfaces.html) | Dark surface depth system — M2/M4 layering |
 | [trading-card.html](src/demo/trading-card.html) | Crypto trading card compositions |
 | [orderbook.html](src/demo/orderbook.html) | Orderbook interface demo |
-| [font.html](src/demo/font.html) | Typography specimens |
 
 ---
 
@@ -522,7 +585,7 @@ Perception/
     mcperception-components.css   # All other components
     package.json                  # Build scripts
     dist/                         # Compiled CSS output
-    demo/                         # 13 interactive demo pages
+    demo/                         # 30 interactive demo pages
 ```
 
 ---
@@ -535,10 +598,17 @@ Perception/
 - [x] Badge system (filled, tonal, outline) with surface mode support
 - [x] Claude Code skill integration (30 skill + prompt files)
 - [x] Interactive surface mode explorer with contrast visualization
-- [x] 13 demo/style guide pages
+- [x] Card component with header, footer, body, group layout
+- [x] Dropdown component with directions, alignment, menu states
+- [x] Breadcrumb component with custom dividers and size variants
+- [x] Button group component with horizontal, vertical, toolbar layouts
+- [x] Stat component for KPI cards
+- [x] Code mockup component for terminal-style blocks
+- [x] Range slider component with labels, ticks, tooltips
+- [x] Sidebar component with collapsible nested submenus
+- [x] 30 demo/style guide pages
 - [ ] Modal / dialog component
 - [ ] Toast / notification component
-- [ ] Card component with hue/mode support
 - [ ] Tooltip / popover component
 - [ ] Stepper / wizard component
 - [ ] Documentation site with live playground

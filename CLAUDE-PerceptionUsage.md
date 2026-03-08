@@ -372,6 +372,18 @@ Values: `1`, `2`, `3`, `4`, `5`
 - `mc-breadcrumb`, `mc-breadcrumb-xs` to `mc-breadcrumb-xxl`
 - `mc-breadcrumb-item`, `mc-breadcrumb-separator`
 
+### Navigation — Sidebar
+- `mc-sidebar`, `mc-sidebar-xs` to `mc-sidebar-xxl`
+- `mc-sidebar-brand`, `mc-sidebar-brand-icon`, `mc-sidebar-brand-text`
+- `mc-sidebar-nav`, `mc-sidebar-link`, `mc-sidebar-link-active`
+- `mc-sidebar-icon`, `mc-sidebar-badge`
+- `mc-sidebar-heading`, `mc-sidebar-divider`
+- `mc-sidebar-collapse`, `mc-sidebar-collapse-toggle`, `mc-sidebar-collapse-content`, `mc-sidebar-collapse-chevron`
+- `mc-sidebar-letter`, `mc-sidebar-avatar`
+- `mc-sidebar-footer`, `mc-sidebar-user`, `mc-sidebar-user-name`, `mc-sidebar-user-role`
+- `mc-sidebar-topbar`, `mc-sidebar-close`, `mc-sidebar-backdrop`
+- `mc-sidebar-collapsed` (width-collapsed state)
+
 ### Dropdowns
 - `mc-dropdown`, `mc-dropdown-xs` to `mc-dropdown-xxl`
 - `mc-dropdown-toggle`, `mc-dropdown-toggle-split`
@@ -542,6 +554,50 @@ Values: `1`, `2`, `3`, `4`, `5`
         </table>
     </div>
 </div>
+```
+
+### HTML — Sidebar with Nested Submenus
+```html
+<nav class="mc-sidebar" data-hue="blue" data-mode="2">
+    <div class="mc-sidebar-brand">
+        <span class="mc-sidebar-brand-text">My App</span>
+    </div>
+    <div class="mc-sidebar-nav">
+        <a href="#" class="mc-sidebar-link mc-sidebar-link-active">
+            <svg class="mc-sidebar-icon">...</svg> Dashboard
+        </a>
+        <div class="mc-sidebar-collapse">
+            <button class="mc-sidebar-collapse-toggle" onclick="this.parentElement.classList.toggle('open')">
+                <svg class="mc-sidebar-icon">...</svg> Settings
+                <svg class="mc-sidebar-collapse-chevron">...</svg>
+            </button>
+            <div class="mc-sidebar-collapse-content">
+                <a href="#" class="mc-sidebar-link">General</a>
+                <a href="#" class="mc-sidebar-link">Security</a>
+                <!-- Nested submenu (level 2) -->
+                <div class="mc-sidebar-collapse">
+                    <button class="mc-sidebar-collapse-toggle" onclick="this.parentElement.classList.toggle('open')">
+                        Advanced
+                        <svg class="mc-sidebar-collapse-chevron">...</svg>
+                    </button>
+                    <div class="mc-sidebar-collapse-content">
+                        <a href="#" class="mc-sidebar-link">API Keys</a>
+                        <a href="#" class="mc-sidebar-link">Webhooks</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="mc-sidebar-footer">
+        <div class="mc-sidebar-user">
+            <div class="mc-sidebar-avatar">JD</div>
+            <div>
+                <div class="mc-sidebar-user-name">Jane Doe</div>
+                <div class="mc-sidebar-user-role">Admin</div>
+            </div>
+        </div>
+    </div>
+</nav>
 ```
 
 ### Blazor / Razor — Component with Hue & Mode

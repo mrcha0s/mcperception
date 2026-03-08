@@ -11,73 +11,6 @@
     display: flex;
     min-height: 100vh;
 }
-.docs-sidebar {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 240px;
-    height: 100vh;
-    background: #222222;
-    border-right: 1px solid #222222;
-    overflow-y: auto;
-    z-index: 40;
-    display: flex;
-    flex-direction: column;
-    transition: transform 0.2s ease;
-}
-.docs-sidebar-header {
-    padding: 1.25rem 1.25rem 0.75rem;
-    border-bottom: 1px solid #222222;
-    display: flex;
-    align-items: baseline;
-    gap: 0.5rem;
-}
-.docs-logo {
-    font-size: 0.875rem;
-    font-weight: 700;
-    color: #FFFFFF;
-    text-decoration: none;
-    letter-spacing: -0.01em;
-}
-.docs-logo:hover { color: #c3c3c3; }
-.docs-version {
-    font-size: 0.625rem;
-    color: #515151;
-    font-family: 'Roboto Mono', ui-monospace, monospace;
-}
-.docs-sidebar-nav {
-    padding: 0.75rem 0;
-    flex: 1;
-}
-.docs-nav-group {
-    margin-bottom: 0.25rem;
-}
-.docs-nav-group-label {
-    font-size: 0.625rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
-    color: #515151;
-    padding: 0.625rem 1.25rem 0.375rem;
-}
-.docs-nav-link {
-    display: block;
-    font-size: 0.8125rem;
-    color: #a0a0a0;
-    text-decoration: none;
-    padding: 0.375rem 1.25rem;
-    border-left: 2px solid transparent;
-    transition: color 0.15s, border-color 0.15s, background 0.15s;
-}
-.docs-nav-link:hover {
-    color: #c3c3c3;
-    background: #222222;
-}
-.docs-nav-link.active {
-    color: #5252ff;
-    border-left-color: #5252ff;
-    background: #222222;
-}
 .docs-content {
     flex: 1;
     margin-left: 240px;
@@ -91,12 +24,12 @@
     left: 0.75rem;
     z-index: 50;
     background: #222222;
-    border: 1px solid #222222;
-    color: #a0a0a0;
+    border: 1px solid #373737;
+    color: #A0A0A0;
     font-size: 1.25rem;
     width: 36px;
     height: 36px;
-    border-radius: 6px;
+    border-radius: 3px;
     cursor: pointer;
     align-items: center;
     justify-content: center;
@@ -113,10 +46,11 @@
 }
 @media (max-width: 1023px) {
     #docs-hamburger { display: flex; }
-    .docs-sidebar {
+    #docs-sidebar {
         transform: translateX(-100%);
+        transition: transform 0.2s ease;
     }
-    .docs-sidebar.open {
+    #docs-sidebar.open {
         transform: translateX(0);
     }
     #docs-overlay.open {
@@ -266,64 +200,53 @@
     <div id="docs-overlay"></div>
 
     <div class="docs-layout">
-        <aside class="docs-sidebar" id="docs-sidebar">
-            <div class="docs-sidebar-header">
-                <a href="index.html" class="docs-logo">MC Perception</a>
-                <span class="docs-version">v1.0</span>
-            </div>
-            <nav class="docs-sidebar-nav">
-                <div class="docs-nav-group">
-                    <div class="docs-nav-group-label">Getting Started</div>
-                    <a href="index.html" class="docs-nav-link" data-page="index">Home</a>
-                    <a href="getting-started.html" class="docs-nav-link" data-page="getting-started">Getting Started</a>
-                </div>
-                <div class="docs-nav-group">
-                    <div class="docs-nav-group-label">Foundation</div>
-                    <a href="color.html" class="docs-nav-link" data-page="color">Color Palette</a>
-                    <a href="surface-modes.html" class="docs-nav-link" data-page="surface-modes">Surface Modes</a>
-                    <a href="typography.html" class="docs-nav-link" data-page="typography">Typography</a>
-                </div>
-                <div class="docs-nav-group">
-                    <div class="docs-nav-group-label">Components</div>
-                    <a href="button.html" class="docs-nav-link" data-page="button">Buttons</a>
-                    <a href="badges.html" class="docs-nav-link" data-page="badges">Badges</a>
-                    <a href="alert.html" class="docs-nav-link" data-page="alert">Alerts</a>
-                    <a href="progress.html" class="docs-nav-link" data-page="progress">Progress</a>
-                    <a href="spinner.html" class="docs-nav-link" data-page="spinner">Spinners</a>
-                    <a href="pagination.html" class="docs-nav-link" data-page="pagination">Pagination</a>
-                    <a href="list-group.html" class="docs-nav-link" data-page="list-group">List Group</a>
-                    <a href="dropdown.html" class="docs-nav-link" data-page="dropdown">Dropdowns</a>
-                    <a href="card.html" class="docs-nav-link" data-page="card">Card</a>
-                    <a href="button-group.html" class="docs-nav-link" data-page="button-group">Button Group</a>
-                    <a href="breadcrumb.html" class="docs-nav-link" data-page="breadcrumb">Breadcrumb</a>
-                    <a href="code-mockup.html" class="docs-nav-link" data-page="code-mockup">Code Mockup</a>
-                    <a href="stat.html" class="docs-nav-link" data-page="stat">Stat</a>
-                    <a href="navs-tabs.html" class="docs-nav-link" data-page="navs-tabs">Navs &amp; Tabs</a>
-                    <a href="navbar.html" class="docs-nav-link" data-page="navbar">Navbar</a>
-                    <a href="list-group.html" class="docs-nav-link" data-page="list-group">List Group</a>
-                    <a href="dropdown.html" class="docs-nav-link" data-page="dropdown">Dropdowns</a>
-                    <a href="card.html" class="docs-nav-link" data-page="card">Card</a>
-                    <a href="button-group.html" class="docs-nav-link" data-page="button-group">Button Group</a>
-                    <a href="breadcrumb.html" class="docs-nav-link" data-page="breadcrumb">Breadcrumb</a>
-                    <a href="code-mockup.html" class="docs-nav-link" data-page="code-mockup">Code Mockup</a>
-                    <a href="stat.html" class="docs-nav-link" data-page="stat">Stat</a>
-                    <a href="input.html" class="docs-nav-link" data-page="input">Form Inputs</a>
-                    <a href="selection.html" class="docs-nav-link" data-page="selection">Selection Controls</a>
-                    <a href="table.html" class="docs-nav-link" data-page="table">Tables</a>
-                    <a href="panel-system.html" class="docs-nav-link" data-page="panel-system">Panels</a>
-                </div>
-                <div class="docs-nav-group">
-                    <div class="docs-nav-group-label">Patterns</div>
-                    <a href="forms.html" class="docs-nav-link" data-page="forms">Form Layout</a>
-                    <a href="dark-surfaces.html" class="docs-nav-link" data-page="dark-surfaces">Dark Surface Depth</a>
-                </div>
-                <div class="docs-nav-group">
-                    <div class="docs-nav-group-label">Examples</div>
-                    <a href="trading-card.html" class="docs-nav-link" data-page="trading-card">Trading Card</a>
-                    <a href="orderbook.html" class="docs-nav-link" data-page="orderbook">Orderbook</a>
-                </div>
-            </nav>
-        </aside>
+        <nav class="mc-sidebar" data-hue="blue" data-mode="2" id="docs-sidebar" style="position: fixed; top: 0; left: 0; height: 100vh; z-index: 40; overflow-y: auto;">
+        <div class="mc-sidebar-brand">
+            <a href="index.html" class="mc-sidebar-brand-text" style="text-decoration: none; color: inherit;">MC Perception</a>
+            <span style="font-size: 0.625rem; color: #515151; font-family: 'Roboto Mono', ui-monospace, monospace;">v1.0</span>
+        </div>
+        <div class="mc-sidebar-nav">
+            <div class="mc-sidebar-heading">Getting Started</div>
+            <a href="index.html" class="mc-sidebar-link" data-page="index">Home</a>
+            <a href="getting-started.html" class="mc-sidebar-link" data-page="getting-started">Getting Started</a>
+            <div class="mc-sidebar-divider"></div>
+            <div class="mc-sidebar-heading">Foundation</div>
+            <a href="color.html" class="mc-sidebar-link" data-page="color">Color Palette</a>
+            <a href="surface-modes.html" class="mc-sidebar-link" data-page="surface-modes">Surface Modes</a>
+            <a href="typography.html" class="mc-sidebar-link" data-page="typography">Typography</a>
+            <div class="mc-sidebar-divider"></div>
+            <div class="mc-sidebar-heading">Components</div>
+            <a href="alert.html" class="mc-sidebar-link" data-page="alert">Alerts</a>
+            <a href="badges.html" class="mc-sidebar-link" data-page="badges">Badges</a>
+            <a href="breadcrumb.html" class="mc-sidebar-link" data-page="breadcrumb">Breadcrumb</a>
+            <a href="button.html" class="mc-sidebar-link" data-page="button">Buttons</a>
+            <a href="button-group.html" class="mc-sidebar-link" data-page="button-group">Button Group</a>
+            <a href="card.html" class="mc-sidebar-link" data-page="card">Card</a>
+            <a href="code-mockup.html" class="mc-sidebar-link" data-page="code-mockup">Code Mockup</a>
+            <a href="dropdown.html" class="mc-sidebar-link" data-page="dropdown">Dropdowns</a>
+            <a href="input.html" class="mc-sidebar-link" data-page="input">Form Inputs</a>
+            <a href="list-group.html" class="mc-sidebar-link" data-page="list-group">List Group</a>
+            <a href="navbar.html" class="mc-sidebar-link" data-page="navbar">Navbar</a>
+            <a href="navs-tabs.html" class="mc-sidebar-link" data-page="navs-tabs">Navs &amp; Tabs</a>
+            <a href="pagination.html" class="mc-sidebar-link" data-page="pagination">Pagination</a>
+            <a href="panel-system.html" class="mc-sidebar-link" data-page="panel-system">Panels</a>
+            <a href="progress.html" class="mc-sidebar-link" data-page="progress">Progress</a>
+            <a href="range.html" class="mc-sidebar-link" data-page="range">Range Slider</a>
+            <a href="selection.html" class="mc-sidebar-link" data-page="selection">Selection Controls</a>
+            <a href="sidebar.html" class="mc-sidebar-link" data-page="sidebar">Sidebar</a>
+            <a href="spinner.html" class="mc-sidebar-link" data-page="spinner">Spinners</a>
+            <a href="stat.html" class="mc-sidebar-link" data-page="stat">Stat</a>
+            <a href="table.html" class="mc-sidebar-link" data-page="table">Tables</a>
+            <div class="mc-sidebar-divider"></div>
+            <div class="mc-sidebar-heading">Patterns</div>
+            <a href="forms.html" class="mc-sidebar-link" data-page="forms">Form Layout</a>
+            <a href="dark-surfaces.html" class="mc-sidebar-link" data-page="dark-surfaces">Dark Surface Depth</a>
+            <div class="mc-sidebar-divider"></div>
+            <div class="mc-sidebar-heading">Examples</div>
+            <a href="trading-card.html" class="mc-sidebar-link" data-page="trading-card">Trading Card</a>
+            <a href="orderbook.html" class="mc-sidebar-link" data-page="orderbook">Orderbook</a>
+        </div>
+    </nav>
 
         <main class="docs-content">
             <div class="max-w-7xl mx-auto px-6 py-12">
@@ -1045,7 +968,7 @@
     <script>
     (function() {
         var page = location.pathname.split('/').pop().replace('.html','') || 'index';
-        var links = document.querySelectorAll('.docs-nav-link');
+        var links = document.querySelectorAll('.mc-sidebar-link');
         links.forEach(function(a) {
             if (a.getAttribute('data-page') === page) a.classList.add('active');
         });
