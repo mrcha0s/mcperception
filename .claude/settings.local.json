@@ -10,7 +10,18 @@
       "Bash(npx:*)",
       "Bash(node:*)",
       "Bash(ls:*)",
-      "Bash(wc:*)"
+      "Bash(wc:*)",
+      "Bash(npm install:*)",
+      "Bash(kill %1:*)",
+      "WebFetch(domain:daisyui.com)",
+      "Bash(do echo:*)",
+      "Bash(do:*)",
+      "mcp__chrome-devtools__list_pages",
+      "mcp__chrome-devtools__new_page"
     ]
-  }
+  },
+  "enableAllProjectMcpServers": true,
+  "enabledMcpjsonServers": [
+    "chrome-devtools"
+  ]
 }

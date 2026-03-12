@@ -4,47 +4,64 @@
   },
   "permissions": {
     "allow": [
-      "WebFetch(domain:designsystems.surf)",
-      "WebFetch(domain:hds.hel.fi)",
-      "WebFetch(domain:blog.logrocket.com)",
-      "WebFetch(domain:blog.uxtweak.com)",
-      "WebFetch(domain:www.nngroup.com)",
-      "WebFetch(domain:m1.material.io)",
-      "WebFetch(domain:www.eleken.co)",
-      "WebFetch(domain:m3.material.io)",
       "Read(*)",
+      "Edit(*)",
+      "Write(*)",
       "Grep(*)",
       "Glob(*)",
-      "Bash(git diff*)",
-      "Bash(git status*)",
-      "Bash(for f in mcperception-input.css mcperception-panel.css mcperception-components.css demo/index.html demo/forms.html demo/trading-card.html demo/color.html demo/components.html demo/button.html demo/badges.html)",
-      "Bash(do sed -i 's/p-neutral-3000/p-neutral-300/g; s/p-red-2000/p-red-200/g; s/p-green-2000/p-green-200/g; s/p-blue-2000/p-blue-200/g; s/p-yellow-2000/p-yellow-200/g; s/p-magenta-2000/p-magenta-200/g; s/p-teal-2000/p-teal-200/g' \"$f\")",
+      "Bash(*)",
+      "WebFetch(*)",
+      "Agent(*)",
+      "Read",
+      "Edit",
+      "Write",
+      "Grep",
+      "Glob",
+      "Bash",
+      "WebFetch",
+      "Agent",
+      "Bash(npm run tw:build)",
+      "Bash(npm run css:build)",
+      "Bash(for f in badges.html button.html color.html dark-surfaces.html forms.html getting-started.html index.html input.html orderbook.html panel-system.html selection.html surface-modes.html table.html trading-card.html typography.html alert.html)",
+      "Bash(do sed -i '/<a href=\"\"alert.html\"\" class=\"\"docs-nav-link\"\" data-page=\"\"alert\"\">Alerts<\\\\/a>/a\\\\                    <a href=\"\"progress.html\"\" class=\"\"docs-nav-link\"\" data-page=\"\"progress\"\">Progress<\\\\/a>' \"$f\")",
       "Bash(echo \"Fixed: $f\")",
       "Bash(done)",
-      "Read(//c/Users/melik/AppData/Local/Temp/**)",
-      "Bash(node /c/Users/melik/AppData/Local/Temp/migrate-buttons.js)",
-      "Bash(node /c/Users/melik/AppData/Local/Temp/wcag-audit-buttons.js)",
-      "Bash(node \"C:/Users/melik/AppData/Local/Temp/wcag-audit-buttons.js\")",
-      "Bash(node \"C:/Users/melik/AppData/Local/Temp/wcag-text-tiers.js\")",
-      "Bash(for f in panel-system.html dark-surfaces.html forms.html getting-started.html index.html trading-card.html input.html orderbook.html button.html color.html surface-modes.html typography.html badges.html selection.html)",
-      "Bash(do sed -i 's|<a href=\"\"panel-system.html\"\" class=\"\"docs-nav-link\"\" data-page=\"\"panel-system\"\">Panels</a>|<a href=\"\"table.html\"\" class=\"\"docs-nav-link\"\" data-page=\"\"table\"\">Tables</a>\\\\n            <a href=\"\"panel-system.html\"\" class=\"\"docs-nav-link\"\" data-page=\"\"panel-system\"\">Panels</a>|' \"$f\")",
-      "Bash(for f in badges.html button.html input.html selection.html table.html forms.html color.html dark-surfaces.html surface-modes.html panel-system.html typography.html trading-card.html orderbook.html)",
-      "Bash(do echo \"=== $f ===\" echo \"MODES:\" grep -o 'data-mode=\"\"[0-9]\"\"' \"$f\")",
-      "Bash(do echo \"=== $f SIZES ===\" grep -oiE '\\\\bmc-badge-xs\\\\b|\\\\bmc-badge-sm\\\\b|\\\\bmc-badge-md\\\\b|\\\\bmc-badge-lg\\\\b|\\\\bmc-badge-xl\\\\b|\\\\bmc-badge-xxl\\\\b|\\\\bmc-btn-xs\\\\b|\\\\bmc-btn-sm\\\\b|\\\\bmc-btn-md\\\\b|\\\\bmc-btn-lg\\\\b|\\\\bmc-btn-xl\\\\b|\\\\bmc-btn-xxl\\\\b|\\\\bmc-input-xs\\\\b|\\\\bmc-input-sm\\\\b|\\\\bmc-input-md\\\\b|\\\\bmc-input-lg\\\\b|\\\\bmc-input-xl\\\\b|\\\\bmc-input-xxl\\\\b|size-xs|size-sm|size-md|size-lg|size-xl|size-xxl|data-size=\"\"xs\"\"|data-size=\"\"sm\"\"|data-size=\"\"md\"\"|data-size=\"\"lg\"\"|data-size=\"\"xl\"\"|data-size=\"\"xxl\"\"' \"$f\")",
-      "Bash(do echo \"=== $f HUES ===\" grep -oiE 'data-hue=\"\"neutral\"\"|data-hue=\"\"red\"\"|data-hue=\"\"green\"\"|data-hue=\"\"blue\"\"|data-hue=\"\"yellow\"\"|data-hue=\"\"magenta\"\"|data-hue=\"\"teal\"\"' \"$f\")",
-      "Bash(for f in *.html)",
-      "Bash(do sed -i 's/background: rgba\\(255,255,255,0.03\\);/background: #222222;/g; s/background: rgba\\(82,82,255,0.06\\);/background: #222222;/g; s/background: rgba\\(10,10,10,0.7\\);/background: #090909;/g' \"$f\")",
-      "Bash(sort -t: -k2 -u)",
-      "Bash(while IFS=: read line hex)",
-      "Bash(do echo \"$line:$hex\")",
-      "Bash(sed 's/:$//')",
+      "Bash(for f in badges.html button.html color.html dark-surfaces.html forms.html getting-started.html index.html input.html orderbook.html panel-system.html selection.html surface-modes.html table.html trading-card.html typography.html alert.html progress.html)",
+      "Bash(do sed -i '/<a href=\"\"progress.html\"\" class=\"\"docs-nav-link\"\" data-page=\"\"progress\"\">Progress<\\\\/a>/a\\\\                    <a href=\"\"spinner.html\"\" class=\"\"docs-nav-link\"\" data-page=\"\"spinner\"\">Spinners<\\\\/a>' \"$f\")",
+      "Bash(for f in alert.html badges.html button.html color.html dark-surfaces.html forms.html getting-started.html index.html input.html orderbook.html panel-system.html progress.html selection.html spinner.html surface-modes.html table.html trading-card.html typography.html _docs-shared.html)",
+      "Bash(do sed -i 's|<a href=\"\"spinner.html\"\" class=\"\"docs-nav-link\"\" data-page=\"\"spinner\"\">Spinners</a>|<a href=\"\"spinner.html\"\" class=\"\"docs-nav-link\"\" data-page=\"\"spinner\"\">Spinners</a>\\\\n                    <a href=\"\"pagination.html\"\" class=\"\"docs-nav-link\"\" data-page=\"\"pagination\"\">Pagination</a>|' \"$f\")",
+      "Bash(for f in badges.html button.html color.html dark-surfaces.html forms.html getting-started.html index.html input.html orderbook.html panel-system.html selection.html surface-modes.html table.html trading-card.html typography.html alert.html progress.html spinner.html pagination.html)",
+      "Bash(do sed -i '/<a href=\"\"pagination.html\"\" class=\"\"docs-nav-link\"\" data-page=\"\"pagination\"\">Pagination<\\\\/a>/a\\\\                    <a href=\"\"navs-tabs.html\"\" class=\"\"docs-nav-link\"\" data-page=\"\"navs-tabs\"\">Navs \\\\&amp; Tabs<\\\\/a>' \"$f\")",
+      "Bash(for f in _docs-shared.html alert.html badges.html button.html color.html dark-surfaces.html forms.html getting-started.html index.html input.html navs-tabs.html orderbook.html pagination.html panel-system.html progress.html selection.html spinner.html surface-modes.html table.html trading-card.html typography.html navbar.html)",
+      "Bash(do sed -i 's|<a href=\"\"navs-tabs.html\"\" class=\"\"docs-nav-link\"\" data-page=\"\"navs-tabs\"\">Navs \\\\&amp; Tabs</a>|<a href=\"\"navs-tabs.html\"\" class=\"\"docs-nav-link\"\" data-page=\"\"navs-tabs\"\">Navs \\\\&amp; Tabs</a>\\\\n                    <a href=\"\"navbar.html\"\" class=\"\"docs-nav-link\"\" data-page=\"\"navbar\"\">Navbar</a>|' \"$f\")",
+      "Bash(for f in _docs-shared.html alert.html badges.html button.html color.html dark-surfaces.html forms.html getting-started.html index.html input.html navs-tabs.html navbar.html orderbook.html pagination.html panel-system.html progress.html selection.html spinner.html surface-modes.html table.html trading-card.html typography.html list-group.html)",
+      "Bash(do sed -i 's|<a href=\"\"navbar.html\"\" class=\"\"docs-nav-link\"\" data-page=\"\"navbar\"\">Navbar</a>|<a href=\"\"navbar.html\"\" class=\"\"docs-nav-link\"\" data-page=\"\"navbar\"\">Navbar</a>\\\\n                    <a href=\"\"list-group.html\"\" class=\"\"docs-nav-link\"\" data-page=\"\"list-group\"\">List Group</a>|' \"$f\")",
+      "Bash(for f in _docs-shared.html alert.html badges.html button.html color.html dark-surfaces.html dropdown.html forms.html getting-started.html index.html input.html navs-tabs.html navbar.html orderbook.html pagination.html panel-system.html progress.html selection.html spinner.html surface-modes.html table.html trading-card.html typography.html list-group.html card.html)",
+      "Bash(do sed -i 's|<a href=\"\"dropdown.html\"\" class=\"\"docs-nav-link\"\" data-page=\"\"dropdown\"\">Dropdowns</a>|<a href=\"\"dropdown.html\"\" class=\"\"docs-nav-link\"\" data-page=\"\"dropdown\"\">Dropdowns</a>\\\\n                    <a href=\"\"card.html\"\" class=\"\"docs-nav-link\"\" data-page=\"\"card\"\">Card</a>|' \"$f\")",
+      "Bash(for f in _docs-shared.html alert.html badges.html button.html color.html dark-surfaces.html dropdown.html forms.html getting-started.html index.html input.html navs-tabs.html navbar.html orderbook.html pagination.html panel-system.html progress.html selection.html spinner.html surface-modes.html table.html trading-card.html typography.html list-group.html card.html button-group.html)",
+      "Bash(do sed -i 's|<a href=\"\"card.html\"\" class=\"\"docs-nav-link\"\" data-page=\"\"card\"\">Card</a>|<a href=\"\"card.html\"\" class=\"\"docs-nav-link\"\" data-page=\"\"card\"\">Card</a>\\\\n                    <a href=\"\"button-group.html\"\" class=\"\"docs-nav-link\"\" data-page=\"\"button-group\"\">Button Group</a>|' \"$f\")",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\" http://localhost:3000/demo/dropdown.html)",
+      "Bash(/tmp/validate_dropdown.txt:*)",
+      "Read(//c/src/Perception/$APPDATA/Claude/**)",
+      "Bash(/tmp/check_dark_rules.sh:*)",
+      "Bash(__NEW_LINE_c2feac488c2be5be__ bash /tmp/check_dark_rules.sh)",
+      "Bash(/tmp/check_variants.sh:*)",
+      "Bash(__NEW_LINE_829e7be18a25dc05__ bash /tmp/check_variants.sh)",
+      "Bash(/tmp/final_report.md:*)",
+      "Bash(__NEW_LINE_cd71ccb6495e0d13__ cat /tmp/final_report.md)",
+      "Bash(/tmp/check_palette.txt:*)",
+      "Read(//c/src/Perception/src/**)",
       "Read(//c/src/Perception/**)",
-      "Bash(do sed -i '/<a href=\"\"badges.html\"\" class=\"\"docs-nav-link\"\" data-page=\"\"badges\"\">Badges<\\\\/a>/a\\\\                    <a href=\"\"alert.html\"\" class=\"\"docs-nav-link\"\" data-page=\"\"alert\"\">Alerts<\\\\/a>' \"$f\")",
-      "Bash(npm run tw:build)",
-      "Bash(npm run css:build)"
+      "Bash(python3:*)",
+      "Bash(fi)",
+      "Read(//c/Users/melik/.claude/**)",
+      "mcp__chrome-devtools__navigate_page",
+      "mcp__chrome-devtools__take_screenshot",
+      "Read(//c/Users/melik/AppData/Local/Temp/claude/c--src-Perception/tasks/**)",
+      "mcp__chrome-devtools__evaluate_script"
     ],
     "additionalDirectories": [
-      "C:\\Users\\melik\\AppData\\Local\\Temp"
+      "\\tmp"
     ]
   },
   "hooks": {
@@ -59,15 +76,7 @@
         ]
       }
     ],
-    "Stop": [
-      {
-        "hooks": [
-          {
-            "type": "agent",
-            "timeout": 120
-          }
-        ]
-      }
+    "Stop": [  
     ],
     "SessionStart": [
       {
