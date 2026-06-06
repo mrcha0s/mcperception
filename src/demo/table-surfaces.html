@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Surface-aware Tables — MC Perception</title>
+    <link rel="stylesheet" href="../dist/mcperception.css">
+    <link rel="stylesheet" href="../mc-table-surface.css">
+    <style>
+/* ── Demo chrome — palette-compliant only (table colors come from JS at runtime) ── */
+*, *::before, *::after { box-sizing: border-box; }
+body { margin: 0; font-family: var(--font-sans); background: #0A0A0A; color: #FFFFFF; }
+.pg-layout { display: flex; min-height: 100vh; }
+.pg-rail { width: 248px; flex-shrink: 0; position: fixed; top: 0; left: 0; height: 100vh; overflow-y: auto;
+    background: #090909; border-right: 1px solid #222222; padding: 18px 16px 40px; }
+.pg-brand { font-family: var(--font-slab); font-weight: 600; font-size: 18px; color: #FFFFFF; margin: 0 0 2px; }
+.pg-brand-sub { font-family: var(--font-mono); font-size: 10px; color: #A0A0A0; margin: 0 0 22px; letter-spacing: .04em; }
+.pg-group { margin-bottom: 20px; }
+.pg-group-label { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .12em; color: #A0A0A0; margin: 0 0 9px; }
+.pg-opts { display: flex; flex-wrap: wrap; gap: 6px; }
+.pg-opt { font-family: var(--font-condensed); font-size: 12px; font-weight: 500; line-height: 1;
+    padding: 6px 11px; border-radius: 3px; cursor: pointer; background: #222222; color: #C3C3C3; border: 1px solid #373737; }
+.pg-opt:hover { background: #373737; color: #FFFFFF; }
+.pg-opt[aria-pressed="true"] { background: #5252FF; color: #FFFFFF; border-color: #5252FF; }
+.pg-opt:focus-visible { outline: 2px solid #6D6DFF; outline-offset: 1px; }
+.pg-swatches { display: flex; flex-wrap: wrap; gap: 7px; }
+.pg-swatch { width: 28px; height: 28px; border-radius: 3px; cursor: pointer; padding: 0; border: 1px solid #373737; }
+.pg-swatch[aria-pressed="true"] { border: 2px solid #FFFFFF; }
+.pg-swatch:focus-visible { outline: 2px solid #FFFFFF; outline-offset: 2px; }
+.pg-aa { font-family: var(--font-mono); font-size: 11px; margin-top: 6px; padding: 7px 10px; border-radius: 3px;
+    border: 1px solid #373737; background: #222222; color: #C3C3C3; line-height: 1.5; }
+.pg-aa[data-state="pass"] { border-color: #00BA00; color: #00BA00; }
+.pg-aa[data-state="fail"] { border-color: #FF7474; color: #FF7474; }
+.pg-aa .small { color: #A0A0A0; font-size: 10px; }
+.pg-aa[data-state="pass"] .small { color: #62FF62; }
+
+/* scene */
+.pg-scene { margin-left: 248px; flex: 1; min-width: 0; padding: 0; }
+.surface { min-height: 100vh; padding: 56px 48px; display: flex; flex-direction: column; gap: 28px; align-items: flex-start; }
+.surface-meta { font-family: var(--font-mono); font-size: 11px; }
+.tableHost { width: 100%; max-width: 640px; }
+
+/* density (demo control) — affects only padding/size, never the audited colors */
+.d-xs table.dt th, .d-xs table.dt td { padding: 4px 10px; font-size: 11px; }
+.d-xs .tcard .thead-row { padding: 9px 10px 7px; }
+.d-sm table.dt th, .d-sm table.dt td { padding: 6px 12px; font-size: 12px; }
+.d-sm .tcard .thead-row { padding: 11px 12px 9px; }
+/* md = the mc-table-surface.css defaults */
+    </style>
+</head>
+<body>
+    <div class="pg-layout">
+        <aside class="pg-rail">
+            <div class="pg-brand">MC Perception</div>
+            <div class="pg-brand-sub">Surface-aware Tables</div>
+
+            <div class="pg-group">
+                <div class="pg-group-label">Hue</div>
+                <div class="pg-swatches" id="ctl-hue"></div>
+            </div>
+            <div class="pg-group">
+                <div class="pg-group-label">Surface mode</div>
+                <div class="pg-opts" id="ctl-mode"></div>
+            </div>
+            <div class="pg-group">
+                <div class="pg-group-label">Context</div>
+                <div class="pg-opts" id="ctl-ctx"></div>
+            </div>
+            <div class="pg-group">
+                <div class="pg-group-label">Density</div>
+                <div class="pg-opts" id="ctl-density"></div>
+            </div>
+            <div class="pg-group">
+                <div class="pg-group-label">WCAG audit</div>
+                <div class="pg-aa" id="pg-aa">—</div>
+            </div>
+        </aside>
+
+        <main class="pg-scene">
+            <div class="surface" id="scene">
+                <div class="surface-meta" id="scene-meta"></div>
+                <div class="tableHost" id="host"></div>
+            </div>
+        </main>
+    </div>
+
+<script>
+/* Load the ES module via dynamic import (robust across environments), then run the demo. */
+import('../mc-table-surface.js').then(({ theme, applyTableTheme, ratio, L, PAL }) => {
+const parse = hex => hex.startsWith('rgb') ? hex.match(/\d+/g).map(Number)
+  : [0,2,4].map(i => parseInt(hex.replace('#','').slice(i,i+2),16));
+
+const HUES = Object.keys(PAL);            // neutral red green blue yellow magenta teal
+const MODES = [1,2,3,4,5];
+const S = { hue:'blue', mode:5, ctx:false, density:'md', sortKey:'pnl', sortDir:-1 };
+
+/* ── sample dataset ── */
+const DATA = [
+  { sym:'AAPL', name:'Apple Inc.',     pnl:  2688, chg:  1.84, side:'LONG',  status:'Open',    sh:'green'   },
+  { sym:'TSLA', name:'Tesla Inc.',     pnl: -1204, chg: -2.31, side:'SHORT', status:'Open',    sh:'green'   },
+  { sym:'NVDA', name:'NVIDIA Corp.',   pnl:  5142, chg:  4.12, side:'LONG',  status:'Open',    sh:'green'   },
+  { sym:'MSFT', name:'Microsoft',      pnl:   312, chg:  0.21, side:'LONG',  status:'Pending', sh:'yellow'  },
+  { sym:'AMZN', name:'Amazon.com',     pnl:  -640, chg: -0.94, side:'SHORT', status:'Pending', sh:'yellow'  },
+  { sym:'META', name:'Meta Platforms', pnl:   -70, chg: -0.08, side:'LONG',  status:'Closed',  sh:'neutral' },
+];
+const fmt = n => (n>0?'+':'') + n.toLocaleString('en-US');
+const fpct = n => (n>0?'+':'') + n.toFixed(2) + '%';
+
+/* ── build controls ── */
+const hueWrap = document.getElementById('ctl-hue');
+hueWrap.innerHTML = HUES.map(h =>
+  `<button class="pg-swatch" data-h="${h}" title="${h}" aria-pressed="${h===S.hue}" style="background:var(--color-p-${h}-500)"></button>`).join('');
+const opt = (id, list, cur, fmtL) => document.getElementById(id).innerHTML =
+  list.map(v => `<button class="pg-opt" data-v="${v}" aria-pressed="${String(v)===String(cur)}">${fmtL?fmtL(v):v}</button>`).join('');
+opt('ctl-mode', MODES, S.mode, m=>'M'+m);
+opt('ctl-ctx', ['false','true'], String(S.ctx), v=> v==='true' ? 'In panel' : 'On surface');
+opt('ctl-density', ['xs','sm','md'], S.density);
+
+document.querySelector('.pg-rail').addEventListener('click', e => {
+  const b = e.target.closest('button'); if (!b) return;
+  if (b.dataset.h) { S.hue = b.dataset.h; hueWrap.querySelectorAll('.pg-swatch').forEach(s=>s.setAttribute('aria-pressed', s.dataset.h===S.hue)); }
+  else { const grp = b.closest('.pg-opts').id, v = b.dataset.v;
+    if (grp==='ctl-mode') S.mode = +v;
+    else if (grp==='ctl-ctx') S.ctx = (v==='true');
+    else if (grp==='ctl-density') S.density = v;
+    else return;
+    b.closest('.pg-opts').querySelectorAll('.pg-opt').forEach(o=>o.setAttribute('aria-pressed', o.dataset.v===v));
+  }
+  render();
+});
+
+/* ── table markup ── */
+function rowsHtml() {
+  const rows = [...DATA].sort((a,b)=>{
+    let x=a[S.sortKey], y=b[S.sortKey];
+    if (typeof x==='string') return S.sortDir * x.localeCompare(y);
+    return S.sortDir * (x-y);
+  });
+  return rows.map(r => `<tr>
+    <td class="sym">${r.sym}<span class="sub2">${r.name}</span></td>
+    <td class="num ${r.pnl>=0?'pos':'neg'}">${fmt(r.pnl)}</td>
+    <td class="num ${r.chg>=0?'pos':'neg'}">${fpct(r.chg)}</td>
+    <td class="${r.side==='LONG'?'pos':'neg'}" style="font-weight:600">${r.side}</td>
+    <td><span class="mc-badge mc-badge-filled mc-badge-xs" data-hue="${r.sh}">${r.status}</span></td>
+  </tr>`).join('');
+}
+const arrow = k => S.sortKey===k ? (S.sortDir<0?'▼':'▲') : '▲▼';
+const sortedCls = k => S.sortKey===k ? ' sorted' : '';
+function tableHtml() {
+  const net = DATA.reduce((s,r)=>s+r.pnl,0);
+  return `<div class="tcard">
+    <div class="thead-row"><div class="tt">Open <span>Positions</span></div><div class="thint">click a header to sort</div></div>
+    <table class="dt">
+      <thead><tr>
+        <th data-k="sym" class="${sortedCls('sym')}">Symbol<span class="ar">${arrow('sym')}</span></th>
+        <th data-k="pnl" class="num${sortedCls('pnl')}">P&amp;L<span class="ar">${arrow('pnl')}</span></th>
+        <th data-k="chg" class="num${sortedCls('chg')}">Change<span class="ar">${arrow('chg')}</span></th>
+        <th>Side</th>
+        <th>Status</th>
+      </tr></thead>
+      <tbody>${rowsHtml()}</tbody>
+      <tfoot><tr>
+        <td class="foot-label">net</td>
+        <td class="num ${net>=0?'pos':'neg'}">${fmt(net)}</td>
+        <td colspan="3"></td>
+      </tr></tfoot>
+    </table>
+  </div>`;
+}
+
+/* ── live audit of the current scenario (the 14 §Denetim pairs + header-darkest) ── */
+function auditCurrent(t) {
+  const Lh=L(parse(t.thBg)),Ls=L(parse(t.stripe)),Lv=L(parse(t.hover));
+  const headerDarkest = (Lh<=Ls+0.002 && Lh<=Lv+0.002);
+  const pairs=[[t.fg,t.base],[t.fg,t.stripe],[t.fg,t.hover],[t.mut,t.thBg],[t.tacc,t.thBg],
+    [t.mut,t.base],[t.mut,t.stripe],[t.mut,t.hover],
+    [t.pos,t.base],[t.pos,t.stripe],[t.pos,t.hover],
+    [t.neg,t.base],[t.neg,t.stripe],[t.neg,t.hover]];
+  let min=99, fails=0;
+  for (const [c,b] of pairs){ const r=ratio(c,b); min=Math.min(min,r); if(r<4.5) fails++; }
+  return { headerDarkest, fails, min:+min.toFixed(2) };
+}
+/* full 70-scenario §Denetim (run once, logged) */
+function auditAll() {
+  let ord=0, aa=0, gmin=99;
+  for (const h of HUES) for (const m of MODES) for (const ip of [false,true]) {
+    const t=theme(h,m,ip);
+    const Lh=L(parse(t.thBg)),Ls=L(parse(t.stripe)),Lv=L(parse(t.hover));
+    if(!(Lh<=Ls+0.002 && Lh<=Lv+0.002)) ord++;
+    const pairs=[[t.fg,t.base],[t.fg,t.stripe],[t.fg,t.hover],[t.mut,t.thBg],[t.tacc,t.thBg],
+      [t.mut,t.base],[t.mut,t.stripe],[t.mut,t.hover],
+      [t.pos,t.base],[t.pos,t.stripe],[t.pos,t.hover],
+      [t.neg,t.base],[t.neg,t.stripe],[t.neg,t.hover]];
+    for(const [c,b] of pairs){const r=ratio(c,b);gmin=Math.min(gmin,r);if(r<4.5)aa++;}
+  }
+  return { headerNotDarkest:ord, aaFails:aa, globalMin:+gmin.toFixed(2) };
+}
+
+/* ── render ── */
+const host = document.getElementById('host');
+const scene = document.getElementById('scene');
+let ALL = null;
+function render() {
+  // table content
+  let html = tableHtml();
+  if (S.ctx) html = `<div class="panelwrap"><div class="ptitle"><span class="pdot"></span>Portfolio panel</div>${html}</div>`;
+  host.innerHTML = html;
+  host.className = 'tableHost d-' + S.density;
+  // theme → host vars + scene background = surface color
+  const t = applyTableTheme(host, { hue:S.hue, mode:S.mode, inPanel:S.ctx });
+  scene.style.background = t.sBg;
+  // meta line (readable on the surface): use the card's fg-ish — keep mono, color via theme fg of the surface
+  const onLight = L(parse(t.sBg)) > 0.45;
+  const meta = document.getElementById('scene-meta');
+  meta.textContent = `hue ${S.hue} · M${S.mode} · ${S.ctx?'in panel':'on surface'} · density ${S.density}`;
+  meta.style.color = onLight ? '#0A0A0A' : '#FAFAFA';
+  // sort handlers
+  host.querySelectorAll('th[data-k]').forEach(th => th.addEventListener('click', () => {
+    const k = th.dataset.k;
+    if (S.sortKey===k) S.sortDir *= -1; else { S.sortKey=k; S.sortDir=-1; }
+    render();
+  }));
+  // audit
+  if (!ALL) ALL = auditAll();
+  const a = auditCurrent(t);
+  const ok = a.fails===0 && a.headerDarkest && ALL.aaFails===0 && ALL.headerNotDarkest===0;
+  const aa = document.getElementById('pg-aa');
+  aa.setAttribute('data-state', ok ? 'pass' : 'fail');
+  aa.innerHTML = `${ok?'✓':'✗'} AA — this view min ${a.min.toFixed(2)}:1`
+    + `<br><span class="small">70 scenarios: ${ALL.aaFails} fail · header-darkest ${ALL.headerNotDarkest===0?'ok':'BROKEN'} · global min ${ALL.globalMin.toFixed(2)}</span>`;
+  window.__TABLE_AUDIT = ALL;
+}
+render();
+console.log('§Denetim (70 scenarios):', auditAll());
+}).catch(e => { console.error('mc-table-surface.js failed to load', e); const aa=document.getElementById('pg-aa'); if(aa){ aa.textContent='module load error'; aa.setAttribute('data-state','fail'); } });
+</script>
+</body>
+</html>

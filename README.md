@@ -606,13 +606,56 @@ Perception/
 - [x] Code mockup component for terminal-style blocks
 - [x] Range slider component with labels, ticks, tooltips
 - [x] Sidebar component with collapsible nested submenus
-- [x] 30 demo/style guide pages
+- [x] MC Perception brand identity (Roboto Slab wordmark + monogram)
+- [x] 6 brand & foundation guideline pages (ethos, wordmark, color picker, semantic mapping, depth layers, radius & rhythm)
+- [x] Interactive component Playground — live hue / surface-mode / size / depth / state explorer, WCAG-audited every render
+- [x] Surface / panel-aware opaque-card table layer — palette-only, WCAG AA across all 70 hue × mode × context scenarios
+- [x] 38 demo / style-guide / guideline pages
 - [ ] Modal / dialog component
 - [ ] Toast / notification component
 - [ ] Tooltip / popover component
 - [ ] Stepper / wizard component
-- [ ] Documentation site with live playground
 - [ ] npm package distribution
+
+---
+
+## Surface / Panel-aware table
+
+`mc-table-surface` is an additive, **opaque-card** data-table layer that renders WCAG AA across **every hue × surface mode**, both directly on a surface and inside a panel. The card carries its own opaque surface, so the underlying surface/panel color shows only in the margin — semantic green/red values always sit on a neutral row background and stay readable even on vivid light/mid-hue (M3/M5) surfaces.
+
+**Files** (additive — the framework `mcperception-*.css` is *not* modified):
+
+- `src/mc-table-surface.css` — `.tcard` / `table.dt` / `.panelwrap` styles, themed via CSS custom properties.
+- `src/mc-table-surface.js` — `applyTableTheme(el, { hue, mode, inPanel })` computes the opaque card surface + AA-safe text colors and writes them as CSS variables on `el`. Also exports `theme()`, `PAL`, `L`, `ratio`.
+
+**Usage:**
+
+```html
+<link rel="stylesheet" href="dist/mcperception.css">
+<link rel="stylesheet" href="mc-table-surface.css">
+
+<div class="tableHost">
+  <div class="tcard">
+    <div class="thead-row"><div class="tt">Open <span>Positions</span></div></div>
+    <table class="dt"> … </table>
+  </div>
+</div>
+
+<script type="module">
+  import { applyTableTheme } from './mc-table-surface.js';
+  applyTableTheme(document.querySelector('.tableHost'), { hue: 'blue', mode: 5, inPanel: false });
+</script>
+```
+
+For panel context, wrap the `.tcard` in `.panelwrap` and pass `inPanel: true`. P&L / % cells take `pos` / `neg`; status uses solid `mc-badge-filled` (AA on any background).
+
+**Guarantees** — verified across all **70 scenarios** (7 hues × 5 modes × {surface, panel}):
+
+- Header is always the darkest region (`header > hover > stripe > base`).
+- Every text/background pair — *including stripe and hover states* — passes WCAG AA. **Global minimum contrast 4.50:1, zero failures.**
+- **Palette-only:** every colour (card surface, header, stripe, hover, border, text, accents) is a real `--color-p-*` step — no computed blends, no off-palette hex. Semantic color only in data; hue accent only on the header underline + active sort indicator.
+
+**Demo:** [`src/demo/table-surfaces.html`](src/demo/table-surfaces.html) — live hue / surface-mode / context / density switcher with a built-in WCAG audit badge. A surface-aware companion to the framework's plain `mc-table` primitive (which is kept, not removed).
 
 ---
 

@@ -368,3 +368,5 @@ screenshots/
 *.br
 src/dist/fonts/
 src/screenshot*.js
+# Claude Design source package (transient extract used to apply the design-system update; not part of the framework)
+claude-design-system/

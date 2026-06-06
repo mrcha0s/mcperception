@@ -1,0 +1,579 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Semantic Mapping — MC Perception</title>
+    <link rel="stylesheet" href="../dist/mcperception.css">
+    <link rel="stylesheet" href="_docs.css">
+    <style>
+
+/* ── Page-specific styles ── */
+
+/* Semantic role card — one per intent → hue mapping */
+.role-card {
+    border: 1px solid #222222;
+    border-radius: 6px;
+    padding: 16px 18px;
+    background: #090909;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+.role-card-head { display: flex; align-items: center; gap: 12px; }
+.role-swatch {
+    width: 44px; height: 44px;
+    border-radius: 3px;
+    border: 1px solid #373737;
+    flex-shrink: 0;
+}
+.role-meta { min-width: 0; }
+.role-name { font-size: 15px; font-weight: 700; color: #FFFFFF; line-height: 1.2; }
+.role-hue {
+    font-family: 'Roboto Mono', ui-monospace, monospace;
+    font-size: 11px;
+    color: #A0A0A0;
+    margin-top: 2px;
+}
+.role-label {
+    font-size: 9px; font-weight: 700;
+    text-transform: uppercase; letter-spacing: 0.08em;
+    color: #A0A0A0;
+    margin-bottom: 4px;
+}
+.role-usage { font-size: 12px; line-height: 1.5; color: #A0A0A0; }
+.role-examples { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+
+/* Swatch ramp strip (steps 200/400/600/800) */
+.ramp { display: flex; border-radius: 3px; overflow: hidden; border: 1px solid #222222; }
+.ramp-cell {
+    flex: 1; height: 22px;
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Roboto Mono', ui-monospace, monospace;
+    font-size: 8px; font-weight: 700;
+}
+
+/* Intent table */
+.intent-table { width: 100%; border-collapse: collapse; font-size: 12px; }
+.intent-table th {
+    text-align: left; padding: 6px 8px;
+    font-weight: 700; font-size: 10px; color: #A0A0A0;
+    border-bottom: 2px solid #373737;
+    text-transform: uppercase; letter-spacing: 0.05em;
+}
+.intent-table td { padding: 8px; border-bottom: 1px solid #090909; }
+.intent-swatch {
+    display: inline-block; width: 26px; height: 15px;
+    border-radius: 3px; border: 1px solid #373737; vertical-align: middle;
+}
+    </style>
+</head>
+<body class="bg-p-black text-white min-h-screen font-sans">
+    <button id="docs-hamburger">&#9776;</button>
+    <div id="docs-overlay"></div>
+    <div class="docs-layout">
+        <nav class="mc-sidebar" data-hue="blue" data-mode="2" id="docs-sidebar" style="position: fixed; top: 0; left: 0; height: 100vh; z-index: 40; overflow-y: auto;">
+        <div class="mc-sidebar-brand">
+            <a href="index.html" class="mc-sidebar-brand-text" style="text-decoration: none; color: inherit;">MC Perception</a>
+            <span style="font-size: 0.625rem; color: #515151; font-family: 'Roboto Mono', ui-monospace, monospace;">v1.0</span>
+        </div>
+        <div class="mc-sidebar-nav">
+            <div class="mc-sidebar-heading">Getting Started</div>
+            <a href="index.html" class="mc-sidebar-link" data-page="index">Home</a>
+            <a href="getting-started.html" class="mc-sidebar-link" data-page="getting-started">Getting Started</a>
+            <div class="mc-sidebar-divider"></div>
+            <div class="mc-sidebar-heading">Brand</div>
+            <a href="brand-ethos.html" class="mc-sidebar-link" data-page="brand-ethos">Design Ethos</a>
+            <a href="brand-wordmark.html" class="mc-sidebar-link" data-page="brand-wordmark">Wordmark</a>
+            <div class="mc-sidebar-divider"></div>
+            <div class="mc-sidebar-heading">Foundation</div>
+            <a href="color.html" class="mc-sidebar-link" data-page="color">Color Palette</a>
+            <a href="surface-modes.html" class="mc-sidebar-link" data-page="surface-modes">Surface Modes</a>
+            <a href="typography.html" class="mc-sidebar-link" data-page="typography">Typography</a>
+            <a href="semantic-mapping.html" class="mc-sidebar-link" data-page="semantic-mapping">Semantic Mapping</a>
+            <a href="color-picker.html" class="mc-sidebar-link" data-page="color-picker">Color Picker</a>
+            <a href="depth-layers.html" class="mc-sidebar-link" data-page="depth-layers">Depth Layers</a>
+            <a href="radius-rhythm.html" class="mc-sidebar-link" data-page="radius-rhythm">Radius &amp; Rhythm</a>
+            <div class="mc-sidebar-divider"></div>
+            <div class="mc-sidebar-heading">Components</div>
+            <a href="alert.html" class="mc-sidebar-link" data-page="alert">Alerts</a>
+            <a href="badges.html" class="mc-sidebar-link" data-page="badges">Badges</a>
+            <a href="breadcrumb.html" class="mc-sidebar-link" data-page="breadcrumb">Breadcrumb</a>
+            <a href="button.html" class="mc-sidebar-link" data-page="button">Buttons</a>
+            <a href="button-group.html" class="mc-sidebar-link" data-page="button-group">Button Group</a>
+            <a href="card.html" class="mc-sidebar-link" data-page="card">Card</a>
+            <a href="code-mockup.html" class="mc-sidebar-link" data-page="code-mockup">Code Mockup</a>
+            <a href="dropdown.html" class="mc-sidebar-link" data-page="dropdown">Dropdowns</a>
+            <a href="input.html" class="mc-sidebar-link" data-page="input">Form Inputs</a>
+            <a href="list-group.html" class="mc-sidebar-link" data-page="list-group">List Group</a>
+            <a href="navbar.html" class="mc-sidebar-link" data-page="navbar">Navbar</a>
+            <a href="navs-tabs.html" class="mc-sidebar-link" data-page="navs-tabs">Navs &amp; Tabs</a>
+            <a href="pagination.html" class="mc-sidebar-link" data-page="pagination">Pagination</a>
+            <a href="panel-system.html" class="mc-sidebar-link" data-page="panel-system">Panels</a>
+            <a href="progress.html" class="mc-sidebar-link" data-page="progress">Progress</a>
+            <a href="range.html" class="mc-sidebar-link" data-page="range">Range Slider</a>
+            <a href="selection.html" class="mc-sidebar-link" data-page="selection">Selection Controls</a>
+            <a href="sidebar.html" class="mc-sidebar-link" data-page="sidebar">Sidebar</a>
+            <a href="spinner.html" class="mc-sidebar-link" data-page="spinner">Spinners</a>
+            <a href="stat.html" class="mc-sidebar-link" data-page="stat">Stat</a>
+            <a href="table.html" class="mc-sidebar-link" data-page="table">Tables</a>
+            <div class="mc-sidebar-divider"></div>
+            <div class="mc-sidebar-heading">Patterns</div>
+            <a href="forms.html" class="mc-sidebar-link" data-page="forms">Form Layout</a>
+            <a href="dark-surfaces.html" class="mc-sidebar-link" data-page="dark-surfaces">Dark Surface Depth</a>
+            <div class="mc-sidebar-divider"></div>
+            <div class="mc-sidebar-heading">Examples</div>
+            <a href="trading-card.html" class="mc-sidebar-link" data-page="trading-card">Trading Card</a>
+            <a href="orderbook.html" class="mc-sidebar-link" data-page="orderbook">Orderbook</a>
+            <div class="mc-sidebar-divider"></div>
+            <div class="mc-sidebar-heading">Tools</div>
+            <a href="playground.html" class="mc-sidebar-link" data-page="playground">Playground</a>
+            <a href="table-surfaces.html" class="mc-sidebar-link" data-page="table-surfaces">Surface Tables</a>
+        </div>
+    </nav>
+        <main class="docs-content">
+            <div class="max-w-7xl mx-auto px-6 py-12">
+                <nav class="text-xs text-p-neutral-400 mb-6 flex gap-2 items-center">
+                    <a href="index.html" class="hover:text-white transition-colors">Home</a>
+                    <span class="text-p-neutral-400">/</span>
+                    <a href="index.html" class="hover:text-white transition-colors">Foundation</a>
+                    <span class="text-p-neutral-400">/</span>
+                    <span class="text-white font-semibold">Semantic Mapping</span>
+                </nav>
+
+                <!-- Header -->
+                <header class="mb-16">
+                    <div class="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-6 mb-8">
+                        <div>
+                            <h1 class="text-5xl font-bold tracking-tight mb-3">Semantic Mapping</h1>
+                            <p class="text-p-neutral-300 text-lg max-w-2xl">Reach for the intent, never the raw color. Seven semantic roles map to seven engineered hues, so a theme stays consistent, accessible, and re-skinnable across every component.</p>
+                        </div>
+                        <div class="flex gap-3">
+                            <span class="mc-badge mc-badge-filled mc-badge-sm" data-hue="blue">7 Roles</span>
+                            <span class="mc-badge mc-badge-filled mc-badge-sm" data-hue="green">AA Verified</span>
+                            <span class="mc-badge mc-badge-filled mc-badge-sm" data-hue="magenta">Re-skinnable</span>
+                        </div>
+                    </div>
+
+                    <!-- Quick start -->
+                    <div class="guide-card">
+                        <div class="text-xs text-p-neutral-400 font-semibold mb-3">QUICK START</div>
+                        <div class="code-block">
+                            <span class="cm">&lt;!-- Use the role's hue, not a hand-picked hex --&gt;</span><br>
+                            <span class="t">&lt;button</span> <span class="a">class</span>=<span class="v">"mc-button mc-button-filled"</span> <span class="a">data-hue</span>=<span class="v">"blue"</span><span class="t">&gt;</span>Primary<span class="t">&lt;/button&gt;</span><br>
+                            <span class="t">&lt;button</span> <span class="a">class</span>=<span class="v">"mc-button mc-button-filled"</span> <span class="a">data-hue</span>=<span class="v">"red"</span><span class="t">&gt;</span>Delete<span class="t">&lt;/button&gt;</span><br><br>
+                            <span class="cm">&lt;!-- Status badges --&gt;</span><br>
+                            <span class="t">&lt;span</span> <span class="a">class</span>=<span class="v">"mc-badge mc-badge-filled"</span> <span class="a">data-hue</span>=<span class="v">"green"</span><span class="t">&gt;</span>Success<span class="t">&lt;/span&gt;</span><br>
+                            <span class="t">&lt;span</span> <span class="a">class</span>=<span class="v">"mc-badge mc-badge-filled"</span> <span class="a">data-hue</span>=<span class="v">"yellow"</span><span class="t">&gt;</span>Pending<span class="t">&lt;/span&gt;</span>
+                        </div>
+                    </div>
+                </header>
+
+                <!-- ============================================================
+                     Section 1: Intent → Hue Role Cards
+                     ============================================================ -->
+                <section class="guide-section">
+                    <h2 class="text-2xl font-bold mb-6">
+                        <span class="section-number bg-p-blue-500 text-white">1</span>
+                        Intent &rarr; Hue
+                    </h2>
+                    <p class="text-p-neutral-400 text-sm mb-6">Each semantic role resolves to a single hue family. Set <code class="text-p-blue-400 text-xs">data-hue</code> to the role's name pattern below and every component renders in the matching color.</p>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
+
+                        <!-- Primary = blue -->
+                        <div class="role-card">
+                            <div class="role-card-head">
+                                <span class="role-swatch bg-p-blue-500"></span>
+                                <div class="role-meta">
+                                    <div class="role-name">Primary</div>
+                                    <div class="role-hue">data-hue="blue"</div>
+                                </div>
+                            </div>
+                            <div>
+                                <div class="role-label">Typical Usage</div>
+                                <div class="role-usage">Default actions, links, primary buttons, and the dominant brand accent.</div>
+                            </div>
+                            <div class="ramp">
+                                <span class="ramp-cell bg-p-blue-200 text-p-black">200</span>
+                                <span class="ramp-cell bg-p-blue-400 text-p-black">400</span>
+                                <span class="ramp-cell bg-p-blue-600 text-p-white">600</span>
+                                <span class="ramp-cell bg-p-blue-800 text-p-white">800</span>
+                            </div>
+                            <div class="role-examples">
+                                <span class="mc-badge mc-badge-filled mc-badge-sm" data-hue="blue">Primary</span>
+                                <button class="mc-button mc-button-filled mc-button-sm" data-hue="blue">Action</button>
+                            </div>
+                        </div>
+
+                        <!-- Success = green -->
+                        <div class="role-card">
+                            <div class="role-card-head">
+                                <span class="role-swatch bg-p-green-500"></span>
+                                <div class="role-meta">
+                                    <div class="role-name">Success</div>
+                                    <div class="role-hue">data-hue="green"</div>
+                                </div>
+                            </div>
+                            <div>
+                                <div class="role-label">Typical Usage</div>
+                                <div class="role-usage">Confirmations, positive states, completion, and upward gains.</div>
+                            </div>
+                            <div class="ramp">
+                                <span class="ramp-cell bg-p-green-200 text-p-black">200</span>
+                                <span class="ramp-cell bg-p-green-400 text-p-black">400</span>
+                                <span class="ramp-cell bg-p-green-600 text-p-white">600</span>
+                                <span class="ramp-cell bg-p-green-800 text-p-white">800</span>
+                            </div>
+                            <div class="role-examples">
+                                <span class="mc-badge mc-badge-filled mc-badge-sm" data-hue="green">Success</span>
+                                <button class="mc-button mc-button-filled mc-button-sm" data-hue="green">Confirm</button>
+                            </div>
+                        </div>
+
+                        <!-- Danger = red -->
+                        <div class="role-card">
+                            <div class="role-card-head">
+                                <span class="role-swatch bg-p-red-500"></span>
+                                <div class="role-meta">
+                                    <div class="role-name">Danger</div>
+                                    <div class="role-hue">data-hue="red"</div>
+                                </div>
+                            </div>
+                            <div>
+                                <div class="role-label">Typical Usage</div>
+                                <div class="role-usage">Errors, destructive actions, alerts, and downward losses.</div>
+                            </div>
+                            <div class="ramp">
+                                <span class="ramp-cell bg-p-red-200 text-p-black">200</span>
+                                <span class="ramp-cell bg-p-red-400 text-p-black">400</span>
+                                <span class="ramp-cell bg-p-red-600 text-p-white">600</span>
+                                <span class="ramp-cell bg-p-red-800 text-p-white">800</span>
+                            </div>
+                            <div class="role-examples">
+                                <span class="mc-badge mc-badge-filled mc-badge-sm" data-hue="red">Danger</span>
+                                <button class="mc-button mc-button-filled mc-button-sm" data-hue="red">Delete</button>
+                            </div>
+                        </div>
+
+                        <!-- Warning = yellow -->
+                        <div class="role-card">
+                            <div class="role-card-head">
+                                <span class="role-swatch bg-p-yellow-500"></span>
+                                <div class="role-meta">
+                                    <div class="role-name">Warning</div>
+                                    <div class="role-hue">data-hue="yellow"</div>
+                                </div>
+                            </div>
+                            <div>
+                                <div class="role-label">Typical Usage</div>
+                                <div class="role-usage">Caution, attention needed, pending states, and warnings.</div>
+                            </div>
+                            <div class="ramp">
+                                <span class="ramp-cell bg-p-yellow-200 text-p-black">200</span>
+                                <span class="ramp-cell bg-p-yellow-400 text-p-black">400</span>
+                                <span class="ramp-cell bg-p-yellow-600 text-p-white">600</span>
+                                <span class="ramp-cell bg-p-yellow-800 text-p-white">800</span>
+                            </div>
+                            <div class="role-examples">
+                                <span class="mc-badge mc-badge-filled mc-badge-sm" data-hue="yellow">Warning</span>
+                                <button class="mc-button mc-button-filled mc-button-sm" data-hue="yellow">Review</button>
+                            </div>
+                        </div>
+
+                        <!-- Info = teal -->
+                        <div class="role-card">
+                            <div class="role-card-head">
+                                <span class="role-swatch bg-p-teal-500"></span>
+                                <div class="role-meta">
+                                    <div class="role-name">Info</div>
+                                    <div class="role-hue">data-hue="teal"</div>
+                                </div>
+                            </div>
+                            <div>
+                                <div class="role-label">Typical Usage</div>
+                                <div class="role-usage">Informational messages and neutral, low-urgency notifications.</div>
+                            </div>
+                            <div class="ramp">
+                                <span class="ramp-cell bg-p-teal-200 text-p-black">200</span>
+                                <span class="ramp-cell bg-p-teal-400 text-p-black">400</span>
+                                <span class="ramp-cell bg-p-teal-600 text-p-white">600</span>
+                                <span class="ramp-cell bg-p-teal-800 text-p-white">800</span>
+                            </div>
+                            <div class="role-examples">
+                                <span class="mc-badge mc-badge-filled mc-badge-sm" data-hue="teal">Info</span>
+                                <button class="mc-button mc-button-filled mc-button-sm" data-hue="teal">Details</button>
+                            </div>
+                        </div>
+
+                        <!-- Premium = magenta -->
+                        <div class="role-card">
+                            <div class="role-card-head">
+                                <span class="role-swatch bg-p-magenta-500"></span>
+                                <div class="role-meta">
+                                    <div class="role-name">Premium</div>
+                                    <div class="role-hue">data-hue="magenta"</div>
+                                </div>
+                            </div>
+                            <div>
+                                <div class="role-label">Typical Usage</div>
+                                <div class="role-usage">Special features, premium tier, upgrades, and highlights.</div>
+                            </div>
+                            <div class="ramp">
+                                <span class="ramp-cell bg-p-magenta-200 text-p-black">200</span>
+                                <span class="ramp-cell bg-p-magenta-400 text-p-black">400</span>
+                                <span class="ramp-cell bg-p-magenta-600 text-p-white">600</span>
+                                <span class="ramp-cell bg-p-magenta-800 text-p-white">800</span>
+                            </div>
+                            <div class="role-examples">
+                                <span class="mc-badge mc-badge-filled mc-badge-sm" data-hue="magenta">Premium</span>
+                                <button class="mc-button mc-button-filled mc-button-sm" data-hue="magenta">Upgrade</button>
+                            </div>
+                        </div>
+
+                        <!-- Default = neutral -->
+                        <div class="role-card">
+                            <div class="role-card-head">
+                                <span class="role-swatch bg-p-neutral-500"></span>
+                                <div class="role-meta">
+                                    <div class="role-name">Default</div>
+                                    <div class="role-hue">data-hue="neutral"</div>
+                                </div>
+                            </div>
+                            <div>
+                                <div class="role-label">Typical Usage</div>
+                                <div class="role-usage">Chrome, borders, dividers, and secondary supporting elements.</div>
+                            </div>
+                            <div class="ramp">
+                                <span class="ramp-cell bg-p-neutral-200 text-p-black">200</span>
+                                <span class="ramp-cell bg-p-neutral-400 text-p-black">400</span>
+                                <span class="ramp-cell bg-p-neutral-600 text-p-white">600</span>
+                                <span class="ramp-cell bg-p-neutral-800 text-p-white">800</span>
+                            </div>
+                            <div class="role-examples">
+                                <span class="mc-badge mc-badge-filled mc-badge-sm" data-hue="neutral">Default</span>
+                                <button class="mc-button mc-button-filled mc-button-sm" data-hue="neutral">Cancel</button>
+                            </div>
+                        </div>
+
+                    </div>
+                </section>
+
+                <!-- ============================================================
+                     Section 2: Reference Table
+                     ============================================================ -->
+                <section class="guide-section">
+                    <h2 class="text-2xl font-bold mb-6">
+                        <span class="section-number bg-p-green-500 text-white">2</span>
+                        Mapping Reference
+                    </h2>
+                    <p class="text-p-neutral-400 text-sm mb-6">The complete semantic role table. Components inherit these defaults but can always override the hue explicitly via <code class="text-p-blue-400 text-xs">data-hue</code>.</p>
+
+                    <div class="guide-card overflow-x-auto">
+                        <table class="intent-table">
+                            <thead>
+                                <tr><th>Role</th><th>Hue</th><th>Swatch</th><th>Usage</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td class="font-semibold text-white">Primary</td>
+                                    <td class="text-p-blue-400 font-mono text-xs">blue</td>
+                                    <td><span class="intent-swatch bg-p-blue-500"></span></td>
+                                    <td class="text-p-neutral-300">Default actions, links, primary buttons</td>
+                                </tr>
+                                <tr>
+                                    <td class="font-semibold text-white">Success</td>
+                                    <td class="text-p-green-400 font-mono text-xs">green</td>
+                                    <td><span class="intent-swatch bg-p-green-500"></span></td>
+                                    <td class="text-p-neutral-300">Confirmations, positive states, completion</td>
+                                </tr>
+                                <tr>
+                                    <td class="font-semibold text-white">Danger</td>
+                                    <td class="text-p-red-400 font-mono text-xs">red</td>
+                                    <td><span class="intent-swatch bg-p-red-500"></span></td>
+                                    <td class="text-p-neutral-300">Errors, destructive actions, alerts</td>
+                                </tr>
+                                <tr>
+                                    <td class="font-semibold text-white">Warning</td>
+                                    <td class="text-p-yellow-400 font-mono text-xs">yellow</td>
+                                    <td><span class="intent-swatch bg-p-yellow-500"></span></td>
+                                    <td class="text-p-neutral-300">Caution, attention needed, pending</td>
+                                </tr>
+                                <tr>
+                                    <td class="font-semibold text-white">Info</td>
+                                    <td class="text-p-teal-400 font-mono text-xs">teal</td>
+                                    <td><span class="intent-swatch bg-p-teal-500"></span></td>
+                                    <td class="text-p-neutral-300">Informational, neutral notifications</td>
+                                </tr>
+                                <tr>
+                                    <td class="font-semibold text-white">Premium</td>
+                                    <td class="text-p-magenta-400 font-mono text-xs">magenta</td>
+                                    <td><span class="intent-swatch bg-p-magenta-500"></span></td>
+                                    <td class="text-p-neutral-300">Special features, premium tier, highlights</td>
+                                </tr>
+                                <tr>
+                                    <td class="font-semibold text-white">Default</td>
+                                    <td class="text-p-neutral-300 font-mono text-xs">neutral</td>
+                                    <td><span class="intent-swatch bg-p-neutral-500"></span></td>
+                                    <td class="text-p-neutral-300">Chrome, borders, secondary elements</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+
+                <!-- ============================================================
+                     Section 3: In Context — Status Badges Across Modes
+                     ============================================================ -->
+                <section class="guide-section">
+                    <h2 class="text-2xl font-bold mb-6">
+                        <span class="section-number bg-p-magenta-500 text-white">3</span>
+                        Roles In Context
+                    </h2>
+                    <p class="text-p-neutral-400 text-sm mb-6">The same semantic roles applied as status badges, shown on all five surface modes. Intent stays constant; the surface adapts the exact step automatically.</p>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+
+                        <!-- Mode 1 — White -->
+                        <div data-hue="blue" data-mode="1" class="guide-card" style="background:#FFFFFF;border-color:#C3C3C3">
+                            <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;color:#515151;margin-bottom:12px">Mode 1 &mdash; White</div>
+                            <div class="role-examples">
+                                <span class="mc-badge mc-badge-filled mc-badge-sm" data-hue="blue">Primary</span>
+                                <span class="mc-badge mc-badge-filled mc-badge-sm" data-hue="green">Success</span>
+                                <span class="mc-badge mc-badge-filled mc-badge-sm" data-hue="red">Danger</span>
+                                <span class="mc-badge mc-badge-filled mc-badge-sm" data-hue="yellow">Warning</span>
+                                <span class="mc-badge mc-badge-filled mc-badge-sm" data-hue="teal">Info</span>
+                                <span class="mc-badge mc-badge-filled mc-badge-sm" data-hue="magenta">Premium</span>
+                            </div>
+                        </div>
+
+                        <!-- Mode 2 — Black -->
+                        <div data-hue="blue" data-mode="2" class="guide-card" style="background:#0A0A0A;border-color:#373737">
+                            <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;color:#A0A0A0;margin-bottom:12px">Mode 2 &mdash; Black</div>
+                            <div class="role-examples">
+                                <span class="mc-badge mc-badge-filled mc-badge-sm" data-hue="blue">Primary</span>
+                                <span class="mc-badge mc-badge-filled mc-badge-sm" data-hue="green">Success</span>
+                                <span class="mc-badge mc-badge-filled mc-badge-sm" data-hue="red">Danger</span>
+                                <span class="mc-badge mc-badge-filled mc-badge-sm" data-hue="yellow">Warning</span>
+                                <span class="mc-badge mc-badge-filled mc-badge-sm" data-hue="teal">Info</span>
+                                <span class="mc-badge mc-badge-filled mc-badge-sm" data-hue="magenta">Premium</span>
+                            </div>
+                        </div>
+
+                        <!-- Mode 3 — Light Hue -->
+                        <div data-hue="blue" data-mode="3" class="guide-card" style="background:#EBEBFF;border-color:#9494FF">
+                            <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;color:#515151;margin-bottom:12px">Mode 3 &mdash; Light Hue</div>
+                            <div class="role-examples">
+                                <span class="mc-badge mc-badge-filled mc-badge-sm" data-hue="blue">Primary</span>
+                                <span class="mc-badge mc-badge-filled mc-badge-sm" data-hue="green">Success</span>
+                                <span class="mc-badge mc-badge-filled mc-badge-sm" data-hue="red">Danger</span>
+                                <span class="mc-badge mc-badge-filled mc-badge-sm" data-hue="yellow">Warning</span>
+                                <span class="mc-badge mc-badge-filled mc-badge-sm" data-hue="teal">Info</span>
+                                <span class="mc-badge mc-badge-filled mc-badge-sm" data-hue="magenta">Premium</span>
+                            </div>
+                        </div>
+
+                        <!-- Mode 4 — Dark Hue -->
+                        <div data-hue="blue" data-mode="4" class="guide-card" style="background:#000080;border-color:#1919FF">
+                            <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;color:#9494FF;margin-bottom:12px">Mode 4 &mdash; Dark Hue</div>
+                            <div class="role-examples">
+                                <span class="mc-badge mc-badge-filled mc-badge-sm" data-hue="blue">Primary</span>
+                                <span class="mc-badge mc-badge-filled mc-badge-sm" data-hue="green">Success</span>
+                                <span class="mc-badge mc-badge-filled mc-badge-sm" data-hue="red">Danger</span>
+                                <span class="mc-badge mc-badge-filled mc-badge-sm" data-hue="yellow">Warning</span>
+                                <span class="mc-badge mc-badge-filled mc-badge-sm" data-hue="teal">Info</span>
+                                <span class="mc-badge mc-badge-filled mc-badge-sm" data-hue="magenta">Premium</span>
+                            </div>
+                        </div>
+
+                        <!-- Mode 5 — Mid Hue -->
+                        <div data-hue="blue" data-mode="5" class="guide-card" style="background:#5252FF;border-color:#0A0A0A">
+                            <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;color:#FFFFFF;margin-bottom:12px">Mode 5 &mdash; Mid Hue</div>
+                            <div class="role-examples">
+                                <span class="mc-badge mc-badge-filled mc-badge-sm" data-hue="blue">Primary</span>
+                                <span class="mc-badge mc-badge-filled mc-badge-sm" data-hue="green">Success</span>
+                                <span class="mc-badge mc-badge-filled mc-badge-sm" data-hue="red">Danger</span>
+                                <span class="mc-badge mc-badge-filled mc-badge-sm" data-hue="yellow">Warning</span>
+                                <span class="mc-badge mc-badge-filled mc-badge-sm" data-hue="teal">Info</span>
+                                <span class="mc-badge mc-badge-filled mc-badge-sm" data-hue="magenta">Premium</span>
+                            </div>
+                        </div>
+
+                        <!-- Guidance card -->
+                        <div class="guide-card flex flex-col justify-center">
+                            <div class="text-xs text-p-neutral-300 space-y-2">
+                                <div class="text-white font-semibold text-sm">Why intent, not color?</div>
+                                <div class="text-p-neutral-300">A single <code class="text-p-blue-400">data-hue="green"</code> swap re-themes every success state at once.</div>
+                                <div class="text-p-neutral-300">Surfaces choose the correct step automatically &mdash; you never pick a step by hand.</div>
+                            </div>
+                        </div>
+
+                    </div>
+                </section>
+
+                <!-- ============================================================
+                     Section 4: Don't Hardcode
+                     ============================================================ -->
+                <section class="guide-section">
+                    <h2 class="text-2xl font-bold mb-6">
+                        <span class="section-number bg-p-red-500 text-white">4</span>
+                        Reach For The Role
+                    </h2>
+                    <p class="text-p-neutral-400 text-sm mb-6">Always express intent through the semantic hue. Hand-picked hex values break theming, drift out of the palette, and can silently fail WCAG.</p>
+
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
+                        <div class="guide-card">
+                            <div class="text-xs text-p-green-400 font-semibold mb-3">DO &mdash; semantic hue</div>
+                            <div class="code-block">
+                                <span class="t">&lt;button</span> <span class="a">class</span>=<span class="v">"mc-button mc-button-filled"</span><br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="a">data-hue</span>=<span class="v">"red"</span><span class="t">&gt;</span><br>
+                                &nbsp;&nbsp;Delete account<br>
+                                <span class="t">&lt;/button&gt;</span>
+                            </div>
+                        </div>
+                        <div class="guide-card">
+                            <div class="text-xs text-p-red-400 font-semibold mb-3">DON'T &mdash; hand-picked hex</div>
+                            <div class="code-block">
+                                <span class="t">&lt;button</span> <span class="a">style</span>=<span class="v">"background:#e2<wbr>3b3b"</span><span class="t">&gt;</span><br>
+                                &nbsp;&nbsp;Delete account<br>
+                                <span class="t">&lt;/button&gt;</span><br>
+                                <span class="cm">/* off-palette, unthemed, may fail AA */</span>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <footer class="docs-footer">
+                    <p>MC Perception Design System &mdash; 7 hues &times; 5 modes &times; 6 sizes &mdash; WCAG AA compliant</p>
+                    <p style="margin-top: 0.5rem;"><a href="https://github.com/anthropics/claude-code">Built with Claude Code</a></p>
+                </footer>
+            </div>
+        </main>
+    </div>
+
+<script>
+// Auto-mark active sidebar link based on current filename
+(function() {
+    var page = location.pathname.split('/').pop().replace('.html','') || 'index';
+    var links = document.querySelectorAll('.mc-sidebar-link');
+    links.forEach(function(a) {
+        if (a.getAttribute('data-page') === page) a.classList.add('active');
+    });
+    // Mobile hamburger toggle
+    var hamburger = document.getElementById('docs-hamburger');
+    var sidebar = document.getElementById('docs-sidebar');
+    var overlay = document.getElementById('docs-overlay');
+    if (hamburger && sidebar && overlay) {
+        hamburger.addEventListener('click', function() {
+            sidebar.classList.toggle('open');
+            overlay.classList.toggle('open');
+        });
+        overlay.addEventListener('click', function() {
+            sidebar.classList.remove('open');
+            overlay.classList.remove('open');
+        });
+    }
+})();
+</script>
+</body>
+</html>

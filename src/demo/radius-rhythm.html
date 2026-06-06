@@ -1,0 +1,546 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Radius &amp; Rhythm — MC Perception</title>
+    <link rel="stylesheet" href="../dist/mcperception.css">
+    <link rel="stylesheet" href="_docs.css">
+    <style>
+
+/* ── Page-specific styles ── */
+
+/* Radius scale row */
+.radius-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 1rem;
+}
+.radius-tile {
+    background: #090909;
+    border: 1px solid #222222;
+    border-radius: 6px;
+    padding: 1.25rem 1rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.75rem;
+}
+.radius-sample {
+    width: 72px;
+    height: 72px;
+    background: #5252FF;
+    border: 1px solid #1919FF;
+    flex-shrink: 0;
+}
+.radius-size {
+    font-size: 0.75rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: #FFFFFF;
+}
+.radius-px {
+    font-family: 'Roboto Mono', ui-monospace, monospace;
+    font-size: 0.7rem;
+    color: #A0A0A0;
+}
+.radius-font {
+    font-family: 'Roboto Mono', ui-monospace, monospace;
+    font-size: 0.625rem;
+    color: #7F7F7F;
+}
+
+/* Dark cap comparison sample (flat, 3px) */
+.cap-sample {
+    width: 72px;
+    height: 72px;
+    background: #6D6DFF;
+    border: 1px solid #9494FF;
+    border-radius: 3px;
+    flex-shrink: 0;
+}
+
+/* Spacing rhythm bars */
+.rhythm-row {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 0.4rem 0;
+}
+.rhythm-token {
+    width: 88px;
+    flex-shrink: 0;
+    font-family: 'Roboto Mono', ui-monospace, monospace;
+    font-size: 0.7rem;
+    color: #A0A0A0;
+}
+.rhythm-bar {
+    height: 18px;
+    background: #5252FF;
+    border-radius: 3px;
+    flex-shrink: 0;
+}
+.rhythm-px {
+    font-family: 'Roboto Mono', ui-monospace, monospace;
+    font-size: 0.7rem;
+    color: #FFFFFF;
+    font-weight: 700;
+}
+.rhythm-mult {
+    font-family: 'Roboto Mono', ui-monospace, monospace;
+    font-size: 0.65rem;
+    color: #7F7F7F;
+}
+
+/* 4px grid backdrop demonstration */
+.grid-demo {
+    position: relative;
+    background-color: #090909;
+    background-image:
+        linear-gradient(to right, #222222 1px, transparent 1px),
+        linear-gradient(to bottom, #222222 1px, transparent 1px);
+    background-size: 4px 4px;
+    border: 1px solid #373737;
+    border-radius: 6px;
+    padding: 24px;
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+    align-items: flex-start;
+}
+.grid-block {
+    background: #5252FF;
+    border-radius: 3px;
+}
+
+/* Scale reference table */
+.scale-table { width: 100%; border-collapse: collapse; font-size: 11px; }
+.scale-table th {
+    text-align: left; padding: 6px 10px; font-weight: 700; font-size: 10px;
+    color: #A0A0A0; border-bottom: 2px solid #373737;
+    text-transform: uppercase; letter-spacing: 0.05em;
+}
+.scale-table td {
+    padding: 7px 10px; border-bottom: 1px solid #090909;
+    font-family: 'Roboto Mono', ui-monospace, monospace; font-size: 10px;
+    color: #C3C3C3;
+}
+.scale-table td.tier { color: #FFFFFF; font-weight: 700; }
+.scale-table .swatch-cell { width: 48px; }
+
+/* Do / Don't cards */
+.dont-card { border: 1px solid #740000; border-radius: 6px; padding: 1.25rem; background: #090909; }
+.do-card   { border: 1px solid #005F00; border-radius: 6px; padding: 1.25rem; background: #090909; }
+.judgement {
+    font-size: 0.6rem; font-weight: 800; text-transform: uppercase;
+    letter-spacing: 0.1em; margin-bottom: 0.75rem; display: block;
+}
+    </style>
+</head>
+<body class="bg-p-black text-white min-h-screen font-sans">
+    <button id="docs-hamburger">&#9776;</button>
+    <div id="docs-overlay"></div>
+    <div class="docs-layout">
+        <nav class="mc-sidebar" data-hue="blue" data-mode="2" id="docs-sidebar" style="position: fixed; top: 0; left: 0; height: 100vh; z-index: 40; overflow-y: auto;">
+        <div class="mc-sidebar-brand">
+            <a href="index.html" class="mc-sidebar-brand-text" style="text-decoration: none; color: inherit;">MC Perception</a>
+            <span style="font-size: 0.625rem; color: #515151; font-family: 'Roboto Mono', ui-monospace, monospace;">v1.0</span>
+        </div>
+        <div class="mc-sidebar-nav">
+            <div class="mc-sidebar-heading">Getting Started</div>
+            <a href="index.html" class="mc-sidebar-link" data-page="index">Home</a>
+            <a href="getting-started.html" class="mc-sidebar-link" data-page="getting-started">Getting Started</a>
+            <div class="mc-sidebar-divider"></div>
+            <div class="mc-sidebar-heading">Brand</div>
+            <a href="brand-ethos.html" class="mc-sidebar-link" data-page="brand-ethos">Design Ethos</a>
+            <a href="brand-wordmark.html" class="mc-sidebar-link" data-page="brand-wordmark">Wordmark</a>
+            <div class="mc-sidebar-divider"></div>
+            <div class="mc-sidebar-heading">Foundation</div>
+            <a href="color.html" class="mc-sidebar-link" data-page="color">Color Palette</a>
+            <a href="surface-modes.html" class="mc-sidebar-link" data-page="surface-modes">Surface Modes</a>
+            <a href="typography.html" class="mc-sidebar-link" data-page="typography">Typography</a>
+            <a href="semantic-mapping.html" class="mc-sidebar-link" data-page="semantic-mapping">Semantic Mapping</a>
+            <a href="color-picker.html" class="mc-sidebar-link" data-page="color-picker">Color Picker</a>
+            <a href="depth-layers.html" class="mc-sidebar-link" data-page="depth-layers">Depth Layers</a>
+            <a href="radius-rhythm.html" class="mc-sidebar-link" data-page="radius-rhythm">Radius &amp; Rhythm</a>
+            <div class="mc-sidebar-divider"></div>
+            <div class="mc-sidebar-heading">Components</div>
+            <a href="alert.html" class="mc-sidebar-link" data-page="alert">Alerts</a>
+            <a href="badges.html" class="mc-sidebar-link" data-page="badges">Badges</a>
+            <a href="breadcrumb.html" class="mc-sidebar-link" data-page="breadcrumb">Breadcrumb</a>
+            <a href="button.html" class="mc-sidebar-link" data-page="button">Buttons</a>
+            <a href="button-group.html" class="mc-sidebar-link" data-page="button-group">Button Group</a>
+            <a href="card.html" class="mc-sidebar-link" data-page="card">Card</a>
+            <a href="code-mockup.html" class="mc-sidebar-link" data-page="code-mockup">Code Mockup</a>
+            <a href="dropdown.html" class="mc-sidebar-link" data-page="dropdown">Dropdowns</a>
+            <a href="input.html" class="mc-sidebar-link" data-page="input">Form Inputs</a>
+            <a href="list-group.html" class="mc-sidebar-link" data-page="list-group">List Group</a>
+            <a href="navbar.html" class="mc-sidebar-link" data-page="navbar">Navbar</a>
+            <a href="navs-tabs.html" class="mc-sidebar-link" data-page="navs-tabs">Navs &amp; Tabs</a>
+            <a href="pagination.html" class="mc-sidebar-link" data-page="pagination">Pagination</a>
+            <a href="panel-system.html" class="mc-sidebar-link" data-page="panel-system">Panels</a>
+            <a href="progress.html" class="mc-sidebar-link" data-page="progress">Progress</a>
+            <a href="range.html" class="mc-sidebar-link" data-page="range">Range Slider</a>
+            <a href="selection.html" class="mc-sidebar-link" data-page="selection">Selection Controls</a>
+            <a href="sidebar.html" class="mc-sidebar-link" data-page="sidebar">Sidebar</a>
+            <a href="spinner.html" class="mc-sidebar-link" data-page="spinner">Spinners</a>
+            <a href="stat.html" class="mc-sidebar-link" data-page="stat">Stat</a>
+            <a href="table.html" class="mc-sidebar-link" data-page="table">Tables</a>
+            <div class="mc-sidebar-divider"></div>
+            <div class="mc-sidebar-heading">Patterns</div>
+            <a href="forms.html" class="mc-sidebar-link" data-page="forms">Form Layout</a>
+            <a href="dark-surfaces.html" class="mc-sidebar-link" data-page="dark-surfaces">Dark Surface Depth</a>
+            <div class="mc-sidebar-divider"></div>
+            <div class="mc-sidebar-heading">Examples</div>
+            <a href="trading-card.html" class="mc-sidebar-link" data-page="trading-card">Trading Card</a>
+            <a href="orderbook.html" class="mc-sidebar-link" data-page="orderbook">Orderbook</a>
+            <div class="mc-sidebar-divider"></div>
+            <div class="mc-sidebar-heading">Tools</div>
+            <a href="playground.html" class="mc-sidebar-link" data-page="playground">Playground</a>
+            <a href="table-surfaces.html" class="mc-sidebar-link" data-page="table-surfaces">Surface Tables</a>
+        </div>
+    </nav>
+        <main class="docs-content">
+            <div class="max-w-7xl mx-auto px-6 py-12">
+                <nav class="text-xs text-p-neutral-400 mb-6 flex gap-2 items-center">
+                    <a href="index.html" class="hover:text-white transition-colors">Home</a>
+                    <span class="text-p-neutral-400">/</span>
+                    <a href="index.html" class="hover:text-white transition-colors">Foundation</a>
+                    <span class="text-p-neutral-400">/</span>
+                    <span class="text-white font-semibold">Radius &amp; Rhythm</span>
+                </nav>
+
+                <!-- Header -->
+                <header class="mb-16">
+                    <div class="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-6 mb-8">
+                        <div>
+                            <h1 class="text-5xl font-bold tracking-tight mb-3">Radius &amp; Rhythm</h1>
+                            <p class="text-p-neutral-300 text-lg max-w-2xl">Corner radius scales with the size tier on light surfaces and caps flat on dark surfaces. Every dimension rides a strict 4px spacing rhythm — soft on light, sharp on dark.</p>
+                        </div>
+                        <div class="flex gap-3">
+                            <span class="mc-badge mc-badge-filled mc-badge-sm" data-hue="blue">6 Size Tiers</span>
+                            <span class="mc-badge mc-badge-filled mc-badge-sm" data-hue="neutral">4px Base</span>
+                            <span class="mc-badge mc-badge-filled mc-badge-sm" data-hue="green">3px Dark Cap</span>
+                        </div>
+                    </div>
+
+                    <!-- Quick start -->
+                    <div class="guide-card">
+                        <div class="text-xs text-p-neutral-400 font-semibold mb-3">QUICK START</div>
+                        <div class="code-block">
+                            <span class="cm">/* Light surfaces (M1 / M3 / M5) — radius scales with size */</span><br>
+                            <span class="a">border-radius</span>: <span class="v">4px</span>;  <span class="cm">/* xs */</span><br>
+                            <span class="a">border-radius</span>: <span class="v">10px</span>; <span class="cm">/* xxl */</span><br><br>
+                            <span class="cm">/* Dark surfaces (M2 / M4) — always cap at 3px */</span><br>
+                            <span class="a">border-radius</span>: <span class="v">3px</span>;<br><br>
+                            <span class="cm">/* Spacing — always a multiple of 4px */</span><br>
+                            <span class="a">gap</span>: <span class="v">16px</span>; <span class="a">padding</span>: <span class="v">24px</span>;
+                        </div>
+                    </div>
+                </header>
+
+                <!-- ============================================================
+                     Section 1: Radius scale on light surfaces
+                     ============================================================ -->
+                <section class="guide-section">
+                    <h2 class="text-2xl font-bold mb-6">
+                        <span class="section-number bg-p-blue-500 text-white">1</span>
+                        Corner Radius — Light Surfaces (Mode 1 / Mode 3 / Mode 5)
+                    </h2>
+                    <p class="text-p-neutral-400 text-sm mb-6">On light surfaces, radius grows with the size tier. A larger control gets a softer corner so the curve stays visually proportional to the box. Each tile below shows the actual radius applied to a 72&times;72 sample.</p>
+
+                    <div class="radius-grid">
+                        <div class="radius-tile">
+                            <div class="radius-sample" style="border-radius:4px"></div>
+                            <div class="radius-size">xs</div>
+                            <div class="radius-px">radius 4px</div>
+                            <div class="radius-font">font 11px</div>
+                        </div>
+                        <div class="radius-tile">
+                            <div class="radius-sample" style="border-radius:5px"></div>
+                            <div class="radius-size">sm</div>
+                            <div class="radius-px">radius 5px</div>
+                            <div class="radius-font">font 12px</div>
+                        </div>
+                        <div class="radius-tile">
+                            <div class="radius-sample" style="border-radius:6px"></div>
+                            <div class="radius-size">md</div>
+                            <div class="radius-px">radius 6px</div>
+                            <div class="radius-font">font 14px</div>
+                        </div>
+                        <div class="radius-tile">
+                            <div class="radius-sample" style="border-radius:7px"></div>
+                            <div class="radius-size">lg</div>
+                            <div class="radius-px">radius 7px</div>
+                            <div class="radius-font">font 16px</div>
+                        </div>
+                        <div class="radius-tile">
+                            <div class="radius-sample" style="border-radius:8px"></div>
+                            <div class="radius-size">xl</div>
+                            <div class="radius-px">radius 8px</div>
+                            <div class="radius-font">font 18px</div>
+                        </div>
+                        <div class="radius-tile">
+                            <div class="radius-sample" style="border-radius:10px"></div>
+                            <div class="radius-size">xxl</div>
+                            <div class="radius-px">radius 10px</div>
+                            <div class="radius-font">font 20px</div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- ============================================================
+                     Section 2: Dark surface radius cap
+                     ============================================================ -->
+                <section class="guide-section">
+                    <h2 class="text-2xl font-bold mb-6">
+                        <span class="section-number bg-p-neutral-500 text-white">2</span>
+                        Corner Radius — Dark Surfaces (Mode 2 / Mode 4)
+                    </h2>
+                    <p class="text-p-neutral-400 text-sm mb-6">On dark surfaces the radius is capped flat at <span class="text-white font-semibold">3px</span> for every size tier. Depth there comes from layered surfaces and 1px borders — never from rounding, gradients, or shadows. The two panels below contrast how the same scale resolves on light versus dark.</p>
+
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
+                        <!-- Light scale recap -->
+                        <div class="guide-card">
+                            <div class="text-xs text-p-neutral-400 font-semibold mb-4">LIGHT — RADIUS SCALES 4 &rarr; 10px</div>
+                            <div class="flex items-end gap-3 flex-wrap">
+                                <div class="radius-sample" style="width:48px;height:48px;border-radius:4px"></div>
+                                <div class="radius-sample" style="width:48px;height:48px;border-radius:6px"></div>
+                                <div class="radius-sample" style="width:48px;height:48px;border-radius:8px"></div>
+                                <div class="radius-sample" style="width:48px;height:48px;border-radius:10px"></div>
+                            </div>
+                            <p class="text-xs text-p-neutral-300 mt-4">Modes 1, 3, 5 — curve grows xs &rarr; xxl.</p>
+                        </div>
+
+                        <!-- Dark cap -->
+                        <div class="mc-panel" data-hue="blue" data-mode="2" style="border-radius:3px; padding:1.5rem;">
+                            <div class="text-xs text-p-neutral-300 font-semibold mb-4" style="text-transform:uppercase; letter-spacing:0.05em;">Mode 2 / Mode 4 — capped flat at 3px</div>
+                            <div class="flex items-end gap-3 flex-wrap">
+                                <div class="cap-sample" style="width:48px;height:48px"></div>
+                                <div class="cap-sample" style="width:48px;height:48px"></div>
+                                <div class="cap-sample" style="width:48px;height:48px"></div>
+                                <div class="cap-sample" style="width:48px;height:48px"></div>
+                            </div>
+                            <p class="text-xs text-p-neutral-300 mt-4">Every tier holds at 3px. No gradients, no shadows, no bevels.</p>
+                        </div>
+                    </div>
+
+                    <!-- Do / Don't -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
+                        <div class="do-card">
+                            <span class="judgement text-p-green-400">Do</span>
+                            <div class="flex items-center gap-4">
+                                <div style="width:56px;height:56px;background:#222222;border:1px solid #515151;border-radius:3px;flex-shrink:0"></div>
+                                <p class="text-xs text-p-neutral-300">Flat 3px corners and a 1px <code class="text-p-blue-400">#515151</code> border on a dark panel. Depth reads from the layer + border alone.</p>
+                            </div>
+                        </div>
+                        <div class="dont-card">
+                            <span class="judgement text-p-red-400">Don't</span>
+                            <div class="flex items-center gap-4">
+                                <div style="width:56px;height:56px;background:#222222;border:1px solid #515151;border-radius:14px;flex-shrink:0"></div>
+                                <p class="text-xs text-p-neutral-300">Large soft corners on a dark control break the Photoshop-flat depth language. Never exceed 3px on M2 / M4.</p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- ============================================================
+                     Section 3: 4px spacing rhythm
+                     ============================================================ -->
+                <section class="guide-section">
+                    <h2 class="text-2xl font-bold mb-6">
+                        <span class="section-number bg-p-green-500 text-white">3</span>
+                        Spacing — The 4px Rhythm
+                    </h2>
+                    <p class="text-p-neutral-400 text-sm mb-6">Every margin, padding, and gap is a multiple of 4px. Sticking to one base unit keeps vertical and horizontal spacing in lockstep across all 6 size tiers. Each bar below is drawn to its true pixel width.</p>
+
+                    <div class="guide-card">
+                        <div class="rhythm-row"><span class="rhythm-token">space-1</span><span class="rhythm-bar" style="width:4px"></span><span class="rhythm-px">4px</span><span class="rhythm-mult">4 &times; 1</span></div>
+                        <div class="rhythm-row"><span class="rhythm-token">space-2</span><span class="rhythm-bar" style="width:8px"></span><span class="rhythm-px">8px</span><span class="rhythm-mult">4 &times; 2</span></div>
+                        <div class="rhythm-row"><span class="rhythm-token">space-3</span><span class="rhythm-bar" style="width:12px"></span><span class="rhythm-px">12px</span><span class="rhythm-mult">4 &times; 3</span></div>
+                        <div class="rhythm-row"><span class="rhythm-token">space-4</span><span class="rhythm-bar" style="width:16px"></span><span class="rhythm-px">16px</span><span class="rhythm-mult">4 &times; 4</span></div>
+                        <div class="rhythm-row"><span class="rhythm-token">space-5</span><span class="rhythm-bar" style="width:20px"></span><span class="rhythm-px">20px</span><span class="rhythm-mult">4 &times; 5</span></div>
+                        <div class="rhythm-row"><span class="rhythm-token">space-6</span><span class="rhythm-bar" style="width:24px"></span><span class="rhythm-px">24px</span><span class="rhythm-mult">4 &times; 6</span></div>
+                        <div class="rhythm-row"><span class="rhythm-token">space-8</span><span class="rhythm-bar" style="width:32px"></span><span class="rhythm-px">32px</span><span class="rhythm-mult">4 &times; 8</span></div>
+                        <div class="rhythm-row"><span class="rhythm-token">space-10</span><span class="rhythm-bar" style="width:40px"></span><span class="rhythm-px">40px</span><span class="rhythm-mult">4 &times; 10</span></div>
+                        <div class="rhythm-row"><span class="rhythm-token">space-12</span><span class="rhythm-bar" style="width:48px"></span><span class="rhythm-px">48px</span><span class="rhythm-mult">4 &times; 12</span></div>
+                        <div class="rhythm-row"><span class="rhythm-token">space-16</span><span class="rhythm-bar" style="width:64px"></span><span class="rhythm-px">64px</span><span class="rhythm-mult">4 &times; 16</span></div>
+                    </div>
+
+                    <p class="text-p-neutral-400 text-sm mt-8 mb-4">Snapped to a literal 4px grid — every block edge lands on a gridline, so the layout never drifts off-rhythm.</p>
+                    <div class="grid-demo">
+                        <div class="grid-block" style="width:32px;height:32px"></div>
+                        <div class="grid-block" style="width:64px;height:48px"></div>
+                        <div class="grid-block" style="width:48px;height:64px"></div>
+                        <div class="grid-block" style="width:96px;height:24px"></div>
+                        <div class="grid-block" style="width:24px;height:96px"></div>
+                    </div>
+                </section>
+
+                <!-- ============================================================
+                     Section 4: Size scale reference table
+                     ============================================================ -->
+                <section class="guide-section">
+                    <h2 class="text-2xl font-bold mb-6">
+                        <span class="section-number bg-p-magenta-500 text-white">4</span>
+                        Size Scale Reference
+                    </h2>
+                    <p class="text-p-neutral-400 text-sm mb-6">The full mapping of font size, padding, light radius, dark radius cap, and minimum height per tier. All padding values are 4px multiples; all light radii are unique per tier; all dark radii are flat 3px.</p>
+
+                    <div class="guide-card overflow-x-auto">
+                        <table class="scale-table">
+                            <thead>
+                                <tr>
+                                    <th>Tier</th>
+                                    <th>Font</th>
+                                    <th>Padding&nbsp;Y&times;X</th>
+                                    <th>Radius&nbsp;(M1/3/5)</th>
+                                    <th>Radius&nbsp;(M2/4)</th>
+                                    <th>Icon</th>
+                                    <th>Min&nbsp;Height</th>
+                                    <th class="swatch-cell">Light</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td class="tier">xs</td><td>11px</td><td>4&times;8</td><td>4px</td><td>3px</td><td>12px</td><td>24px</td>
+                                    <td><span style="display:inline-block;width:28px;height:18px;background:#5252FF;border:1px solid #1919FF;border-radius:4px"></span></td>
+                                </tr>
+                                <tr>
+                                    <td class="tier">sm</td><td>12px</td><td>6&times;12</td><td>5px</td><td>3px</td><td>14px</td><td>30px</td>
+                                    <td><span style="display:inline-block;width:28px;height:18px;background:#5252FF;border:1px solid #1919FF;border-radius:5px"></span></td>
+                                </tr>
+                                <tr>
+                                    <td class="tier">md</td><td>14px</td><td>8&times;16</td><td>6px</td><td>3px</td><td>16px</td><td>36px</td>
+                                    <td><span style="display:inline-block;width:28px;height:18px;background:#5252FF;border:1px solid #1919FF;border-radius:6px"></span></td>
+                                </tr>
+                                <tr>
+                                    <td class="tier">lg</td><td>16px</td><td>10&times;20</td><td>7px</td><td>3px</td><td>20px</td><td>44px</td>
+                                    <td><span style="display:inline-block;width:28px;height:18px;background:#5252FF;border:1px solid #1919FF;border-radius:7px"></span></td>
+                                </tr>
+                                <tr>
+                                    <td class="tier">xl</td><td>18px</td><td>12&times;24</td><td>8px</td><td>3px</td><td>24px</td><td>52px</td>
+                                    <td><span style="display:inline-block;width:28px;height:18px;background:#5252FF;border:1px solid #1919FF;border-radius:8px"></span></td>
+                                </tr>
+                                <tr>
+                                    <td class="tier">xxl</td><td>20px</td><td>14&times;28</td><td>10px</td><td>3px</td><td>28px</td><td>60px</td>
+                                    <td><span style="display:inline-block;width:28px;height:18px;background:#5252FF;border:1px solid #1919FF;border-radius:10px"></span></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+
+                <!-- ============================================================
+                     Section 5: Mode summary across all 5 surfaces
+                     ============================================================ -->
+                <section class="guide-section">
+                    <h2 class="text-2xl font-bold mb-6">
+                        <span class="section-number bg-p-teal-500 text-white">5</span>
+                        Radius Across All Surface Modes
+                    </h2>
+                    <p class="text-p-neutral-400 text-sm mb-6">The radius rule depends only on whether the surface is light or dark. Light modes scale; dark modes cap flat. The same control is shown at <span class="text-white font-semibold">md</span> on each mode below.</p>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                        <!-- Mode 1 -->
+                        <div class="guide-card">
+                            <div class="flex items-center gap-2 mb-3">
+                                <span style="width:20px;height:20px;border-radius:4px;background:#FFFFFF;border:1px solid #515151"></span>
+                                <span class="text-sm font-bold">Mode 1 — White</span>
+                            </div>
+                            <div style="background:#FFFFFF;border:1px solid #C3C3C3;border-radius:6px;padding:16px;display:flex;align-items:center;justify-content:center">
+                                <span style="background:#5252FF;color:#FFFFFF;border-radius:6px;padding:8px 16px;font-size:14px;font-weight:600">md · 6px</span>
+                            </div>
+                            <p class="text-xs text-p-neutral-300 mt-3">Scaling radius — 6px at md.</p>
+                        </div>
+                        <!-- Mode 2 -->
+                        <div class="guide-card">
+                            <div class="flex items-center gap-2 mb-3">
+                                <span style="width:20px;height:20px;border-radius:3px;background:#0A0A0A;border:1px solid #515151"></span>
+                                <span class="text-sm font-bold">Mode 2 — Black</span>
+                            </div>
+                            <div style="background:#0A0A0A;border:1px solid #373737;border-radius:3px;padding:16px;display:flex;align-items:center;justify-content:center">
+                                <span style="background:#222222;color:#FFFFFF;border:1px solid #515151;border-radius:3px;padding:8px 16px;font-size:14px;font-weight:400">md · 3px</span>
+                            </div>
+                            <p class="text-xs text-p-neutral-300 mt-3">Capped flat — 3px.</p>
+                        </div>
+                        <!-- Mode 3 -->
+                        <div class="guide-card">
+                            <div class="flex items-center gap-2 mb-3">
+                                <span style="width:20px;height:20px;border-radius:4px;background:#EBEBFF;border:1px solid #515151"></span>
+                                <span class="text-sm font-bold">Mode 3 — Light Hue</span>
+                            </div>
+                            <div style="background:#EBEBFF;border:1px solid #9494FF;border-radius:6px;padding:16px;display:flex;align-items:center;justify-content:center">
+                                <span style="background:#1919FF;color:#FFFFFF;border-radius:6px;padding:8px 16px;font-size:14px;font-weight:600">md · 6px</span>
+                            </div>
+                            <p class="text-xs text-p-neutral-300 mt-3">Scaling radius — 6px at md.</p>
+                        </div>
+                        <!-- Mode 4 -->
+                        <div class="guide-card">
+                            <div class="flex items-center gap-2 mb-3">
+                                <span style="width:20px;height:20px;border-radius:3px;background:#000080;border:1px solid #515151"></span>
+                                <span class="text-sm font-bold">Mode 4 — Dark Hue</span>
+                            </div>
+                            <div style="background:#000080;border:1px solid #1919FF;border-radius:3px;padding:16px;display:flex;align-items:center;justify-content:center">
+                                <span style="background:#000035;color:#FFFFFF;border:1px solid #1919FF;border-radius:3px;padding:8px 16px;font-size:14px;font-weight:400">md · 3px</span>
+                            </div>
+                            <p class="text-xs text-p-neutral-300 mt-3">Capped flat — 3px.</p>
+                        </div>
+                        <!-- Mode 5 -->
+                        <div class="guide-card">
+                            <div class="flex items-center gap-2 mb-3">
+                                <span style="width:20px;height:20px;border-radius:4px;background:#5252FF;border:1px solid #515151"></span>
+                                <span class="text-sm font-bold">Mode 5 — Mid Hue</span>
+                            </div>
+                            <div style="background:#5252FF;border:1px solid #1919FF;border-radius:6px;padding:16px;display:flex;align-items:center;justify-content:center">
+                                <span style="background:#FFFFFF;color:#0A0A0A;border-radius:6px;padding:8px 16px;font-size:14px;font-weight:600">md · 6px</span>
+                            </div>
+                            <p class="text-xs text-p-neutral-300 mt-3">Scaling radius — 6px at md.</p>
+                        </div>
+                        <!-- Summary -->
+                        <div class="guide-card flex flex-col justify-center">
+                            <div class="text-xs text-p-neutral-300 space-y-2">
+                                <div class="text-white font-semibold text-sm">Rule of thumb</div>
+                                <div><span class="text-p-green-400 font-mono">Light</span> — radius scales 4 &rarr; 10px</div>
+                                <div><span class="text-p-blue-400 font-mono">Dark</span> — radius caps flat at 3px</div>
+                                <div><span class="text-p-magenta-400 font-mono">Spacing</span> — always a 4px multiple</div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <footer class="docs-footer">
+                    <p>MC Perception Design System &mdash; 7 hues &times; 5 modes &times; 6 sizes &mdash; WCAG AA compliant</p>
+                    <p style="margin-top: 0.5rem;"><a href="https://github.com/anthropics/claude-code">Built with Claude Code</a></p>
+                </footer>
+            </div>
+        </main>
+    </div>
+
+<script>
+// Auto-mark active sidebar link based on current filename
+(function() {
+    var page = location.pathname.split('/').pop().replace('.html','') || 'index';
+    var links = document.querySelectorAll('.mc-sidebar-link');
+    links.forEach(function(a) {
+        if (a.getAttribute('data-page') === page) a.classList.add('active');
+    });
+    // Mobile hamburger toggle
+    var hamburger = document.getElementById('docs-hamburger');
+    var sidebar = document.getElementById('docs-sidebar');
+    var overlay = document.getElementById('docs-overlay');
+    if (hamburger && sidebar && overlay) {
+        hamburger.addEventListener('click', function() {
+            sidebar.classList.toggle('open');
+            overlay.classList.toggle('open');
+        });
+        overlay.addEventListener('click', function() {
+            sidebar.classList.remove('open');
+            overlay.classList.remove('open');
+        });
+    }
+})();
+</script>
+</body>
+</html>

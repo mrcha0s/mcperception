@@ -233,6 +233,15 @@
 
 @font-face {
     font-family: "Roboto Slab";
+    src: url("fonts/RobotoSlab-SemiBold.woff2") format("woff2"),
+         url("fonts/RobotoSlab-SemiBold.ttf") format("truetype");
+    font-weight: 600;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: "Roboto Slab";
     src: url("fonts/RobotoSlab-Bold.woff2") format("woff2"),
          url("fonts/RobotoSlab-Bold.ttf") format("truetype");
     font-weight: 700;

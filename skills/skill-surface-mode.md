@@ -51,6 +51,8 @@ Steps 50–300: All fail AA small text (< 3.0:1 to < 2.6:1). Step 400 fails AA s
 ### Avoid on Black Surface
 Steps 600–900: All fail even non-text UI (< 2.5:1). Step 500 fails AA small text (3.8:1 < 4.5:1) but passes large text and non-text UI.
 
+**Small secondary text (≤14px) on ANY dark surface → use step 300.** Secondary/tertiary text, labels, captions, and eyebrows ≤14px on dark surfaces (Mode 2 black, Mode 4 step-800, or any raised step-800 panel) must use **step 300** (≈7.6:1 on black, ≈6:1 on a step-800 panel). Never use **step 400 or step 500** for small text on dark: step 500 fails at every layer (3.8:1 black, 3.0:1 panel) and step 400 — while it passes on pure `#0A0A0A` (~4.9:1) — **fails on raised step-800 panels (~3.9:1)**. Reserve steps 400/500 for placeholders, disabled text, decorative icons, or large text (≥18px). Neutral example: secondary label = `neutral.300`, never `neutral.400/500`.
+
 ### Special Considerations
 - For **disabled** states: Use step 500 with AA large text treatment (≥ 18px bold)
 - For **hover** states: Use step 300 (lightens from 400)

@@ -35,10 +35,18 @@
             <a href="index.html" class="mc-sidebar-link" data-page="index">Home</a>
             <a href="getting-started.html" class="mc-sidebar-link" data-page="getting-started">Getting Started</a>
             <div class="mc-sidebar-divider"></div>
+            <div class="mc-sidebar-heading">Brand</div>
+            <a href="brand-ethos.html" class="mc-sidebar-link" data-page="brand-ethos">Design Ethos</a>
+            <a href="brand-wordmark.html" class="mc-sidebar-link" data-page="brand-wordmark">Wordmark</a>
+            <div class="mc-sidebar-divider"></div>
             <div class="mc-sidebar-heading">Foundation</div>
             <a href="color.html" class="mc-sidebar-link" data-page="color">Color Palette</a>
             <a href="surface-modes.html" class="mc-sidebar-link" data-page="surface-modes">Surface Modes</a>
             <a href="typography.html" class="mc-sidebar-link" data-page="typography">Typography</a>
+            <a href="semantic-mapping.html" class="mc-sidebar-link" data-page="semantic-mapping">Semantic Mapping</a>
+            <a href="color-picker.html" class="mc-sidebar-link" data-page="color-picker">Color Picker</a>
+            <a href="depth-layers.html" class="mc-sidebar-link" data-page="depth-layers">Depth Layers</a>
+            <a href="radius-rhythm.html" class="mc-sidebar-link" data-page="radius-rhythm">Radius &amp; Rhythm</a>
             <div class="mc-sidebar-divider"></div>
             <div class="mc-sidebar-heading">Components</div>
             <a href="alert.html" class="mc-sidebar-link" data-page="alert">Alerts</a>
@@ -70,6 +78,10 @@
             <div class="mc-sidebar-heading">Examples</div>
             <a href="trading-card.html" class="mc-sidebar-link" data-page="trading-card">Trading Card</a>
             <a href="orderbook.html" class="mc-sidebar-link" data-page="orderbook">Orderbook</a>
+            <div class="mc-sidebar-divider"></div>
+            <div class="mc-sidebar-heading">Tools</div>
+            <a href="playground.html" class="mc-sidebar-link" data-page="playground">Playground</a>
+            <a href="table-surfaces.html" class="mc-sidebar-link" data-page="table-surfaces">Surface Tables</a>
         </div>
     </nav>
 
@@ -80,9 +92,9 @@
         <header class="mb-16">
             <nav class="text-xs text-p-neutral-400 mb-6 flex gap-2 items-center">
                 <a href="index.html" class="hover:text-white transition-colors">Home</a>
-                <span class="text-p-neutral-600">/</span>
+                <span class="text-p-neutral-400">/</span>
                 <a href="index.html" class="hover:text-white transition-colors">Components</a>
-                <span class="text-p-neutral-600">/</span>
+                <span class="text-p-neutral-400">/</span>
                 <span class="text-white font-semibold">Navbar</span>
             </nav>
 
@@ -134,9 +146,9 @@
                 <div class="flex items-center justify-between mb-4">
                     <div>
                         <h3 class="text-sm font-bold text-white">Default Navbar</h3>
-                        <p class="text-[10px] text-p-neutral-500 uppercase tracking-wider">Brand + Links + Toggler</p>
+                        <p class="text-[10px] text-p-neutral-300 uppercase tracking-wider">Brand + Links + Toggler</p>
                     </div>
-                    <div class="text-[10px] text-p-neutral-600 font-mono">mc-navbar</div>
+                    <div class="text-[10px] text-p-neutral-300 font-mono">mc-navbar</div>
                 </div>
                 <div data-mode="2" style="background:#0A0A0A; border:1px solid #222222; border-radius:3px; padding:0.75rem;">
                     <nav class="mc-navbar mc-navbar-expand" data-hue="blue">
@@ -459,7 +471,7 @@
             <!-- Mode 2 — Black -->
             <h3 class="text-xs font-bold uppercase tracking-widest text-p-neutral-400 mb-3">Mode 2 &mdash; Black Surface (#0A0A0A)</h3>
             <div class="surface-panel-dark border mb-6" data-mode="2" style="background:#0A0A0A; border-color:#222222;">
-                <p class="text-[9px] uppercase tracking-[0.15em] text-p-neutral-500 font-bold mb-3">Blue Hue</p>
+                <p class="text-[9px] uppercase tracking-[0.15em] text-p-neutral-300 font-bold mb-3">Blue Hue</p>
                 <nav class="mc-navbar mc-navbar-expand" data-hue="blue">
                     <a class="mc-navbar-brand" href="#">Brand</a>
                     <div class="mc-navbar-collapse show">
@@ -560,7 +572,7 @@
                 <div class="flex items-center justify-between mb-4">
                     <div>
                         <h3 class="text-sm font-bold text-white">Collapsed State (default)</h3>
-                        <p class="text-[10px] text-p-neutral-500 uppercase tracking-wider">Click toggler to expand</p>
+                        <p class="text-[10px] text-p-neutral-300 uppercase tracking-wider">Click toggler to expand</p>
                     </div>
                 </div>
                 <div data-mode="2" style="background:#0A0A0A; border:1px solid #222222; border-radius:3px; padding:0.75rem;">
@@ -586,7 +598,7 @@
                 <div class="flex items-center justify-between mb-4">
                     <div>
                         <h3 class="text-sm font-bold text-white">Expanded State</h3>
-                        <p class="text-[10px] text-p-neutral-500 uppercase tracking-wider">.mc-navbar-collapse.show</p>
+                        <p class="text-[10px] text-p-neutral-300 uppercase tracking-wider">.mc-navbar-collapse.show</p>
                     </div>
                 </div>
                 <div data-mode="2" style="background:#0A0A0A; border:1px solid #222222; border-radius:3px; padding:0.75rem;">
@@ -650,7 +662,7 @@
                     <div>
                         <div class="flex items-center gap-2 mb-1">
                             <span class="guide-label">Primary</span>
-                            <span class="text-[10px] text-p-neutral-500 font-mono">data-hue="blue"</span>
+                            <span class="text-[10px] text-p-neutral-300 font-mono">data-hue="blue"</span>
                         </div>
                         <div data-mode="2" style="background:#0A0A0A; border:1px solid #222222; border-radius:3px; padding:0.5rem;">
                             <nav class="mc-navbar mc-navbar-expand" data-hue="blue">
@@ -670,7 +682,7 @@
                     <div>
                         <div class="flex items-center gap-2 mb-1">
                             <span class="guide-label">Success</span>
-                            <span class="text-[10px] text-p-neutral-500 font-mono">data-hue="green"</span>
+                            <span class="text-[10px] text-p-neutral-300 font-mono">data-hue="green"</span>
                         </div>
                         <div data-mode="2" style="background:#0A0A0A; border:1px solid #222222; border-radius:3px; padding:0.5rem;">
                             <nav class="mc-navbar mc-navbar-expand" data-hue="green">
@@ -690,7 +702,7 @@
                     <div>
                         <div class="flex items-center gap-2 mb-1">
                             <span class="guide-label">Danger</span>
-                            <span class="text-[10px] text-p-neutral-500 font-mono">data-hue="red"</span>
+                            <span class="text-[10px] text-p-neutral-300 font-mono">data-hue="red"</span>
                         </div>
                         <div data-mode="2" style="background:#0A0A0A; border:1px solid #222222; border-radius:3px; padding:0.5rem;">
                             <nav class="mc-navbar mc-navbar-expand" data-hue="red">
@@ -710,7 +722,7 @@
                     <div>
                         <div class="flex items-center gap-2 mb-1">
                             <span class="guide-label">Warning</span>
-                            <span class="text-[10px] text-p-neutral-500 font-mono">data-hue="yellow"</span>
+                            <span class="text-[10px] text-p-neutral-300 font-mono">data-hue="yellow"</span>
                         </div>
                         <div data-mode="2" style="background:#0A0A0A; border:1px solid #222222; border-radius:3px; padding:0.5rem;">
                             <nav class="mc-navbar mc-navbar-expand" data-hue="yellow">
@@ -730,7 +742,7 @@
                     <div>
                         <div class="flex items-center gap-2 mb-1">
                             <span class="guide-label">Info</span>
-                            <span class="text-[10px] text-p-neutral-500 font-mono">data-hue="teal"</span>
+                            <span class="text-[10px] text-p-neutral-300 font-mono">data-hue="teal"</span>
                         </div>
                         <div data-mode="2" style="background:#0A0A0A; border:1px solid #222222; border-radius:3px; padding:0.5rem;">
                             <nav class="mc-navbar mc-navbar-expand" data-hue="teal">
@@ -750,7 +762,7 @@
                     <div>
                         <div class="flex items-center gap-2 mb-1">
                             <span class="guide-label">Premium</span>
-                            <span class="text-[10px] text-p-neutral-500 font-mono">data-hue="magenta"</span>
+                            <span class="text-[10px] text-p-neutral-300 font-mono">data-hue="magenta"</span>
                         </div>
                         <div data-mode="2" style="background:#0A0A0A; border:1px solid #222222; border-radius:3px; padding:0.5rem;">
                             <nav class="mc-navbar mc-navbar-expand" data-hue="magenta">

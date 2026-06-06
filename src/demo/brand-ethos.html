@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Design Ethos — MC Perception</title>
+    <link rel="stylesheet" href="../dist/mcperception.css">
+    <link rel="stylesheet" href="_docs.css">
+    <style>
+
+/* ── Page-specific styles ── */
+
+/* Intro lede */
+.ethos-lede {
+    font-size: 1.125rem;
+    line-height: 1.6;
+    color: #C3C3C3;
+    max-width: 42rem;
+}
+
+/* Principle grid */
+.ethos-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1rem;
+}
+@media (min-width: 640px) {
+    .ethos-grid { grid-template-columns: repeat(2, 1fr); }
+}
+@media (min-width: 1024px) {
+    .ethos-grid { grid-template-columns: repeat(3, 1fr); }
+}
+
+/* Principle card — built on guide-card, adds an accent left border (non-text UI) */
+.ethos-card {
+    background: #090909;
+    border: 1px solid #222222;
+    border-left: 2px solid var(--ethos-accent);
+    border-radius: 3px;
+    padding: 1.25rem 1.375rem;
+    display: flex;
+    flex-direction: column;
+    min-height: 100%;
+}
+.ethos-num {
+    font-family: 'Roboto Mono', ui-monospace, monospace;
+    font-size: 0.6875rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    color: #A0A0A0;
+    margin-bottom: 0.5rem;
+}
+.ethos-title {
+    font-size: 0.9375rem;
+    font-weight: 700;
+    color: #FFFFFF;
+    line-height: 1.3;
+    margin-bottom: 0.5rem;
+}
+.ethos-desc {
+    font-size: 0.8125rem;
+    line-height: 1.5;
+    color: #C3C3C3;
+    margin: 0;
+}
+
+/* The "test" callout */
+.ethos-test {
+    background: #090909;
+    border: 1px solid #222222;
+    border-radius: 3px;
+    padding: 1.25rem 1.5rem;
+}
+.ethos-test-label {
+    font-size: 0.6rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    font-weight: 700;
+    color: #A0A0A0;
+    margin-bottom: 0.5rem;
+}
+.ethos-test-text {
+    font-size: 0.875rem;
+    line-height: 1.55;
+    color: #C3C3C3;
+    margin: 0;
+}
+.ethos-test-text b { color: #FFFFFF; font-weight: 600; }
+    </style>
+</head>
+<body class="bg-p-black text-white min-h-screen font-sans">
+    <button id="docs-hamburger">&#9776;</button>
+    <div id="docs-overlay"></div>
+    <div class="docs-layout">
+        <nav class="mc-sidebar" data-hue="blue" data-mode="2" id="docs-sidebar" style="position: fixed; top: 0; left: 0; height: 100vh; z-index: 40; overflow-y: auto;">
+        <div class="mc-sidebar-brand">
+            <a href="index.html" class="mc-sidebar-brand-text" style="text-decoration: none; color: inherit;">MC Perception</a>
+            <span style="font-size: 0.625rem; color: #515151; font-family: 'Roboto Mono', ui-monospace, monospace;">v1.0</span>
+        </div>
+        <div class="mc-sidebar-nav">
+            <div class="mc-sidebar-heading">Getting Started</div>
+            <a href="index.html" class="mc-sidebar-link" data-page="index">Home</a>
+            <a href="getting-started.html" class="mc-sidebar-link" data-page="getting-started">Getting Started</a>
+            <div class="mc-sidebar-divider"></div>
+            <div class="mc-sidebar-heading">Brand</div>
+            <a href="brand-ethos.html" class="mc-sidebar-link" data-page="brand-ethos">Design Ethos</a>
+            <a href="brand-wordmark.html" class="mc-sidebar-link" data-page="brand-wordmark">Wordmark</a>
+            <div class="mc-sidebar-divider"></div>
+            <div class="mc-sidebar-heading">Foundation</div>
+            <a href="color.html" class="mc-sidebar-link" data-page="color">Color Palette</a>
+            <a href="surface-modes.html" class="mc-sidebar-link" data-page="surface-modes">Surface Modes</a>
+            <a href="typography.html" class="mc-sidebar-link" data-page="typography">Typography</a>
+            <a href="semantic-mapping.html" class="mc-sidebar-link" data-page="semantic-mapping">Semantic Mapping</a>
+            <a href="color-picker.html" class="mc-sidebar-link" data-page="color-picker">Color Picker</a>
+            <a href="depth-layers.html" class="mc-sidebar-link" data-page="depth-layers">Depth Layers</a>
+            <a href="radius-rhythm.html" class="mc-sidebar-link" data-page="radius-rhythm">Radius &amp; Rhythm</a>
+            <div class="mc-sidebar-divider"></div>
+            <div class="mc-sidebar-heading">Components</div>
+            <a href="alert.html" class="mc-sidebar-link" data-page="alert">Alerts</a>
+            <a href="badges.html" class="mc-sidebar-link" data-page="badges">Badges</a>
+            <a href="breadcrumb.html" class="mc-sidebar-link" data-page="breadcrumb">Breadcrumb</a>
+            <a href="button.html" class="mc-sidebar-link" data-page="button">Buttons</a>
+            <a href="button-group.html" class="mc-sidebar-link" data-page="button-group">Button Group</a>
+            <a href="card.html" class="mc-sidebar-link" data-page="card">Card</a>
+            <a href="code-mockup.html" class="mc-sidebar-link" data-page="code-mockup">Code Mockup</a>
+            <a href="dropdown.html" class="mc-sidebar-link" data-page="dropdown">Dropdowns</a>
+            <a href="input.html" class="mc-sidebar-link" data-page="input">Form Inputs</a>
+            <a href="list-group.html" class="mc-sidebar-link" data-page="list-group">List Group</a>
+            <a href="navbar.html" class="mc-sidebar-link" data-page="navbar">Navbar</a>
+            <a href="navs-tabs.html" class="mc-sidebar-link" data-page="navs-tabs">Navs &amp; Tabs</a>
+            <a href="pagination.html" class="mc-sidebar-link" data-page="pagination">Pagination</a>
+            <a href="panel-system.html" class="mc-sidebar-link" data-page="panel-system">Panels</a>
+            <a href="progress.html" class="mc-sidebar-link" data-page="progress">Progress</a>
+            <a href="range.html" class="mc-sidebar-link" data-page="range">Range Slider</a>
+            <a href="selection.html" class="mc-sidebar-link" data-page="selection">Selection Controls</a>
+            <a href="sidebar.html" class="mc-sidebar-link" data-page="sidebar">Sidebar</a>
+            <a href="spinner.html" class="mc-sidebar-link" data-page="spinner">Spinners</a>
+            <a href="stat.html" class="mc-sidebar-link" data-page="stat">Stat</a>
+            <a href="table.html" class="mc-sidebar-link" data-page="table">Tables</a>
+            <div class="mc-sidebar-divider"></div>
+            <div class="mc-sidebar-heading">Patterns</div>
+            <a href="forms.html" class="mc-sidebar-link" data-page="forms">Form Layout</a>
+            <a href="dark-surfaces.html" class="mc-sidebar-link" data-page="dark-surfaces">Dark Surface Depth</a>
+            <div class="mc-sidebar-divider"></div>
+            <div class="mc-sidebar-heading">Examples</div>
+            <a href="trading-card.html" class="mc-sidebar-link" data-page="trading-card">Trading Card</a>
+            <a href="orderbook.html" class="mc-sidebar-link" data-page="orderbook">Orderbook</a>
+            <div class="mc-sidebar-divider"></div>
+            <div class="mc-sidebar-heading">Tools</div>
+            <a href="playground.html" class="mc-sidebar-link" data-page="playground">Playground</a>
+            <a href="table-surfaces.html" class="mc-sidebar-link" data-page="table-surfaces">Surface Tables</a>
+        </div>
+    </nav>
+        <main class="docs-content">
+            <div class="max-w-7xl mx-auto px-6 py-12">
+                <nav class="text-xs text-p-neutral-400 mb-6 flex gap-2 items-center">
+                    <a href="index.html" class="hover:text-white transition-colors">Home</a>
+                    <span class="text-p-neutral-400">/</span>
+                    <a href="index.html" class="hover:text-white transition-colors">Brand</a>
+                    <span class="text-p-neutral-400">/</span>
+                    <span class="text-white font-semibold">Design Ethos</span>
+                </nav>
+
+                <!-- Header -->
+                <header class="mb-16">
+                    <div class="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-6 mb-8">
+                        <div>
+                            <h1 class="text-5xl font-bold tracking-tight mb-3">Design Ethos</h1>
+                            <p class="ethos-lede">The six non-negotiable principles behind MC Perception. They are not aspirations &mdash; they are the checklist every screen must pass before it ships. Function over decoration, always.</p>
+                        </div>
+                        <div class="flex gap-3">
+                            <span class="mc-badge mc-badge-filled mc-badge-sm" data-hue="neutral">6 Principles</span>
+                            <span class="mc-badge mc-badge-filled mc-badge-sm" data-hue="green">AA Verified</span>
+                            <span class="mc-badge mc-badge-filled mc-badge-sm" data-hue="blue">Function First</span>
+                        </div>
+                    </div>
+
+                    <!-- The test callout -->
+                    <div class="ethos-test">
+                        <div class="ethos-test-label">The Test</div>
+                        <p class="ethos-test-text">Before any MC Perception screen is considered done, it must pass all six principles below. <b>Use them as the checklist for anything you build or review.</b></p>
+                    </div>
+                </header>
+
+                <!-- ============================================================
+                     Section 1: The Six Principles
+                     ============================================================ -->
+                <section class="guide-section">
+                    <h2 class="text-2xl font-bold mb-6">
+                        <span class="section-number bg-p-blue-500 text-white">1</span>
+                        The Six Principles
+                    </h2>
+                    <p class="text-p-neutral-300 text-sm mb-6">Each principle is a constraint, not a suggestion. Together they make the system predictable: any component, on any surface, in any hue, behaves the way these rules promise.</p>
+
+                    <div class="ethos-grid">
+                        <div class="ethos-card" style="--ethos-accent: #6d6dff">
+                            <div class="ethos-num">01</div>
+                            <div class="ethos-title">Function over decoration</div>
+                            <p class="ethos-desc">Every pixel serves information. There is no ornament and no noise &mdash; if an element does not help comprehension, it does not belong on the screen.</p>
+                        </div>
+                        <div class="ethos-card" style="--ethos-accent: #D400D4">
+                            <div class="ethos-num">02</div>
+                            <div class="ethos-title">Strict color discipline</div>
+                            <p class="ethos-desc">Seven engineered hues across ten luminance steps &mdash; nothing more. Never an ad-hoc hex, never opacity to fake a shade; always a real palette step.</p>
+                        </div>
+                        <div class="ethos-card" style="--ethos-accent: #00BABA">
+                            <div class="ethos-num">03</div>
+                            <div class="ethos-title">Universal surfaces</div>
+                            <p class="ethos-desc">One component renders correctly on all five surface modes &mdash; white, black, light hue, dark hue, and mid hue. The same code, every background.</p>
+                        </div>
+                        <div class="ethos-card" style="--ethos-accent: #009400">
+                            <div class="ethos-num">04</div>
+                            <div class="ethos-title">Accessibility, always</div>
+                            <p class="ethos-desc">Every foreground and background pair is audited for WCAG AA contrast. Accessibility is built into the palette math, not bolted on at the end.</p>
+                        </div>
+                        <div class="ethos-card" style="--ethos-accent: #FFDA00">
+                            <div class="ethos-num">05</div>
+                            <div class="ethos-title">Predictable API</div>
+                            <p class="ethos-desc">Every component is base plus variant plus hue plus size &mdash; no special cases. Learn the pattern once and it holds across the entire library.</p>
+                        </div>
+                        <div class="ethos-card" style="--ethos-accent: #ff7474">
+                            <div class="ethos-num">06</div>
+                            <div class="ethos-title">Data-dense first</div>
+                            <p class="ethos-desc">Built for dashboards, trading desks, and monitoring tools &mdash; not brochures. The system optimizes for fast reading under real working conditions.</p>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- ============================================================
+                     Section 2: Why It Matters
+                     ============================================================ -->
+                <section class="guide-section">
+                    <h2 class="text-2xl font-bold mb-6">
+                        <span class="section-number bg-p-teal-500 text-white">2</span>
+                        Why It Matters
+                    </h2>
+                    <p class="text-p-neutral-300 text-sm mb-6">These principles compound. A strict palette makes contrast verifiable; verifiable contrast makes universal surfaces safe; safe surfaces make a predictable API possible. Constraint is what makes the system fast to use.</p>
+
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <div class="mc-stat" data-hue="blue" data-mode="2">
+                            <div class="mc-stat-label">Hues</div>
+                            <div class="mc-stat-value">7</div>
+                            <div class="mc-stat-meta">engineered families</div>
+                        </div>
+                        <div class="mc-stat" data-hue="teal" data-mode="2">
+                            <div class="mc-stat-label">Surface modes</div>
+                            <div class="mc-stat-value">5</div>
+                            <div class="mc-stat-meta">one component, all backgrounds</div>
+                        </div>
+                        <div class="mc-stat" data-hue="green" data-mode="2">
+                            <div class="mc-stat-label">Contrast floor</div>
+                            <div class="mc-stat-value">AA</div>
+                            <div class="mc-stat-meta">every fg / bg pair</div>
+                        </div>
+                    </div>
+                </section>
+
+                <footer class="docs-footer">
+                    <p>MC Perception Design System &mdash; 7 hues &times; 5 modes &times; 6 sizes &mdash; WCAG AA compliant</p>
+                    <p style="margin-top: 0.5rem;"><a href="https://github.com/anthropics/claude-code">Built with Claude Code</a></p>
+                </footer>
+            </div>
+        </main>
+    </div>
+
+<script>
+// Auto-mark active sidebar link based on current filename
+(function() {
+    var page = location.pathname.split('/').pop().replace('.html','') || 'index';
+    var links = document.querySelectorAll('.mc-sidebar-link');
+    links.forEach(function(a) {
+        if (a.getAttribute('data-page') === page) a.classList.add('active');
+    });
+    // Mobile hamburger toggle
+    var hamburger = document.getElementById('docs-hamburger');
+    var sidebar = document.getElementById('docs-sidebar');
+    var overlay = document.getElementById('docs-overlay');
+    if (hamburger && sidebar && overlay) {
+        hamburger.addEventListener('click', function() {
+            sidebar.classList.toggle('open');
+            overlay.classList.toggle('open');
+        });
+        overlay.addEventListener('click', function() {
+            sidebar.classList.remove('open');
+            overlay.classList.remove('open');
+        });
+    }
+})();
+</script>
+</body>
+</html>

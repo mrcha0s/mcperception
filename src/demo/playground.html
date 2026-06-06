@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Playground — MC Perception</title>
+    <link rel="stylesheet" href="../dist/mcperception.css">
+    <style>
+/* ═══════════════════════════════════════════════════════════════
+   Playground chrome — palette-compliant only (no opacity, no off-palette hex)
+   ═══════════════════════════════════════════════════════════════ */
+*, *::before, *::after { box-sizing: border-box; }
+body { margin: 0; font-family: var(--font-sans); background: #0A0A0A; color: #FFFFFF; }
+
+.pg-layout { display: flex; min-height: 100vh; }
+
+/* ── Left control rail ── */
+.pg-rail {
+    width: 248px; flex-shrink: 0; position: fixed; top: 0; left: 0; height: 100vh;
+    overflow-y: auto; background: #090909; border-right: 1px solid #222222; padding: 18px 16px 40px;
+}
+.pg-brand { font-family: var(--font-slab); font-weight: 600; font-size: 18px; color: #FFFFFF; margin: 0 0 2px; }
+.pg-brand-sub { font-family: var(--font-mono); font-size: 10px; color: #A0A0A0; margin: 0 0 22px; letter-spacing: .04em; }
+.pg-group { margin-bottom: 20px; }
+.pg-group-label { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .12em; color: #A0A0A0; margin: 0 0 9px; }
+.pg-opts { display: flex; flex-wrap: wrap; gap: 6px; }
+.pg-opt {
+    font-family: var(--font-condensed); font-size: 12px; font-weight: 500; line-height: 1;
+    padding: 6px 11px; border-radius: 3px; cursor: pointer;
+    background: #222222; color: #C3C3C3; border: 1px solid #373737; transition: none;
+}
+.pg-opt:hover { background: #373737; color: #FFFFFF; }
+.pg-opt[aria-pressed="true"] { background: #5252FF; color: #FFFFFF; border-color: #5252FF; }
+.pg-opt:focus-visible { outline: 2px solid #6D6DFF; outline-offset: 1px; }
+/* hue swatches */
+.pg-swatches { display: flex; flex-wrap: wrap; gap: 7px; }
+.pg-swatch {
+    width: 28px; height: 28px; border-radius: 3px; cursor: pointer; padding: 0;
+    border: 1px solid #373737;
+}
+.pg-swatch[aria-pressed="true"] { border: 2px solid #FFFFFF; }
+.pg-swatch:focus-visible { outline: 2px solid #FFFFFF; outline-offset: 2px; }
+.pg-hint { font-size: 11px; color: #A0A0A0; line-height: 1.5; margin: 14px 0 0; }
+.pg-aa { font-family: var(--font-mono); font-size: 11px; margin-top: 10px; padding: 6px 9px;
+    border-radius: 3px; border: 1px solid #373737; background: #222222; color: #C3C3C3; }
+.pg-aa[data-state="pass"] { border-color: #00BA00; color: #00BA00; }
+.pg-aa[data-state="fail"] { border-color: #FF7474; color: #FF7474; }
+
+/* ── Scene ── */
+.pg-scene { margin-left: 248px; flex: 1; min-width: 0; padding: 26px 30px 80px; }
+.pg-scene-bar { display: flex; align-items: center; gap: 10px; margin-bottom: 18px; flex-wrap: wrap; }
+.pg-scene-title { font-size: 13px; font-family: var(--font-mono); color: #A0A0A0; margin: 0; }
+#surface { border-radius: 3px; padding: 30px; min-height: 70vh; }
+
+/* component grid in the scene */
+.pg-sec { margin-bottom: 30px; }
+.pg-sec-h { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .12em; margin: 0 0 12px; }
+.pg-row { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; }
+.pg-stack { display: flex; flex-direction: column; gap: 12px; max-width: 340px; }
+.pg-col { display: flex; flex-direction: column; gap: 10px; min-width: 220px; }
+
+/* ═══════════════════════════════════════════════════════════════
+   Bevel / Emboss — directional 1px borders only (no gradient/shadow/gloss)
+   Double-class beats framework [data-mode] .mc-button-{variant} (equal specificity, later wins)
+   ═══════════════════════════════════════════════════════════════ */
+.mc-button.mc-button-bevel  { border-top-color:var(--btn-300,var(--color-p-neutral-300)); border-left-color:var(--btn-300,var(--color-p-neutral-300)); border-bottom-color:var(--btn-900,var(--color-p-neutral-900)); border-right-color:var(--btn-900,var(--color-p-neutral-900)); }
+.mc-button.mc-button-emboss { border-top-color:var(--btn-900,var(--color-p-neutral-900)); border-left-color:var(--btn-900,var(--color-p-neutral-900)); border-bottom-color:var(--btn-300,var(--color-p-neutral-300)); border-right-color:var(--btn-300,var(--color-p-neutral-300)); }
+[data-mode="5"] .mc-button.mc-button-bevel  { border-top-color:#FFFFFF; border-left-color:#FFFFFF; border-bottom-color:var(--btn-600); border-right-color:var(--btn-600); }
+[data-mode="5"] .mc-button.mc-button-emboss { border-top-color:var(--btn-600); border-left-color:var(--btn-600); border-bottom-color:#FFFFFF; border-right-color:#FFFFFF; }
+.mc-input.mc-input-emboss,.mc-select.mc-input-emboss,.mc-textarea.mc-input-emboss { border-top-color:#0A0A0A; border-left-color:#0A0A0A; border-bottom-color:var(--color-p-neutral-500); border-right-color:var(--color-p-neutral-500); }
+.mc-input.mc-input-bevel,.mc-select.mc-input-bevel,.mc-textarea.mc-input-bevel { border-top-color:var(--color-p-neutral-500); border-left-color:var(--color-p-neutral-500); border-bottom-color:#0A0A0A; border-right-color:#0A0A0A; }
+[data-mode="1"] .mc-input.mc-input-emboss,[data-mode="3"] .mc-input.mc-input-emboss { border-top-color:var(--color-p-neutral-400); border-left-color:var(--color-p-neutral-400); border-bottom-color:#FFFFFF; border-right-color:#FFFFFF; }
+
+/* ═══════════════════════════════════════════════════════════════
+   §5 surface-aware text fixes — demo-level overrides for framework dark-first gaps.
+   Scoped to #surface; [data-mode] #surface .x beats framework [data-mode] .x (id specificity)
+   + this <style> loads after the framework. Applied ONLY on the surfaces where the
+   raw framework color fails WCAG AA (see report). Palette steps only — no opacity.
+   ═══════════════════════════════════════════════════════════════ */
+/* toggle & dropdown-toggle render white text → invisible on light surfaces */
+#surface[data-mode="1"] .mc-button-toggle,#surface[data-mode="3"] .mc-button-toggle,
+#surface[data-mode="1"] .mc-dropdown-toggle,#surface[data-mode="3"] .mc-dropdown-toggle { color:var(--color-p-neutral-900); }
+/* semantic positive (fixed green-500) — too dark on dark, slightly low on light */
+#surface[data-mode="2"] .mc-text-positive,#surface[data-mode="4"] .mc-text-positive { color:var(--color-p-green-300); }
+#surface[data-mode="3"] .mc-text-positive { color:var(--color-p-green-600); }
+#surface[data-mode="5"] .mc-text-positive { color:#FFFFFF; }
+/* semantic negative (fixed red-200) — too light on light surfaces */
+#surface[data-mode="1"] .mc-text-negative,#surface[data-mode="3"] .mc-text-negative { color:var(--color-p-red-600); }
+/* breadcrumb current item (neutral-400) */
+#surface[data-mode="1"] .mc-breadcrumb-item,#surface[data-mode="3"] .mc-breadcrumb-item { color:var(--color-p-neutral-900); }
+#surface[data-mode="4"] .mc-breadcrumb-item,#surface[data-mode="5"] .mc-breadcrumb-item { color:#FFFFFF; }
+/* hue-50 links + nav-link + hue-200 dropdown-header fail on mid hue (M5) / dark menus */
+#surface[data-mode="5"] .mc-breadcrumb-item a,#surface[data-mode="5"] .mc-nav-link { color:#FFFFFF; }
+#surface[data-mode="2"] .mc-dropdown-header,#surface[data-mode="4"] .mc-dropdown-header,#surface[data-mode="5"] .mc-dropdown-header { color:#FFFFFF; }
+    </style>
+</head>
+<body class="font-sans">
+    <div class="pg-layout">
+        <!-- ════════════ Control rail ════════════ -->
+        <aside class="pg-rail">
+            <div class="pg-brand">MC Perception</div>
+            <div class="pg-brand-sub">Component Playground</div>
+
+            <div class="pg-group">
+                <div class="pg-group-label">Hue</div>
+                <div class="pg-swatches" id="ctl-hue"></div>
+            </div>
+            <div class="pg-group">
+                <div class="pg-group-label">Surface mode</div>
+                <div class="pg-opts" id="ctl-mode"></div>
+            </div>
+            <div class="pg-group">
+                <div class="pg-group-label">Size</div>
+                <div class="pg-opts" id="ctl-size"></div>
+            </div>
+            <div class="pg-group">
+                <div class="pg-group-label">Depth <span style="color:#6C6C6C">(button &amp; input)</span></div>
+                <div class="pg-opts" id="ctl-depth"></div>
+            </div>
+            <div class="pg-group">
+                <div class="pg-group-label">State</div>
+                <div class="pg-opts" id="ctl-state"></div>
+            </div>
+
+            <p class="pg-hint">Every text/background pair is checked against WCAG AA on each render. Surface context is applied only to the scene.</p>
+            <div class="pg-aa" id="pg-aa">AA: —</div>
+        </aside>
+
+        <!-- ════════════ Scene ════════════ -->
+        <main class="pg-scene">
+            <div class="pg-scene-bar">
+                <p class="pg-scene-title" id="scene-meta">surface</p>
+            </div>
+            <div id="surface"></div>
+        </main>
+    </div>
+
+<script>
+/* ════════════════════════════════════════════════════════════════
+   State
+   ════════════════════════════════════════════════════════════════ */
+const HUES  = ['neutral','red','green','blue','yellow','magenta','teal'];
+const MODES = [1,2,3,4,5];
+const SIZES = ['xs','sm','md','lg','xl','xxl'];
+const DEPTHS= ['flat','bevel','emboss'];
+const STATES= ['default','disabled','loading'];
+const S = { hue:'blue', mode:2, size:'md', depth:'flat', state:'default' };
+
+/* Surface background per mode (palette only) */
+const surfaceBg = (h,m) => ({1:'#FFFFFF', 2:'#0A0A0A',
+  3:`var(--color-p-${h}-100)`, 4:`var(--color-p-${h}-800)`, 5:`var(--color-p-${h}-500)`}[m]);
+/* Section-heading color per mode — palette steps, NEVER opacity */
+const subColor = m => ({1:'#373737', 2:'#a0a0a0', 3:'#373737', 4:'#c3c3c3', 5:'#FFFFFF'}[m]);
+/* Primary readable text per mode (for any plain text we add) */
+const txtColor = m => ({1:'#0A0A0A', 2:'#FFFFFF', 3:'#0A0A0A', 4:'#FFFFFF', 5:'#FFFFFF'}[m]);
+
+/* ── helpers ── */
+const sz   = comp => S.size !== 'md' ? ` mc-${comp}-${S.size}` : '';
+const hue  = () => `data-hue="${S.hue}"`;
+const dis  = () => S.state === 'disabled' ? ' disabled' : '';
+const bDep = () => S.depth !== 'flat' ? ` mc-button-${S.depth}` : '';
+const iDep = () => S.depth !== 'flat' ? ` mc-input-${S.depth}` : '';
+const bLoad= () => S.state === 'loading' ? ' mc-button-loading' : '';
+
+/* ════════════════════════════════════════════════════════════════
+   Build the control rail
+   ════════════════════════════════════════════════════════════════ */
+function buildControls() {
+  const hueWrap = document.getElementById('ctl-hue');
+  hueWrap.innerHTML = HUES.map(h =>
+    `<button class="pg-swatch" data-hue-pick="${h}" title="${h}" aria-pressed="${h===S.hue}"
+      style="background:var(--color-p-${h}-500)"></button>`).join('');
+  const opt = (group, list, cur, fmt) => document.getElementById('ctl-'+group).innerHTML =
+    list.map(v => `<button class="pg-opt" data-${group}="${v}" aria-pressed="${String(v)===String(cur)}">${fmt?fmt(v):v}</button>`).join('');
+  opt('mode', MODES, S.mode, m => 'M'+m);
+  opt('size', SIZES, S.size);
+  opt('depth', DEPTHS, S.depth);
+  opt('state', STATES, S.state);
+}
+
+document.querySelector('.pg-rail').addEventListener('click', e => {
+  const b = e.target.closest('button'); if (!b) return;
+  if (b.dataset.huePick) S.hue = b.dataset.huePick;
+  else if (b.dataset.mode) S.mode = +b.dataset.mode;
+  else if (b.dataset.size) S.size = b.dataset.size;
+  else if (b.dataset.depth) S.depth = b.dataset.depth;
+  else if (b.dataset.state) S.state = b.dataset.state;
+  else return;
+  buildControls();
+  render();
+});
+
+/* ════════════════════════════════════════════════════════════════
+   Scene component builders — every one carries data-hue + size class
+   ════════════════════════════════════════════════════════════════ */
+const section = (title, body) => `<section class="pg-sec"><h2 class="pg-sec-h">${title}</h2>${body}</section>`;
+
+function buildScene() {
+  const H = hue(), D = dis(), tc = txtColor(S.mode);
+
+  const buttons = section('Buttons', `<div class="pg-row">
+    ${['filled','tonal','outline','ghost'].map(v =>
+      `<button class="mc-button mc-button-${v}${sz('button')}${bDep()}${bLoad()}" ${H}${D}>${v[0].toUpperCase()+v.slice(1)}</button>`).join('')}
+    <button class="mc-button mc-button-filled mc-button-icon-only${sz('button')}${bDep()}${bLoad()}" ${H}${D} aria-label="icon">&#9733;</button>
+  </div>`);
+
+  const groups = section('Button group &amp; toggle', `<div class="pg-row">
+    <div class="mc-button-group" ${H}>
+      <button class="mc-button mc-button-outline${sz('button')}" ${H}${D}>Left</button>
+      <button class="mc-button mc-button-outline${sz('button')}" ${H}${D}>Mid</button>
+      <button class="mc-button mc-button-outline${sz('button')}" ${H}${D}>Right</button>
+    </div>
+    <button class="mc-button mc-button-toggle${sz('button')}" ${H}${D} aria-pressed="true">Toggle</button>
+  </div>`);
+
+  const badges = section('Badges', `<div class="pg-row">
+    ${['filled','tonal','outline','subtle'].map(v =>
+      `<span class="mc-badge mc-badge-${v}${sz('badge')}" ${H}>${v}</span>`).join('')}
+    <span class="mc-badge mc-badge-filled mc-badge-pill${sz('badge')}" ${H}>pill</span>
+    <span class="mc-badge mc-badge-filled${sz('badge')}" ${H}><span class="mc-badge-dot"></span> dot</span>
+  </div>`);
+
+  const inputs = section('Text inputs', `<div class="pg-col">
+    <input type="text" class="mc-input${sz('input')}${iDep()}" ${H}${D} placeholder="Text input" value="Hello world">
+    <input type="text" class="mc-input mc-input-mono${sz('input')}${iDep()}" ${H}${D} placeholder="Mono input" value="0.0042 BTC">
+    <select class="mc-select${sz('select')}${iDep()}" ${H}${D}>
+      <option>Choose an option</option><option>Second</option><option>Third</option>
+    </select>
+    <textarea class="mc-textarea${iDep()}" ${H}${D} rows="2" placeholder="Textarea">Multi-line content…</textarea>
+  </div>`);
+
+  const selection = section('Selection controls', `<div class="pg-row" style="gap:22px">
+    <label class="mc-label" style="display:flex;align-items:center;gap:8px;color:${tc}">
+      <input type="checkbox" class="mc-checkbox${sz('checkbox')}" ${H}${D} checked> Checkbox</label>
+    <label class="mc-label" style="display:flex;align-items:center;gap:8px;color:${tc}">
+      <input type="radio" name="pg-r" class="mc-radio${sz('radio')}" ${H}${D} checked> Radio</label>
+    <label class="mc-label" style="display:flex;align-items:center;gap:8px;color:${tc}">
+      <input type="checkbox" class="mc-switch${sz('switch')}" ${H}${D} checked> Switch</label>
+  </div>`);
+
+  const alerts = section('Alerts', `<div class="pg-stack" style="max-width:520px">
+    ${['','mc-alert-filled','mc-alert-outline'].map((v,i) =>
+      `<div class="mc-alert ${v}${sz('alert')}" ${H} role="alert">
+        <div class="mc-alert-content"><span class="mc-alert-heading">${['Soft','Filled','Outline'][i]} alert</span>
+        Surface-mode-aware feedback message.</div></div>`).join('')}
+  </div>`);
+
+  const panels = section('Panels (flat / bevel / emboss)', `<div class="pg-row" style="align-items:stretch">
+    ${['','mc-panel-bevel','mc-panel-emboss'].map((v,i) =>
+      `<div class="mc-panel ${v}${sz('panel')}" ${H} style="min-width:170px">
+        <div class="mc-panel-title">${['Flat','Bevel','Emboss'][i]}</div>
+        <div style="font-size:13px;margin-top:6px">Body copy on a panel surface.</div></div>`).join('')}
+  </div>`);
+
+  const card = section('Card', `<div class="mc-card${sz('card')}" ${H} style="max-width:300px">
+    <div class="mc-card-header"><span class="mc-card-title">Card title</span></div>
+    <div class="mc-card-body"><p class="mc-card-text">A card groups related content with header, body and footer.</p></div>
+    <div class="mc-card-footer"><button class="mc-button mc-button-filled mc-button-sm" ${H}${D}>Action</button></div>
+  </div>`);
+
+  const stat = section('Stat', `<div class="mc-stats" ${H}>
+    <div class="mc-stat${sz('stat')}" ${H}>
+      <div class="mc-stat-title">Revenue</div>
+      <div class="mc-stat-value">$48,120</div>
+      <div class="mc-stat-desc mc-text-positive">+12.4% MoM</div>
+    </div>
+  </div>`);
+
+  const table = section('Table (striped)', `<table class="mc-table mc-table-striped${sz('table')}" ${H}>
+    <thead><tr><th>Asset</th><th>Price</th><th>Change</th></tr></thead>
+    <tbody>
+      <tr><td>BTC</td><td class="mc-input-mono">$64,210</td><td class="mc-text-positive">+2.1%</td></tr>
+      <tr><td>ETH</td><td class="mc-input-mono">$3,180</td><td class="mc-text-negative">-0.8%</td></tr>
+      <tr><td>SOL</td><td class="mc-input-mono">$142</td><td class="mc-text-positive">+5.6%</td></tr>
+    </tbody></table>`);
+
+  const breadcrumb = section('Breadcrumb', `<nav class="mc-breadcrumb${sz('breadcrumb')}" ${H}>
+    <span class="mc-breadcrumb-item"><a href="#">Home</a></span>
+    <span class="mc-breadcrumb-item"><a href="#">Library</a></span>
+    <span class="mc-breadcrumb-item">Data</span>
+  </nav>`);
+
+  const pagination = section('Pagination', `<nav class="mc-pagination${sz('pagination')}" ${H}>
+    <span class="mc-page-item"><a class="mc-page-link" href="#">&laquo;</a></span>
+    <span class="mc-page-item"><a class="mc-page-link" href="#">1</a></span>
+    <span class="mc-page-item"><a class="mc-page-link" href="#" aria-current="page">2</a></span>
+    <span class="mc-page-item"><a class="mc-page-link" href="#">3</a></span>
+    <span class="mc-page-item"><a class="mc-page-link" href="#">&raquo;</a></span>
+  </nav>`);
+
+  const listgroup = section('List group', `<div class="mc-list-group${sz('list-group')}" ${H} style="max-width:300px">
+    <div class="mc-list-group-item">Dashboard</div>
+    <div class="mc-list-group-item mc-list-group-item-action">Reports</div>
+    <div class="mc-list-group-item">Settings</div>
+  </div>`);
+
+  const dropdown = section('Dropdown', `<div class="mc-dropdown${sz('dropdown')}" ${H}>
+    <button class="mc-dropdown-toggle" ${H}${D}>Menu</button>
+    <div class="mc-dropdown-menu" style="position:static;display:block">
+      <div class="mc-dropdown-header">Section</div>
+      <a class="mc-dropdown-item" href="#">First item</a>
+      <a class="mc-dropdown-item" href="#">Second item</a>
+      <div class="mc-dropdown-divider"></div>
+      <a class="mc-dropdown-item" href="#">Third item</a>
+    </div>
+  </div>`);
+
+  const navs = section('Navs &amp; tabs', `<nav class="mc-nav mc-nav-tabs${sz('nav')}" ${H}>
+    <span class="mc-nav-item"><a class="mc-nav-link" href="#" aria-current="page">Overview</a></span>
+    <span class="mc-nav-item"><a class="mc-nav-link" href="#">Activity</a></span>
+    <span class="mc-nav-item"><a class="mc-nav-link" href="#">Settings</a></span>
+  </nav>`);
+
+  const progress = section('Progress', `<div class="mc-progress${sz('progress')}" ${H}>
+    <div class="mc-progress-bar" style="width:62%"></div></div>`);
+
+  const spinner = section('Spinners', `<div class="pg-row" style="gap:20px">
+    <span class="mc-spinner-border${sz('spinner')}" ${H} role="status" aria-label="loading"></span>
+    <span class="mc-spinner-grow${sz('spinner')}" ${H} role="status" aria-label="loading"></span>
+    <span class="mc-spinner-dots${sz('spinner')}" ${H} role="status" aria-label="loading"></span>
+    <span class="mc-spinner-ring${sz('spinner')}" ${H} role="status" aria-label="loading"></span>
+  </div>`);
+
+  const range = section('Range', `<div class="mc-range-wrap${sz('range-wrap')}" ${H} style="max-width:320px">
+    <input type="range" class="mc-range${sz('range')}" ${H}${D} min="0" max="100" value="55">
+  </div>`);
+
+  return [buttons, groups, badges, inputs, selection, alerts, panels, card, stat, table,
+          breadcrumb, pagination, listgroup, dropdown, navs, progress, spinner, range].join('');
+}
+
+/* ════════════════════════════════════════════════════════════════
+   §5 — WCAG audit (mandatory, run every render)
+   ════════════════════════════════════════════════════════════════ */
+function auditAA(){
+  const root=document.getElementById('surface');
+  const px=s=>(s.match(/[\d.]+/g)||[0,0,0]).map(Number);
+  const lin=c=>{c/=255;return c<=0.03928?c/12.92:Math.pow((c+0.055)/1.055,2.4);};
+  const L=([r,g,b])=>0.2126*lin(r)+0.7152*lin(g)+0.0722*lin(b);
+  const cr=(a,b)=>{const x=L(a),y=L(b),h=Math.max(x,y),l=Math.min(x,y);return (h+0.05)/(l+0.05);};
+  const bg=el=>{let e=el;while(e){const c=getComputedStyle(e).backgroundColor;if(c&&!/0, 0, 0, 0|transparent/.test(c))return px(c);e=e.parentElement;}return [22,22,22];};
+  const f=[];root.querySelectorAll('*').forEach(el=>{
+    const t=[...el.childNodes].filter(n=>n.nodeType===3&&n.textContent.trim()).map(n=>n.textContent.trim()).join(' ');
+    if(!t)return;
+    if(el.closest('[disabled],[aria-disabled="true"],.mc-button-loading'))return; /* WCAG 1.4.3: inactive/disabled UI exempt */
+    const cs=getComputedStyle(el),fs=parseFloat(cs.fontSize),fw=+cs.fontWeight||400;
+    const big=fs>=24||(fs>=18.66&&fw>=700);const r=cr(px(cs.color),bg(el));
+    if(r<(big?3:4.5))f.push(r.toFixed(2)+' "'+t.slice(0,24)+'"');});
+  console.log('AA fails: '+f.length, f); return f;
+}
+
+/* ════════════════════════════════════════════════════════════════
+   Render
+   ════════════════════════════════════════════════════════════════ */
+function render(){
+  const surface = document.getElementById('surface');
+  surface.setAttribute('data-hue', S.hue);
+  surface.setAttribute('data-mode', S.mode);
+  surface.style.background = surfaceBg(S.hue, S.mode);
+
+  surface.innerHTML = buildScene();
+
+  // section heading color per mode (no opacity)
+  const sc = subColor(S.mode);
+  surface.querySelectorAll('.pg-sec-h').forEach(el => el.style.color = sc);
+
+  document.getElementById('scene-meta').textContent =
+    `data-hue="${S.hue}"  data-mode="${S.mode}" (M${S.mode})  ·  size ${S.size}  ·  ${S.depth}  ·  ${S.state}`;
+
+  // mandatory AA audit
+  const fails = auditAA();
+  const aa = document.getElementById('pg-aa');
+  aa.textContent = `AA: ${fails.length} fail`;
+  aa.setAttribute('data-state', fails.length === 0 ? 'pass' : 'fail');
+  window.__AA = fails;
+}
+
+buildControls();
+render();
+</script>
+</body>
+</html>

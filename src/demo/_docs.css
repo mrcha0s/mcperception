@@ -76,7 +76,7 @@ body { font-family: 'Inter', system-ui, -apple-system, sans-serif; }
     font-size: 0.6rem;
     text-transform: uppercase;
     letter-spacing: 0.1em;
-    color: #6c6c6c;
+    color: #A0A0A0;
     font-weight: 700;
 }
 .guide-row {
@@ -101,7 +101,7 @@ body { font-family: 'Inter', system-ui, -apple-system, sans-serif; }
 .code-block .a  { color: #9494ff; }
 .code-block .v  { color: #00ba00; }
 .code-block .c  { color: #6d6dff; }
-.code-block .cm { color: #515151; }
+.code-block .cm { color: #A0A0A0; }
 .code-block .tx { color: #c3c3c3; }
 .surface-panel {
     border-radius: 8px;
@@ -123,11 +123,11 @@ body { font-family: 'Inter', system-ui, -apple-system, sans-serif; }
     text-transform: uppercase;
     letter-spacing: 0.12em;
     font-weight: 700;
-    color: #515151;
+    color: #A0A0A0;
     width: 64px;
     flex-shrink: 0;
 }
-.white-label { color: #7f7f7f; }
+.white-label { color: #515151; }
 
 /* ── Standard Footer ── */
 .docs-footer {
@@ -138,7 +138,7 @@ body { font-family: 'Inter', system-ui, -apple-system, sans-serif; }
 }
 .docs-footer p {
     font-size: 0.75rem;
-    color: #515151;
+    color: #A0A0A0;
 }
 .docs-footer a {
     color: #6d6dff;

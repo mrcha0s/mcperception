@@ -1,0 +1,32 @@
+/* ═══════════════════════════════════════════════════════════════════
+   MC Perception — Surface / Panel-aware opaque-card table layer
+   Additive layer. Does NOT modify the framework (mcperception-*.css).
+   All theme colors are injected as CSS variables at runtime by
+   mc-table-surface.js (applyTableTheme). The card carries its own opaque
+   surface so the data sits on a neutral row background that always passes
+   WCAG AA — even on live/mid-hue surfaces (M3/M5).
+   ═══════════════════════════════════════════════════════════════════ */
+.tcard { border-radius:5px; overflow:hidden; border:1px solid var(--bd); background:var(--base); }
+.tcard .thead-row { display:flex; align-items:baseline; justify-content:space-between; padding:13px 16px 11px; border-bottom:2px solid var(--accent); background:var(--th-bg); }
+.tcard .tt { font-family:var(--font-slab); font-weight:700; font-size:15px; color:var(--fg); }
+.tcard .tt span { color:var(--tacc); }
+.tcard .thint { font-family:var(--font-mono); font-size:10px; color:var(--mut); }
+table.dt { width:100%; border-collapse:collapse; margin:0; }
+table.dt th { background:var(--th-bg); color:var(--mut); font-family:var(--font-condensed); font-size:11px; font-weight:600; letter-spacing:.05em; text-transform:uppercase; padding:8px 16px; text-align:left; cursor:pointer; user-select:none; white-space:nowrap; border-bottom:1px solid var(--bd); }
+table.dt th.num, table.dt td.num { text-align:right; font-variant-numeric:tabular-nums; }
+table.dt td.num { font-family:var(--font-mono); }
+table.dt th .ar { opacity:.35; margin-left:4px; font-size:9px; }
+table.dt th.sorted { color:var(--fg); }
+table.dt th.sorted .ar { opacity:1; color:var(--tacc); }
+table.dt td { padding:8px 16px; font-size:13px; color:var(--fg); border-bottom:1px solid var(--bd); }
+table.dt tbody tr:nth-child(even) td { background:var(--stripe); }
+table.dt tbody tr:hover td { background:var(--hover); }
+table.dt tbody tr:last-child td { border-bottom:0; }
+.tcard .sym { font-weight:600; }
+.tcard .sub2 { display:block; font-size:10px; color:var(--mut); font-weight:400; }
+.tcard .pos { color:var(--pos); } .tcard .neg { color:var(--neg); }
+table.dt tfoot td { font-family:var(--font-mono); font-weight:600; border-top:1px solid var(--accent); background:var(--th-bg); }
+.tcard .foot-label { font-family:var(--font-sans); color:var(--mut); font-weight:600; text-align:left; }
+.panelwrap { border-radius:5px; padding:16px; border:1px solid var(--pbd); background:var(--pbg); }
+.panelwrap .ptitle { font-family:var(--font-condensed); font-size:11px; font-weight:600; letter-spacing:.08em; text-transform:uppercase; color:var(--pfg); margin-bottom:12px; display:flex; align-items:center; gap:8px; }
+.panelwrap .pdot { width:8px; height:8px; border-radius:2px; background:var(--tacc); }

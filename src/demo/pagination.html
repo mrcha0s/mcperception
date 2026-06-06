@@ -63,10 +63,18 @@
             <a href="index.html" class="mc-sidebar-link" data-page="index">Home</a>
             <a href="getting-started.html" class="mc-sidebar-link" data-page="getting-started">Getting Started</a>
             <div class="mc-sidebar-divider"></div>
+            <div class="mc-sidebar-heading">Brand</div>
+            <a href="brand-ethos.html" class="mc-sidebar-link" data-page="brand-ethos">Design Ethos</a>
+            <a href="brand-wordmark.html" class="mc-sidebar-link" data-page="brand-wordmark">Wordmark</a>
+            <div class="mc-sidebar-divider"></div>
             <div class="mc-sidebar-heading">Foundation</div>
             <a href="color.html" class="mc-sidebar-link" data-page="color">Color Palette</a>
             <a href="surface-modes.html" class="mc-sidebar-link" data-page="surface-modes">Surface Modes</a>
             <a href="typography.html" class="mc-sidebar-link" data-page="typography">Typography</a>
+            <a href="semantic-mapping.html" class="mc-sidebar-link" data-page="semantic-mapping">Semantic Mapping</a>
+            <a href="color-picker.html" class="mc-sidebar-link" data-page="color-picker">Color Picker</a>
+            <a href="depth-layers.html" class="mc-sidebar-link" data-page="depth-layers">Depth Layers</a>
+            <a href="radius-rhythm.html" class="mc-sidebar-link" data-page="radius-rhythm">Radius &amp; Rhythm</a>
             <div class="mc-sidebar-divider"></div>
             <div class="mc-sidebar-heading">Components</div>
             <a href="alert.html" class="mc-sidebar-link" data-page="alert">Alerts</a>
@@ -98,6 +106,10 @@
             <div class="mc-sidebar-heading">Examples</div>
             <a href="trading-card.html" class="mc-sidebar-link" data-page="trading-card">Trading Card</a>
             <a href="orderbook.html" class="mc-sidebar-link" data-page="orderbook">Orderbook</a>
+            <div class="mc-sidebar-divider"></div>
+            <div class="mc-sidebar-heading">Tools</div>
+            <a href="playground.html" class="mc-sidebar-link" data-page="playground">Playground</a>
+            <a href="table-surfaces.html" class="mc-sidebar-link" data-page="table-surfaces">Surface Tables</a>
         </div>
     </nav>
 
@@ -108,9 +120,9 @@
         <header class="mb-16">
             <nav class="text-xs text-p-neutral-400 mb-6 flex gap-2 items-center">
                 <a href="index.html" class="hover:text-white transition-colors">Home</a>
-                <span class="text-p-neutral-600">/</span>
+                <span class="text-p-neutral-400">/</span>
                 <a href="index.html" class="hover:text-white transition-colors">Components</a>
-                <span class="text-p-neutral-600">/</span>
+                <span class="text-p-neutral-400">/</span>
                 <span class="text-white font-semibold">Pagination</span>
             </nav>
 
@@ -316,7 +328,7 @@
                             <li class="mc-page-item"><a class="mc-page-link" href="#">&raquo;</a></li>
                         </ul>
                     </nav>
-                    <p class="text-p-neutral-500 text-xs mt-3">Previous is disabled because there are no earlier pages. Page 1 has the active state with inverted colors.</p>
+                    <p class="text-p-neutral-300 text-xs mt-3">Previous is disabled because there are no earlier pages. Page 1 has the active state with inverted colors.</p>
                 </div>
 
                 <!-- Disabled state -->
@@ -333,7 +345,7 @@
                             <li class="mc-page-item disabled"><a class="mc-page-link" href="#" tabindex="-1" aria-disabled="true">&raquo;</a></li>
                         </ul>
                     </nav>
-                    <p class="text-p-neutral-500 text-xs mt-3">Next is disabled because there are no later pages. Page 5 has the active state.</p>
+                    <p class="text-p-neutral-300 text-xs mt-3">Next is disabled because there are no later pages. Page 5 has the active state.</p>
                 </div>
 
                 <!-- Both ends disabled -->
@@ -346,7 +358,7 @@
                             <li class="mc-page-item disabled"><a class="mc-page-link" href="#" tabindex="-1" aria-disabled="true">&raquo;</a></li>
                         </ul>
                     </nav>
-                    <p class="text-p-neutral-500 text-xs mt-3">Both navigation arrows disabled when only one page exists.</p>
+                    <p class="text-p-neutral-300 text-xs mt-3">Both navigation arrows disabled when only one page exists.</p>
                 </div>
 
                 <!-- Multiple hues with states -->
@@ -936,7 +948,7 @@
                         <span class="mc-badge mc-badge-filled" data-hue="blue" style="font-size: 0.625rem;">Primary</span>
                         <span class="guide-label">blue</span>
                     </div>
-                    <p class="text-p-neutral-500 text-xs mb-3">Default page navigation, standard pagination controls.</p>
+                    <p class="text-p-neutral-300 text-xs mb-3">Default page navigation, standard pagination controls.</p>
                     <nav aria-label="Primary blue pagination">
                         <ul class="mc-pagination" data-hue="blue">
                             <li class="mc-page-item"><a class="mc-page-link" href="#">&laquo;</a></li>
@@ -954,7 +966,7 @@
                         <span class="mc-badge mc-badge-filled" data-hue="green" style="font-size: 0.625rem;">Success</span>
                         <span class="guide-label">green</span>
                     </div>
-                    <p class="text-p-neutral-500 text-xs mb-3">Completed steps, progress-oriented page navigation.</p>
+                    <p class="text-p-neutral-300 text-xs mb-3">Completed steps, progress-oriented page navigation.</p>
                     <nav aria-label="Success green pagination">
                         <ul class="mc-pagination" data-hue="green">
                             <li class="mc-page-item"><a class="mc-page-link" href="#">&laquo;</a></li>
@@ -972,7 +984,7 @@
                         <span class="mc-badge mc-badge-filled" data-hue="red" style="font-size: 0.625rem;">Danger</span>
                         <span class="guide-label">red</span>
                     </div>
-                    <p class="text-p-neutral-500 text-xs mb-3">Error log pagination, audit trail, alert history.</p>
+                    <p class="text-p-neutral-300 text-xs mb-3">Error log pagination, audit trail, alert history.</p>
                     <nav aria-label="Danger red pagination">
                         <ul class="mc-pagination" data-hue="red">
                             <li class="mc-page-item"><a class="mc-page-link" href="#">&laquo;</a></li>

@@ -70,8 +70,8 @@
     .mc-button {
         @apply font-condensed border cursor-pointer tracking-wider
                inline-flex items-center justify-center
-               font-semibold rounded transition-colors duration-150
-               focus:outline-none focus:ring-2 focus:ring-offset-1;
+               font-medium rounded transition-colors duration-150
+               focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-1;
         /* md default sizing */
         font-size: 14px;
         padding: 8px 16px;

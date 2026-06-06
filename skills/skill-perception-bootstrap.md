@@ -10,10 +10,10 @@ description: >
   WCAG, design system, color palette, component library, or Bootstrap. This skill defines the architecture,
   routing logic, and generation workflow for an entire design system with 7 hues, 5 surface modes,
   6 sizes, and strict WCAG AA compliance. Every UI element produced under this system MUST follow
-  the Perception Bootstrap rules. There are NO exceptions. If in doubt, read this skill.
+  the MC Perception rules. There are NO exceptions. If in doubt, read this skill.
 ---
 
-# Perception Bootstrap — Master Orchestrator
+# MC Perception — Master Orchestrator
 
 ## Architecture Overview
 

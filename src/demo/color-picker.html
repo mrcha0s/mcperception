@@ -1,0 +1,632 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Color Picker — MC Perception</title>
+    <link rel="stylesheet" href="../dist/mcperception.css">
+    <link rel="stylesheet" href="_docs.css">
+    <style>
+
+/* ── Page-specific styles ── */
+
+/* Interactive swatch grid */
+.cp-grid {
+    display: grid;
+    grid-template-columns: 70px repeat(10, 1fr);
+    gap: 4px;
+    align-items: center;
+}
+.cp-grid-head {
+    font-family: 'Roboto Mono', ui-monospace, monospace;
+    font-size: 9px;
+    font-weight: 700;
+    text-align: center;
+    color: #A0A0A0;
+    letter-spacing: 0.04em;
+}
+.cp-row-label {
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: #C3C3C3;
+}
+.cp-swatch {
+    height: 38px;
+    border: 1px solid #373737;
+    border-radius: 3px;
+    cursor: pointer;
+    padding: 0;
+    position: relative;
+    transition: transform 0.08s ease;
+    outline: none;
+}
+.cp-swatch:hover { transform: scale(1.08); z-index: 2; }
+.cp-swatch:focus-visible {
+    box-shadow: 0 0 0 2px #0A0A0A, 0 0 0 4px #6d6dff;
+    z-index: 3;
+}
+.cp-swatch.selected::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border: 2px solid #FFFFFF;
+    border-radius: 3px;
+}
+.cp-swatch.selected-dark::after {
+    border-color: #0A0A0A;
+}
+
+/* Inspector panel */
+.cp-inspector {
+    display: grid;
+    grid-template-columns: 120px 1fr;
+    gap: 1.25rem;
+    align-items: stretch;
+}
+.cp-preview {
+    border: 1px solid #373737;
+    border-radius: 3px;
+    min-height: 120px;
+}
+.cp-fields { display: flex; flex-direction: column; gap: 0.6rem; }
+.cp-field {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    background: #090909;
+    border: 1px solid #222222;
+    border-radius: 3px;
+    padding: 8px 12px;
+}
+.cp-flabel {
+    font-size: 9px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: #A0A0A0;
+    flex-shrink: 0;
+}
+.cp-fvalue {
+    font-family: 'Roboto Mono', ui-monospace, monospace;
+    font-size: 12px;
+    color: #FFFFFF;
+    text-align: right;
+    word-break: break-all;
+}
+.cp-copy-status {
+    font-size: 11px;
+    font-weight: 600;
+    color: #00ba00;
+    min-height: 16px;
+    margin-top: 0.25rem;
+}
+
+/* Anchor swatches (white / black) */
+.cp-anchors { display: flex; gap: 0.75rem; flex-wrap: wrap; margin-top: 0.75rem; }
+.cp-anchor {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    background: #090909;
+    border: 1px solid #222222;
+    border-radius: 3px;
+    padding: 8px 12px;
+    cursor: pointer;
+    transition: border-color 0.1s ease;
+}
+.cp-anchor:hover { border-color: #515151; }
+.cp-anchor:focus-visible {
+    outline: none;
+    border-color: #6d6dff;
+}
+.cp-anchor-chip {
+    width: 28px;
+    height: 28px;
+    border-radius: 3px;
+    border: 1px solid #373737;
+    flex-shrink: 0;
+}
+.cp-anchor-meta { display: flex; flex-direction: column; }
+.cp-anchor-name { font-size: 12px; font-weight: 700; color: #FFFFFF; }
+.cp-anchor-hex {
+    font-family: 'Roboto Mono', ui-monospace, monospace;
+    font-size: 10px;
+    color: #A0A0A0;
+}
+    </style>
+</head>
+<body class="bg-p-black text-white min-h-screen font-sans">
+    <button id="docs-hamburger">&#9776;</button>
+    <div id="docs-overlay"></div>
+    <div class="docs-layout">
+        <nav class="mc-sidebar" data-hue="blue" data-mode="2" id="docs-sidebar" style="position: fixed; top: 0; left: 0; height: 100vh; z-index: 40; overflow-y: auto;">
+        <div class="mc-sidebar-brand">
+            <a href="index.html" class="mc-sidebar-brand-text" style="text-decoration: none; color: inherit;">MC Perception</a>
+            <span style="font-size: 0.625rem; color: #515151; font-family: 'Roboto Mono', ui-monospace, monospace;">v1.0</span>
+        </div>
+        <div class="mc-sidebar-nav">
+            <div class="mc-sidebar-heading">Getting Started</div>
+            <a href="index.html" class="mc-sidebar-link" data-page="index">Home</a>
+            <a href="getting-started.html" class="mc-sidebar-link" data-page="getting-started">Getting Started</a>
+            <div class="mc-sidebar-divider"></div>
+            <div class="mc-sidebar-heading">Brand</div>
+            <a href="brand-ethos.html" class="mc-sidebar-link" data-page="brand-ethos">Design Ethos</a>
+            <a href="brand-wordmark.html" class="mc-sidebar-link" data-page="brand-wordmark">Wordmark</a>
+            <div class="mc-sidebar-divider"></div>
+            <div class="mc-sidebar-heading">Foundation</div>
+            <a href="color.html" class="mc-sidebar-link" data-page="color">Color Palette</a>
+            <a href="surface-modes.html" class="mc-sidebar-link" data-page="surface-modes">Surface Modes</a>
+            <a href="typography.html" class="mc-sidebar-link" data-page="typography">Typography</a>
+            <a href="semantic-mapping.html" class="mc-sidebar-link" data-page="semantic-mapping">Semantic Mapping</a>
+            <a href="color-picker.html" class="mc-sidebar-link" data-page="color-picker">Color Picker</a>
+            <a href="depth-layers.html" class="mc-sidebar-link" data-page="depth-layers">Depth Layers</a>
+            <a href="radius-rhythm.html" class="mc-sidebar-link" data-page="radius-rhythm">Radius &amp; Rhythm</a>
+            <div class="mc-sidebar-divider"></div>
+            <div class="mc-sidebar-heading">Components</div>
+            <a href="alert.html" class="mc-sidebar-link" data-page="alert">Alerts</a>
+            <a href="badges.html" class="mc-sidebar-link" data-page="badges">Badges</a>
+            <a href="breadcrumb.html" class="mc-sidebar-link" data-page="breadcrumb">Breadcrumb</a>
+            <a href="button.html" class="mc-sidebar-link" data-page="button">Buttons</a>
+            <a href="button-group.html" class="mc-sidebar-link" data-page="button-group">Button Group</a>
+            <a href="card.html" class="mc-sidebar-link" data-page="card">Card</a>
+            <a href="code-mockup.html" class="mc-sidebar-link" data-page="code-mockup">Code Mockup</a>
+            <a href="dropdown.html" class="mc-sidebar-link" data-page="dropdown">Dropdowns</a>
+            <a href="input.html" class="mc-sidebar-link" data-page="input">Form Inputs</a>
+            <a href="list-group.html" class="mc-sidebar-link" data-page="list-group">List Group</a>
+            <a href="navbar.html" class="mc-sidebar-link" data-page="navbar">Navbar</a>
+            <a href="navs-tabs.html" class="mc-sidebar-link" data-page="navs-tabs">Navs &amp; Tabs</a>
+            <a href="pagination.html" class="mc-sidebar-link" data-page="pagination">Pagination</a>
+            <a href="panel-system.html" class="mc-sidebar-link" data-page="panel-system">Panels</a>
+            <a href="progress.html" class="mc-sidebar-link" data-page="progress">Progress</a>
+            <a href="range.html" class="mc-sidebar-link" data-page="range">Range Slider</a>
+            <a href="selection.html" class="mc-sidebar-link" data-page="selection">Selection Controls</a>
+            <a href="sidebar.html" class="mc-sidebar-link" data-page="sidebar">Sidebar</a>
+            <a href="spinner.html" class="mc-sidebar-link" data-page="spinner">Spinners</a>
+            <a href="stat.html" class="mc-sidebar-link" data-page="stat">Stat</a>
+            <a href="table.html" class="mc-sidebar-link" data-page="table">Tables</a>
+            <div class="mc-sidebar-divider"></div>
+            <div class="mc-sidebar-heading">Patterns</div>
+            <a href="forms.html" class="mc-sidebar-link" data-page="forms">Form Layout</a>
+            <a href="dark-surfaces.html" class="mc-sidebar-link" data-page="dark-surfaces">Dark Surface Depth</a>
+            <div class="mc-sidebar-divider"></div>
+            <div class="mc-sidebar-heading">Examples</div>
+            <a href="trading-card.html" class="mc-sidebar-link" data-page="trading-card">Trading Card</a>
+            <a href="orderbook.html" class="mc-sidebar-link" data-page="orderbook">Orderbook</a>
+            <div class="mc-sidebar-divider"></div>
+            <div class="mc-sidebar-heading">Tools</div>
+            <a href="playground.html" class="mc-sidebar-link" data-page="playground">Playground</a>
+            <a href="table-surfaces.html" class="mc-sidebar-link" data-page="table-surfaces">Surface Tables</a>
+        </div>
+    </nav>
+        <main class="docs-content">
+            <div class="max-w-7xl mx-auto px-6 py-12">
+                <nav class="text-xs text-p-neutral-400 mb-6 flex gap-2 items-center">
+                    <a href="index.html" class="hover:text-white transition-colors">Home</a>
+                    <span class="text-p-neutral-400">/</span>
+                    <a href="index.html" class="hover:text-white transition-colors">Foundation</a>
+                    <span class="text-p-neutral-400">/</span>
+                    <span class="text-white font-semibold">Color Picker</span>
+                </nav>
+
+                <!-- Header -->
+                <header class="mb-16">
+                    <div class="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-6 mb-8">
+                        <div>
+                            <h1 class="text-5xl font-bold tracking-tight mb-3">Color Picker</h1>
+                            <p class="text-p-neutral-300 text-lg max-w-2xl">An interactive sampler for the entire palette — 7 hues &times; 10 steps plus the white and black anchors. Click any swatch to read its hex, token, and utility classes, and copy the hex to your clipboard. Pick by <span class="text-white font-semibold">role + step</span>, never a free hex.</p>
+                        </div>
+                        <div class="flex gap-3">
+                            <span class="mc-badge mc-badge-filled mc-badge-sm" data-hue="neutral">72 Swatches</span>
+                            <span class="mc-badge mc-badge-filled mc-badge-sm" data-hue="green">AA Verified</span>
+                            <span class="mc-badge mc-badge-filled mc-badge-sm" data-hue="blue">Click to copy</span>
+                        </div>
+                    </div>
+
+                    <!-- Quick start -->
+                    <div class="guide-card">
+                        <div class="text-xs text-p-neutral-400 font-semibold mb-3">QUICK START</div>
+                        <div class="code-block">
+                            <span class="cm">&lt;!-- Background utility --&gt;</span><br>
+                            <span class="t">&lt;div</span> <span class="a">class</span>=<span class="v">"bg-p-blue-500"</span><span class="t">&gt;</span>...<span class="t">&lt;/div&gt;</span><br><br>
+                            <span class="cm">&lt;!-- Text utility --&gt;</span><br>
+                            <span class="t">&lt;p</span> <span class="a">class</span>=<span class="v">"text-p-teal-300"</span><span class="t">&gt;</span>Info text<span class="t">&lt;/p&gt;</span><br><br>
+                            <span class="cm">&lt;!-- CSS variable --&gt;</span><br>
+                            <span class="a">color</span>: <span class="v">var(--color-p-magenta-500)</span>;
+                        </div>
+                    </div>
+                </header>
+
+                <!-- ============================================================
+                     Section 1: Interactive Picker
+                     ============================================================ -->
+                <section class="guide-section">
+                    <h2 class="text-2xl font-bold mb-6">
+                        <span class="section-number bg-p-blue-500 text-white">1</span>
+                        Pick a Color
+                    </h2>
+                    <p class="text-p-neutral-400 text-sm mb-6">Click any swatch in the grid below to inspect it. The inspector reads the live computed value, so the hex is always the exact rendered color. Keyboard: tab to a swatch and press Enter or Space to select.</p>
+
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
+                        <!-- Swatch grid -->
+                        <div class="guide-card">
+                            <div class="text-xs text-p-neutral-400 font-semibold mb-4">PALETTE GRID — 7 HUES &times; 10 STEPS</div>
+                            <div class="cp-grid" id="cp-grid"></div>
+
+                            <div class="text-xs text-p-neutral-400 font-semibold mt-6 mb-2">ANCHORS</div>
+                            <div class="cp-anchors" id="cp-anchors"></div>
+                        </div>
+
+                        <!-- Inspector -->
+                        <div class="guide-card">
+                            <div class="text-xs text-p-neutral-400 font-semibold mb-4">INSPECTOR</div>
+                            <div class="cp-inspector">
+                                <div class="cp-preview" id="cp-preview" style="background: var(--color-p-blue-500);"></div>
+                                <div class="cp-fields">
+                                    <div class="cp-field">
+                                        <span class="cp-flabel">Token</span>
+                                        <span class="cp-fvalue" id="cp-token">blue 500</span>
+                                    </div>
+                                    <div class="cp-field">
+                                        <span class="cp-flabel">Hex</span>
+                                        <span class="cp-fvalue" id="cp-hex">#5252FF</span>
+                                    </div>
+                                    <div class="cp-field">
+                                        <span class="cp-flabel">Variable</span>
+                                        <span class="cp-fvalue" id="cp-var">--color-p-blue-500</span>
+                                    </div>
+                                    <div class="cp-field">
+                                        <span class="cp-flabel">Bg class</span>
+                                        <span class="cp-fvalue" id="cp-bg">bg-p-blue-500</span>
+                                    </div>
+                                    <div class="cp-field">
+                                        <span class="cp-flabel">Text class</span>
+                                        <span class="cp-fvalue" id="cp-text">text-p-blue-500</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="cp-copy-status" id="cp-copy-status">Click a swatch to copy its hex.</div>
+
+                            <div class="text-xs text-p-neutral-400 font-semibold mt-6 mb-3">LIVE SNIPPET</div>
+                            <div class="code-block">
+                                <span class="t">&lt;div</span> <span class="a">class</span>=<span class="v" id="cp-snip-bg">"bg-p-blue-500"</span><span class="t">&gt;&lt;/div&gt;</span><br>
+                                <span class="a">color</span>: <span class="v" id="cp-snip-var">var(--color-p-blue-500)</span>;
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- ============================================================
+                     Section 2: Reading the Token
+                     ============================================================ -->
+                <section class="guide-section">
+                    <h2 class="text-2xl font-bold mb-6">
+                        <span class="section-number bg-p-green-500 text-white">2</span>
+                        Reading a Token
+                    </h2>
+                    <p class="text-p-neutral-400 text-sm mb-6">Every swatch resolves to four interchangeable references. Use the utility classes in markup and the CSS variable in custom styles.</p>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                        <div class="role-card">
+                            <div class="role-label">Token name</div>
+                            <div class="role-value text-p-blue-400">blue 500</div>
+                        </div>
+                        <div class="role-card">
+                            <div class="role-label">CSS variable</div>
+                            <div class="role-value text-p-blue-400">--color-p-blue-500</div>
+                        </div>
+                        <div class="role-card">
+                            <div class="role-label">Background class</div>
+                            <div class="role-value text-p-blue-400">bg-p-blue-500</div>
+                        </div>
+                        <div class="role-card">
+                            <div class="role-label">Text class</div>
+                            <div class="role-value text-p-blue-400">text-p-blue-500</div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- ============================================================
+                     Section 3: Surface Mode Guidance
+                     ============================================================ -->
+                <section class="guide-section">
+                    <h2 class="text-2xl font-bold mb-6">
+                        <span class="section-number bg-p-magenta-500 text-white">3</span>
+                        Which Step on Which Surface
+                    </h2>
+                    <p class="text-p-neutral-400 text-sm mb-6">The picker shows raw swatches, but the surface mode dictates which step is safe. These rules are universal across all 7 hues.</p>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                        <div class="guide-card">
+                            <div class="flex items-center gap-2 mb-3">
+                                <span style="width:20px;height:20px;border-radius:3px;background:#FFFFFF;border:1px solid #515151"></span>
+                                <span class="text-sm font-bold">Mode 1 — White Surface</span>
+                            </div>
+                            <div class="text-xs text-p-neutral-300 space-y-1">
+                                <div><span class="text-p-neutral-300 font-semibold">Text:</span> Steps 500-900</div>
+                                <div><span class="text-p-neutral-300 font-semibold">Accent:</span> Step 500</div>
+                                <div><span class="text-p-neutral-300 font-semibold">Divider:</span> Step 400</div>
+                                <div class="text-p-red-400 font-semibold mt-2">Avoid: Steps 50-300 for text</div>
+                            </div>
+                        </div>
+                        <div class="guide-card">
+                            <div class="flex items-center gap-2 mb-3">
+                                <span style="width:20px;height:20px;border-radius:3px;background:#0A0A0A;border:1px solid #515151"></span>
+                                <span class="text-sm font-bold">Mode 2 — Black Surface</span>
+                            </div>
+                            <div class="text-xs text-p-neutral-300 space-y-1">
+                                <div><span class="text-p-neutral-300 font-semibold">Text:</span> Steps 50-400 + White</div>
+                                <div><span class="text-p-neutral-300 font-semibold">Accent:</span> Step 400</div>
+                                <div><span class="text-p-neutral-300 font-semibold">Divider:</span> Step 500</div>
+                                <div class="text-p-red-400 font-semibold mt-2">Avoid: Steps 600-900 for text</div>
+                            </div>
+                        </div>
+                        <div class="guide-card">
+                            <div class="flex items-center gap-2 mb-3">
+                                <span style="width:20px;height:20px;border-radius:3px;background:var(--color-p-blue-100);border:1px solid #515151"></span>
+                                <span class="text-sm font-bold">Mode 3 — Light Hue (100)</span>
+                            </div>
+                            <div class="text-xs text-p-neutral-300 space-y-1">
+                                <div><span class="text-p-neutral-300 font-semibold">Text:</span> Steps 600-900 + Black</div>
+                                <div><span class="text-p-neutral-300 font-semibold">Accent:</span> Step 600</div>
+                                <div><span class="text-p-neutral-300 font-semibold">Divider:</span> Step 500</div>
+                                <div class="text-p-red-400 font-semibold mt-2">Avoid: Steps 50-300 for text</div>
+                            </div>
+                        </div>
+                        <div class="guide-card">
+                            <div class="flex items-center gap-2 mb-3">
+                                <span style="width:20px;height:20px;border-radius:3px;background:var(--color-p-blue-800);border:1px solid #515151"></span>
+                                <span class="text-sm font-bold">Mode 4 — Dark Hue (800)</span>
+                            </div>
+                            <div class="text-xs text-p-neutral-300 space-y-1">
+                                <div><span class="text-p-neutral-300 font-semibold">Text:</span> Steps 50-300 + White</div>
+                                <div><span class="text-p-neutral-300 font-semibold">Accent:</span> Step 300</div>
+                                <div><span class="text-p-neutral-300 font-semibold">Divider:</span> Step 500</div>
+                                <div class="text-p-red-400 font-semibold mt-2">Avoid: Steps 600-900 for text</div>
+                            </div>
+                        </div>
+                        <div class="guide-card">
+                            <div class="flex items-center gap-2 mb-3">
+                                <span style="width:20px;height:20px;border-radius:3px;background:var(--color-p-blue-500);border:1px solid #515151"></span>
+                                <span class="text-sm font-bold">Mode 5 — Mid Hue (500)</span>
+                            </div>
+                            <div class="text-xs text-p-neutral-300 space-y-1">
+                                <div><span class="text-p-neutral-300 font-semibold">Text:</span> White / Step 50</div>
+                                <div><span class="text-p-neutral-300 font-semibold">Accent:</span> Step 50</div>
+                                <div><span class="text-p-neutral-300 font-semibold">Divider:</span> Black</div>
+                                <div class="text-p-red-400 font-semibold mt-2">Avoid: Steps 300-700 for text</div>
+                            </div>
+                        </div>
+                        <div class="guide-card flex flex-col justify-center">
+                            <div class="text-xs text-p-neutral-300 space-y-2">
+                                <div class="text-p-neutral-300 font-semibold text-sm">WCAG Thresholds</div>
+                                <div><span class="text-p-green-400 font-mono">4.5:1</span> — AA small text</div>
+                                <div><span class="text-p-yellow-400 font-mono">3.0:1</span> — AA large text / UI</div>
+                                <div><span class="text-p-red-400 font-mono">&lt;3.0:1</span> — Fails</div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <footer class="docs-footer">
+                    <p>MC Perception Design System &mdash; 7 hues &times; 5 modes &times; 6 sizes &mdash; WCAG AA compliant</p>
+                    <p style="margin-top: 0.5rem;"><a href="https://github.com/anthropics/claude-code">Built with Claude Code</a></p>
+                </footer>
+            </div>
+        </main>
+    </div>
+
+<script>
+// Auto-mark active sidebar link based on current filename
+(function() {
+    var page = location.pathname.split('/').pop().replace('.html','') || 'index';
+    var links = document.querySelectorAll('.mc-sidebar-link');
+    links.forEach(function(a) {
+        if (a.getAttribute('data-page') === page) a.classList.add('active');
+    });
+    // Mobile hamburger toggle
+    var hamburger = document.getElementById('docs-hamburger');
+    var sidebar = document.getElementById('docs-sidebar');
+    var overlay = document.getElementById('docs-overlay');
+    if (hamburger && sidebar && overlay) {
+        hamburger.addEventListener('click', function() {
+            sidebar.classList.toggle('open');
+            overlay.classList.toggle('open');
+        });
+        overlay.addEventListener('click', function() {
+            sidebar.classList.remove('open');
+            overlay.classList.remove('open');
+        });
+    }
+})();
+</script>
+
+<script>
+/* ================================================================
+   Interactive Color Picker
+   ================================================================
+   Swatches are painted with the --color-p-* CSS variables only, so
+   the rendered color is always the authoritative palette value. The
+   inspector reads the live computed background and converts it to a
+   hex label at runtime — no literal palette hex is hardcoded here.
+   ================================================================ */
+var HUES = ['neutral','red','green','blue','yellow','magenta','teal'];
+var STEPS = [50,100,200,300,400,500,600,700,800,900];
+
+/* relative luminance (sRGB) — used only to choose readable label/selection color */
+function srgbLin(c) { var s = c / 255; return s <= 0.03928 ? s / 12.92 : Math.pow((s + 0.055) / 1.055, 2.4); }
+function lumRGB(r, g, b) { return 0.2126 * srgbLin(r) + 0.7152 * srgbLin(g) + 0.0722 * srgbLin(b); }
+
+/* parse "rgb(r, g, b)" → {r,g,b} */
+function parseRGB(str) {
+    var m = str.match(/(\d+)/g);
+    if (!m) return { r: 0, g: 0, b: 0 };
+    return { r: +m[0], g: +m[1], b: +m[2] };
+}
+function toHex(n) { var h = n.toString(16).toUpperCase(); return h.length === 1 ? '0' + h : h; }
+function rgbToHex(o) { return '#' + toHex(o.r) + toHex(o.g) + toHex(o.b); }
+
+/* Resolve a CSS variable to its rendered hex via a throwaway element */
+function resolveHex(varExpr) {
+    var probe = document.createElement('span');
+    probe.style.color = varExpr;
+    probe.style.display = 'none';
+    document.body.appendChild(probe);
+    var rgb = getComputedStyle(probe).color;
+    document.body.removeChild(probe);
+    return rgbToHex(parseRGB(rgb));
+}
+
+var $ = function(id) { return document.getElementById(id); };
+var selectedEl = null;
+
+function buildGrid() {
+    var grid = $('cp-grid');
+    var html = '';
+    /* header row: corner + 10 step numbers */
+    html += '<div class="cp-grid-head"></div>';
+    for (var s = 0; s < STEPS.length; s++) {
+        html += '<div class="cp-grid-head">' + STEPS[s] + '</div>';
+    }
+    /* one row per hue */
+    for (var h = 0; h < HUES.length; h++) {
+        var hue = HUES[h];
+        html += '<div class="cp-row-label">' + hue + '</div>';
+        for (var i = 0; i < STEPS.length; i++) {
+            var step = STEPS[i];
+            html += '<button type="button" class="cp-swatch" '
+                  + 'style="background: var(--color-p-' + hue + '-' + step + ');" '
+                  + 'data-hue="' + hue + '" data-step="' + step + '" '
+                  + 'aria-label="' + hue + ' ' + step + '" '
+                  + 'title="' + hue + ' ' + step + '"></button>';
+        }
+    }
+    grid.innerHTML = html;
+
+    var swatches = grid.querySelectorAll('.cp-swatch');
+    swatches.forEach(function(btn) {
+        btn.addEventListener('click', function() {
+            selectSwatch(btn, btn.getAttribute('data-hue'), btn.getAttribute('data-step'));
+        });
+    });
+}
+
+function buildAnchors() {
+    var wrap = $('cp-anchors');
+    var anchors = [
+        { name: 'White', variable: '--color-p-white', bg: 'bg-p-white', text: 'text-p-white' },
+        { name: 'Black', variable: '--color-p-black', bg: 'bg-p-black', text: 'text-p-black' }
+    ];
+    var html = '';
+    for (var a = 0; a < anchors.length; a++) {
+        var an = anchors[a];
+        html += '<button type="button" class="cp-anchor" data-anchor="' + an.name.toLowerCase() + '">'
+              + '<span class="cp-anchor-chip" style="background: var(' + an.variable + ');"></span>'
+              + '<span class="cp-anchor-meta">'
+              + '<span class="cp-anchor-name">' + an.name + '</span>'
+              + '<span class="cp-anchor-hex" id="cp-anchor-hex-' + an.name.toLowerCase() + '"></span>'
+              + '</span></button>';
+    }
+    wrap.innerHTML = html;
+
+    for (var b = 0; b < anchors.length; b++) {
+        (function(an) {
+            var key = an.name.toLowerCase();
+            var hex = resolveHex('var(' + an.variable + ')');
+            $('cp-anchor-hex-' + key).textContent = hex;
+            wrap.querySelector('[data-anchor="' + key + '"]').addEventListener('click', function() {
+                selectAnchor(this, an, hex);
+            });
+        })(anchors[b]);
+    }
+}
+
+function clearSelection() {
+    if (selectedEl) {
+        selectedEl.classList.remove('selected');
+        selectedEl.classList.remove('selected-dark');
+        selectedEl = null;
+    }
+}
+
+function applyInspector(token, hex, variable, bgClass, textClass, previewVar) {
+    $('cp-preview').style.background = previewVar;
+    $('cp-token').textContent = token;
+    $('cp-hex').textContent = hex;
+    $('cp-var').textContent = variable;
+    $('cp-bg').textContent = bgClass;
+    $('cp-text').textContent = textClass;
+    $('cp-snip-bg').textContent = '"' + bgClass + '"';
+    $('cp-snip-var').textContent = 'var(' + variable + ')';
+    copyHex(hex);
+}
+
+function selectSwatch(btn, hue, step) {
+    clearSelection();
+    selectedEl = btn;
+    btn.classList.add('selected');
+    var varName = '--color-p-' + hue + '-' + step;
+    var hex = resolveHex('var(' + varName + ')');
+    /* selection ring contrasts with the swatch */
+    var rgb = parseRGB(getComputedStyle(btn).backgroundColor);
+    if (lumRGB(rgb.r, rgb.g, rgb.b) > 0.45) btn.classList.add('selected-dark');
+    applyInspector(
+        hue + ' ' + step,
+        hex,
+        varName,
+        'bg-p-' + hue + '-' + step,
+        'text-p-' + hue + '-' + step,
+        'var(' + varName + ')'
+    );
+}
+
+function selectAnchor(el, an, hex) {
+    clearSelection();
+    applyInspector(an.name, hex, an.variable, an.bg, an.text, 'var(' + an.variable + ')');
+}
+
+function copyHex(hex) {
+    var status = $('cp-copy-status');
+    function ok() { status.textContent = 'Copied ' + hex + ' to clipboard'; }
+    function fail() { status.textContent = 'Selected ' + hex + ' (clipboard unavailable)'; }
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(hex).then(ok, fail);
+    } else {
+        try {
+            var ta = document.createElement('textarea');
+            ta.value = hex;
+            document.body.appendChild(ta);
+            ta.select();
+            document.execCommand('copy');
+            document.body.removeChild(ta);
+            ok();
+        } catch (e) { fail(); }
+    }
+}
+
+buildGrid();
+buildAnchors();
+
+/* Initialise the default selection (blue 500) without copying on load */
+(function initDefault() {
+    var def = document.querySelector('.cp-swatch[data-hue="blue"][data-step="500"]');
+    if (def) {
+        selectedEl = def;
+        def.classList.add('selected');
+        var varName = '--color-p-blue-500';
+        var hex = resolveHex('var(' + varName + ')');
+        $('cp-preview').style.background = 'var(' + varName + ')';
+        $('cp-token').textContent = 'blue 500';
+        $('cp-hex').textContent = hex;
+        $('cp-var').textContent = varName;
+        $('cp-bg').textContent = 'bg-p-blue-500';
+        $('cp-text').textContent = 'text-p-blue-500';
+        $('cp-snip-bg').textContent = '"bg-p-blue-500"';
+        $('cp-snip-var').textContent = 'var(' + varName + ')';
+    }
+})();
+</script>
+</body>
+</html>

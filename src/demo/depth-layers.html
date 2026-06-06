@@ -1,0 +1,569 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Depth Layers — MC Perception</title>
+    <link rel="stylesheet" href="../dist/mcperception.css">
+    <link rel="stylesheet" href="_docs.css">
+    <style>
+
+/* ── Page-specific styles ── */
+/* All colors below are palette steps only (neutral + blue) */
+
+/* Nested depth stack — each layer is exactly one palette step apart */
+.depth-stack {
+    border-radius: 3px;
+    overflow: hidden;
+}
+
+/* A single depth layer band. background + border set inline per-layer
+   so the exact palette step is visible/auditable in the markup. */
+.depth-layer {
+    border: 1px solid;
+    border-radius: 3px;
+    padding: 14px 16px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+}
+.depth-layer + .depth-layer { margin-top: 12px; }
+
+/* Layer text bits */
+.layer-role {
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.01em;
+    color: #FFFFFF;
+}
+.layer-when {
+    font-size: 11px;
+    color: #A0A0A0;          /* neutral.300 — secondary text on dark */
+    margin-top: 2px;
+}
+.layer-tok {
+    font-family: 'Roboto Mono', ui-monospace, monospace;
+    font-size: 11px;
+    font-weight: 600;
+    color: #C3C3C3;          /* neutral.200 */
+    white-space: nowrap;
+}
+.layer-eye {
+    display: inline-flex;
+    flex-shrink: 0;
+    color: #A0A0A0;
+}
+
+/* Border tier sample chips */
+.tier-row {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 8px 0;
+}
+.tier-sw {
+    width: 56px;
+    height: 30px;
+    border-radius: 3px;
+    border: 1px solid;
+    flex-shrink: 0;
+}
+.tier-name { font-size: 13px; font-weight: 700; color: #FFFFFF; width: 96px; }
+.tier-use  { font-size: 12px; color: #A0A0A0; flex: 1; }
+.tier-tok  { font-family: 'Roboto Mono', ui-monospace, monospace; font-size: 11px; font-weight: 600; color: #C3C3C3; white-space: nowrap; }
+
+/* Cross-section diagram (eye → raised → panel → deep) */
+.xsec {
+    font-family: 'Roboto Mono', ui-monospace, monospace;
+    font-size: 12px;
+    line-height: 1.9;
+    color: #C3C3C3;
+}
+.xsec .lbl { color: #9494FF; }        /* blue.300 accent */
+.xsec .dim { color: #7F7F7F; }        /* neutral.400 — large/UI text only */
+
+/* Small inline token pill in prose */
+.tok-pill {
+    font-family: 'Roboto Mono', ui-monospace, monospace;
+    font-size: 0.75em;
+    color: #9494FF;
+}
+    </style>
+</head>
+<body class="bg-p-black text-white min-h-screen font-sans">
+    <button id="docs-hamburger">&#9776;</button>
+    <div id="docs-overlay"></div>
+    <div class="docs-layout">
+        <nav class="mc-sidebar" data-hue="blue" data-mode="2" id="docs-sidebar" style="position: fixed; top: 0; left: 0; height: 100vh; z-index: 40; overflow-y: auto;">
+        <div class="mc-sidebar-brand">
+            <a href="index.html" class="mc-sidebar-brand-text" style="text-decoration: none; color: inherit;">MC Perception</a>
+            <span style="font-size: 0.625rem; color: #515151; font-family: 'Roboto Mono', ui-monospace, monospace;">v1.0</span>
+        </div>
+        <div class="mc-sidebar-nav">
+            <div class="mc-sidebar-heading">Getting Started</div>
+            <a href="index.html" class="mc-sidebar-link" data-page="index">Home</a>
+            <a href="getting-started.html" class="mc-sidebar-link" data-page="getting-started">Getting Started</a>
+            <div class="mc-sidebar-divider"></div>
+            <div class="mc-sidebar-heading">Brand</div>
+            <a href="brand-ethos.html" class="mc-sidebar-link" data-page="brand-ethos">Design Ethos</a>
+            <a href="brand-wordmark.html" class="mc-sidebar-link" data-page="brand-wordmark">Wordmark</a>
+            <div class="mc-sidebar-divider"></div>
+            <div class="mc-sidebar-heading">Foundation</div>
+            <a href="color.html" class="mc-sidebar-link" data-page="color">Color Palette</a>
+            <a href="surface-modes.html" class="mc-sidebar-link" data-page="surface-modes">Surface Modes</a>
+            <a href="typography.html" class="mc-sidebar-link" data-page="typography">Typography</a>
+            <a href="semantic-mapping.html" class="mc-sidebar-link" data-page="semantic-mapping">Semantic Mapping</a>
+            <a href="color-picker.html" class="mc-sidebar-link" data-page="color-picker">Color Picker</a>
+            <a href="depth-layers.html" class="mc-sidebar-link" data-page="depth-layers">Depth Layers</a>
+            <a href="radius-rhythm.html" class="mc-sidebar-link" data-page="radius-rhythm">Radius &amp; Rhythm</a>
+            <div class="mc-sidebar-divider"></div>
+            <div class="mc-sidebar-heading">Components</div>
+            <a href="alert.html" class="mc-sidebar-link" data-page="alert">Alerts</a>
+            <a href="badges.html" class="mc-sidebar-link" data-page="badges">Badges</a>
+            <a href="breadcrumb.html" class="mc-sidebar-link" data-page="breadcrumb">Breadcrumb</a>
+            <a href="button.html" class="mc-sidebar-link" data-page="button">Buttons</a>
+            <a href="button-group.html" class="mc-sidebar-link" data-page="button-group">Button Group</a>
+            <a href="card.html" class="mc-sidebar-link" data-page="card">Card</a>
+            <a href="code-mockup.html" class="mc-sidebar-link" data-page="code-mockup">Code Mockup</a>
+            <a href="dropdown.html" class="mc-sidebar-link" data-page="dropdown">Dropdowns</a>
+            <a href="input.html" class="mc-sidebar-link" data-page="input">Form Inputs</a>
+            <a href="list-group.html" class="mc-sidebar-link" data-page="list-group">List Group</a>
+            <a href="navbar.html" class="mc-sidebar-link" data-page="navbar">Navbar</a>
+            <a href="navs-tabs.html" class="mc-sidebar-link" data-page="navs-tabs">Navs &amp; Tabs</a>
+            <a href="pagination.html" class="mc-sidebar-link" data-page="pagination">Pagination</a>
+            <a href="panel-system.html" class="mc-sidebar-link" data-page="panel-system">Panels</a>
+            <a href="progress.html" class="mc-sidebar-link" data-page="progress">Progress</a>
+            <a href="range.html" class="mc-sidebar-link" data-page="range">Range Slider</a>
+            <a href="selection.html" class="mc-sidebar-link" data-page="selection">Selection Controls</a>
+            <a href="sidebar.html" class="mc-sidebar-link" data-page="sidebar">Sidebar</a>
+            <a href="spinner.html" class="mc-sidebar-link" data-page="spinner">Spinners</a>
+            <a href="stat.html" class="mc-sidebar-link" data-page="stat">Stat</a>
+            <a href="table.html" class="mc-sidebar-link" data-page="table">Tables</a>
+            <div class="mc-sidebar-divider"></div>
+            <div class="mc-sidebar-heading">Patterns</div>
+            <a href="forms.html" class="mc-sidebar-link" data-page="forms">Form Layout</a>
+            <a href="dark-surfaces.html" class="mc-sidebar-link" data-page="dark-surfaces">Dark Surface Depth</a>
+            <div class="mc-sidebar-divider"></div>
+            <div class="mc-sidebar-heading">Examples</div>
+            <a href="trading-card.html" class="mc-sidebar-link" data-page="trading-card">Trading Card</a>
+            <a href="orderbook.html" class="mc-sidebar-link" data-page="orderbook">Orderbook</a>
+            <div class="mc-sidebar-divider"></div>
+            <div class="mc-sidebar-heading">Tools</div>
+            <a href="playground.html" class="mc-sidebar-link" data-page="playground">Playground</a>
+            <a href="table-surfaces.html" class="mc-sidebar-link" data-page="table-surfaces">Surface Tables</a>
+        </div>
+    </nav>
+        <main class="docs-content">
+            <div class="max-w-7xl mx-auto px-6 py-12">
+                <nav class="text-xs text-p-neutral-400 mb-6 flex gap-2 items-center">
+                    <a href="index.html" class="hover:text-white transition-colors">Home</a>
+                    <span class="text-p-neutral-400">/</span>
+                    <a href="index.html" class="hover:text-white transition-colors">Foundation</a>
+                    <span class="text-p-neutral-400">/</span>
+                    <span class="text-white font-semibold">Depth Layers</span>
+                </nav>
+
+                <!-- Header -->
+                <header class="mb-16">
+                    <div class="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-6 mb-8">
+                        <div>
+                            <h1 class="text-5xl font-bold tracking-tight mb-3">Depth Layers</h1>
+                            <p class="text-p-neutral-300 text-lg max-w-2xl">On Mode 2 (Black) and Mode 4 (Dark Hue) surfaces, depth comes from a flat 4-layer brightness stack and 1px borders only. No gradients, no shadows, no bevels &mdash; just like a professional creative-tool panel.</p>
+                        </div>
+                        <div class="flex gap-3">
+                            <span class="mc-badge mc-badge-filled mc-badge-sm" data-hue="neutral">Mode 2</span>
+                            <span class="mc-badge mc-badge-filled mc-badge-sm" data-hue="blue">Mode 4</span>
+                            <span class="mc-badge mc-badge-filled mc-badge-sm" data-hue="green">Flat &amp; 1px</span>
+                        </div>
+                    </div>
+
+                    <!-- Quick start -->
+                    <div class="guide-card">
+                        <div class="text-xs text-p-neutral-400 font-semibold mb-3">THE THREE RULES</div>
+                        <div class="text-sm text-p-neutral-300 space-y-2">
+                            <div><span class="text-white font-semibold">1. Every surface is a flat solid color.</span> No <span class="tok-pill">linear-gradient()</span>, no <span class="tok-pill">background-image</span>.</div>
+                            <div><span class="text-white font-semibold">2. Depth = brightness stacking.</span> Closer surfaces are one palette step brighter; inset surfaces are one step darker.</div>
+                            <div><span class="text-white font-semibold">3. Borders are 1px, always.</span> Every interactive boundary gets a thin border &mdash; radius capped at 3px.</div>
+                        </div>
+                    </div>
+                </header>
+
+                <!-- ============================================================
+                     Section 1: The 4-Layer Surface System
+                     ============================================================ -->
+                <section class="guide-section">
+                    <h2 class="text-2xl font-bold mb-6">
+                        <span class="section-number bg-p-neutral-500 text-white">1</span>
+                        The 4-Layer Surface System
+                    </h2>
+                    <p class="text-p-neutral-400 text-sm mb-6">Depth is created by stacking four surface brightness levels, each exactly one palette step apart. <span class="text-p-neutral-300">Raised</span> sits one step lighter than <span class="text-p-neutral-300">Panel</span>; <span class="text-p-neutral-300">Input</span> sits one step darker (pushed into the surface).</p>
+
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                        <!-- Mode 2 — Black (neutral) -->
+                        <div data-hue="neutral" data-mode="2">
+                            <div class="grid-label" style="width:auto; margin-bottom:10px;">Mode 2 &mdash; Black (neutral)</div>
+                            <div class="depth-stack">
+                                <div class="depth-layer" style="background:#373737; border-color:#515151;">
+                                    <span class="layer-eye">
+                                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7z"/><circle cx="12" cy="12" r="2.5"/></svg>
+                                    </span>
+                                    <div style="flex:1;">
+                                        <div class="layer-role">Raised</div>
+                                        <div class="layer-when">Hover rows, active tabs, pressed toolbar buttons</div>
+                                    </div>
+                                    <span class="layer-tok">neutral.700</span>
+                                </div>
+                                <div class="depth-layer" style="background:#222222; border-color:#373737;">
+                                    <span class="layer-eye">
+                                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7z"/><circle cx="12" cy="12" r="2.5"/></svg>
+                                    </span>
+                                    <div style="flex:1;">
+                                        <div class="layer-role">Panel</div>
+                                        <div class="layer-when">Cards, sections, dialogs, toolbars</div>
+                                    </div>
+                                    <span class="layer-tok">neutral.800</span>
+                                </div>
+                                <div class="depth-layer" style="background:#0A0A0A; border-color:#373737;">
+                                    <span class="layer-eye">
+                                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7z"/><circle cx="12" cy="12" r="2.5"/></svg>
+                                    </span>
+                                    <div style="flex:1;">
+                                        <div class="layer-role">Deep</div>
+                                        <div class="layer-when">Page body, viewport, app background</div>
+                                    </div>
+                                    <span class="layer-tok">#0A0A0A</span>
+                                </div>
+                                <div class="depth-layer" style="background:#090909; border-color:#515151;">
+                                    <span class="layer-eye">
+                                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75"><rect x="3" y="6" width="18" height="12" rx="1"/><path d="M7 12h10"/></svg>
+                                    </span>
+                                    <div style="flex:1;">
+                                        <div class="layer-role">Input</div>
+                                        <div class="layer-when">Text inputs, dropdowns, search, textarea (inset)</div>
+                                    </div>
+                                    <span class="layer-tok">neutral.900</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Mode 4 — Dark Hue (blue) -->
+                        <div data-hue="blue" data-mode="4">
+                            <div class="grid-label" style="width:auto; margin-bottom:10px;">Mode 4 &mdash; Dark Hue (blue)</div>
+                            <div class="depth-stack">
+                                <div class="depth-layer" style="background:#0000BF; border-color:#1919FF;">
+                                    <span class="layer-eye" style="color:#9494FF;">
+                                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7z"/><circle cx="12" cy="12" r="2.5"/></svg>
+                                    </span>
+                                    <div style="flex:1;">
+                                        <div class="layer-role">Raised</div>
+                                        <div class="layer-when" style="color:#9494FF;">Hover rows, active tabs, pressed toolbar buttons</div>
+                                    </div>
+                                    <span class="layer-tok" style="color:#9494FF;">blue.700</span>
+                                </div>
+                                <div class="depth-layer" style="background:#000080; border-color:#0000BF;">
+                                    <span class="layer-eye" style="color:#9494FF;">
+                                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7z"/><circle cx="12" cy="12" r="2.5"/></svg>
+                                    </span>
+                                    <div style="flex:1;">
+                                        <div class="layer-role">Panel</div>
+                                        <div class="layer-when" style="color:#9494FF;">Cards, sections, dialogs, toolbars</div>
+                                    </div>
+                                    <span class="layer-tok" style="color:#9494FF;">blue.800</span>
+                                </div>
+                                <div class="depth-layer" style="background:#000035; border-color:#0000BF;">
+                                    <span class="layer-eye" style="color:#9494FF;">
+                                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7z"/><circle cx="12" cy="12" r="2.5"/></svg>
+                                    </span>
+                                    <div style="flex:1;">
+                                        <div class="layer-role">Deep</div>
+                                        <div class="layer-when" style="color:#9494FF;">Page body, viewport</div>
+                                    </div>
+                                    <span class="layer-tok" style="color:#9494FF;">blue.900</span>
+                                </div>
+                                <div class="depth-layer" style="background:#000035; border-color:#1919FF;">
+                                    <span class="layer-eye" style="color:#9494FF;">
+                                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75"><rect x="3" y="6" width="18" height="12" rx="1"/><path d="M7 12h10"/></svg>
+                                    </span>
+                                    <div style="flex:1;">
+                                        <div class="layer-role">Input</div>
+                                        <div class="layer-when" style="color:#9494FF;">Text inputs, dropdowns, search, textarea (inset)</div>
+                                    </div>
+                                    <span class="layer-tok" style="color:#9494FF;">blue.900</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="guide-card mt-6">
+                        <div class="text-xs text-p-neutral-400 font-semibold mb-3">HOW THE LAYERS STACK</div>
+                        <div class="xsec">
+                            <div><span class="dim">user's eye (closest)</span></div>
+                            <div>&nbsp;&nbsp;&#8597;</div>
+                            <div><span class="lbl">Raised</span>&nbsp;&nbsp;(step 700)&nbsp;&mdash; brightest, closest to user</div>
+                            <div><span class="lbl">Panel</span>&nbsp;&nbsp;&nbsp;(step 800)&nbsp;&mdash; standard working surface</div>
+                            <div><span class="lbl">Deep</span>&nbsp;&nbsp;&nbsp;&nbsp;(step 900 / #0A0A0A)&nbsp;&mdash; furthest away</div>
+                            <div><span class="lbl">Input</span>&nbsp;&nbsp;&nbsp;(step 900)&nbsp;&mdash; pushed INTO the surface</div>
+                        </div>
+                        <p class="text-p-neutral-300 text-sm mt-4"><span class="text-white font-semibold">Key rule:</span> Raised and Input sit on opposite sides of Panel. Raised = 1 step lighter, Input = 1 step darker.</p>
+                    </div>
+                </section>
+
+                <!-- ============================================================
+                     Section 2: Stacked Nested Panels
+                     ============================================================ -->
+                <section class="guide-section">
+                    <h2 class="text-2xl font-bold mb-6">
+                        <span class="section-number bg-p-blue-500 text-white">2</span>
+                        Stacked Nested Panels
+                    </h2>
+                    <p class="text-p-neutral-400 text-sm mb-6">A real interface nests panels inside panels. Each level steps one notch brighter as it comes toward the viewer. Below: Deep page background &rarr; Panel &rarr; Raised card &rarr; inset Input &mdash; rendered for both dark modes.</p>
+
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                        <!-- Mode 2 nested -->
+                        <div data-hue="neutral" data-mode="2">
+                            <div class="grid-label" style="width:auto; margin-bottom:10px;">Mode 2 &mdash; Black (neutral)</div>
+                            <!-- Deep -->
+                            <div style="background:#0A0A0A; border:1px solid #373737; border-radius:3px; padding:16px;">
+                                <div class="flex items-center justify-between mb-3">
+                                    <span class="layer-role">Deep / page</span>
+                                    <span class="layer-tok">#0A0A0A</span>
+                                </div>
+                                <!-- Panel -->
+                                <div style="background:#222222; border:1px solid #373737; border-radius:3px; padding:14px;">
+                                    <div class="flex items-center justify-between mb-3">
+                                        <span class="layer-role">Panel</span>
+                                        <span class="layer-tok">neutral.800</span>
+                                    </div>
+                                    <!-- Raised -->
+                                    <div style="background:#373737; border:1px solid #515151; border-radius:3px; padding:14px;">
+                                        <div class="flex items-center justify-between mb-3">
+                                            <span class="layer-role">Raised card</span>
+                                            <span class="layer-tok">neutral.700</span>
+                                        </div>
+                                        <!-- Input (inset) -->
+                                        <div style="background:#090909; border:1px solid #515151; border-radius:2px; padding:8px 10px;">
+                                            <span style="font-family:'Roboto Mono', ui-monospace, monospace; font-size:12px; color:#C3C3C3;">Inset input &mdash; neutral.900</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Mode 4 nested -->
+                        <div data-hue="blue" data-mode="4">
+                            <div class="grid-label" style="width:auto; margin-bottom:10px;">Mode 4 &mdash; Dark Hue (blue)</div>
+                            <!-- Deep -->
+                            <div style="background:#000035; border:1px solid #0000BF; border-radius:3px; padding:16px;">
+                                <div class="flex items-center justify-between mb-3">
+                                    <span class="layer-role">Deep / page</span>
+                                    <span class="layer-tok" style="color:#9494FF;">blue.900</span>
+                                </div>
+                                <!-- Panel -->
+                                <div style="background:#000080; border:1px solid #0000BF; border-radius:3px; padding:14px;">
+                                    <div class="flex items-center justify-between mb-3">
+                                        <span class="layer-role">Panel</span>
+                                        <span class="layer-tok" style="color:#9494FF;">blue.800</span>
+                                    </div>
+                                    <!-- Raised -->
+                                    <div style="background:#0000BF; border:1px solid #1919FF; border-radius:3px; padding:14px;">
+                                        <div class="flex items-center justify-between mb-3">
+                                            <span class="layer-role">Raised card</span>
+                                            <span class="layer-tok" style="color:#9494FF;">blue.700</span>
+                                        </div>
+                                        <!-- Input (inset) -->
+                                        <div style="background:#000035; border:1px solid #1919FF; border-radius:2px; padding:8px 10px;">
+                                            <span style="font-family:'Roboto Mono', ui-monospace, monospace; font-size:12px; color:#9494FF;">Inset input &mdash; blue.900</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- ============================================================
+                     Section 3: Border Tiers (1px)
+                     ============================================================ -->
+                <section class="guide-section">
+                    <h2 class="text-2xl font-bold mb-6">
+                        <span class="section-number bg-p-green-500 text-white">3</span>
+                        Border Tiers &mdash; All 1px
+                    </h2>
+                    <p class="text-p-neutral-400 text-sm mb-6">Every border is <span class="text-p-neutral-300">1px solid</span>. Three tiers of visibility carry meaning: Standard for interactive edges, Subtle for structural dividers, Focus for the active element.</p>
+
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                        <!-- Mode 2 borders -->
+                        <div class="guide-card" data-hue="neutral" data-mode="2">
+                            <div class="text-xs text-p-neutral-400 font-semibold mb-4">MODE 2 &mdash; BLACK (NEUTRAL)</div>
+                            <div class="tier-row">
+                                <span class="tier-sw" style="background:#222222; border-color:#515151;"></span>
+                                <span class="tier-name">Standard</span>
+                                <span class="tier-use">Buttons, inputs, dropdowns, checkboxes, radios</span>
+                                <span class="tier-tok">neutral.600</span>
+                            </div>
+                            <div class="tier-row">
+                                <span class="tier-sw" style="background:#222222; border-color:#373737;"></span>
+                                <span class="tier-name">Subtle</span>
+                                <span class="tier-use">Panel edges, dividers, separators</span>
+                                <span class="tier-tok">neutral.700</span>
+                            </div>
+                            <div class="tier-row">
+                                <span class="tier-sw" style="background:#222222; border-color:#6D6DFF;"></span>
+                                <span class="tier-name">Focus</span>
+                                <span class="tier-use">Focus ring / active state (replaces standard)</span>
+                                <span class="tier-tok">blue.400</span>
+                            </div>
+                        </div>
+
+                        <!-- Mode 4 borders -->
+                        <div class="guide-card" data-hue="blue" data-mode="4" style="background:#000080; border-color:#0000BF;">
+                            <div class="text-xs font-semibold mb-4" style="color:#9494FF;">MODE 4 &mdash; DARK HUE (BLUE)</div>
+                            <div class="tier-row">
+                                <span class="tier-sw" style="background:#000080; border-color:#1919FF;"></span>
+                                <span class="tier-name">Standard</span>
+                                <span class="tier-use" style="color:#9494FF;">Buttons, inputs, dropdowns, checkboxes, radios</span>
+                                <span class="tier-tok" style="color:#9494FF;">blue.600</span>
+                            </div>
+                            <div class="tier-row">
+                                <span class="tier-sw" style="background:#000080; border-color:#0000BF;"></span>
+                                <span class="tier-name">Subtle</span>
+                                <span class="tier-use" style="color:#9494FF;">Panel edges, dividers, separators</span>
+                                <span class="tier-tok" style="color:#9494FF;">blue.700</span>
+                            </div>
+                            <div class="tier-row">
+                                <span class="tier-sw" style="background:#000080; border-color:#9494FF;"></span>
+                                <span class="tier-name">Focus</span>
+                                <span class="tier-use" style="color:#9494FF;">Focus ring / active state (replaces standard)</span>
+                                <span class="tier-tok" style="color:#9494FF;">blue.300</span>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- ============================================================
+                     Section 4: Token Reference
+                     ============================================================ -->
+                <section class="guide-section">
+                    <h2 class="text-2xl font-bold mb-6">
+                        <span class="section-number bg-p-magenta-500 text-white">4</span>
+                        Depth Token Reference
+                    </h2>
+                    <p class="text-p-neutral-400 text-sm mb-6">Map each role to its palette step. <span class="text-p-neutral-300">{hue}</span> is the active hue on Mode 4.</p>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3">
+                        <div class="role-card">
+                            <div class="role-label">Deep</div>
+                            <div class="role-value text-p-blue-400">M2: #0A0A0A</div>
+                            <div class="role-value text-p-blue-400">M4: {hue}.900</div>
+                        </div>
+                        <div class="role-card">
+                            <div class="role-label">Panel</div>
+                            <div class="role-value text-p-blue-400">M2: neutral.800</div>
+                            <div class="role-value text-p-blue-400">M4: {hue}.800</div>
+                        </div>
+                        <div class="role-card">
+                            <div class="role-label">Raised</div>
+                            <div class="role-value text-p-blue-400">M2: neutral.700</div>
+                            <div class="role-value text-p-blue-400">M4: {hue}.700</div>
+                        </div>
+                        <div class="role-card">
+                            <div class="role-label">Input</div>
+                            <div class="role-value text-p-blue-400">M2: neutral.900</div>
+                            <div class="role-value text-p-blue-400">M4: {hue}.900</div>
+                        </div>
+                        <div class="role-card">
+                            <div class="role-label">Border &mdash; Standard</div>
+                            <div class="role-value text-p-blue-400">M2: neutral.600</div>
+                            <div class="role-value text-p-blue-400">M4: {hue}.600</div>
+                        </div>
+                        <div class="role-card">
+                            <div class="role-label">Border &mdash; Subtle</div>
+                            <div class="role-value text-p-blue-400">M2: neutral.700</div>
+                            <div class="role-value text-p-blue-400">M4: {hue}.700</div>
+                        </div>
+                        <div class="role-card">
+                            <div class="role-label">Border &mdash; Focus</div>
+                            <div class="role-value text-p-blue-400">M2: {hue}.400</div>
+                            <div class="role-value text-p-blue-400">M4: {hue}.300</div>
+                        </div>
+                        <div class="role-card">
+                            <div class="role-label">Radius cap</div>
+                            <div class="role-value text-p-blue-400">controls &le; 3px</div>
+                            <div class="role-value text-p-blue-400">inputs 2px</div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- ============================================================
+                     Section 5: Forbidden vs Permitted
+                     ============================================================ -->
+                <section class="guide-section">
+                    <h2 class="text-2xl font-bold mb-6">
+                        <span class="section-number bg-p-red-500 text-white">5</span>
+                        Forbidden vs Permitted
+                    </h2>
+                    <p class="text-p-neutral-400 text-sm mb-6">Mode 2 and Mode 4 override the base rules. These treatments do NOT apply to Modes 1, 3, and 5.</p>
+
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                        <div class="guide-card" style="border-color:#740000;">
+                            <div class="text-xs font-semibold mb-3" style="color:#FF7474;">FORBIDDEN ON M2 / M4</div>
+                            <ul class="text-sm text-p-neutral-300 space-y-2">
+                                <li><span style="color:#FF7474;">&times;</span> <span class="tok-pill">linear-gradient()</span> / <span class="tok-pill">radial-gradient()</span></li>
+                                <li><span style="color:#FF7474;">&times;</span> <span class="tok-pill">box-shadow</span> for depth or elevation</li>
+                                <li><span style="color:#FF7474;">&times;</span> <span class="tok-pill">text-shadow</span> / <span class="tok-pill">filter: drop-shadow()</span></li>
+                                <li><span style="color:#FF7474;">&times;</span> <span class="tok-pill">opacity</span> to mute colors &mdash; use a real palette step</li>
+                                <li><span style="color:#FF7474;">&times;</span> Border width &gt; 1px (except 2px tab underline / card accent)</li>
+                                <li><span style="color:#FF7474;">&times;</span> Border-radius &gt; 3px on controls</li>
+                                <li><span style="color:#FF7474;">&times;</span> Bold (600+) or uppercase button text</li>
+                            </ul>
+                        </div>
+                        <div class="guide-card" style="border-color:#005F00;">
+                            <div class="text-xs font-semibold mb-3" style="color:#00BA00;">PERMITTED ON M2 / M4</div>
+                            <ul class="text-sm text-p-neutral-300 space-y-2">
+                                <li><span style="color:#00BA00;">&check;</span> Flat solid palette backgrounds (one hex value)</li>
+                                <li><span style="color:#00BA00;">&check;</span> 1px solid borders &mdash; Standard / Subtle / Focus</li>
+                                <li><span style="color:#00BA00;">&check;</span> <span class="tok-pill">box-shadow: 0 0 0 1.5px {focus}</span> &mdash; focus ring only</li>
+                                <li><span style="color:#00BA00;">&check;</span> <span class="tok-pill">border-bottom: 2px</span> &mdash; active tab underline</li>
+                                <li><span style="color:#00BA00;">&check;</span> <span class="tok-pill">border-left: 2px</span> &mdash; card semantic accent</li>
+                                <li><span style="color:#00BA00;">&check;</span> <span class="tok-pill">transition</span> on state changes (0.1s ease)</li>
+                                <li><span style="color:#00BA00;">&check;</span> SVG icons using the text / accent tokens</li>
+                            </ul>
+                        </div>
+                    </div>
+                </section>
+
+                <footer class="docs-footer">
+                    <p>MC Perception Design System &mdash; 7 hues &times; 5 modes &times; 6 sizes &mdash; WCAG AA compliant</p>
+                    <p style="margin-top: 0.5rem;"><a href="https://github.com/anthropics/claude-code">Built with Claude Code</a></p>
+                </footer>
+            </div>
+        </main>
+    </div>
+
+<script>
+// Auto-mark active sidebar link based on current filename
+(function() {
+    var page = location.pathname.split('/').pop().replace('.html','') || 'index';
+    var links = document.querySelectorAll('.mc-sidebar-link');
+    links.forEach(function(a) {
+        if (a.getAttribute('data-page') === page) a.classList.add('active');
+    });
+    // Mobile hamburger toggle
+    var hamburger = document.getElementById('docs-hamburger');
+    var sidebar = document.getElementById('docs-sidebar');
+    var overlay = document.getElementById('docs-overlay');
+    if (hamburger && sidebar && overlay) {
+        hamburger.addEventListener('click', function() {
+            sidebar.classList.toggle('open');
+            overlay.classList.toggle('open');
+        });
+        overlay.addEventListener('click', function() {
+            sidebar.classList.remove('open');
+            overlay.classList.remove('open');
+        });
+    }
+})();
+</script>
+</body>
+</html>

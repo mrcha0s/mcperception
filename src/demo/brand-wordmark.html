@@ -1,0 +1,586 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wordmark — MC Perception</title>
+    <link rel="stylesheet" href="../dist/mcperception.css">
+    <link rel="stylesheet" href="_docs.css">
+    <style>
+
+/* ── Page-specific styles ── */
+
+/* The MC monogram tile */
+.wm-mono {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--font-slab);
+    font-weight: 900;
+    letter-spacing: -0.03em;
+    line-height: 1;
+    border-radius: 3px;
+    flex-shrink: 0;
+}
+.wm-mono-accent { background: #5252FF; color: #FFFFFF; }
+.wm-mono-onlight { background: #5252FF; color: #FFFFFF; }
+.wm-mono-outline {
+    background: transparent;
+    color: #5252FF;
+    border: 1px solid #5252FF;
+}
+
+/* Full lockup */
+.wm-lockup { display: flex; align-items: center; gap: 18px; }
+.wm-text { display: flex; flex-direction: column; gap: 3px; line-height: 1; }
+.wm-mc {
+    font-family: var(--font-slab);
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+}
+.wm-name {
+    font-family: var(--font-slab);
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    line-height: 1;
+}
+.wm-tag {
+    font-family: var(--font-condensed);
+    font-weight: 600;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    font-size: 11px;
+}
+
+/* Display sizes for the hero lockup */
+.wm-mono-xl { width: 88px; height: 88px; font-size: 38px; }
+.wm-name-xl { font-size: 44px; }
+
+/* Stage / surface cards (M2 dark + M1 light) */
+.wm-stage {
+    display: flex;
+    align-items: center;
+    padding: 40px 36px;
+    min-height: 168px;
+    border-radius: 3px;
+    border: 1px solid #222222;
+}
+.wm-stage-dark { background: #0A0A0A; }
+.wm-stage-light { background: #FFFFFF; border-color: #C3C3C3; }
+.wm-stage-blue { background: #000080; border-color: #1919FF; }
+
+/* Clear-space diagram */
+.wm-clearspace {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    gap: 18px;
+    padding: 44px;
+    background: #0A0A0A;
+}
+.wm-clearspace::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border: 1px dashed #515151;
+    border-radius: 3px;
+    pointer-events: none;
+}
+.wm-cs-label {
+    position: absolute;
+    font-family: 'Roboto Mono', ui-monospace, monospace;
+    font-size: 9px;
+    letter-spacing: 0.06em;
+    color: #A0A0A0;
+    text-transform: uppercase;
+}
+.wm-cs-top { top: 6px; left: 50%; transform: translateX(-50%); }
+.wm-cs-left { left: 8px; top: 50%; transform: translateY(-50%) rotate(-90deg); transform-origin: left center; }
+
+/* Monogram size grid */
+.wm-size-grid {
+    display: flex;
+    align-items: flex-end;
+    flex-wrap: wrap;
+    gap: 24px;
+}
+.wm-size-item { display: flex; flex-direction: column; align-items: center; gap: 8px; }
+
+/* Color treatment swatch chips */
+.wm-treat {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 16px 18px;
+    border-radius: 3px;
+    border: 1px solid #222222;
+}
+
+/* DO / DON'T cards */
+.wm-judge {
+    border-radius: 3px;
+    border: 1px solid #222222;
+    background: #090909;
+    overflow: hidden;
+}
+.wm-judge-stage {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 28px;
+    min-height: 110px;
+    background: #0A0A0A;
+    border-bottom: 1px solid #222222;
+}
+.wm-judge-note { padding: 12px 16px; }
+.wm-judge-do { color: #00BA00; }
+.wm-judge-dont { color: #FF7474; }
+    </style>
+</head>
+<body class="bg-p-black text-white min-h-screen font-sans">
+    <button id="docs-hamburger">&#9776;</button>
+    <div id="docs-overlay"></div>
+    <div class="docs-layout">
+        <nav class="mc-sidebar" data-hue="blue" data-mode="2" id="docs-sidebar" style="position: fixed; top: 0; left: 0; height: 100vh; z-index: 40; overflow-y: auto;">
+        <div class="mc-sidebar-brand">
+            <a href="index.html" class="mc-sidebar-brand-text" style="text-decoration: none; color: inherit;">MC Perception</a>
+            <span style="font-size: 0.625rem; color: #515151; font-family: 'Roboto Mono', ui-monospace, monospace;">v1.0</span>
+        </div>
+        <div class="mc-sidebar-nav">
+            <div class="mc-sidebar-heading">Getting Started</div>
+            <a href="index.html" class="mc-sidebar-link" data-page="index">Home</a>
+            <a href="getting-started.html" class="mc-sidebar-link" data-page="getting-started">Getting Started</a>
+            <div class="mc-sidebar-divider"></div>
+            <div class="mc-sidebar-heading">Brand</div>
+            <a href="brand-ethos.html" class="mc-sidebar-link" data-page="brand-ethos">Design Ethos</a>
+            <a href="brand-wordmark.html" class="mc-sidebar-link" data-page="brand-wordmark">Wordmark</a>
+            <div class="mc-sidebar-divider"></div>
+            <div class="mc-sidebar-heading">Foundation</div>
+            <a href="color.html" class="mc-sidebar-link" data-page="color">Color Palette</a>
+            <a href="surface-modes.html" class="mc-sidebar-link" data-page="surface-modes">Surface Modes</a>
+            <a href="typography.html" class="mc-sidebar-link" data-page="typography">Typography</a>
+            <a href="semantic-mapping.html" class="mc-sidebar-link" data-page="semantic-mapping">Semantic Mapping</a>
+            <a href="color-picker.html" class="mc-sidebar-link" data-page="color-picker">Color Picker</a>
+            <a href="depth-layers.html" class="mc-sidebar-link" data-page="depth-layers">Depth Layers</a>
+            <a href="radius-rhythm.html" class="mc-sidebar-link" data-page="radius-rhythm">Radius &amp; Rhythm</a>
+            <div class="mc-sidebar-divider"></div>
+            <div class="mc-sidebar-heading">Components</div>
+            <a href="alert.html" class="mc-sidebar-link" data-page="alert">Alerts</a>
+            <a href="badges.html" class="mc-sidebar-link" data-page="badges">Badges</a>
+            <a href="breadcrumb.html" class="mc-sidebar-link" data-page="breadcrumb">Breadcrumb</a>
+            <a href="button.html" class="mc-sidebar-link" data-page="button">Buttons</a>
+            <a href="button-group.html" class="mc-sidebar-link" data-page="button-group">Button Group</a>
+            <a href="card.html" class="mc-sidebar-link" data-page="card">Card</a>
+            <a href="code-mockup.html" class="mc-sidebar-link" data-page="code-mockup">Code Mockup</a>
+            <a href="dropdown.html" class="mc-sidebar-link" data-page="dropdown">Dropdowns</a>
+            <a href="input.html" class="mc-sidebar-link" data-page="input">Form Inputs</a>
+            <a href="list-group.html" class="mc-sidebar-link" data-page="list-group">List Group</a>
+            <a href="navbar.html" class="mc-sidebar-link" data-page="navbar">Navbar</a>
+            <a href="navs-tabs.html" class="mc-sidebar-link" data-page="navs-tabs">Navs &amp; Tabs</a>
+            <a href="pagination.html" class="mc-sidebar-link" data-page="pagination">Pagination</a>
+            <a href="panel-system.html" class="mc-sidebar-link" data-page="panel-system">Panels</a>
+            <a href="progress.html" class="mc-sidebar-link" data-page="progress">Progress</a>
+            <a href="range.html" class="mc-sidebar-link" data-page="range">Range Slider</a>
+            <a href="selection.html" class="mc-sidebar-link" data-page="selection">Selection Controls</a>
+            <a href="sidebar.html" class="mc-sidebar-link" data-page="sidebar">Sidebar</a>
+            <a href="spinner.html" class="mc-sidebar-link" data-page="spinner">Spinners</a>
+            <a href="stat.html" class="mc-sidebar-link" data-page="stat">Stat</a>
+            <a href="table.html" class="mc-sidebar-link" data-page="table">Tables</a>
+            <div class="mc-sidebar-divider"></div>
+            <div class="mc-sidebar-heading">Patterns</div>
+            <a href="forms.html" class="mc-sidebar-link" data-page="forms">Form Layout</a>
+            <a href="dark-surfaces.html" class="mc-sidebar-link" data-page="dark-surfaces">Dark Surface Depth</a>
+            <div class="mc-sidebar-divider"></div>
+            <div class="mc-sidebar-heading">Examples</div>
+            <a href="trading-card.html" class="mc-sidebar-link" data-page="trading-card">Trading Card</a>
+            <a href="orderbook.html" class="mc-sidebar-link" data-page="orderbook">Orderbook</a>
+            <div class="mc-sidebar-divider"></div>
+            <div class="mc-sidebar-heading">Tools</div>
+            <a href="playground.html" class="mc-sidebar-link" data-page="playground">Playground</a>
+            <a href="table-surfaces.html" class="mc-sidebar-link" data-page="table-surfaces">Surface Tables</a>
+        </div>
+    </nav>
+        <main class="docs-content">
+            <div class="max-w-7xl mx-auto px-6 py-12">
+                <nav class="text-xs text-p-neutral-400 mb-6 flex gap-2 items-center">
+                    <a href="index.html" class="hover:text-white transition-colors">Home</a>
+                    <span class="text-p-neutral-400">/</span>
+                    <a href="index.html" class="hover:text-white transition-colors">Brand</a>
+                    <span class="text-p-neutral-400">/</span>
+                    <span class="text-white font-semibold">Wordmark</span>
+                </nav>
+
+                <!-- Header -->
+                <header class="mb-16">
+                    <div class="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-6 mb-8">
+                        <div>
+                            <h1 class="text-5xl font-bold tracking-tight mb-3">Wordmark</h1>
+                            <p class="text-p-neutral-300 text-lg max-w-2xl">The MC Perception brand identity: the <strong class="text-white">MC</strong> monogram paired with the <strong class="text-white">Perception</strong> wordmark, set in Roboto Slab. Slab serifs give the mark a precise, engineered character that mirrors the strict, measured nature of the system itself.</p>
+                        </div>
+                        <div class="flex gap-3">
+                            <span class="mc-badge mc-badge-filled mc-badge-sm" data-hue="blue">Roboto Slab</span>
+                            <span class="mc-badge mc-badge-filled mc-badge-sm" data-hue="neutral">Wordmark</span>
+                            <span class="mc-badge mc-badge-filled mc-badge-sm" data-hue="green">Weights 600&ndash;900</span>
+                        </div>
+                    </div>
+
+                    <!-- Hero lockup on dark stage -->
+                    <div class="wm-stage wm-stage-dark" data-mode="2" data-hue="blue" style="justify-content:center;min-height:200px;">
+                        <div class="wm-lockup">
+                            <div class="wm-mono wm-mono-accent wm-mono-xl">MC</div>
+                            <div class="wm-text">
+                                <span class="wm-mc" style="color:#9494FF;font-size:14px;">MC</span>
+                                <span class="wm-name wm-name-xl" style="color:#FFFFFF;">Perception</span>
+                                <span class="wm-tag" style="color:#9494FF;">Design System</span>
+                            </div>
+                        </div>
+                    </div>
+                </header>
+
+                <!-- ============================================================
+                     Section 1: Anatomy of the Lockup
+                     ============================================================ -->
+                <section class="guide-section">
+                    <h2 class="text-2xl font-bold mb-6">
+                        <span class="section-number bg-p-blue-500 text-white">1</span>
+                        Anatomy of the Lockup
+                    </h2>
+                    <p class="text-p-neutral-400 text-sm mb-6">The full lockup combines two elements: the <strong class="text-p-neutral-300">MC monogram</strong> (a square tile, Roboto Slab Black 900) and the <strong class="text-p-neutral-300">Perception wordmark</strong> (Roboto Slab Bold 700). An optional condensed tagline anchors the baseline. Everything is built from the font stack <code class="text-p-blue-400 text-xs">var(--font-slab)</code>.</p>
+
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
+                        <div class="guide-card">
+                            <div class="text-xs text-p-neutral-400 font-semibold mb-4">FULL LOCKUP</div>
+                            <div class="wm-lockup" style="padding:8px 0;">
+                                <div class="wm-mono wm-mono-accent" style="width:64px;height:64px;font-size:28px;">MC</div>
+                                <div class="wm-text">
+                                    <span class="wm-name" style="color:#FFFFFF;font-size:30px;">Perception</span>
+                                    <span class="wm-tag" style="color:#9494FF;">Design System</span>
+                                </div>
+                            </div>
+                            <div class="text-xs text-p-neutral-300 mt-4 space-y-1">
+                                <div><span class="text-p-neutral-400">Monogram:</span> Roboto Slab Black 900</div>
+                                <div><span class="text-p-neutral-400">Wordmark:</span> Roboto Slab Bold 700</div>
+                                <div><span class="text-p-neutral-400">Tagline:</span> Roboto Condensed 600, 0.18em tracking</div>
+                            </div>
+                        </div>
+                        <div class="guide-card">
+                            <div class="text-xs text-p-neutral-400 font-semibold mb-4">USAGE</div>
+                            <div class="code-block">
+                                <span class="cm">&lt;!-- Monogram tile --&gt;</span><br>
+                                <span class="t">&lt;div</span> <span class="a">class</span>=<span class="v">"font-slab"</span><br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;<span class="a">style</span>=<span class="v">"font-weight:900"</span><span class="t">&gt;</span>MC<span class="t">&lt;/div&gt;</span><br><br>
+                                <span class="cm">&lt;!-- Wordmark --&gt;</span><br>
+                                <span class="t">&lt;span</span> <span class="a">class</span>=<span class="v">"font-slab"</span><br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;<span class="a">style</span>=<span class="v">"font-weight:700"</span><span class="t">&gt;</span>Perception<span class="t">&lt;/span&gt;</span><br><br>
+                                <span class="cm">/* CSS variable */</span><br>
+                                <span class="a">font-family</span>: <span class="v">var(--font-slab)</span>;
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- ============================================================
+                     Section 2: The Monogram Alone
+                     ============================================================ -->
+                <section class="guide-section">
+                    <h2 class="text-2xl font-bold mb-6">
+                        <span class="section-number bg-p-green-500 text-white">2</span>
+                        The Monogram
+                    </h2>
+                    <p class="text-p-neutral-400 text-sm mb-6">The <strong class="text-p-neutral-300">MC</strong> monogram is the compact mark — used for favicons, avatars, app icons, and tight spaces where the full wordmark will not fit. It is always a square tile with a corner radius of 3px (depth-token limit for dark surfaces). Default treatment is white on <code class="text-p-blue-400 text-xs">blue.500</code>.</p>
+
+                    <div class="guide-card">
+                        <div class="text-xs text-p-neutral-400 font-semibold mb-6">SIZE SCALE</div>
+                        <div class="wm-size-grid">
+                            <div class="wm-size-item">
+                                <div class="wm-mono wm-mono-accent" style="width:24px;height:24px;font-size:11px;border-radius:3px;">MC</div>
+                                <span class="grid-label" style="width:auto;">24px</span>
+                            </div>
+                            <div class="wm-size-item">
+                                <div class="wm-mono wm-mono-accent" style="width:32px;height:32px;font-size:14px;border-radius:3px;">MC</div>
+                                <span class="grid-label" style="width:auto;">32px</span>
+                            </div>
+                            <div class="wm-size-item">
+                                <div class="wm-mono wm-mono-accent" style="width:48px;height:48px;font-size:20px;border-radius:3px;">MC</div>
+                                <span class="grid-label" style="width:auto;">48px</span>
+                            </div>
+                            <div class="wm-size-item">
+                                <div class="wm-mono wm-mono-accent" style="width:64px;height:64px;font-size:28px;border-radius:3px;">MC</div>
+                                <span class="grid-label" style="width:auto;">64px</span>
+                            </div>
+                            <div class="wm-size-item">
+                                <div class="wm-mono wm-mono-accent" style="width:88px;height:88px;font-size:38px;border-radius:3px;">MC</div>
+                                <span class="grid-label" style="width:auto;">88px</span>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- ============================================================
+                     Section 3: Color Treatments
+                     ============================================================ -->
+                <section class="guide-section">
+                    <h2 class="text-2xl font-bold mb-6">
+                        <span class="section-number bg-p-magenta-500 text-white">3</span>
+                        Approved Color Treatments
+                    </h2>
+                    <p class="text-p-neutral-400 text-sm mb-6">Three approved treatments. The accent fill (<code class="text-p-blue-400 text-xs">blue.500</code>) is the primary brand presentation. White-on-dark and the outline form are reserved for monochrome or low-emphasis contexts. Every pairing clears WCAG AA.</p>
+
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <div class="guide-card">
+                            <div class="wm-treat" style="background:#0A0A0A;border-color:#222222;">
+                                <div class="wm-mono wm-mono-accent" style="width:48px;height:48px;font-size:20px;">MC</div>
+                                <div class="wm-text">
+                                    <span class="wm-name" style="color:#FFFFFF;font-size:18px;">Perception</span>
+                                    <span class="wm-tag" style="color:#9494FF;font-size:9px;">Design System</span>
+                                </div>
+                            </div>
+                            <div class="role-label mt-3">Primary &mdash; Accent Fill</div>
+                            <div class="role-value text-p-neutral-300 mt-1">blue.500 tile &middot; #FFFFFF text</div>
+                        </div>
+
+                        <div class="guide-card">
+                            <div class="wm-treat" style="background:#0A0A0A;border-color:#222222;">
+                                <div class="wm-mono" style="width:48px;height:48px;font-size:20px;background:#FFFFFF;color:#0A0A0A;">MC</div>
+                                <div class="wm-text">
+                                    <span class="wm-name" style="color:#FFFFFF;font-size:18px;">Perception</span>
+                                    <span class="wm-tag" style="color:#A0A0A0;font-size:9px;">Design System</span>
+                                </div>
+                            </div>
+                            <div class="role-label mt-3">White on Dark</div>
+                            <div class="role-value text-p-neutral-300 mt-1">#FFFFFF tile &middot; #0A0A0A text</div>
+                        </div>
+
+                        <div class="guide-card">
+                            <div class="wm-treat" style="background:#0A0A0A;border-color:#222222;">
+                                <div class="wm-mono wm-mono-outline" style="width:48px;height:48px;font-size:20px;">MC</div>
+                                <div class="wm-text">
+                                    <span class="wm-name" style="color:#FFFFFF;font-size:18px;">Perception</span>
+                                    <span class="wm-tag" style="color:#9494FF;font-size:9px;">Design System</span>
+                                </div>
+                            </div>
+                            <div class="role-label mt-3">Outline</div>
+                            <div class="role-value text-p-neutral-300 mt-1">blue.500 outline + glyph</div>
+                        </div>
+                    </div>
+
+                    <!-- Surface treatments: dark / light / blue -->
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4">
+                        <div class="wm-stage wm-stage-dark" data-mode="2" data-hue="blue" style="justify-content:center;">
+                            <div class="wm-lockup">
+                                <div class="wm-mono wm-mono-accent" style="width:52px;height:52px;font-size:22px;">MC</div>
+                                <div class="wm-text">
+                                    <span class="wm-name" style="color:#FFFFFF;font-size:22px;">Perception</span>
+                                    <span class="wm-tag" style="color:#9494FF;">Design System</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="wm-stage wm-stage-light">
+                            <div class="wm-lockup" style="margin:auto;">
+                                <div class="wm-mono wm-mono-onlight" style="width:52px;height:52px;font-size:22px;">MC</div>
+                                <div class="wm-text">
+                                    <span class="wm-name" style="color:#000035;font-size:22px;">Perception</span>
+                                    <span class="wm-tag" style="color:#515151;">Design System</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="wm-stage wm-stage-blue" data-mode="4" data-hue="blue" style="justify-content:center;">
+                            <div class="wm-lockup">
+                                <div class="wm-mono" style="width:52px;height:52px;font-size:22px;background:#FFFFFF;color:#000080;">MC</div>
+                                <div class="wm-text">
+                                    <span class="wm-name" style="color:#FFFFFF;font-size:22px;">Perception</span>
+                                    <span class="wm-tag" style="color:#9494FF;">Design System</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mt-2">
+                        <div class="grid-label" style="width:auto;">Mode 2 &mdash; Black surface</div>
+                        <div class="grid-label" style="width:auto;">Mode 1 &mdash; White surface</div>
+                        <div class="grid-label" style="width:auto;">Mode 4 &mdash; Dark hue (blue.800)</div>
+                    </div>
+                </section>
+
+                <!-- ============================================================
+                     Section 4: Clear Space & Minimum Size
+                     ============================================================ -->
+                <section class="guide-section">
+                    <h2 class="text-2xl font-bold mb-6">
+                        <span class="section-number bg-p-yellow-500 text-white">4</span>
+                        Clear Space &amp; Minimum Size
+                    </h2>
+                    <p class="text-p-neutral-400 text-sm mb-6">Give the mark room to breathe. Reserve clear space equal to the height of the monogram tile (<strong class="text-p-neutral-300">1&times;</strong>) on every side. Never crowd the lockup with text, rules, or other logos inside this margin.</p>
+
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
+                        <div class="guide-card" style="display:flex;align-items:center;justify-content:center;">
+                            <div class="wm-clearspace" data-mode="2" data-hue="blue">
+                                <span class="wm-cs-label wm-cs-top">clear space = 1&times; tile</span>
+                                <span class="wm-cs-label wm-cs-left">1&times;</span>
+                                <div class="wm-mono wm-mono-accent" style="width:52px;height:52px;font-size:22px;">MC</div>
+                                <div class="wm-text">
+                                    <span class="wm-name" style="color:#FFFFFF;font-size:22px;">Perception</span>
+                                    <span class="wm-tag" style="color:#9494FF;">Design System</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="guide-card">
+                            <div class="text-xs text-p-neutral-400 font-semibold mb-4">MINIMUM SIZES</div>
+                            <div class="grid grid-cols-2 gap-4">
+                                <div class="mc-stat" data-hue="blue" data-mode="2">
+                                    <div class="mc-stat-label">Full lockup</div>
+                                    <div class="mc-stat-value">120px</div>
+                                    <div class="mc-stat-meta">minimum width</div>
+                                </div>
+                                <div class="mc-stat" data-hue="blue" data-mode="2">
+                                    <div class="mc-stat-label">Monogram</div>
+                                    <div class="mc-stat-value">24px</div>
+                                    <div class="mc-stat-meta">minimum tile</div>
+                                </div>
+                            </div>
+                            <div class="text-xs text-p-neutral-300 mt-4 space-y-1">
+                                <div>Below 120px width, drop the tagline.</div>
+                                <div>Below 80px width, use the monogram alone.</div>
+                                <div>Never render the wordmark below 14px cap height.</div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- ============================================================
+                     Section 5: Weight Specimen
+                     ============================================================ -->
+                <section class="guide-section">
+                    <h2 class="text-2xl font-bold mb-6">
+                        <span class="section-number bg-p-teal-500 text-white">5</span>
+                        Roboto Slab Weight Specimen
+                    </h2>
+                    <p class="text-p-neutral-400 text-sm mb-6">The wordmark draws on the full Roboto Slab range. SemiBold (600) is now available and bridges the gap between the body-weight Regular and the wordmark Bold. The monogram always uses Black (900) for maximum presence at small sizes.</p>
+
+                    <div class="guide-card">
+                        <div class="space-y-5">
+                            <div class="flex items-baseline gap-4 flex-wrap">
+                                <span class="grid-label" style="width:120px;">Light &middot; 300</span>
+                                <span class="font-slab" style="font-weight:300;font-size:28px;color:#C3C3C3;">Perception</span>
+                            </div>
+                            <div style="height:1px;background:#222222;"></div>
+                            <div class="flex items-baseline gap-4 flex-wrap">
+                                <span class="grid-label" style="width:120px;">Regular &middot; 400</span>
+                                <span class="font-slab" style="font-weight:400;font-size:28px;color:#E1E1E1;">Perception</span>
+                            </div>
+                            <div style="height:1px;background:#222222;"></div>
+                            <div class="flex items-baseline gap-4 flex-wrap">
+                                <span class="grid-label" style="width:120px;">Medium &middot; 500</span>
+                                <span class="font-slab" style="font-weight:500;font-size:28px;color:#E1E1E1;">Perception</span>
+                            </div>
+                            <div style="height:1px;background:#222222;"></div>
+                            <div class="flex items-baseline gap-4 flex-wrap">
+                                <span class="grid-label" style="width:120px;">SemiBold &middot; 600</span>
+                                <span class="font-slab" style="font-weight:600;font-size:28px;color:#FFFFFF;">Perception</span>
+                                <span class="mc-badge mc-badge-outline mc-badge-xs" data-hue="green">New</span>
+                            </div>
+                            <div style="height:1px;background:#222222;"></div>
+                            <div class="flex items-baseline gap-4 flex-wrap">
+                                <span class="grid-label" style="width:120px;">Bold &middot; 700</span>
+                                <span class="font-slab" style="font-weight:700;font-size:28px;color:#FFFFFF;">Perception</span>
+                                <span class="mc-badge mc-badge-outline mc-badge-xs" data-hue="blue">Wordmark</span>
+                            </div>
+                            <div style="height:1px;background:#222222;"></div>
+                            <div class="flex items-baseline gap-4 flex-wrap">
+                                <span class="grid-label" style="width:120px;">Black &middot; 900</span>
+                                <span class="font-slab" style="font-weight:900;font-size:28px;color:#FFFFFF;">Perception</span>
+                                <span class="mc-badge mc-badge-outline mc-badge-xs" data-hue="blue">Monogram</span>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- ============================================================
+                     Section 6: Do / Don't
+                     ============================================================ -->
+                <section class="guide-section">
+                    <h2 class="text-2xl font-bold mb-6">
+                        <span class="section-number bg-p-red-500 text-white">6</span>
+                        Do &amp; Don't
+                    </h2>
+                    <p class="text-p-neutral-400 text-sm mb-6">Keep the mark consistent. The treatments below are intentional anti-pattern illustrations.</p>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                        <div class="wm-judge">
+                            <div class="wm-judge-stage">
+                                <div class="wm-mono wm-mono-accent" style="width:48px;height:48px;font-size:20px;">MC</div>
+                            </div>
+                            <div class="wm-judge-note">
+                                <div class="wm-judge-do text-xs font-bold mb-1">DO</div>
+                                <div class="text-xs text-p-neutral-300">Use the accent fill on dark surfaces.</div>
+                            </div>
+                        </div>
+                        <div class="wm-judge">
+                            <div class="wm-judge-stage">
+                                <div class="wm-lockup">
+                                    <div class="wm-mono wm-mono-accent" style="width:36px;height:36px;font-size:16px;">MC</div>
+                                    <span class="wm-name" style="color:#FFFFFF;font-size:18px;">Perception</span>
+                                </div>
+                            </div>
+                            <div class="wm-judge-note">
+                                <div class="wm-judge-do text-xs font-bold mb-1">DO</div>
+                                <div class="text-xs text-p-neutral-300">Keep monogram and wordmark balanced.</div>
+                            </div>
+                        </div>
+                        <div class="wm-judge">
+                            <div class="wm-judge-stage">
+                                <!-- dont-card: intentional anti-pattern -->
+                                <div class="dont-card wm-mono" style="width:48px;height:48px;font-size:20px;background:#FF00FF;color:#0A0A0A;">MC</div>
+                            </div>
+                            <div class="wm-judge-note">
+                                <div class="wm-judge-dont text-xs font-bold mb-1">DON'T</div>
+                                <div class="text-xs text-p-neutral-300">Recolor the tile to an off-brand hue.</div>
+                            </div>
+                        </div>
+                        <div class="wm-judge">
+                            <div class="wm-judge-stage">
+                                <!-- dont-card: intentional anti-pattern -->
+                                <div class="dont-card wm-mono" style="width:48px;height:48px;font-size:20px;background:#5252FF;color:#FFFFFF;border-radius:14px;">MC</div>
+                            </div>
+                            <div class="wm-judge-note">
+                                <div class="wm-judge-dont text-xs font-bold mb-1">DON'T</div>
+                                <div class="text-xs text-p-neutral-300">Round the corners beyond the 3px cap.</div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <footer class="docs-footer">
+                    <p>MC Perception Design System &mdash; 7 hues &times; 5 modes &times; 6 sizes &mdash; WCAG AA compliant</p>
+                    <p style="margin-top: 0.5rem;"><a href="https://github.com/anthropics/claude-code">Built with Claude Code</a></p>
+                </footer>
+            </div>
+        </main>
+    </div>
+
+<script>
+// Auto-mark active sidebar link based on current filename
+(function() {
+    var page = location.pathname.split('/').pop().replace('.html','') || 'index';
+    var links = document.querySelectorAll('.mc-sidebar-link');
+    links.forEach(function(a) {
+        if (a.getAttribute('data-page') === page) a.classList.add('active');
+    });
+    // Mobile hamburger toggle
+    var hamburger = document.getElementById('docs-hamburger');
+    var sidebar = document.getElementById('docs-sidebar');
+    var overlay = document.getElementById('docs-overlay');
+    if (hamburger && sidebar && overlay) {
+        hamburger.addEventListener('click', function() {
+            sidebar.classList.toggle('open');
+            overlay.classList.toggle('open');
+        });
+        overlay.addEventListener('click', function() {
+            sidebar.classList.remove('open');
+            overlay.classList.remove('open');
+        });
+    }
+})();
+</script>
+</body>
+</html>

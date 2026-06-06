@@ -1,6 +1,6 @@
-# Perception Bootstrap
+# MC Perception
 
-Perception is a WCAG AA-compliant UI design system and component library — like Bootstrap but with a strict 7-hue color palette, 5 surface modes, and 6 size tiers. Every component must produce **210 variants** (7 hues × 5 modes × 6 sizes). C# is the primary backend language.
+MC Perception is a WCAG AA-compliant UI design system and component library — Bootstrap-like, but with a strict 7-hue color palette, 5 surface modes, and 6 size tiers. (Brand: **MC Perception**, MC monogram + Roboto Slab wordmark. The internal skill slug remains `perception-bootstrap`.) Every component must produce **210 variants** (7 hues × 5 modes × 6 sizes). C# is the primary backend language.
 
 ---
 
@@ -31,6 +31,8 @@ Every foreground/background pair must pass:
 
 ### Rule 6: Dark Surface Depth (Modes 2 & 4)
 Modes 2 and 4 use a Photoshop-inspired flat-layered depth system. No gradients. No box-shadows. No bevels. Depth comes from surface layering + 1px borders only. Border-radius capped at 3px. Buttons use font-weight 400, sentence case. Full spec in `references/foundation/skill-depth-tokens.md`.
+
+**Small-text contrast on dark surfaces (≤14px):** Secondary/tertiary text on dark surfaces (Mode 2 `#0A0A0A`, Mode 4 `{hue}.800`, and any raised `neutral.800`/`{hue}.800` panel) MUST use `neutral.300` (~7.6:1 on `#0A0A0A`, ~6:1 on a `neutral.800` panel). NEVER use `neutral.400` or `neutral.500` for small body/label/eyebrow text on dark — `neutral.500` (`#6c6c6c`) fails at every size on dark (3.77:1 on black, 2.98:1 on panel) and `neutral.400` (`#7f7f7f`) fails on raised panels (3.97:1). Reserve `neutral.400/500` exclusively for: placeholders, disabled text, decorative icons, or large text (≥18px). Caveat: `neutral.400` *passes* on pure `#0A0A0A` (~4.94:1) but *fails* on `neutral.800` panels — when in doubt on any dark surface, use `neutral.300`. This applies to components AND demo scaffolding (see Rule 10.8).
 
 ### Rule 7: CSS Architecture Audit
 After building or modifying any component CSS, run the `css-auditor` agent (or `/audit-css {component}`). This catches subtle issues the standard validator misses: duplicate size variants, inconsistent border-radius across modes, missing panel-aware overrides, opacity/rgba palette violations, `:focus` vs `:focus-visible`, and disabled state color faking. Zero critical findings required. Warnings should be addressed before shipping.
